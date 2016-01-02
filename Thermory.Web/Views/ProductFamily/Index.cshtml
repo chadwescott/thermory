@@ -1,0 +1,13 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model Thermory.Web.Models.ProductFamilyIndex
+
+<ul>
+    @{
+        foreach (var product in Model.RootProductFamilies)
+        {
+            <li>@product.Name</li>
+        }
+    }
+</ul>
