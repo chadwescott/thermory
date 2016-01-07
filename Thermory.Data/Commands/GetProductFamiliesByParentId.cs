@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using Thermory.Domain;
 
@@ -17,7 +16,7 @@ namespace Thermory.Data.Commands
 
         protected override void OnExecute()
         {
-            InvokeRepositoryRead(c => Result = c.ProductFamilies.Where(pf => pf.ParentId == _parentId).Include(f => f.ChildProductFamilies).ToList());
+            InvokeRepositoryRead(c => Result = c.ProductFamilies.Where(pf => pf.ParentId == _parentId));
         }
     }
 }

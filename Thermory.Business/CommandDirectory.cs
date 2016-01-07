@@ -16,9 +16,14 @@ namespace Thermory.Business
         private CommandDirectory()
         { }
 
-        public IEnumerable<IProductFamily> GetRootProductFamilies()
+        public IEnumerable<IProductFamily> GetAllProductFamilies()
         {
-            return DatabaseCommandDirectory.Instance.GetRootProductFamilies();
+            return DatabaseCommandDirectory.Instance.GetAllProductFamilies();
+        }
+
+        public IEnumerable<ILumberFamily> GetAllLumberFamilies()
+        {
+            return DatabaseCommandDirectory.Instance.GetAllLumberFamilies();
         }
     }
 }

@@ -30,5 +30,19 @@ namespace Thermory.Data
             command.Execute();
             return command.Result;
         }
+
+        public IEnumerable<IProductFamily> GetAllProductFamilies()
+        {
+            var command = new GetAllProductFamilies();
+            command.Execute();
+            return command.Result;
+        }
+
+        public IEnumerable<ILumberFamily> GetAllLumberFamilies()
+        {
+            var command = new GetAllLumberFamilies();
+            command.Execute();
+            return command.Result;
+        }
     }
 }

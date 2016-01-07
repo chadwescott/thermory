@@ -7,6 +7,6 @@ namespace Thermory.Domain
         Guid Id { get; }
         string Name { get; }
         bool IsActive { get; }
-        IProductFamily Parent { get; }
+        Guid? ParentId { get; }
     }
 }

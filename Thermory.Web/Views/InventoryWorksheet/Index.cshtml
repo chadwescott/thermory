@@ -1,0 +1,44 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var rootProductFamilies = Model.ProductFamilies.Where(f => f.ParentId == null).ToList();
+}
+@model Thermory.Web.Models.InventoryWorksheet
+
+
+<ul class="nav nav-tabs" data-tabs="tabs">
+    @{
+        foreach (var productFamily in rootProductFamilies)
+        {
+            var active = productFamily.Id == rootProductFamilies.First().Id ? "class=active" : "";
+            <li @active><a href="#@productFamily.Id" data-toggle="tab">@productFamily.Name</a></li>
+        }
+    }
+</ul>
+<div class="tab-content">
+    @{
+        foreach (var rootFamily in rootProductFamilies)
+        {
+            var active = rootFamily.Id == rootProductFamilies.First().Id ? "active" : "";
+            <div id="@rootFamily.Id" class="tab-pane @active">
+                @{
+                    foreach (var productType in Model.ProductFamilies.Where(f => f.ParentId == rootFamily.Id))
+                    {
+                        var lumberFamily = Model.LumberFamilies.SingleOrDefault(f => f.Id == productType.Id);
+                        if (lumberFamily != null)
+                        {
+                            <div>@productType.Name Width @lumberFamily.Width<span>mm</span> Thickness: @lumberFamily.Thickness<span>mm</span></div>
+                        }
+                        else
+                        {
+                            <div>@productType.Name</div>
+                        }
+                        foreach (var productSubType in Model.ProductFamilies.Where(f => f.ParentId == productType.Id))
+                        {
+                            <div>@productSubType.Name</div>
+                        }
+                    }
+                }
+            </div>
+        }
+    }
+</div>
