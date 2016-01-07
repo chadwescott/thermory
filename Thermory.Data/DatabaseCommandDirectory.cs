@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Thermory.Data.Commands;
 using Thermory.Domain;
 
@@ -18,9 +19,16 @@ namespace Thermory.Data
 
         public IEnumerable<IProductFamily> GetRootProductFamilies()
         {
-            var command = new GetRootProductFamilies();
+            var command = new GetProductFamiliesByParentId();
             command.Execute();
-            return command.Results;
+            return command.Result;
+        }
+
+        public IEnumerable<IProductFamily> GetProductFamiliesByParentId(Guid parentId)
+        {
+            var command = new GetProductFamiliesByParentId(parentId);
+            command.Execute();
+            return command.Result;
         }
     }
 }

@@ -2,6 +2,6 @@
 {
     public interface IGetCommand<out T> : ICommand
     {
-        T Results { get; }
+        T Result { get; }
     }
 }

@@ -1,9 +1,12 @@
-﻿namespace Thermory.Domain
+﻿using System;
+
+namespace Thermory.Domain
 {
     public interface IProductFamily
     {
+        Guid Id { get; }
         string Name { get; }
-        bool IsActive { get; set; }
+        bool IsActive { get; }
         IProductFamily Parent { get; }
     }
 }

@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thermory.Web", "Thermory.We
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thermory.Domain", "Thermory.Domain\Thermory.Domain.csproj", "{A0CA1653-72EA-4E16-AFF9-2A0910D79657}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thermory.Data.Test", "Thermory.Data.Test\Thermory.Data.Test.csproj", "{9C3FB3CE-F671-496B-BD2D-9423D306DDD9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{A0CA1653-72EA-4E16-AFF9-2A0910D79657}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0CA1653-72EA-4E16-AFF9-2A0910D79657}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0CA1653-72EA-4E16-AFF9-2A0910D79657}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C3FB3CE-F671-496B-BD2D-9423D306DDD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C3FB3CE-F671-496B-BD2D-9423D306DDD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C3FB3CE-F671-496B-BD2D-9423D306DDD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C3FB3CE-F671-496B-BD2D-9423D306DDD9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
