@@ -1,11 +1,10 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var rootProductFamilies = Model.ProductFamilies.Where(f => f.ParentId == null).ToList();
 }
 @model Thermory.Web.Models.InventoryWorksheet
 
 
-<ul class="nav nav-tabs" data-tabs="tabs">
+@*<ul class="nav nav-tabs" data-tabs="tabs">
     @{
         foreach (var productFamily in rootProductFamilies)
         {
@@ -41,4 +40,4 @@
             </div>
         }
     }
-</div>
+</div>*@

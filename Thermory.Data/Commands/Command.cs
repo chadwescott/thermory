@@ -1,5 +1,4 @@
 ﻿using System;
-using Thermory.Domain;
 
 namespace Thermory.Data.Commands
 {

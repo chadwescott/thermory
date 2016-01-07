@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using Thermory.Domain;
 
 namespace Thermory.Data.Models
 {
     [Table("LumberFamily")]
-    internal class LumberFamily : ProductFamily, ILumberFamily
+    internal class LumberFamily : ProductFamily, IDbLumberFamily
     {
         public int Thickness { get; set; }
 

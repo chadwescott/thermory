@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Thermory.Data.Commands;
-using Thermory.Domain;
+using Thermory.Data.Models;
 
 namespace Thermory.Data
 {
@@ -17,30 +16,23 @@ namespace Thermory.Data
         private DatabaseCommandDirectory()
         { }
 
-        public IEnumerable<IProductFamily> GetRootProductFamilies()
-        {
-            var command = new GetProductFamiliesByParentId();
-            command.Execute();
-            return command.Result;
-        }
-
-        public IEnumerable<IProductFamily> GetProductFamiliesByParentId(Guid parentId)
-        {
-            var command = new GetProductFamiliesByParentId(parentId);
-            command.Execute();
-            return command.Result;
-        }
-
-        public IEnumerable<IProductFamily> GetAllProductFamilies()
+        public IList<IDbProductFamily> GetAllProductFamilies()
         {
             var command = new GetAllProductFamilies();
             command.Execute();
             return command.Result;
         }
 
-        public IEnumerable<ILumberFamily> GetAllLumberFamilies()
+        public IList<IDbLumberFamily> GetAllLumberFamilies()
         {
             var command = new GetAllLumberFamilies();
+            command.Execute();
+            return command.Result;
+        }
+
+        public IList<IDbLumberProduct> GetAllLumberProducts()
+        {
+            var command = new GetAllLumberProducts();
             command.Execute();
             return command.Result;
         }

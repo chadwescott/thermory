@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Thermory.Business.Models;
 using Thermory.Data;
+using Thermory.Data.Models;
 using Thermory.Domain;
 
 namespace Thermory.Business
@@ -7,6 +10,7 @@ namespace Thermory.Business
     public class CommandDirectory
     {
         private static CommandDirectory _instance;
+        private static List<IProductCategory<ILumberSubCategory>> _lumberCategories;
 
         public static CommandDirectory Instance
         {
@@ -14,16 +18,70 @@ namespace Thermory.Business
         }
 
         private CommandDirectory()
-        { }
+        {
+            if (_lumberCategories == null)
+                InitializeLumberProducts();
+        }
 
-        public IEnumerable<IProductFamily> GetAllProductFamilies()
+        private static void InitializeLumberProducts()
+        {
+            _lumberCategories = new List<IProductCategory<ILumberSubCategory>>();
+            var productFamilies = DatabaseCommandDirectory.Instance.GetAllProductFamilies();
+            var lumberFamilies = DatabaseCommandDirectory.Instance.GetAllLumberFamilies();
+            var rootProductFamilies = productFamilies.Where(f => f.ParentId == null).ToList();
+            var lumberProducts = DatabaseCommandDirectory.Instance.GetAllLumberProducts();
+
+            foreach (var productFamily in rootProductFamilies)
+            {
+                var family = productFamily;
+                var category = new ProductCategory<ILumberSubCategory>
+                {
+                    Name = productFamily.Name,
+                    ProductSubCategories = new List<ILumberSubCategory>()
+                };
+                foreach (var lumberSubFamily in lumberFamilies.Where(f => f.ParentId == family.Id))
+                {
+                    var subCategory = new LumberSubCategory
+                    {
+                        Category = category,
+                        Name = lumberSubFamily.Name,
+                        Thickness = lumberSubFamily.Thickness,
+                        ProductTypes = new List<IProductType<ILumberSubCategory>>()
+                    };
+                    var subFamily = lumberSubFamily;
+                    foreach (var productType in productFamilies.Where(f => f.ParentId == subFamily.Id))
+                    {
+                        var subFamilyType = productType;
+                        var type = new ProductType<ILumberSubCategory>
+                        {
+                            Name = productType.Name,
+                            SubCategory = subCategory,
+                            Products = new List<IProduct<ILumberSubCategory>>()
+                        };
+                        subCategory.ProductTypes.Add(type);
+                        foreach (var lumberProduct in lumberProducts.Where(p => p.LumberFamilyId == subFamilyType.Id))
+                        {
+                            type.Products.Add(new LumberProduct
+                            {
+                                ProductType = type,
+                                Length = lumberProduct.Length
+                            });
+                        }
+                    }
+                    category.ProductSubCategories.Add(subCategory);
+                }
+                _lumberCategories.Add(category);
+            }
+        }
+
+        public IList<IDbProductFamily> GetAllProductFamilies()
         {
             return DatabaseCommandDirectory.Instance.GetAllProductFamilies();
         }
 
-        public IEnumerable<ILumberFamily> GetAllLumberFamilies()
+        public IList<IProductCategory<ILumberSubCategory>> GetAllLumberProducts()
         {
-            return DatabaseCommandDirectory.Instance.GetAllLumberFamilies();
+            return _lumberCategories;
         }
     }
 }

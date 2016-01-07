@@ -11,7 +11,7 @@ namespace Thermory.Data.Test
         public void ValidLumberFamilyIdTest()
         {
             var id = new Guid("83715875-65B1-E511-AEC0-5CC5D43F6424");
-            var target = new GetLumberProductById(id);
+            var target = new GetAllLumberProducts(id);
             target.Execute();
             var actual = target.Result;
             Assert.IsNotNull(actual);
@@ -21,7 +21,7 @@ namespace Thermory.Data.Test
         public void ValidProductFamilyIdTest()
         {
             var id = new Guid("6E5E9034-65B1-E511-AEC0-5CC5D43F6424");
-            var target = new GetLumberProductById(id);
+            var target = new GetAllLumberProducts(id);
             target.Execute();
             var actual = target.Result;
             Assert.IsNull(actual);
@@ -31,7 +31,7 @@ namespace Thermory.Data.Test
         public void InvalidIdTest()
         {
             var id = Guid.Empty;
-            var target = new GetLumberProductById(id);
+            var target = new GetAllLumberProducts(id);
             target.Execute();
             var actual = target.Result;
             Assert.IsNull(actual);

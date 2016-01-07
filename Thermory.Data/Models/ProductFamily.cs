@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Thermory.Domain;
 
 namespace Thermory.Data.Models
 {
     [Table("ProductFamily")]
-    internal class ProductFamily : IProductFamily
+    internal class ProductFamily : IDbProductFamily
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -26,6 +25,6 @@ namespace Thermory.Data.Models
         public List<ProductFamily> ChildProductFamilies { get; set; }
 
         [NotMapped]
-        public IProductFamily Parent { get { return DbProductFamily; } }
+        public IDbProductFamily Parent { get { return DbProductFamily; } }
     }
 }

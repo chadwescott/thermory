@@ -20,5 +20,7 @@ namespace Thermory.Data
         public DbSet<ProductFamily> ProductFamilies { get; set; }
 
         public DbSet<LumberFamily> LumberFamilies { get; set; }
+
+        public DbSet<LumberProduct> LumberProducts { get; set; }
     }
 }

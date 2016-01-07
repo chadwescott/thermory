@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Thermory.Domain
+namespace Thermory.Data.Models
 {
-    public interface IProductFamily
+    public interface IDbProductFamily
     {
         Guid Id { get; }
         string Name { get; }
