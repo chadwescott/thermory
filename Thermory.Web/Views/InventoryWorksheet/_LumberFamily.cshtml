@@ -1,0 +1,72 @@
+﻿@using WebGrease.Css.Extensions
+@model Thermory.Domain.IProductCategory<Thermory.Domain.ILumberSubCategory>
+
+@foreach (var subCategory in Model.ProductSubCategories)
+{
+    var millimeterLengths = new List<int>();
+    subCategory.ProductTypes.ForEach(pt => pt.LumberProductLengthsMillimeters.ForEach(l => { if (!millimeterLengths.Contains(l)) millimeterLengths.Add(l); }));
+    var feetLengths = new List<double>();
+    subCategory.ProductTypes.ForEach(pt => pt.LumberProductLengthsFeet.ForEach(l => { if (!feetLengths.Contains(l)) feetLengths.Add(l); }));
+    var columns = millimeterLengths.Count + 4;
+    var blankRow = string.Format("<tr><td colspan=\"{0}\">&nbsp;</td></tr>", columns);
+
+    <table class="table table-condensed inventory">
+        <tr class="metricHeading">
+            <td class="subCategoryUnit">mm</td>
+            <td class="subCategoryDimensions">@subCategory.Thickness x @subCategory.Width</td>
+            @foreach (var length in millimeterLengths)
+            {
+                <td class="subCategoryCellPadding subCategoryLength">@length</td>
+            }
+            <td colspan="2"></td>
+        </tr>
+        <tr class="englishHeading">
+            <td colspan="2"><div class="subCategoryHeading"><strong title="@subCategory.Name">@subCategory.Name</strong></div></td>
+            @foreach (var length in feetLengths)
+            {
+                <td class="subCategoryCellPadding subCategoryLength">@length</td>
+            }
+            <td>Total LF</td>
+            <td class="subCategoryCellPadding">Total SF</td>
+        </tr>
+        @foreach (var productType in subCategory.ProductTypes)
+        {
+            @Html.Raw(blankRow)
+            <tr>
+                <td colspan="2" class="productType productTypeHeading">@productType.Name</td>
+                @foreach (var length in millimeterLengths)
+                {
+                    <td class="productType subCategoryCellPadding subCategoryLength">TBD</td>
+                }
+                <td rowspan="2" class="totalLinearFeet">TBD</td>
+                <td rowspan="2" class="totalSquareFeet">TBD</td>
+            </tr>
+            <tr>
+                <td colspan="2" class="productType productTypeStatistic">Tally %</td>
+                @foreach (var length in millimeterLengths)
+                {
+                    <td class="productType subCategoryCellPadding subCategoryLength productTypeTally">TBD</td>
+                }
+            </tr>
+            @Html.Raw(blankRow)
+            <tr>
+                <td colspan="2" class="productType productTypeStatistic">LF / Length</td>
+                @foreach (var length in millimeterLengths)
+                {
+                    <td class="subCategoryCellPadding subCategoryLength">TBD</td>
+                }
+                <td class="totalPieceHeading">Total PCS</td>
+                <td>TBD</td>
+            </tr>
+            <tr>
+                <td colspan="2" class="productType productTypeStatistic">SF / Length</td>
+                @foreach (var length in millimeterLengths)
+                {
+                    <td class="productType subCategoryCellPadding subCategoryLength">TBD</td>
+                }
+                <td colspan="2">&nbsp;</td>
+            </tr>
+        }
+    </table>
+    <br />
+}

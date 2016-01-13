@@ -36,6 +36,7 @@ namespace Thermory.Business
                 var family = productFamily;
                 var category = new ProductCategory<ILumberSubCategory>
                 {
+                    Id = productFamily.Id,
                     Name = productFamily.Name,
                     ProductSubCategories = new List<ILumberSubCategory>()
                 };
@@ -43,20 +44,23 @@ namespace Thermory.Business
                 {
                     var subCategory = new LumberSubCategory
                     {
+                        Id = lumberSubFamily.Id,
                         Category = category,
                         Name = lumberSubFamily.Name,
                         Thickness = lumberSubFamily.Thickness,
-                        ProductTypes = new List<IProductType<ILumberSubCategory>>()
+                        Width = lumberSubFamily.Width,
+                        ProductTypes = new List<ILumberProductType>()
                     };
                     var subFamily = lumberSubFamily;
                     foreach (var productType in productFamilies.Where(f => f.ParentId == subFamily.Id))
                     {
                         var subFamilyType = productType;
-                        var type = new ProductType<ILumberSubCategory>
+                        var type = new LumberProductType
                         {
+                            Id = productType.Id,
                             Name = productType.Name,
                             SubCategory = subCategory,
-                            Products = new List<IProduct<ILumberSubCategory>>()
+                            Products = new List<ILumberProduct>()
                         };
                         subCategory.ProductTypes.Add(type);
                         foreach (var lumberProduct in lumberProducts.Where(p => p.LumberFamilyId == subFamilyType.Id))
@@ -64,7 +68,7 @@ namespace Thermory.Business
                             type.Products.Add(new LumberProduct
                             {
                                 ProductType = type,
-                                Length = lumberProduct.Length
+                                LengthInMillmeters = lumberProduct.Length
                             });
                         }
                     }

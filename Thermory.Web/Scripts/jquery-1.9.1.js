@@ -2431,7 +2431,7 @@ jQuery.extend({
 		"class": "className",
 		maxlength: "maxLength",
 		cellspacing: "cellSpacing",
-		cellpadding: "cellPadding",
+		cellpadding: "subCategoryCellPadding",
 		rowspan: "rowSpan",
 		colspan: "colSpan",
 		usemap: "useMap",

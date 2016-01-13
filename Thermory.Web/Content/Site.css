@@ -97,7 +97,6 @@ h5, h6 {
 }
 
 #body {
-    background-color: #efeeef;
     clear: both;
     padding-bottom: 35px;
 }
@@ -761,4 +760,77 @@ a.logo, a.logo:hover, a.logo:active
      width: 180px;
      height: 100px;
      text-indent: -9999px; /* hides the link text */
+}
+
+/*Inventory Table*/
+table.inventory {
+    font-family: arial;
+}
+
+table.inventory td {
+    white-space: nowrap;
+}
+
+tr.metricHeading {
+    font-size: 10pt;
+}
+
+tr.englishHeading {
+    font-size: 12pt;
+    font-weight: bold;
+}
+
+div.subCategoryHeading {
+    width: 137px;
+    overflow: hidden;
+    display: block;
+}
+
+td.subCategoryUnit {
+    text-align: right;
+    width: 62px;
+}
+
+td.subCategoryDimensions {
+    width: 75px;
+}
+
+td.subCategoryCellPadding {
+    padding-left: 8px;
+}
+
+td.subCategoryLength {
+    width: 76px;
+}
+
+td.productType {
+    font-size: 10pt;
+}
+
+td.productTypeHeading {
+    vertical-align: middle;
+    text-align: center;
+    background-color: #f79646;
+}
+
+td.productTypeStatistic {
+    text-align: right;
+}
+
+td.productTypeTally {
+    background-color: lightgray;
+}
+
+td.totalLinearFeet {
+    vertical-align: middle;
+    text-align: center;
+    background-color: #cc99ff;
+}
+
+td.totalSquareFeet {
+    background-color: #ccffff;
+}
+
+td.totalPieceHeading {
+    font-weight: bold;
 }

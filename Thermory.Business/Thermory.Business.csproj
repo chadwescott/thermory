@@ -40,7 +40,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandDirectory.cs" />
+    <Compile Include="LengthConverter.cs" />
     <Compile Include="Models\LumberProduct.cs" />
+    <Compile Include="Models\LumberProductType.cs" />
     <Compile Include="Models\LumberSubCategory.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductCategory.cs" />

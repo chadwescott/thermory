@@ -1,43 +1,26 @@
-﻿@{
+﻿@model Thermory.Web.Models.InventoryWorksheet
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var firstCategoryId = Model.LumberProductCategories.First().Id;
 }
-@model Thermory.Web.Models.InventoryWorksheet
 
-
-@*<ul class="nav nav-tabs" data-tabs="tabs">
+<ul class="nav nav-tabs" data-tabs="tabs">
     @{
-        foreach (var productFamily in rootProductFamilies)
+        foreach (var category in Model.LumberProductCategories)
         {
-            var active = productFamily.Id == rootProductFamilies.First().Id ? "class=active" : "";
-            <li @active><a href="#@productFamily.Id" data-toggle="tab">@productFamily.Name</a></li>
+            var active = category.Id == firstCategoryId ? "class=active" : "";
+            <li @active><a href="#@category.Id" data-toggle="tab">@category.Name</a></li>
         }
     }
 </ul>
 <div class="tab-content">
     @{
-        foreach (var rootFamily in rootProductFamilies)
+        foreach (var category in Model.LumberProductCategories)
         {
-            var active = rootFamily.Id == rootProductFamilies.First().Id ? "active" : "";
-            <div id="@rootFamily.Id" class="tab-pane @active">
-                @{
-                    foreach (var productType in Model.ProductFamilies.Where(f => f.ParentId == rootFamily.Id))
-                    {
-                        var lumberFamily = Model.LumberFamilies.SingleOrDefault(f => f.Id == productType.Id);
-                        if (lumberFamily != null)
-                        {
-                            <div>@productType.Name Width @lumberFamily.Width<span>mm</span> Thickness: @lumberFamily.Thickness<span>mm</span></div>
-                        }
-                        else
-                        {
-                            <div>@productType.Name</div>
-                        }
-                        foreach (var productSubType in Model.ProductFamilies.Where(f => f.ParentId == productType.Id))
-                        {
-                            <div>@productSubType.Name</div>
-                        }
-                    }
-                }
+            var active = category.Id == firstCategoryId ? "active" : "";
+            <div id="@category.Id" class="tab-pane @active">
+                @Html.Partial("_LumberFamily", category)
             </div>
         }
     }
-</div>*@
+</div>

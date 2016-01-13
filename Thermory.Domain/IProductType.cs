@@ -1,11 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Thermory.Domain
 {
-    public interface IProductType<T> where T : IProductSubCategory
+    public interface IProductType
     {
-        T SubCategory { get; }
+        Guid Id { get; }
         string Name { get; }
-        IList<IProduct<T>> Products { get; }
+    }
+
+    public interface IProductType<out TSC, TP> : IProductType
+        where TSC : IProductSubCategory
+        where TP : IProduct<IProductType>
+    {
+        TSC SubCategory { get; }
+        IList<TP> Products { get; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿namespace Thermory.Domain
 {
-    public interface IProduct<T> where T : IProductSubCategory
+    public interface IProduct<out T> where T : IProductType
     {
-        IProductType<T> ProductType { get; }
+        T ProductType { get; }
     }
 }

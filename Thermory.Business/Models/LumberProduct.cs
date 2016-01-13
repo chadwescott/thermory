@@ -2,8 +2,9 @@
 
 namespace Thermory.Business.Models
 {
-    internal class LumberProduct : Product<ILumberSubCategory>, ILumberProduct
+    internal class LumberProduct : Product<ILumberProductType>, ILumberProduct
     {
-        public int Length { get; set; }
+        public int LengthInMillmeters { get; set; }
+        public double LengthInInches { get { return LengthConverter.ConvertMillimetersToInches(LengthInMillmeters); } }
     }
 }

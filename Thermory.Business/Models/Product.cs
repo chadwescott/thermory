@@ -2,8 +2,8 @@
 
 namespace Thermory.Business.Models
 {
-    internal class Product<T> : IProduct<T> where T : IProductSubCategory
+    internal class Product<T> : IProduct<T> where T : IProductType
     {
-        public IProductType<T> ProductType { get; set; }
+        public T ProductType { get; set; }
     }
 }
