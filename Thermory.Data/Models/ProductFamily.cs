@@ -24,6 +24,11 @@ namespace Thermory.Data.Models
 
         public List<ProductFamily> ChildProductFamilies { get; set; }
 
+        [Column("SortOrder")]
+        public int SortOrder { get; set; }
+
+        
+
         [NotMapped]
         public IDbProductFamily Parent { get { return DbProductFamily; } }
     }

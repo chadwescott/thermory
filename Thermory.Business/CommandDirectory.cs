@@ -31,7 +31,7 @@ namespace Thermory.Business
             var rootProductFamilies = productFamilies.Where(f => f.ParentId == null).ToList();
             var lumberProducts = DatabaseCommandDirectory.Instance.GetAllLumberProducts();
 
-            foreach (var productFamily in rootProductFamilies)
+            foreach (var productFamily in rootProductFamilies.OrderBy(f => f.SortOrder))
             {
                 var family = productFamily;
                 var category = new ProductCategory<ILumberSubCategory>
@@ -40,7 +40,7 @@ namespace Thermory.Business
                     Name = productFamily.Name,
                     ProductSubCategories = new List<ILumberSubCategory>()
                 };
-                foreach (var lumberSubFamily in lumberFamilies.Where(f => f.ParentId == family.Id))
+                foreach (var lumberSubFamily in lumberFamilies.Where(f => f.ParentId == family.Id).OrderBy(f => f.SortOrder))
                 {
                     var subCategory = new LumberSubCategory
                     {
@@ -52,7 +52,7 @@ namespace Thermory.Business
                         ProductTypes = new List<ILumberProductType>()
                     };
                     var subFamily = lumberSubFamily;
-                    foreach (var productType in productFamilies.Where(f => f.ParentId == subFamily.Id))
+                    foreach (var productType in productFamilies.Where(f => f.ParentId == subFamily.Id).OrderBy(f => f.SortOrder))
                     {
                         var subFamilyType = productType;
                         var type = new LumberProductType
@@ -63,7 +63,7 @@ namespace Thermory.Business
                             Products = new List<ILumberProduct>()
                         };
                         subCategory.ProductTypes.Add(type);
-                        foreach (var lumberProduct in lumberProducts.Where(p => p.LumberFamilyId == subFamilyType.Id))
+                        foreach (var lumberProduct in lumberProducts.Where(p => p.LumberFamilyId == subFamilyType.Id).OrderBy(l => l.Length))
                         {
                             type.Products.Add(new LumberProduct
                             {

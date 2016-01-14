@@ -21,7 +21,7 @@
             <td colspan="2"></td>
         </tr>
         <tr class="englishHeading">
-            <td colspan="2"><div class="subCategoryHeading"><strong title="@subCategory.Name">@subCategory.Name</strong></div></td>
+            <td colspan="2"><div class="headingWidth"><strong title="@subCategory.Name">@subCategory.Name</strong></div></td>
             @foreach (var length in feetLengths)
             {
                 <td class="subCategoryCellPadding subCategoryLength">@length</td>
@@ -33,7 +33,7 @@
         {
             @Html.Raw(blankRow)
             <tr>
-                <td colspan="2" class="productType productTypeHeading">@productType.Name</td>
+                <td colspan="2" class="productType productTypeHeading"><div class="headingWidth" title="@productType.Name">@productType.Name</div></td>
                 @foreach (var length in millimeterLengths)
                 {
                     <td class="productType subCategoryCellPadding subCategoryLength">TBD</td>

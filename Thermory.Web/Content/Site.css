@@ -780,7 +780,7 @@ tr.englishHeading {
     font-weight: bold;
 }
 
-div.subCategoryHeading {
+div.headingWidth  {
     width: 137px;
     overflow: hidden;
     display: block;

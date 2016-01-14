@@ -8,5 +8,7 @@ namespace Thermory.Data.Models
         string Name { get; }
         bool IsActive { get; }
         Guid? ParentId { get; }
+
+        int SortOrder { get; }
     }
 }
