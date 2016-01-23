@@ -7,6 +7,7 @@ namespace Thermory.Domain
     {
         Guid Id { get; }
         string Name { get; }
+        string Description { get; }
     }
 
     public interface IProductType<out TSC, TP> : IProductType

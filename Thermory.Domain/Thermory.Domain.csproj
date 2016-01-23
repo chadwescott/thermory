@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ICustomer.cs" />
     <Compile Include="ILumberProduct.cs" />
     <Compile Include="ILumberProductType.cs" />
     <Compile Include="ILumberSubCategory.cs" />

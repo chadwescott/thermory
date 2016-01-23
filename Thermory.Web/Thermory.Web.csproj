@@ -188,12 +188,14 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InventoryWorksheetController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\InventoryWorksheet.cs" />
+    <Compile Include="Models\SalesOrderViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -327,6 +329,7 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\InventoryWorksheet\Index.cshtml" />
     <Content Include="Views\InventoryWorksheet\_LumberFamily.cshtml" />
+    <Content Include="Views\Order\Sample.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

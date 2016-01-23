@@ -9,6 +9,8 @@ namespace Thermory.Business.Models
         public Guid Id { get; set; }
 
         public string Name { get; set; }
+
+        public string Description { get; set; }
     }
 
     internal class ProductType<TSC, TP> : ProductType, IProductType<TSC, TP>

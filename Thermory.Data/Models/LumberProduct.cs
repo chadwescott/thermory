@@ -5,12 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Thermory.Data.Models
 {
     [Table("LumberProduct")]
-    internal class LumberProduct : IDbLumberProduct
+    internal class LumberProduct : Product, IDbLumberProduct
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
-
         public Guid LumberFamilyId { get; set; }
 
         [ForeignKey("LumberFamilyId")]
