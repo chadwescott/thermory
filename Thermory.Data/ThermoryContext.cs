@@ -19,6 +19,8 @@ namespace Thermory.Data
 
         public DbSet<ProductFamily> ProductFamilies { get; set; }
 
+        public DbSet<ProductInventory> ProductInventories { get; set; }
+
         public DbSet<Product> Products { get; set; }
 
         public DbSet<LumberFamily> LumberFamilies { get; set; }

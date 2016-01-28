@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using Thermory.Data.Models;
 
@@ -8,7 +9,7 @@ namespace Thermory.Data.Commands
     {
         protected override void OnExecute()
         {
-            InvokeRepositoryRead(c => Result = c.LumberProducts.ToList<IDbLumberProduct>());
+            InvokeRepositoryRead(c => Result = c.LumberProducts.Include(p => p.DbInventory).ToList<IDbLumberProduct>());
         }
     }
 }

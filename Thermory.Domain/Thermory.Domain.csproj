@@ -40,11 +40,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ICustomer.cs" />
+    <Compile Include="ILumberInventory.cs" />
     <Compile Include="ILumberProduct.cs" />
     <Compile Include="ILumberProductType.cs" />
     <Compile Include="ILumberSubCategory.cs" />
     <Compile Include="IProduct.cs" />
     <Compile Include="IProductCategory.cs" />
+    <Compile Include="IProductInventory.cs" />
     <Compile Include="IProductSubCategory.cs" />
     <Compile Include="IProductType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

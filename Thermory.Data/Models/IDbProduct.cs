@@ -7,5 +7,6 @@ namespace Thermory.Data.Models
         Guid Id { get; }
         string Name { get; }
         string Description { get; }
+        IDbProductInventory Inventory { get; }
     }
 }

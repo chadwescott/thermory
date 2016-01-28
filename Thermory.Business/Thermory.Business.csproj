@@ -41,11 +41,13 @@
   <ItemGroup>
     <Compile Include="CommandDirectory.cs" />
     <Compile Include="LengthConverter.cs" />
+    <Compile Include="Models\LumberInventory.cs" />
     <Compile Include="Models\LumberProduct.cs" />
     <Compile Include="Models\LumberProductType.cs" />
     <Compile Include="Models\LumberSubCategory.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductCategory.cs" />
+    <Compile Include="Models\ProductInventory.cs" />
     <Compile Include="Models\ProductSubCategory.cs" />
     <Compile Include="Models\ProductType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

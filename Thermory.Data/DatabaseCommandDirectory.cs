@@ -23,6 +23,13 @@ namespace Thermory.Data
             return command.Result;
         }
 
+        public IList<IDbProductInventory> GetAllProductInventories()
+        {
+            var command = new GetAllProductInventories();
+            command.Execute();
+            return command.Result;
+        }
+
         public IList<IDbLumberFamily> GetAllLumberFamilies()
         {
             var command = new GetAllLumberFamilies();

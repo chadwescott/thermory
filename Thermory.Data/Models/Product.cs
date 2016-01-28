@@ -14,5 +14,11 @@ namespace Thermory.Data.Models
         public string Name { get; set; }
 
         public string Description { get; set; }
+        
+        [ForeignKey("Id")]
+        public ProductInventory DbInventory { get; set; }
+
+        [NotMapped]
+        public IDbProductInventory Inventory { get { return DbInventory; } }
     }
 }

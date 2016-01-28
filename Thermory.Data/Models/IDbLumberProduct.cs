@@ -2,10 +2,8 @@
 namespace Thermory.Data.Models
 {
 
-    public interface IDbLumberProduct
+    public interface IDbLumberProduct : IDbProduct
     {
-        Guid Id { get; }
-
         Guid LumberFamilyId { get; }
 
         int Length { get; }

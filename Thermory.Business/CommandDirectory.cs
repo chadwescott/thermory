@@ -68,7 +68,8 @@ namespace Thermory.Business
                             type.Products.Add(new LumberProduct
                             {
                                 ProductType = type,
-                                LengthInMillmeters = lumberProduct.Length
+                                LengthInMillmeters = lumberProduct.Length,
+                                Quantity = lumberProduct.Inventory.Quantity
                             });
                         }
                     }
