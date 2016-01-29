@@ -1,8 +1,13 @@
 ﻿namespace Thermory.Domain
 {
-    public interface ILumberInventory : IProductInventory<ILumberProductType>
+    public interface ILumberInventory : IInventory
     {
-        double LinearFeet { get; set; }
-        double SquareFeet { get; set; }
+        ILumberProduct Product { get; }
+
+        double TallyPercentage { get; }
+
+        double LinearFeet { get; }
+
+        double SquareFeet { get; }
     }
 }

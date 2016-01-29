@@ -13,9 +13,10 @@ namespace Thermory.Business.Models
         public string Description { get; set; }
     }
 
-    internal class ProductType<TSC, TP> : ProductType, IProductType<TSC, TP>
+    internal class ProductType<TSC, TPT, TP> : ProductType, IProductType<TSC, TPT, TP>
         where TSC : IProductSubCategory
-        where TP : IProduct<IProductType>
+        where TPT : IProductType
+        where TP : IProduct<TPT>
     {
         public TSC SubCategory { get; set; }
         public IList<TP> Products { get; set; }

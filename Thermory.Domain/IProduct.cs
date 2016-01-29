@@ -1,9 +1,15 @@
-﻿namespace Thermory.Domain
+﻿using System;
+
+namespace Thermory.Domain
 {
-    public interface IProduct<out T> where T : IProductType
+    public interface IProduct
+    {
+        Guid Id { get; }
+    }
+
+    public interface IProduct<out T> : IProduct
+        where T : IProductType
     {
         T ProductType { get; }
-
-        int Quantity { get; }
     }
 }

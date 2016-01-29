@@ -46,7 +46,7 @@
     <Compile Include="ILumberSubCategory.cs" />
     <Compile Include="IProduct.cs" />
     <Compile Include="IProductCategory.cs" />
-    <Compile Include="IProductInventory.cs" />
+    <Compile Include="IInventory.cs" />
     <Compile Include="IProductSubCategory.cs" />
     <Compile Include="IProductType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

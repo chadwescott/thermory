@@ -2,9 +2,8 @@
 
 namespace Thermory.Business.Models
 {
-    internal class ProductInventory<T> : IProductInventory<T> where T : IProductType
+    internal abstract class ProductInventory : IInventory
     {
-        public IProduct<T> Product { get; set; }
         public int Quantity { get; set; }
     }
 }

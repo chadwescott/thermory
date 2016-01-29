@@ -1,11 +1,13 @@
-﻿using Thermory.Domain;
+﻿using System;
+using Thermory.Domain;
 
 namespace Thermory.Business.Models
 {
-    internal class Product<T> : IProduct<T> where T : IProductType
+    internal class Product<T> : IProduct<T>
+        where T : IProductType
     {
-        public T ProductType { get; set; }
+        public Guid Id { get; set; }
 
-        public int Quantity { get; set; }
+        public T ProductType { get; set; }
     }
 }

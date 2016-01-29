@@ -6,12 +6,14 @@ namespace Thermory.Domain
     public interface IProductSubCategory
     {
         Guid Id { get; }
+
         string Name { get; }
     }
 
-    public interface IProductSubCategory<TP>
-        where TP : IProduct<IProductType>
+    public interface IProductSubCategory<TPT, TP>
+        where TPT : IProductType
+        where TP : IProduct<TPT>
     {
-        IList<IProductType<IProductSubCategory, TP>> ProductTypes { get; }
+        IList<IProductType<IProductSubCategory, TPT, TP>> ProductTypes { get; }
     }
 }
