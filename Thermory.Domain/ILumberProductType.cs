@@ -2,6 +2,8 @@
 {
     public interface ILumberProductType : IProductType<ILumberSubCategory, ILumberProductType, ILumberProduct>
     {
+        int TotalPieces { get; }
+
         double TotalLinearFeet { get; }
 
         double TotalSquareFeet { get; }

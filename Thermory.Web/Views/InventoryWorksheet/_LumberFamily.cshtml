@@ -31,7 +31,6 @@
         </tr>
         @foreach (var productType in subCategory.ProductTypes)
         {
-            var totalPieces = 0;
             @Html.Raw(blankRow)
             <tr>
                 <td colspan="2" class="productType productTypeHeading"><div class="headingWidth" title="@productType.Name">@productType.Name</div></td>
@@ -39,7 +38,6 @@
                 {
                     var productForLength = productType.Products.SingleOrDefault(p => p.LengthInMillmeters == length);
                     var quantity = @productForLength == null ? 0 : productForLength.Inventory.Quantity;
-                    totalPieces += quantity;
                     <td class="productType subCategoryCellPadding subCategoryLength">@quantity</td>
                 }
                 <td rowspan="2" class="totalLinearFeet">@productType.TotalLinearFeet</td>
@@ -64,7 +62,7 @@
                     <td class="subCategoryCellPadding subCategoryLength">@linearFeet</td>
                 }
                 <td class="totalPieceHeading">Total PCS</td>
-                <td>@totalPieces</td>
+                <td>@productType.TotalPieces</td>
             </tr>
             <tr>
                 <td colspan="2" class="productType productTypeStatistic">SF / Length</td>
