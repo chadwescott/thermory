@@ -1,0 +1,80 @@
+﻿@using WebGrease.Css.Extensions
+@model Thermory.Domain.IProductCategory<Thermory.Domain.ILumberSubCategory>
+
+@foreach (var subCategory in Model.ProductSubCategories)
+{
+    var millimeterLengths = new List<int>();
+    subCategory.ProductTypes.ForEach(pt => pt.LumberProductLengthsMillimeters.ForEach(l => { if (!millimeterLengths.Contains(l)) millimeterLengths.Add(l); }));
+    var feetLengths = new List<double>();
+    subCategory.ProductTypes.ForEach(pt => pt.LumberProductLengthsFeet.ForEach(l => { if (!feetLengths.Contains(l)) feetLengths.Add(l); }));
+    var columns = millimeterLengths.Count + 4;
+    var blankRow = string.Format("<tr><td colspan=\"{0}\">&nbsp;</td></tr>", columns);
+
+    <table class="table table-condensed inventory">
+        <tr class="metricHeading">
+            <td class="subCategoryUnit">mm</td>
+            <td class="subCategoryDimensions">@subCategory.ThicknessInMillimeters x @subCategory.WidthInMillimeters</td>
+            @foreach (var length in millimeterLengths)
+            {
+                <td class="subCategoryCellPadding subCategoryLength">@length</td>
+            }
+            <td colspan="2"></td>
+        </tr>
+        <tr class="englishHeading">
+            <td colspan="2"><div class="headingWidth"><strong title="@subCategory.Name">@subCategory.Name</strong></div></td>
+            @foreach (var length in feetLengths)
+            {
+                <td class="subCategoryCellPadding subCategoryLength">@length</td>
+            }
+            <td>Total LF</td>
+            <td class="subCategoryCellPadding">Total SF</td>
+        </tr>
+        @foreach (var productType in subCategory.ProductTypes)
+        {
+            @Html.Raw(blankRow)
+            <tr>
+                <td colspan="2" class="productType productTypeHeading"><div class="headingWidth" title="@productType.Name">@productType.Name</div></td>
+                @foreach (var length in millimeterLengths)
+                {
+                    var productForLength = productType.Products.SingleOrDefault(p => p.LengthInMillmeters == length);
+                    var quantity = @productForLength == null ? 0 : productForLength.Inventory.Quantity;
+                    <td class="productType subCategoryCellPadding subCategoryLength"><input type="text" class="form-control" maxlength="6" pattern="#*" value="@quantity" /></td>
+                }
+                <td rowspan="2" class="totalLinearFeet">@productType.TotalLinearFeet</td>
+                <td rowspan="2" class="totalSquareFeet">@productType.TotalSquareFeet</td>
+            </tr>
+            <tr>
+                <td colspan="2" class="productType productTypeStatistic">Tally %</td>
+                @foreach (var length in millimeterLengths)
+                {
+                    var productForLength = productType.Products.SingleOrDefault(p => p.LengthInMillmeters == length);
+                    var tally = @productForLength == null ? 0 : productForLength.Inventory.TallyPercentage;
+                    <td class="productType subCategoryCellPadding subCategoryLength productTypeTally">@tally%</td>
+                }
+            </tr>
+            @Html.Raw(blankRow)
+            <tr>
+                <td colspan="2" class="productType productTypeStatistic">LF / Length</td>
+                @foreach (var length in millimeterLengths)
+                {
+                    var productForLength = productType.Products.SingleOrDefault(p => p.LengthInMillmeters == length);
+                    var linearFeet = productForLength == null ? 0 : productForLength.Inventory.LinearFeet;
+                    <td class="subCategoryCellPadding subCategoryLength">@linearFeet</td>
+                }
+                <td class="totalPieceHeading">Total PCS</td>
+                <td>@productType.TotalPieces</td>
+            </tr>
+            <tr>
+                <td colspan="2" class="productType productTypeStatistic">SF / Length</td>
+                @foreach (var length in millimeterLengths)
+                {
+                    var productForLength = productType.Products.SingleOrDefault(p => p.LengthInMillmeters == length);
+                    var squareFeet = productForLength == null ? 0 : productForLength.Inventory.SquareFeet;
+                    <td class="productType subCategoryCellPadding subCategoryLength">@squareFeet</td>
+                }
+                <td colspan="2">&nbsp;</td>
+            </tr>
+        }
+    </table>
+    <br />
+}

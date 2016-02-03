@@ -187,6 +187,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InventoryAuditController.cs" />
     <Compile Include="Controllers\InventoryWorksheetController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
@@ -328,8 +329,10 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\InventoryWorksheet\Index.cshtml" />
-    <Content Include="Views\InventoryWorksheet\_LumberFamily.cshtml" />
+    <Content Include="Views\InventoryWorksheet\_LumberSummary.cshtml" />
     <Content Include="Views\Order\Sample.cshtml" />
+    <Content Include="Views\InventoryAudit\_LumberAuditForm.cshtml" />
+    <Content Include="Views\InventoryAudit\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

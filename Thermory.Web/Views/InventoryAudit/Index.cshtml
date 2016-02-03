@@ -13,14 +13,15 @@
         }
     }
 </ul>
-<div class="tab-content">
+<div class="tab-content" style="height: 500px; overflow: auto;">
     @{
         foreach (var category in Model.LumberProductCategories)
         {
             var active = category.Id == firstCategoryId ? "active" : "";
             <div id="@category.Id" class="tab-pane @active">
-                @Html.Partial("_LumberSummary", category)
+                @Html.Partial("_LumberAuditForm", category)
             </div>
         }
     }
 </div>
+<button type="submit" class="btn btn-default">Save</button>
