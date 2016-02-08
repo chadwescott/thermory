@@ -10,10 +10,11 @@ namespace Thermory.Domain
         string Description { get; }
     }
 
-    public interface IProductType<out TSC, TPT, TP> : IProductType
+    public interface IProductType<out TSC, TPT, TI, TP> : IProductType
         where TSC : IProductSubCategory
         where TPT : IProductType
-        where TP : IProduct<TPT>
+        where TI : IInventory<TP>
+        where TP : IProduct<TPT, TI, TP>
     {
         TSC SubCategory { get; }
         IList<TP> Products { get; }

@@ -24,4 +24,28 @@
         }
     }
 </div>
-<button type="submit" class="btn btn-default">Save</button>
+<button type="button" class="btn btn-default" onclick="saveInventory();">Save</button>
+<script type="text/javascript">
+    function saveInventory() {
+        var inventory = new Array();
+        $("input[name^='inventory']").each(function() {
+            inventory.push({
+                Product: { Id: $(this).attr('id') },
+                Quantity: $(this).val()
+            });
+        });
+
+        var postData = JSON.stringify(inventory);
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("Index", "InventoryAudit")',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: postData,
+            success: function(data, status, request) {
+                location.reload();
+            }
+        });
+    }
+</script>

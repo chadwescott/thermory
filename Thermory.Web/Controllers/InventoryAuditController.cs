@@ -15,5 +15,14 @@ namespace Thermory.Web.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public ActionResult Index(Inventory[] inventory)
+        {
+            var model = new InventoryWorksheet
+            {
+                LumberProductCategories = CommandDirectory.Instance.GetAllLumberProductsWithInventory()
+            };
+            return View(model);
+        }
     }
 }

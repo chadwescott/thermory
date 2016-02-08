@@ -7,9 +7,13 @@ namespace Thermory.Domain
         Guid Id { get; }
     }
 
-    public interface IProduct<out T> : IProduct
-        where T : IProductType
+    public interface IProduct<out TT, TI, TP> : IProduct
+        where TT : IProductType
+        where TI : IInventory<TP>
+        where TP : IProduct<TT, TI, TP>
     {
-        T ProductType { get; }
+        TT ProductType { get; }
+
+        TI Inventory { get; set; }
     }
 }

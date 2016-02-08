@@ -195,7 +195,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\Inventory.cs" />
     <Compile Include="Models\InventoryWorksheet.cs" />
+    <Compile Include="Models\Product.cs" />
     <Compile Include="Models\SalesOrderViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

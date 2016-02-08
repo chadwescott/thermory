@@ -38,7 +38,8 @@
                 {
                     var productForLength = productType.Products.SingleOrDefault(p => p.LengthInMillmeters == length);
                     var quantity = @productForLength == null ? 0 : productForLength.Inventory.Quantity;
-                    <td class="productType subCategoryCellPadding subCategoryLength"><input type="text" class="form-control" maxlength="6" pattern="#*" value="@quantity" /></td>
+                    var productId = @productForLength == null ? Guid.Empty : productForLength.Id;
+                    <td class="productType subCategoryCellPadding subCategoryLength"><input type="text" name="inventory@productId" id="@productId" class="form-control" maxlength="6" pattern="[0-9]*" value="@quantity" /></td>
                 }
                 <td rowspan="2" class="totalLinearFeet">@productType.TotalLinearFeet</td>
                 <td rowspan="2" class="totalSquareFeet">@productType.TotalSquareFeet</td>
