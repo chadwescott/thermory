@@ -8,7 +8,7 @@ namespace Thermory.Data.Commands
     {
         protected override void OnExecute()
         {
-            InvokeRepositoryRead(c => Result = c.LumberProducts.ToList<IDbLumberProduct>());
+            InvokeRepository(c => Result = c.LumberProducts.ToList<IDbLumberProduct>());
         }
     }
 }

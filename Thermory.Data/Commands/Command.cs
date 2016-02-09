@@ -25,6 +25,14 @@ namespace Thermory.Data.Commands
             }
         }
 
+        protected void InvokeRepository(Action<ThermoryContext> action)
+        {
+            using (var context = CreateContext())
+            {
+                action(context);
+            }
+        }
+
         protected virtual void OnBeforeExecute()
         {
             Logger.Info(string.Format("{0} Execute Start", ClassName));

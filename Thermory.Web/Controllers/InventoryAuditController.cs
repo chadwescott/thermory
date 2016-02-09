@@ -16,13 +16,10 @@ namespace Thermory.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(Inventory[] inventory)
+        public JsonResult Index(Inventory[] inventory)
         {
-            var model = new InventoryWorksheet
-            {
-                LumberProductCategories = CommandDirectory.Instance.GetAllLumberProductsWithInventory()
-            };
-            return View(model);
+            CommandDirectory.Instance.UpdateProductInventory(inventory);
+            return Json(new { status = "success"});
         }
     }
 }

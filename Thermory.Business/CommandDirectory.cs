@@ -44,5 +44,13 @@ namespace Thermory.Business
             command.Execute();
             return _lumberCategories;
         }
+
+        public void UpdateProductInventory<T>(IInventory<T>[] inventory) where T : IProduct
+        {
+            foreach (var inv in inventory)
+            {
+                DatabaseCommandDirectory.Instance.UpdateProductInventory(inv.Product.Id, inv.Quantity);
+            }
+        }
     }
 }
