@@ -2,7 +2,6 @@
     background-color: #e2e2e2;
     margin: 0;
     padding: 0;
-    height: 100%;
 }
 
 body {
@@ -11,7 +10,6 @@ body {
     font-family: "futura-pt-1, Segoe UI", Verdana, Helvetica, Sans-Serif;
     margin: 0;
     padding: 0;
-    height: 100%;
 }
 
 a {
@@ -100,12 +98,7 @@ h5, h6 {
 
 #body {
     clear: both;
-    /*padding-bottom: 35px;*/
-    
-    min-height: 100%;
-    height: auto !important;
-    height: 100%;
-    margin: 0 auto -120px;
+    padding-bottom: 35px;
 }
 
     .main-content {
@@ -122,15 +115,11 @@ header .content-wrapper {
     padding-top: 0; 
 }
 
-header {
-    height: 100px;
-}
-
 footer {
     clear: both;
     background-color: #e2e2e2;
     font-size: .8em;
-    height: 20px;
+    height: 100px;
 }
 
 
