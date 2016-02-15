@@ -15,5 +15,11 @@ namespace Thermory.Web.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public JsonResult Index(Inventory[] inventory)
+        {
+            CommandDirectory.Instance.UpdateProductInventory(inventory);
+            return Json(new { status = "success"});
+        }
     }
 }

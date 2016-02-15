@@ -6,9 +6,9 @@ namespace Thermory.Data.Commands
 {
     internal class GetAllLumberProducts : GetCommand<IList<IDbLumberProduct>>
     {
-        protected override void OnExecute()
+        protected override void OnExecute(ThermoryContext context)
         {
-            InvokeRepositoryRead(c => Result = c.LumberProducts.ToList<IDbLumberProduct>());
+            Result = context.LumberProducts.ToList<IDbLumberProduct>();
         }
     }
 }

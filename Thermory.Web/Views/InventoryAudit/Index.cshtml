@@ -4,24 +4,67 @@
     var firstCategoryId = Model.LumberProductCategories.First().Id;
 }
 
-<ul class="nav nav-tabs" data-tabs="tabs">
-    @{
-        foreach (var category in Model.LumberProductCategories)
-        {
-            var active = category.Id == firstCategoryId ? "class=active" : "";
-            <li @active><a href="#@category.Id" data-toggle="tab">@category.Name</a></li>
+<div id="worksheetPanel">
+    <ul class="nav nav-tabs" data-tabs="tabs">
+        @{
+            foreach (var category in Model.LumberProductCategories)
+            {
+                var active = category.Id == firstCategoryId ? "class=active" : "";
+                <li @active><a href="#@category.Id" data-toggle="tab">@category.Name</a></li>
+            }
         }
-    }
-</ul>
-<div class="tab-content" style="height: 500px; overflow: auto;">
-    @{
-        foreach (var category in Model.LumberProductCategories)
-        {
-            var active = category.Id == firstCategoryId ? "active" : "";
-            <div id="@category.Id" class="tab-pane @active">
-                @Html.Partial("_LumberAuditForm", category)
-            </div>
+    </ul>
+    <div class="tab-content" style="height: 500px; overflow: auto;">
+        @{
+            foreach (var category in Model.LumberProductCategories)
+            {
+                var active = category.Id == firstCategoryId ? "active" : "";
+                <div id="@category.Id" class="tab-pane @active">
+                    @Html.Partial("_LumberAuditForm", category)
+                </div>
+            }
         }
-    }
+    </div>
+    <button type="button" class="btn btn-default" onclick="saveInventory();">Save</button>
 </div>
-<button type="submit" class="btn btn-default">Save</button>
+
+<div id="savingPanel" style="display: none;">Saving...</div>
+
+<script type="text/javascript">
+    function saveInventory() {
+        $('#worksheetPanel').hide();
+        $('#savingPanel').show();
+
+        var inventory = new Array();
+        $("input[name^='inventory']").each(function () {
+            var id = $(this).attr('id');
+            var qty = $(this).val();
+            var oldQty = $('#qty' + id).val();
+
+            if (oldQty != qty) {
+                inventory.push({
+                    Product: { Id: id },
+                    Quantity: qty
+                });
+            }
+        });
+
+        if (inventory.length == 0) {
+            $('#worksheetPanel').show();
+            $('#savingPanel').hide();
+            return;
+        }
+
+        var postData = JSON.stringify(inventory);
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("Index", "InventoryAudit")',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: postData,
+            success: function (data, status, request) {
+                location.reload();
+            }
+        });
+    }
+</script>

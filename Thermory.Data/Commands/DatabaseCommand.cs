@@ -2,40 +2,48 @@
 
 namespace Thermory.Data.Commands
 {
-    internal abstract class Command : ICommand
+    internal abstract class DatabaseCommand : ICommand
     {
         protected readonly log4net.ILog Logger =
                log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         protected string ClassName { get { return GetType().Name; } }
 
-        protected abstract void OnExecute();
+        protected abstract void OnExecute(ThermoryContext context);
 
         public void Execute()
         {
-            try
+            using (var context = CreateContext())
             {
-                OnBeforeExecute();
-                OnExecute();
-                OnAfterExecute();
-            }
-            catch (Exception ex)
-            {
-                HandleException(ex);
+                Execute(context);
             }
         }
 
-        protected virtual void OnBeforeExecute()
+        public void Execute(ThermoryContext context)
+        {
+            try
+            {
+                OnBeforeExecute(context);
+                OnExecute(context);
+                OnAfterExecute(context);
+            }
+            catch (Exception ex)
+            {
+                HandleException(context, ex);
+            }
+        }
+
+        protected virtual void OnBeforeExecute(ThermoryContext context)
         {
             Logger.Info(string.Format("{0} Execute Start", ClassName));
         }
 
-        protected virtual void OnAfterExecute()
+        protected virtual void OnAfterExecute(ThermoryContext context)
         {
             Logger.Info(string.Format("{0} Execute Complete", ClassName));
         }
 
-        protected virtual void HandleException(Exception ex)
+        protected virtual void HandleException(ThermoryContext cont, Exception ex)
         {
             Logger.Error(string.Format("{0} Exception: {1}", ClassName, ex.Message), ex);
             Logger.Error(ex.Message, ex);

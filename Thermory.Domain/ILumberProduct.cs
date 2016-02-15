@@ -1,9 +1,7 @@
 ﻿namespace Thermory.Domain
 {
-    public interface ILumberProduct : IProduct<ILumberProductType>
+    public interface ILumberProduct : IProduct<ILumberProductType, ILumberInventory, ILumberProduct>
     {
-        ILumberInventory Inventory { get; set;  }
-
         int LengthInMillmeters { get; }
 
         double LengthInInches { get; }

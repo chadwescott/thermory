@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Thermory.Data.Commands;
 using Thermory.Data.Models;
+using Thermory.Domain;
 
 namespace Thermory.Data
 {
@@ -42,6 +43,13 @@ namespace Thermory.Data
             var command = new GetAllLumberProducts();
             command.Execute();
             return command.Result;
+        }
+
+        public void UpdateProductInventory<T>(IInventory<T>[] inventory) where T : IProduct
+        {
+            var command = new UpdateProductInventory<T>(inventory);
+            var transaction = new TransactionalCommand(new[] { command });
+            transaction.Execute();
         }
     }
 }

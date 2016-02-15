@@ -58,8 +58,9 @@
     <Compile Include="Commands\GetAllLumberProductInventories.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\IGetCommand.cs" />
+    <Compile Include="Commands\UpdateProductInventory.cs" />
     <Compile Include="DatabaseCommandDirectory.cs" />
-    <Compile Include="Commands\Command.cs" />
+    <Compile Include="Commands\DatabaseCommand.cs" />
     <Compile Include="Commands\GetCommand.cs" />
     <Compile Include="Models\IDbLumberFamily.cs" />
     <Compile Include="Models\IDbLumberProduct.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="Models\ProductInventory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThermoryContext.cs" />
+    <Compile Include="TransactionalCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Thermory.Domain\Thermory.Domain.csproj">

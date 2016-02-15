@@ -6,9 +6,9 @@ namespace Thermory.Data.Commands
 {
     internal class GetAllProductFamilies : GetCommand<IList<IDbProductFamily>>
     {
-        protected override void OnExecute()
+        protected override void OnExecute(ThermoryContext context)
         {
-            InvokeRepositoryRead(c => Result = c.ProductFamilies.ToList<IDbProductFamily>());
+            Result = context.ProductFamilies.ToList<IDbProductFamily>();
         }
     }
 }

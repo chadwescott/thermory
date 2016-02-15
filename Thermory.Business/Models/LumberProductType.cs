@@ -3,7 +3,7 @@ using Thermory.Domain;
 
 namespace Thermory.Business.Models
 {
-    internal class LumberProductType : ProductType<ILumberSubCategory, ILumberProductType, ILumberProduct>, ILumberProductType
+    internal class LumberProductType : ProductType<ILumberSubCategory, ILumberProductType, ILumberInventory, ILumberProduct>, ILumberProductType
     {
         public int TotalPieces { get { return Products.Sum(p => p.Inventory.Quantity); } }
         
