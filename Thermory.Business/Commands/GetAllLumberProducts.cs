@@ -52,15 +52,15 @@ namespace Thermory.Business.Commands
                             Products = new List<ILumberProduct>()
                         };
                         subCategory.ProductTypes.Add(type);
-                        foreach (var lumberProduct in lumberProducts.Where(p => p.ProductFamilyId == productType.Id).OrderBy(l => l.Length))
-                        {
-                            type.Products.Add(new LumberProduct
-                            {
-                                Id = lumberProduct.Id,
-                                ProductType = type,
-                                LengthInMillmeters = lumberProduct.Length
-                            });
-                        }
+                        //foreach (var lumberProduct in lumberProducts.Where(p => p.ProductFamilyId == productType.Id).OrderBy(l => l.Length))
+                        //{
+                        //    type.Products.Add(new LumberProduct
+                        //    {
+                        //        Id = lumberProduct.Id,
+                        //        ProductType = type,
+                        //        LengthInMillmeters = lumberProduct.Length
+                        //    });
+                        //}
                     }
                     category.ProductSubCategories.Add(subCategory);
                 }

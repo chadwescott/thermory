@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandDirectory.cs" />
+    <Compile Include="Commands\GetAllMiscellaneousProducts.cs" />
     <Compile Include="Commands\UpdateLumberProductInventory.cs" />
     <Compile Include="Commands\GetAllLumberProducts.cs" />
     <Compile Include="LengthConverter.cs" />

@@ -59,6 +59,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Commands\GetAllLumberCategoriesTest.cs" />
     <Compile Include="Commands\GetAllLumberFamiliesTest.cs" />
     <Compile Include="Commands\GetAllLumberProductInventoriesTest.cs" />
     <Compile Include="Commands\GetAllLumberProductsTest.cs" />
