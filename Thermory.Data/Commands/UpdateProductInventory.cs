@@ -1,31 +1,34 @@
 ﻿using System;
 using System.Data.Entity;
 using Thermory.Data.Models;
+using Thermory.Domain;
 
 namespace Thermory.Data.Commands
 {
-    internal class UpdateProductInventory : Command
+    internal class UpdateProductInventory<T> : DatabaseCommand
+        where T : IProduct
     {
-        private readonly ProductInventory _inventory;
+        private readonly IInventory<T>[] _inventory;
 
-        public UpdateProductInventory(Guid productId, int quantity)
+        public UpdateProductInventory(IInventory<T>[] inventory)
         {
-            _inventory = new ProductInventory
-            {
-                Id = productId,
-                Quantity = quantity
-            };
+            _inventory = inventory;
         }
 
-        protected override void OnExecute()
+        protected override void OnExecute(ThermoryContext context)
         {
-            InvokeRepository(c =>
+            foreach (var i in _inventory)
             {
-                c.ProductInventories.Attach(_inventory);
-                foreach (var e in c.ChangeTracker.Entries())
-                    e.State = EntityState.Modified;
-                c.SaveChanges();
-            });
+                var dbInventory = new ProductInventory
+                {
+                    Id = i.Product.Id,
+                    Quantity = i.Quantity
+                };
+                context.ProductInventories.Attach(dbInventory);
+                foreach (var entry in context.ChangeTracker.Entries())
+                    entry.State = EntityState.Modified;
+                context.SaveChanges();
+            }
         }
     }
 }

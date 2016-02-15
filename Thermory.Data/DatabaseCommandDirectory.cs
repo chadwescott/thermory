@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Thermory.Data.Commands;
 using Thermory.Data.Models;
 using Thermory.Domain;
@@ -46,10 +45,11 @@ namespace Thermory.Data
             return command.Result;
         }
 
-        public void UpdateProductInventory(Guid productId, int quantity)
+        public void UpdateProductInventory<T>(IInventory<T>[] inventory) where T : IProduct
         {
-            var command = new UpdateProductInventory(productId, quantity);
-            command.Execute();
+            var command = new UpdateProductInventory<T>(inventory);
+            var transaction = new TransactionalCommand(new[] { command });
+            transaction.Execute();
         }
     }
 }
