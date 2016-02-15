@@ -5,8 +5,9 @@ namespace Thermory.Data.Models
     public interface IDbProduct
     {
         Guid Id { get; }
-        string Name { get; }
-        string Description { get; }
+
+        Guid ProductFamilyId { get; set; }
+
         IDbProductInventory Inventory { get; }
     }
 }

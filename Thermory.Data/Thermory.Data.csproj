@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\GetAllLumberFamilies.cs" />
+    <Compile Include="Commands\GetAllMiscellaneousProducts.cs" />
     <Compile Include="Commands\GetAllProductFamilies.cs" />
     <Compile Include="Commands\GetAllLumberProducts.cs" />
     <Compile Include="Commands\GetAllLumberProductInventories.cs" />
@@ -61,14 +62,16 @@
     <Compile Include="Commands\UpdateProductInventory.cs" />
     <Compile Include="DatabaseCommandDirectory.cs" />
     <Compile Include="Commands\DatabaseCommand.cs" />
-    <Compile Include="Commands\GetCommand.cs" />
+    <Compile Include="Commands\DatabaseGetCommand.cs" />
     <Compile Include="Models\IDbLumberFamily.cs" />
     <Compile Include="Models\IDbLumberProduct.cs" />
+    <Compile Include="Models\IDbMiscellaneousProduct.cs" />
     <Compile Include="Models\IDbProduct.cs" />
     <Compile Include="Models\IDbProductFamily.cs" />
     <Compile Include="Models\IDbProductInventory.cs" />
     <Compile Include="Models\LumberFamily.cs" />
     <Compile Include="Models\LumberProduct.cs" />
+    <Compile Include="Models\MiscellaneousProduct.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductFamily.cs" />
     <Compile Include="Models\ProductInventory.cs" />

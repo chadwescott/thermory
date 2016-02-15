@@ -4,11 +4,11 @@ using Thermory.Data.Models;
 
 namespace Thermory.Data.Commands
 {
-    internal class GetAllProductFamilies : DatabaseGetCommand<IList<IDbProductFamily>>
+    internal class GetAllMiscellaneousProducts : DatabaseGetCommand<IList<IDbMiscellaneousProduct>>
     {
         protected override void OnExecute(ThermoryContext context)
         {
-            Result = context.ProductFamilies.ToList<IDbProductFamily>();
+            Result = context.Products.OfType<MiscellaneousProduct>().ToList<IDbMiscellaneousProduct>();
         }
     }
 }

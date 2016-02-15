@@ -4,7 +4,7 @@ using Thermory.Data.Models;
 
 namespace Thermory.Data.Commands
 {
-    internal class GetAllLumberProductInventories : GetCommand<IList<IDbProductInventory>>
+    internal class GetAllLumberProductInventories : DatabaseGetCommand<IList<IDbProductInventory>>
     {
         protected override void OnExecute(ThermoryContext context)
         {

@@ -40,9 +40,9 @@ namespace Thermory.Business.Commands
                         ProductTypes = new List<ILumberProductType>()
                     };
                     var subFamily = lumberSubFamily;
-                    foreach (var productType in productFamilies.Where(f => f.ParentId == subFamily.Id).OrderBy(f => f.SortOrder))
+                    foreach (var pt in productFamilies.Where(f => f.ParentId == subFamily.Id).OrderBy(f => f.SortOrder))
                     {
-                        var subFamilyType = productType;
+                        var productType = pt;
                         var type = new LumberProductType
                         {
                             Id = productType.Id,
@@ -51,7 +51,7 @@ namespace Thermory.Business.Commands
                             Products = new List<ILumberProduct>()
                         };
                         subCategory.ProductTypes.Add(type);
-                        foreach (var lumberProduct in lumberProducts.Where(p => p.LumberFamilyId == subFamilyType.Id).OrderBy(l => l.Length))
+                        foreach (var lumberProduct in lumberProducts.Where(p => p.ProductFamilyId == productType.Id).OrderBy(l => l.Length))
                         {
                             type.Products.Add(new LumberProduct
                             {
