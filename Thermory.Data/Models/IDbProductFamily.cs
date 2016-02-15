@@ -6,6 +6,10 @@ namespace Thermory.Data.Models
     {
         Guid Id { get; }
 
+        Guid ProductTypeId { get; }
+
+        Domain.ProductType ProductType { get; }
+
         string Name { get; }
 
         bool IsActive { get; }

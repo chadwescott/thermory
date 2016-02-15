@@ -45,6 +45,13 @@ namespace Thermory.Data
             return command.Result;
         }
 
+        public IList<IDbMiscellaneousProduct> GetAllMiscellaneousProducts()
+        {
+            var command = new GetAllMiscellaneousProducts();
+            command.Execute();
+            return command.Result;
+        }
+
         public void UpdateProductInventory<T>(IInventory<T>[] inventory) where T : IProduct
         {
             var command = new UpdateProductInventory<T>(inventory);

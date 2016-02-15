@@ -8,7 +8,7 @@ namespace Thermory.Data.Commands
     {
         protected override void OnExecute(ThermoryContext context)
         {
-            Result = context.ProductFamilies.ToList<IDbProductFamily>();
+            Result = context.ProductFamilies.Include("DbProductType").ToList<IDbProductFamily>();
         }
     }
 }

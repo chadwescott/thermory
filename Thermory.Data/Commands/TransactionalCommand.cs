@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Thermory.Data.Commands;
 
-namespace Thermory.Data
+namespace Thermory.Data.Commands
 {
     internal class TransactionalCommand : DatabaseCommand
     {

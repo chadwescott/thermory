@@ -4,13 +4,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Thermory.Data.Models
 {
-    [Table("ProductInventory")]
-    internal class ProductInventory : IDbProductInventory
+    [Table("ProductType")]
+    internal class ProductType
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
-        public int Quantity { get; set; }
+        public string Name { get; set; }
     }
 }

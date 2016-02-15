@@ -12,6 +12,17 @@ namespace Thermory.Data.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
+        public Guid ProductTypeId { get; set; }
+
+        [ForeignKey("ProductTypeId")]
+        public ProductType DbProductType { get; set; }
+
+        [NotMapped]
+        public Domain.ProductType ProductType
+        {
+            get { return DbProductType.Name == "Lumber" ? Domain.ProductType.Lumber : Domain.ProductType.Misc; }
+        }
+
         public string Name { get; set; }
 
         public bool IsActive { get; set; }

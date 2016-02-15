@@ -4,6 +4,7 @@ using Thermory.Business.Models;
 using Thermory.Data;
 using Thermory.Data.Commands;
 using Thermory.Domain;
+using ProductType = Thermory.Domain.ProductType;
 
 namespace Thermory.Business.Commands
 {
@@ -16,10 +17,10 @@ namespace Thermory.Business.Commands
             Result = new List<IProductCategory<ILumberSubCategory>>();
             var productFamilies = DatabaseCommandDirectory.Instance.GetAllProductFamilies();
             var lumberFamilies = DatabaseCommandDirectory.Instance.GetAllLumberFamilies();
-            var rootProductFamilies = productFamilies.Where(f => f.ParentId == null).ToList();
+            var rootLumberProductFamilies = productFamilies.Where(f => f.ParentId == null && f.ProductType == ProductType.Lumber).ToList();
             var lumberProducts = DatabaseCommandDirectory.Instance.GetAllLumberProducts();
 
-            foreach (var productFamily in rootProductFamilies.OrderBy(f => f.SortOrder))
+            foreach (var productFamily in rootLumberProductFamilies.OrderBy(f => f.SortOrder))
             {
                 var family = productFamily;
                 var category = new ProductCategory<ILumberSubCategory>

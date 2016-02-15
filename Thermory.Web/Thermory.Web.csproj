@@ -335,6 +335,7 @@
     <Content Include="Views\Order\Sample.cshtml" />
     <Content Include="Views\InventoryAudit\_LumberAuditForm.cshtml" />
     <Content Include="Views\InventoryAudit\Index.cshtml" />
+    <Content Include="Views\InventoryWorksheet\_MiscSummary.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
