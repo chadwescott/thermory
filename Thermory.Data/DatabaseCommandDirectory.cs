@@ -24,6 +24,13 @@ namespace Thermory.Data
             return command.Result;
         }
 
+        public IList<IDbLumberCategory> GetAllLumberCategories()
+        {
+            var command = new GetAllLumberCategories();
+            command.Execute();
+            return command.Result;
+        }
+
         public IList<IDbProductInventory> GetAllLumberProductInventories()
         {
             var command = new GetAllLumberProductInventories();

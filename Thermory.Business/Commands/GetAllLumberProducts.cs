@@ -8,64 +8,83 @@ using ProductType = Thermory.Domain.ProductType;
 
 namespace Thermory.Business.Commands
 {
-    internal class GetAllLumberProducts : IGetCommand<IList<IProductCategory<ILumberSubCategory>>>
+    internal class GetAllLumberProducts : IGetCommand<IList<ILumberCategory>>
     {
-        public IList<IProductCategory<ILumberSubCategory>> Result { get; private set; }
+        public IList<ILumberCategory> Result { get; private set; }
 
         public void Execute()
         {
-            Result = new List<IProductCategory<ILumberSubCategory>>();
-            var productFamilies = DatabaseCommandDirectory.Instance.GetAllProductFamilies();
-            var lumberFamilies = DatabaseCommandDirectory.Instance.GetAllLumberFamilies();
-            var rootLumberProductFamilies = productFamilies.Where(f => f.ParentId == null && f.ProductType == ProductType.Lumber).ToList();
-            var lumberProducts = DatabaseCommandDirectory.Instance.GetAllLumberProducts();
-
-            foreach (var productFamily in rootLumberProductFamilies.OrderBy(f => f.SortOrder))
+            var dbLumberCategories = DatabaseCommandDirectory.Instance.GetAllLumberCategories();
+            Result = dbLumberCategories.Select(c => new LumberCategory
             {
-                var family = productFamily;
-                var category = new ProductCategory<ILumberSubCategory>
+                Id = c.Id,
+                Name = c.Name,
+                LumberSubCategories = c.LumberSubCategories.Select(sc => new LumberSubCategory
                 {
-                    Id = productFamily.Id,
-                    Name = productFamily.Name,
-                    ProductSubCategories = new List<ILumberSubCategory>()
-                };
-                foreach (var lumberSubFamily in lumberFamilies.Where(f => f.ParentId == family.Id).OrderBy(f => f.SortOrder))
-                {
-                    var subCategory = new LumberSubCategory
+                    Id = sc.Id,
+                    Name = sc.Name,
+                    ThicknessInMillimeters = sc.Thickness,
+                    WidthInMillimeters = sc.Width,
+                    LumberTypes = sc.LumberTypes.Select(lt => new LumberType
                     {
-                        Id = lumberSubFamily.Id,
-                        Category = category,
-                        Name = lumberSubFamily.Name,
-                        ThicknessInMillimeters = lumberSubFamily.Thickness,
-                        WidthInMillimeters = lumberSubFamily.Width,
-                        ProductTypes = new List<ILumberProductType>()
-                    };
-                    var subFamily = lumberSubFamily;
-                    foreach (var pt in productFamilies.Where(f => f.ParentId == subFamily.Id).OrderBy(f => f.SortOrder))
-                    {
-                        var productType = pt;
-                        var type = new LumberProductType
-                        {
-                            Id = productType.Id,
-                            Name = productType.Name,
-                            SubCategory = subCategory,
-                            Products = new List<ILumberProduct>()
-                        };
-                        subCategory.ProductTypes.Add(type);
-                        //foreach (var lumberProduct in lumberProducts.Where(p => p.ProductFamilyId == productType.Id).OrderBy(l => l.Length))
-                        //{
-                        //    type.Products.Add(new LumberProduct
-                        //    {
-                        //        Id = lumberProduct.Id,
-                        //        ProductType = type,
-                        //        LengthInMillmeters = lumberProduct.Length
-                        //    });
-                        //}
-                    }
-                    category.ProductSubCategories.Add(subCategory);
-                }
-                Result.Add(category);
-            }
+                        Id = lt.Id,
+                        Name = lt.Name,
+                        SortOrder = lt.SortOrder
+                    }).ToList<ILumberType>()
+                }).ToList<ILumberSubCategory>()
+            }).ToList<ILumberCategory>();
+
+            //var productFamilies = DatabaseCommandDirectory.Instance.GetAllProductFamilies();
+            //var lumberFamilies = DatabaseCommandDirectory.Instance.GetAllLumberFamilies();
+            //var rootLumberProductFamilies = productFamilies.Where(f => f.ParentId == null && f.ProductType == ProductType.Lumber).ToList();
+            //var lumberProducts = DatabaseCommandDirectory.Instance.GetAllLumberProducts();
+
+            //foreach (var productFamily in rootLumberProductFamilies.OrderBy(f => f.SortOrder))
+            //{
+            //    var family = productFamily;
+            //    var category = new LumberCategory
+            //    {
+            //        Id = productFamily.Id,
+            //        Name = productFamily.Name,
+            //        ProductSubCategories = new List<ILumberSubCategory>()
+            //    };
+            //    foreach (var lumberSubFamily in lumberFamilies.Where(f => f.ParentId == family.Id).OrderBy(f => f.SortOrder))
+            //    {
+            //        var subCategory = new LumberSubCategory
+            //        {
+            //            Id = lumberSubFamily.Id,
+            //            Category = category,
+            //            Name = lumberSubFamily.Name,
+            //            ThicknessInMillimeters = lumberSubFamily.Thickness,
+            //            WidthInMillimeters = lumberSubFamily.Width,
+            //            ProductTypes = new List<ILumberProductType>()
+            //        };
+            //        var subFamily = lumberSubFamily;
+            //        foreach (var pt in productFamilies.Where(f => f.ParentId == subFamily.Id).OrderBy(f => f.SortOrder))
+            //        {
+            //            var productType = pt;
+            //            var type = new LumberProductType
+            //            {
+            //                Id = productType.Id,
+            //                Name = productType.Name,
+            //                SubCategory = subCategory,
+            //                Products = new List<ILumberProduct>()
+            //            };
+            //            subCategory.ProductTypes.Add(type);
+            //            //foreach (var lumberProduct in lumberProducts.Where(p => p.ProductFamilyId == productType.Id).OrderBy(l => l.Length))
+            //            //{
+            //            //    type.Products.Add(new LumberProduct
+            //            //    {
+            //            //        Id = lumberProduct.Id,
+            //            //        ProductType = type,
+            //            //        LengthInMillmeters = lumberProduct.Length
+            //            //    });
+            //            //}
+            //        }
+            //        category.ProductSubCategories.Add(subCategory);
+            //    }
+            //    Result.Add(category);
+            //}
         }
     }
 }

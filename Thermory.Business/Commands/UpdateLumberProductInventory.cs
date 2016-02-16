@@ -9,9 +9,9 @@ namespace Thermory.Business.Commands
 {
     internal class UpdateLumberProductInventory : ICommand
     {
-        private readonly IList<IProductCategory<ILumberSubCategory>> _lumberCategories;
+        private readonly IList<ILumberCategory> _lumberCategories;
 
-        public UpdateLumberProductInventory(IList<IProductCategory<ILumberSubCategory>> lumberCategories)
+        public UpdateLumberProductInventory(IList<ILumberCategory> lumberCategories)
         {
             _lumberCategories = lumberCategories;
         }
@@ -21,15 +21,15 @@ namespace Thermory.Business.Commands
             var inventory = DatabaseCommandDirectory.Instance.GetAllLumberProductInventories();
             foreach (var category in _lumberCategories)
             {
-                foreach (var subcategory in category.ProductSubCategories)
+                foreach (var subcategory in category.LumberSubCategories)
                 {
-                    foreach (var productType in subcategory.ProductTypes)
+                    foreach (var productType in subcategory.LumberTypes)
                     {
-                        foreach (var product in productType.Products)
+                        foreach (var product in productType.LumberProducts)
                         {
                             var productInventory = inventory.SingleOrDefault(i => i.Id == product.Id);
                             if (productInventory == null) continue;
-                            product.Inventory = new LumberInventory{Product = product, Quantity = productInventory.Quantity};
+                            //product.Inventory = new LumberInventory{Product = product, Quantity = productInventory.Quantity};
                         }
                     }
                 }

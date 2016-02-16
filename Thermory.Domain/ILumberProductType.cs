@@ -1,6 +1,6 @@
 ﻿namespace Thermory.Domain
 {
-    public interface ILumberProductType : IProductType<ILumberSubCategory, ILumberProductType, ILumberInventory, ILumberProduct>
+    public interface ILumberProductType //: IProductType<ILumberSubCategory, ILumberProductType, ILumberInventory, ILumberProduct>
     {
         int TotalPieces { get; }
 

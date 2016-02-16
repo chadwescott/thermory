@@ -44,10 +44,12 @@
     <Compile Include="Commands\UpdateLumberProductInventory.cs" />
     <Compile Include="Commands\GetAllLumberProducts.cs" />
     <Compile Include="LengthConverter.cs" />
+    <Compile Include="Models\LumberCategory.cs" />
     <Compile Include="Models\LumberInventory.cs" />
     <Compile Include="Models\LumberProduct.cs" />
     <Compile Include="Models\LumberProductType.cs" />
     <Compile Include="Models\LumberSubCategory.cs" />
+    <Compile Include="Models\LumberType.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductCategory.cs" />
     <Compile Include="Models\ProductInventory.cs" />

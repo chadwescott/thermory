@@ -1,12 +1,12 @@
 ﻿@model Thermory.Web.Models.InventoryWorksheet
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var firstCategoryId = Model.LumberProductCategories.First().Id;
+    var firstCategoryId = Model.LumberCategories.First().Id;
 }
 
 <ul class="nav nav-tabs" data-tabs="tabs">
     @{
-        foreach (var category in Model.LumberProductCategories)
+        foreach (var category in Model.LumberCategories)
         {
             var active = category.Id == firstCategoryId ? "class=active" : "";
             <li @active><a href="#@category.Id" data-toggle="tab">@category.Name</a></li>
@@ -15,7 +15,7 @@
 </ul>
 <div class="tab-content">
     @{
-        foreach (var category in Model.LumberProductCategories)
+        foreach (var category in Model.LumberCategories)
         {
             var active = category.Id == firstCategoryId ? "active" : "";
             <div id="@category.Id" class="tab-pane @active">

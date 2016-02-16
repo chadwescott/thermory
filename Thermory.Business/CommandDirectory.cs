@@ -9,7 +9,7 @@ namespace Thermory.Business
     public class CommandDirectory
     {
         private static CommandDirectory _instance;
-        private static IList<IProductCategory<ILumberSubCategory>> _lumberCategories;
+        private static IList<ILumberCategory> _lumberCategories;
         private readonly object _categoryLock = new object();
 
         public static CommandDirectory Instance
@@ -33,15 +33,15 @@ namespace Thermory.Business
             return DatabaseCommandDirectory.Instance.GetAllProductFamilies();
         }
 
-        public IList<IProductCategory<ILumberSubCategory>> GetAllLumberProducts()
+        public IList<ILumberCategory> GetAllLumberProducts()
         {
             return _lumberCategories;
         }
 
-        public IList<IProductCategory<ILumberSubCategory>> GetAllLumberProductsWithInventory()
+        public IList<ILumberCategory> GetAllLumberProductsWithInventory()
         {
-            var command = new UpdateLumberProductInventory(_lumberCategories);
-            command.Execute();
+            //var command = new UpdateLumberProductInventory(_lumberCategories);
+            //command.Execute();
             return _lumberCategories;
         }
 
