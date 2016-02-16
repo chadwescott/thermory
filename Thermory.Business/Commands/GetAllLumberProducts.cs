@@ -4,87 +4,67 @@ using Thermory.Business.Models;
 using Thermory.Data;
 using Thermory.Data.Commands;
 using Thermory.Domain;
-using ProductType = Thermory.Domain.ProductType;
 
 namespace Thermory.Business.Commands
 {
     internal class GetAllLumberProducts : IGetCommand<IList<ILumberCategory>>
     {
-        public IList<ILumberCategory> Result { get; private set; }
+        public IList<ILumberCategory> Result { get; set; }
 
         public void Execute()
         {
-            var dbLumberCategories = DatabaseCommandDirectory.Instance.GetAllLumberCategories();
-            Result = dbLumberCategories.Select(c => new LumberCategory
+            Result = new List<ILumberCategory>();
+            var dbLumberCategories = DatabaseCommandDirectory.Instance.GetAllLumberCategories().OrderBy(c => c.SortOrder);
+            foreach (var dbLumberCategory in dbLumberCategories)
             {
-                Id = c.Id,
-                Name = c.Name,
-                LumberSubCategories = c.LumberSubCategories.Select(sc => new LumberSubCategory
+                var lumberCategory = new LumberCategory
                 {
-                    Id = sc.Id,
-                    Name = sc.Name,
-                    ThicknessInMillimeters = sc.Thickness,
-                    WidthInMillimeters = sc.Width,
-                    LumberTypes = sc.LumberTypes.Select(lt => new LumberType
+                    Id = dbLumberCategory.Id,
+                    Name = dbLumberCategory.Name
+                };
+
+                var subCategories = new List<ILumberSubCategory>();
+                foreach (var dbLumberSubCategory in dbLumberCategory.LumberSubCategories.OrderBy(sc => sc.SortOrder))
+                {
+                    var subCategory = new LumberSubCategory
                     {
-                        Id = lt.Id,
-                        Name = lt.Name,
-                        SortOrder = lt.SortOrder
-                    }).ToList<ILumberType>()
-                }).ToList<ILumberSubCategory>()
-            }).ToList<ILumberCategory>();
+                        Id = dbLumberSubCategory.Id,
+                        Name = dbLumberSubCategory.Name,
+                        ThicknessInMillimeters = dbLumberSubCategory.Thickness,
+                        WidthInMillimeters = dbLumberSubCategory.Width,
+                        LumberCategory = lumberCategory
+                    };
 
-            //var productFamilies = DatabaseCommandDirectory.Instance.GetAllProductFamilies();
-            //var lumberFamilies = DatabaseCommandDirectory.Instance.GetAllLumberFamilies();
-            //var rootLumberProductFamilies = productFamilies.Where(f => f.ParentId == null && f.ProductType == ProductType.Lumber).ToList();
-            //var lumberProducts = DatabaseCommandDirectory.Instance.GetAllLumberProducts();
+                    var lumberTypes = new List<ILumberType>();
+                    foreach (var dbLumberType in dbLumberSubCategory.LumberTypes.OrderBy(lt => lt.SortOrder))
+                    {
+                        var lumberType = new LumberType
+                        {
+                            Id = dbLumberType.Id,
+                            Name = dbLumberType.Name,
+                            SortOrder = dbLumberType.SortOrder,
+                            LumberSubCategory = subCategory
+                        };
 
-            //foreach (var productFamily in rootLumberProductFamilies.OrderBy(f => f.SortOrder))
-            //{
-            //    var family = productFamily;
-            //    var category = new LumberCategory
-            //    {
-            //        Id = productFamily.Id,
-            //        Name = productFamily.Name,
-            //        ProductSubCategories = new List<ILumberSubCategory>()
-            //    };
-            //    foreach (var lumberSubFamily in lumberFamilies.Where(f => f.ParentId == family.Id).OrderBy(f => f.SortOrder))
-            //    {
-            //        var subCategory = new LumberSubCategory
-            //        {
-            //            Id = lumberSubFamily.Id,
-            //            Category = category,
-            //            Name = lumberSubFamily.Name,
-            //            ThicknessInMillimeters = lumberSubFamily.Thickness,
-            //            WidthInMillimeters = lumberSubFamily.Width,
-            //            ProductTypes = new List<ILumberProductType>()
-            //        };
-            //        var subFamily = lumberSubFamily;
-            //        foreach (var pt in productFamilies.Where(f => f.ParentId == subFamily.Id).OrderBy(f => f.SortOrder))
-            //        {
-            //            var productType = pt;
-            //            var type = new LumberProductType
-            //            {
-            //                Id = productType.Id,
-            //                Name = productType.Name,
-            //                SubCategory = subCategory,
-            //                Products = new List<ILumberProduct>()
-            //            };
-            //            subCategory.ProductTypes.Add(type);
-            //            //foreach (var lumberProduct in lumberProducts.Where(p => p.ProductFamilyId == productType.Id).OrderBy(l => l.Length))
-            //            //{
-            //            //    type.Products.Add(new LumberProduct
-            //            //    {
-            //            //        Id = lumberProduct.Id,
-            //            //        ProductType = type,
-            //            //        LengthInMillmeters = lumberProduct.Length
-            //            //    });
-            //            //}
-            //        }
-            //        category.ProductSubCategories.Add(subCategory);
-            //    }
-            //    Result.Add(category);
-            //}
+                        var lumberProducts = dbLumberType.LumberProducts.OrderBy(lp => lp.Length).Select(lp => new LumberProduct
+                        {
+                            Id = lp.Id,
+                            LengthInMillmeters = lp.Length,
+                            Quantity = lp.Quantity,
+                            LumberType = lumberType
+                        }).Cast<ILumberProduct>().ToList();
+
+                        lumberType.LumberProducts = lumberProducts;
+                        lumberTypes.Add(lumberType);
+                    }
+
+                    subCategory.LumberTypes = lumberTypes;
+                    subCategories.Add(subCategory);
+                }
+                
+                lumberCategory.LumberSubCategories = subCategories;
+                Result.Add(lumberCategory);
+            }
         }
     }
 }

@@ -12,6 +12,6 @@ namespace Thermory.Data.Models
 
         int Length { get; }
 
-        IDbProductInventory Inventory { get; }
+        int Quantity { get; }
     }
 }

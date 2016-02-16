@@ -6,10 +6,18 @@ namespace Thermory.Domain
     {
         Guid Id { get; }
 
-        ILumberInventory Inventory { get; }
+        int Quantity { get; set; }
 
         int LengthInMillmeters { get; }
 
         double LengthInInches { get; }
+
+        double TallyPercentage { get; }
+
+        double LinearFeet { get; }
+
+        double SquareFeet { get; }
+
+        ILumberType LumberType { get; }
     }
 }

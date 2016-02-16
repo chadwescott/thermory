@@ -47,12 +47,6 @@
     <Compile Include="ILumberSubCategory.cs" />
     <Compile Include="ILumberType.cs" />
     <Compile Include="IMiscellaneousProduct.cs" />
-    <Compile Include="IProduct.cs" />
-    <Compile Include="IProductCategory.cs" />
-    <Compile Include="IInventory.cs" />
-    <Compile Include="IProductSubCategory.cs" />
-    <Compile Include="IProductType.cs" />
-    <Compile Include="ProductType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

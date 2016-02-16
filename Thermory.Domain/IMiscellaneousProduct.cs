@@ -1,6 +1,6 @@
 ﻿namespace Thermory.Domain
 {
-    public interface IMiscellaneousProduct : IProductCategory<IProductSubCategory>
+    public interface IMiscellaneousProduct
     {
     }
 }

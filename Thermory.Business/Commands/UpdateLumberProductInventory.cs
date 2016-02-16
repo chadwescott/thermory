@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Thermory.Business.Models;
 using Thermory.Data;
 using Thermory.Data.Commands;
 using Thermory.Domain;
@@ -18,18 +17,20 @@ namespace Thermory.Business.Commands
 
         public void Execute()
         {
-            var inventory = DatabaseCommandDirectory.Instance.GetAllLumberProductInventories();
+            var inventory = DatabaseCommandDirectory.Instance.GetAllLumberProducts();
             foreach (var category in _lumberCategories)
             {
                 foreach (var subcategory in category.LumberSubCategories)
                 {
-                    foreach (var productType in subcategory.LumberTypes)
+                    foreach (var lumberType in subcategory.LumberTypes)
                     {
-                        foreach (var product in productType.LumberProducts)
+                        foreach (var lumberProduct in lumberType.LumberProducts)
                         {
-                            var productInventory = inventory.SingleOrDefault(i => i.Id == product.Id);
-                            if (productInventory == null) continue;
-                            //product.Inventory = new LumberInventory{Product = product, Quantity = productInventory.Quantity};
+                            var lumberInventory =
+                                inventory.SingleOrDefault(
+                                    i => i.Id == lumberProduct.Id && i.Quantity != lumberProduct.Quantity);
+                            if (lumberInventory == null) continue;
+                            lumberProduct.Quantity = lumberInventory.Quantity;
                         }
                     }
                 }

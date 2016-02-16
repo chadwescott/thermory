@@ -7,6 +7,6 @@ namespace Thermory.Web.Models
     {
         public IList<ILumberCategory> LumberCategories { get; set; }
 
-        public IList<IProductCategory<IProductSubCategory>> MiscellaneousCategories { get; set; }
+        //public IList<IProductCategory<IProductSubCategory>> MiscellaneousCategories { get; set; }
     }
 }

@@ -8,7 +8,7 @@ namespace Thermory.Data.Commands
     {
         protected override void OnExecute(ThermoryContext context)
         {
-            Result = context.Products.OfType<LumberProduct>().ToList<IDbLumberProduct>();
+            Result = context.LumberProducts.ToList<IDbLumberProduct>();
         }
     }
 }

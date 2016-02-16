@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9C3FB3CE-F671-496B-BD2D-9423D306DDD9}</ProjectGuid>
+    <ProjectGuid>{3849A068-5402-4CC2-85C7-8FA231A16C0B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Thermory.Data.Test</RootNamespace>
-    <AssemblyName>Thermory.Data.Test</AssemblyName>
+    <RootNamespace>Thermory.Business.Test</RootNamespace>
+    <AssemblyName>Thermory.Business.Test</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -59,9 +59,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Commands\GetAllLumberCategoriesTest.cs" />
     <Compile Include="Commands\GetAllLumberProductsTest.cs" />
-    <Compile Include="Commands\GetAllMiscellaneousProductsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -69,12 +67,16 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Thermory.Business\Thermory.Business.csproj">
+      <Project>{4936C7D0-9E2D-459E-92E8-00DAAC92FFEA}</Project>
+      <Name>Thermory.Business</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Thermory.Data\Thermory.Data.csproj">
       <Project>{3371B31B-A203-4EF8-90DD-4273C188CD6D}</Project>
       <Name>Thermory.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\Thermory.Domain\Thermory.Domain.csproj">
-      <Project>{A0CA1653-72EA-4E16-AFF9-2A0910D79657}</Project>
+      <Project>{a0ca1653-72ea-4e16-aff9-2a0910d79657}</Project>
       <Name>Thermory.Domain</Name>
     </ProjectReference>
   </ItemGroup>

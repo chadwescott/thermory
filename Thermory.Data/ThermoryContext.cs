@@ -17,10 +17,6 @@ namespace Thermory.Data
             Database.CommandTimeout = Math.Max(Database.Connection.ConnectionTimeout, minCommandTimeout);
         }
 
-        public DbSet<ProductInventory> ProductInventories { get; set; }
-
-        public DbSet<Product> Products { get; set; }
-
         public DbSet<MiscellaneousProduct> MiscellaneousProducts { get; set; }
 
         public DbSet<LumberProduct> LumberProducts { get; set; }
@@ -30,14 +26,5 @@ namespace Thermory.Data
         public DbSet<LumberSubCategory> LumberSubCategories { get; set; }
 
         public DbSet<LumberType> LumberTypes { get; set; }
-
-
-            
-        // TODO: DELETE THESE
-        public DbSet<ProductFamily> ProductFamilies { get; set; }
-
-        public DbSet<LumberFamily> LumberFamilies { get; set; }
-
-        public DbSet<ProductType> ProductTypes { get; set; }
     }
 }

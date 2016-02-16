@@ -1,8 +1,10 @@
-﻿namespace Thermory.Domain
+﻿using System;
+
+namespace Thermory.Domain
 {
     public interface ILumberInventory
     {
-        ILumberProduct Lumber { get; }
+        Guid LumberProductId { get; }
 
         int Quantity { get; set; }
 

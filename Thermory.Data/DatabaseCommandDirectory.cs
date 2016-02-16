@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Thermory.Data.Commands;
 using Thermory.Data.Models;
 using Thermory.Domain;
@@ -17,30 +18,9 @@ namespace Thermory.Data
         private DatabaseCommandDirectory()
         { }
 
-        public IList<IDbProductFamily> GetAllProductFamilies()
-        {
-            var command = new GetAllProductFamilies();
-            command.Execute();
-            return command.Result;
-        }
-
         public IList<IDbLumberCategory> GetAllLumberCategories()
         {
             var command = new GetAllLumberCategories();
-            command.Execute();
-            return command.Result;
-        }
-
-        public IList<IDbProductInventory> GetAllLumberProductInventories()
-        {
-            var command = new GetAllLumberProductInventories();
-            command.Execute();
-            return command.Result;
-        }
-
-        public IList<IDbLumberFamily> GetAllLumberFamilies()
-        {
-            var command = new GetAllLumberFamilies();
             command.Execute();
             return command.Result;
         }
@@ -59,10 +39,10 @@ namespace Thermory.Data
             return command.Result;
         }
 
-        public void UpdateProductInventory<T>(IInventory<T>[] inventory) where T : IProduct
+        public void UpdateLumberProductInventory(ILumberProduct[] lumberProducts)
         {
-            var command = new UpdateProductInventory<T>(inventory);
-            var transaction = new TransactionalCommand(new[] { command });
+            var updateCommands = lumberProducts.Select(lp => new UpdateLumberProductInventory(lp)).ToArray();
+            var transaction = new TransactionalCommand(updateCommands);
             transaction.Execute();
         }
     }

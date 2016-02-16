@@ -13,6 +13,16 @@ namespace Thermory.Domain
 
         int SortOrder { get; }
 
+        int TotalPieces { get; }
+
+        double TotalLinearFeet { get; }
+
+        double TotalSquareFeet { get; }
+
+        int[] LumberLengthsMillimeters { get; }
+
+        double[] LumberLengthsFeet { get; }
+
         IList<ILumberProduct> LumberProducts { get; }
     }
 }

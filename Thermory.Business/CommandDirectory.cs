@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Thermory.Business.Commands;
 using Thermory.Data;
-using Thermory.Data.Models;
 using Thermory.Domain;
 
 namespace Thermory.Business
@@ -28,33 +27,16 @@ namespace Thermory.Business
             }
         }
 
-        public IList<IDbProductFamily> GetAllProductFamilies()
-        {
-            return DatabaseCommandDirectory.Instance.GetAllProductFamilies();
-        }
-
         public IList<ILumberCategory> GetAllLumberProducts()
         {
+            var command = new UpdateLumberProductInventory(_lumberCategories);
+            command.Execute();
             return _lumberCategories;
         }
 
-        public IList<ILumberCategory> GetAllLumberProductsWithInventory()
+        public void UpdateLumberProductInventory(ILumberProduct[] lumberProducts)
         {
-            //var command = new UpdateLumberProductInventory(_lumberCategories);
-            //command.Execute();
-            return _lumberCategories;
-        }
-
-        //public IList<IProductCategory<IProductSubCategory>> GetAllMiscellaneousProductsWithInventory()
-        //{
-        //    var command = new GetAllMiscellaneousProducts();
-        //    command.Execute();
-        //    return _lumberCategories;
-        //}
-
-        public void UpdateProductInventory<T>(IInventory<T>[] inventory) where T : IProduct
-        {
-            DatabaseCommandDirectory.Instance.UpdateProductInventory(inventory);
+            DatabaseCommandDirectory.Instance.UpdateLumberProductInventory(lumberProducts);
         }
     }
 }

@@ -1,9 +1,15 @@
-﻿namespace Thermory.Data.Models
+﻿using System;
+
+namespace Thermory.Data.Models
 {
-    public interface IDbMiscellaneousProduct : IDbProduct
+    public interface IDbMiscellaneousProduct
     {
+        Guid Id { get; }
+
         string Name { get; }
 
         string Description { get; }
+
+        int Quantity { get; }
     }
 }
