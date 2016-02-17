@@ -7,9 +7,9 @@ using Thermory.Domain;
 
 namespace Thermory.Business.Commands
 {
-    internal class GetAllLumberProducts : IGetCommand<IList<ILumberCategory>>
+    internal class GetAllLumberCategories : IGetCommand<IList<ILumberCategory>>
     {
-        public IList<ILumberCategory> Result { get; set; }
+        public IList<ILumberCategory> Result { get; private set; }
 
         public void Execute()
         {

@@ -10,7 +10,7 @@ namespace Thermory.Web.Controllers
         {
             var model = new InventoryWorksheet
             {
-                LumberCategories = CommandDirectory.Instance.GetAllLumberProducts(),
+                LumberCategories = CommandDirectory.Instance.GetAllLumberCategories(),
                 //MiscellaneousCategories = CommandDirectory.Instance.GetAllMiscellaneousProductsWithInventory()
             };
             return View(model);

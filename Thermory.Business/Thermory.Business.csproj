@@ -40,15 +40,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandDirectory.cs" />
-    <Compile Include="Commands\GetAllMiscellaneousProducts.cs" />
-    <Compile Include="Commands\UpdateLumberProductInventory.cs" />
-    <Compile Include="Commands\GetAllLumberProducts.cs" />
+    <Compile Include="Commands\GetAllMiscellaneousCategories.cs" />
+    <Compile Include="Commands\RefreshLumberProductQuantities.cs" />
+    <Compile Include="Commands\GetAllLumberCategories.cs" />
+    <Compile Include="Commands\RefreshMiscellaneousProductQuantities.cs" />
     <Compile Include="LengthConverter.cs" />
     <Compile Include="Models\LumberCategory.cs" />
     <Compile Include="Models\LumberProduct.cs" />
     <Compile Include="Models\LumberProductType.cs" />
     <Compile Include="Models\LumberSubCategory.cs" />
     <Compile Include="Models\LumberType.cs" />
+    <Compile Include="Models\MiscellaneousCategory.cs" />
+    <Compile Include="Models\MiscellaneousProduct.cs" />
+    <Compile Include="Models\MiscellaneousSubCategory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

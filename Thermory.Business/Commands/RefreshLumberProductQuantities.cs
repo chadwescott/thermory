@@ -6,11 +6,11 @@ using Thermory.Domain;
 
 namespace Thermory.Business.Commands
 {
-    internal class UpdateLumberProductInventory : ICommand
+    internal class RefreshLumberProductQuantities : ICommand
     {
         private readonly IList<ILumberCategory> _lumberCategories;
 
-        public UpdateLumberProductInventory(IList<ILumberCategory> lumberCategories)
+        public RefreshLumberProductQuantities(IList<ILumberCategory> lumberCategories)
         {
             _lumberCategories = lumberCategories;
         }

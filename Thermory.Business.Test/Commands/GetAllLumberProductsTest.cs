@@ -9,7 +9,7 @@ namespace Thermory.Business.Test.Commands
         [TestMethod]
         public void ExecuteTest()
         {
-            var command = new GetAllLumberProducts();
+            var command = new GetAllLumberCategories();
             command.Execute();
             Assert.IsNotNull(command.Result);
         }

@@ -14,6 +14,8 @@ namespace Thermory.Data.Models
 
         string Description { get; }
 
+        int SortOrder { get; }
+
         int Quantity { get; }
     }
 }

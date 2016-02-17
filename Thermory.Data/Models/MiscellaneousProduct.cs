@@ -23,6 +23,8 @@ namespace Thermory.Data.Models
 
         public string Description { get; set; }
 
+        public int SortOrder { get; set; }
+
         public int Quantity { get; set; }
     }
 }
