@@ -33,11 +33,13 @@ namespace Thermory.Business.Commands
                         MiscellaneousCategory = miscellaneousCategory
                     };
 
-                    var miscellaneousProducts = dbMiscellaneousSubCategory.MiscellaneousProducts.OrderBy(mp => mp.SortOrder).Select(lp => new MiscellaneousProduct
+                    var miscellaneousProducts = dbMiscellaneousSubCategory.MiscellaneousProducts.OrderBy(p => p.SortOrder).Select(p => new MiscellaneousProduct
                     {
-                        Id = lp.Id,
-                        SortOrder = lp.SortOrder,
-                        Quantity = lp.Quantity,
+                        Id = p.Id,
+                        Name = p.Name,
+                        Description = p.Description,
+                        SortOrder = p.SortOrder,
+                        Quantity = p.Quantity,
                         MiscellaneousSubCategory = subCategory
                     }).Cast<IMiscellaneousProduct>().ToList();
 
