@@ -11,7 +11,11 @@
             var active = category.Id == firstCategoryId ? "class=active" : "";
             <li @active><a href="#@category.Id" data-toggle="tab">@category.Name</a></li>
         }
-    }
+        foreach (var category in Model.MiscellaneousCategories)
+        {
+            <li><a href="#@category.Id" data-toggle="tab">@category.Name</a></li>
+        }
+}
 </ul>
 <div class="tab-content">
     @{
@@ -22,5 +26,11 @@
                 @Html.Partial("_LumberSummary", category)
             </div>
         }
-    }
+        foreach (var category in Model.MiscellaneousCategories)
+        {
+            <div id="@category.Id" class="tab-pane">
+                @Html.Partial("_MiscSummary", category)
+            </div>
+        }
+}
 </div>

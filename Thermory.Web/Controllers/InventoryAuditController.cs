@@ -1,6 +1,5 @@
 ﻿using System.Web.Mvc;
 using Thermory.Business;
-using Thermory.Domain;
 using Thermory.Web.Models;
 
 namespace Thermory.Web.Controllers
@@ -11,7 +10,8 @@ namespace Thermory.Web.Controllers
         {
             var model = new InventoryWorksheet
             {
-                LumberCategories = CommandDirectory.Instance.GetAllLumberCategories()
+                LumberCategories = CommandDirectory.Instance.GetAllLumberCategories(),
+                MiscellaneousCategories = CommandDirectory.Instance.GetAllMiscellaneousCategories()
             };
             return View(model);
         }

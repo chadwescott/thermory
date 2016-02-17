@@ -11,7 +11,7 @@ namespace Thermory.Web.Controllers
             var model = new InventoryWorksheet
             {
                 LumberCategories = CommandDirectory.Instance.GetAllLumberCategories(),
-                //MiscellaneousCategories = CommandDirectory.Instance.GetAllMiscellaneousProductsWithInventory()
+                MiscellaneousCategories = CommandDirectory.Instance.GetAllMiscellaneousCategories()
             };
             return View(model);
         }

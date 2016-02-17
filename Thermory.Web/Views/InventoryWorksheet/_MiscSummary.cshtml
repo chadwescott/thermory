@@ -1,1 +1,73 @@
-﻿
+﻿@using WebGrease.Css.Extensions
+@model Thermory.Domain.IMiscellaneousCategory
+
+@foreach (var subCategory in Model.MiscellaneousSubCategories)
+{
+    @*<table class="table table-condensed inventory">
+        <tr class="metricHeading">
+            <td class="subCategoryUnit">mm</td>
+            <td class="subCategoryDimensions">@subCategory.ThicknessInMillimeters x @subCategory.WidthInMillimeters</td>
+            @foreach (var length in millimeterLengths)
+            {
+                <td class="subCategoryCellPadding subCategoryLength">@length</td>
+            }
+            <td colspan="2"></td>
+        </tr>
+        <tr class="englishHeading">
+            <td colspan="2"><div class="headingWidth"><strong title="@subCategory.Name">@subCategory.Name</strong></div></td>
+            @foreach (var length in feetLengths)
+            {
+                <td class="subCategoryCellPadding subCategoryLength">@length</td>
+            }
+            <td>Total LF</td>
+            <td class="subCategoryCellPadding">Total SF</td>
+        </tr>
+        @foreach (var miscellaneousType in subCategory.MiscellaneousTypes)
+        {
+            @Html.Raw(blankRow)
+            <tr>
+                <td colspan="2" class="productType productTypeHeading"><div class="headingWidth" title="@miscellaneousType.Name">@miscellaneousType.Name</div></td>
+                @foreach (var length in millimeterLengths)
+                {
+                    var miscellaneousForLength = miscellaneousType.MiscellaneousProducts.SingleOrDefault(p => p.LengthInMillmeters == length);
+                    var quantity = @miscellaneousForLength == null ? 0 : miscellaneousForLength.Quantity;
+                    <td class="productType subCategoryCellPadding subCategoryLength">@quantity</td>
+                }
+                <td rowspan="2" class="totalLinearFeet">@miscellaneousType.TotalLinearFeet</td>
+                <td rowspan="2" class="totalSquareFeet">@miscellaneousType.TotalSquareFeet</td>
+            </tr>
+            <tr>
+                <td colspan="2" class="productType productTypeStatistic">Tally %</td>
+                @foreach (var length in millimeterLengths)
+                {
+                    var miscellaneousForLength = miscellaneousType.MiscellaneousProducts.SingleOrDefault(p => p.LengthInMillmeters == length);
+                    var tally = @miscellaneousForLength == null ? 0 : miscellaneousForLength.TallyPercentage;
+                    <td class="productType subCategoryCellPadding subCategoryLength productTypeTally">@tally%</td>
+                }
+            </tr>
+            @Html.Raw(blankRow)
+            <tr>
+                <td colspan="2" class="productType productTypeStatistic">LF / Length</td>
+                @foreach (var length in millimeterLengths)
+                {
+                    var miscellaneousForLength = miscellaneousType.MiscellaneousProducts.SingleOrDefault(p => p.LengthInMillmeters == length);
+                    var linearFeet = miscellaneousForLength == null ? 0 : miscellaneousForLength.LinearFeet;
+                    <td class="subCategoryCellPadding subCategoryLength">@linearFeet</td>
+                }
+                <td class="totalPieceHeading">Total PCS</td>
+                <td>@miscellaneousType.TotalPieces</td>
+            </tr>
+            <tr>
+                <td colspan="2" class="productType productTypeStatistic">SF / Length</td>
+                @foreach (var length in millimeterLengths)
+                {
+                    var miscellaneousForLength = miscellaneousType.MiscellaneousProducts.SingleOrDefault(p => p.LengthInMillmeters == length);
+                    var squareFeet = miscellaneousForLength == null ? 0 : miscellaneousForLength.SquareFeet;
+                    <td class="productType subCategoryCellPadding subCategoryLength">@squareFeet</td>
+                }
+                <td colspan="2">&nbsp;</td>
+            </tr>
+        }
+    </table>*@
+    <br />
+}
