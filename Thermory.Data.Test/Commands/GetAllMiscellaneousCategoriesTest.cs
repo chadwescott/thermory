@@ -4,15 +4,15 @@ using Thermory.Data.Commands;
 namespace Thermory.Data.Test.Commands
 {
     [TestClass]
-    public class GetAllMiscellaneousProductsTest
+    public class GetAllMiscellaneousCategoriesTest
     {
         [TestMethod]
         public void ExecuteTest()
         {
-            var command = new GetAllMiscellaneousProducts();
+            var command = new GetAllMiscellaneousCategories();
             command.Execute();
             var actual = command.Result;
-            Assert.AreEqual(10, actual.Count);
+            Assert.AreEqual(1, actual.Count);
         }
     }
 }

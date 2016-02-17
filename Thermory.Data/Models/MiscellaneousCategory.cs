@@ -6,8 +6,8 @@ using System.Linq;
 
 namespace Thermory.Data.Models
 {
-    [Table("LumberCategory")]
-    internal class LumberCategory : IDbLumberCategory
+    [Table("MiscellaneousCategory")]
+    internal class MiscellaneousCategory : IDbMiscellaneousCategory
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -17,13 +17,13 @@ namespace Thermory.Data.Models
 
         public int SortOrder { get; set; }
 
-        [ForeignKey("LumberCategoryId")]
-        public List<LumberSubCategory> DbLumberSubCategories { get; set; }
+        [ForeignKey("MiscellaneousCategoryId")]
+        public List<MiscellaneousSubCategory> DbMiscellaneousSubCategories { get; set; }
 
         [NotMapped]
-        public IList<IDbLumberSubCategory> LumberSubCategories
+        public IList<IDbMiscellaneousSubCategory> MiscellaneousSubCategories
         {
-            get { return DbLumberSubCategories.ToList<IDbLumberSubCategory>(); }
+            get { return DbMiscellaneousSubCategories.ToList<IDbMiscellaneousSubCategory>(); }
         }
     }
 }

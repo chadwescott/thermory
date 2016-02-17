@@ -6,6 +6,10 @@ namespace Thermory.Data.Models
     {
         Guid Id { get; }
 
+        Guid MiscellaneousSubCategoryId { get; }
+
+        IDbMiscellaneousSubCategory MiscellaneousSubCategory { get; }
+
         string Name { get; }
 
         string Description { get; }

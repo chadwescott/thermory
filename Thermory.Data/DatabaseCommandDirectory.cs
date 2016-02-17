@@ -32,6 +32,13 @@ namespace Thermory.Data
             return command.Result;
         }
 
+        public IList<IDbMiscellaneousCategory> GetAllMiscellaneousCategories()
+        {
+            var command = new GetAllMiscellaneousCategories();
+            command.Execute();
+            return command.Result;
+        }
+
         public IList<IDbMiscellaneousProduct> GetAllMiscellaneousProducts()
         {
             var command = new GetAllMiscellaneousProducts();

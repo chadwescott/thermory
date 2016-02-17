@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="Commands\GetAllLumberCategoriesTest.cs" />
     <Compile Include="Commands\GetAllLumberProductsTest.cs" />
+    <Compile Include="Commands\GetAllMiscellaneousCategoriesTest.cs" />
     <Compile Include="Commands\GetAllMiscellaneousProductsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

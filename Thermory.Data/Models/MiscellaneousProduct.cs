@@ -11,6 +11,14 @@ namespace Thermory.Data.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
+        public Guid MiscellaneousSubCategoryId { get; set; }
+
+        [ForeignKey("MiscellaneousSubCategoryId")]
+        public MiscellaneousSubCategory DbMiscellaneousSubCategory { get; set; }
+
+        [NotMapped]
+        public IDbMiscellaneousSubCategory MiscellaneousSubCategory { get { return DbMiscellaneousSubCategory; } }
+
         public string Name { get; set; }
 
         public string Description { get; set; }

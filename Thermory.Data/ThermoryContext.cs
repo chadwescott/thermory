@@ -17,6 +17,10 @@ namespace Thermory.Data
             Database.CommandTimeout = Math.Max(Database.Connection.ConnectionTimeout, minCommandTimeout);
         }
 
+        public DbSet<MiscellaneousCategory> MiscellaneousCategories { get; set; }
+
+        public DbSet<MiscellaneousSubCategory> MiscellaneousSubCategories { get; set; }
+
         public DbSet<MiscellaneousProduct> MiscellaneousProducts { get; set; }
 
         public DbSet<LumberProduct> LumberProducts { get; set; }

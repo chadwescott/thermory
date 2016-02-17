@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
@@ -8,6 +9,8 @@ namespace Thermory.Data.Models
     [Table("LumberSubCategory")]
     internal class LumberSubCategory : IDbLumberSubCategory
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
         public Guid LumberCategoryId { get; set; }
