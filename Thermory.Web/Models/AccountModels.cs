@@ -69,8 +69,20 @@ namespace Thermory.Web.Models
     public class RegisterModel
     {
         [Required]
-        [Display(Name = "User name")]
+        [MaxLength(100, ErrorMessage = "Email address must be less than 100 characters long.")]
+        [EmailAddress(ErrorMessage = "Invalid email address format.")]
+        [Display(Name = "Email Address")]
         public string UserName { get; set; }
+
+        [Required]
+        [MaxLength(50, ErrorMessage = "First name must be less than 50 characters long.")]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Last Name")]
+        [MaxLength(50, ErrorMessage = "Last name must be less than 50 characters long.")]
+        public string LastName { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]

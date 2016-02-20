@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Transactions;
 using System.Web.Mvc;
@@ -76,7 +77,12 @@ namespace Thermory.Web.Controllers
                 // Attempt to register the user
                 try
                 {
-                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
+                    var userProperties = new 
+                    {
+                        FirstName = model.FirstName.Trim(),
+                        LastName = model.LastName.Trim()
+                    };
+                    WebSecurity.CreateUserAndAccount(model.UserName.Trim(), model.Password, userProperties);
                     WebSecurity.Login(model.UserName, model.Password);
                     return RedirectToAction("Index", "Home");
                 }
@@ -300,11 +306,13 @@ namespace Thermory.Web.Controllers
         {
             var accounts = OAuthWebSecurity.GetAccountsFromUserName(User.Identity.Name);
             var externalLogins = (from account in accounts
-                let clientData = OAuthWebSecurity.GetOAuthClientData(account.Provider)
-                select new ExternalLogin
-                {
-                    Provider = account.Provider, ProviderDisplayName = clientData.DisplayName, ProviderUserId = account.ProviderUserId,
-                }).ToList();
+                                  let clientData = OAuthWebSecurity.GetOAuthClientData(account.Provider)
+                                  select new ExternalLogin
+                                  {
+                                      Provider = account.Provider,
+                                      ProviderDisplayName = clientData.DisplayName,
+                                      ProviderUserId = account.ProviderUserId,
+                                  }).ToList();
 
             ViewBag.ShowRemoveButton = externalLogins.Count > 1 || OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
             return PartialView("_RemoveExternalLoginsPartial", externalLogins);
