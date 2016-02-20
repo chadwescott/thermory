@@ -21,6 +21,8 @@ namespace Thermory.Web.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int UserId { get; set; }
         public string UserName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 
     public class RegisterExternalLoginModel
@@ -54,7 +56,7 @@ namespace Thermory.Web.Models
     public class LoginModel
     {
         [Required]
-        [Display(Name = "User name")]
+        [Display(Name = "Email address")]
         public string UserName { get; set; }
 
         [Required]
@@ -71,16 +73,16 @@ namespace Thermory.Web.Models
         [Required]
         [MaxLength(100, ErrorMessage = "Email address must be less than 100 characters long.")]
         [EmailAddress(ErrorMessage = "Invalid email address format.")]
-        [Display(Name = "Email Address")]
+        [Display(Name = "Email address")]
         public string UserName { get; set; }
 
         [Required]
         [MaxLength(50, ErrorMessage = "First name must be less than 50 characters long.")]
-        [Display(Name = "First Name")]
+        [Display(Name = "First name")]
         public string FirstName { get; set; }
 
         [Required]
-        [Display(Name = "Last Name")]
+        [Display(Name = "Last name")]
         [MaxLength(50, ErrorMessage = "Last name must be less than 50 characters long.")]
         public string LastName { get; set; }
 
