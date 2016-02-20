@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using Thermory.Business;
+using Thermory.Domain;
 using Thermory.Web.Models;
 
 namespace Thermory.Web.Controllers
@@ -17,9 +18,11 @@ namespace Thermory.Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult Index(LumberProduct[] lumberProducts)
+        public JsonResult Save(LumberProduct[] lumberProducts, MiscellaneousProduct[] miscProducts)
         {
-            CommandDirectory.Instance.UpdateLumberProductInventory(lumberProducts);
+            var lumberInventory = lumberProducts ?? new ILumberProduct[0];
+            var miscInventory = miscProducts ?? new IMiscellaneousProduct[0];
+            CommandDirectory.Instance.UpdateProductInventory(lumberInventory, miscInventory);
             return Json(new { status = "success"});
         }
     }

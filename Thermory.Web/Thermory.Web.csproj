@@ -197,6 +197,7 @@
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\InventoryWorksheet.cs" />
     <Compile Include="Models\LumberProduct.cs" />
+    <Compile Include="Models\MiscellaneousProduct.cs" />
     <Compile Include="Models\SalesOrderViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -335,6 +336,7 @@
     <Content Include="Views\InventoryAudit\_LumberAuditForm.cshtml" />
     <Content Include="Views\InventoryAudit\Index.cshtml" />
     <Content Include="Views\InventoryWorksheet\_MiscSummary.cshtml" />
+    <Content Include="Views\InventoryAudit\_MiscellaneousAuditForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

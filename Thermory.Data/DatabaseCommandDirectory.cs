@@ -46,9 +46,14 @@ namespace Thermory.Data
             return command.Result;
         }
 
-        public void UpdateLumberProductInventory(ILumberProduct[] lumberProducts)
+        public void UpdateProductInventory(ILumberProduct[] lumberProducts,
+            IMiscellaneousProduct[] miscProducts)
         {
-            var updateCommands = lumberProducts.Select(lp => new UpdateLumberProductInventory(lp)).ToArray();
+            var lumberUpdateCommands = lumberProducts.Select(lp => new UpdateLumberProductInventory(lp)).ToList();
+            var miscUpdateCommands = miscProducts.Select(mp => new UpdateMiscellaneousProductInventory(mp)).ToList();
+            var updateCommands = new List<DatabaseCommand>();
+            updateCommands.AddRange(lumberUpdateCommands);
+            updateCommands.AddRange(miscUpdateCommands);
             var transaction = new TransactionalCommand(updateCommands);
             transaction.Execute();
         }

@@ -56,9 +56,9 @@ namespace Thermory.Business
             return _miscellaneousCategories;
         }
 
-        public void UpdateLumberProductInventory(ILumberProduct[] lumberProducts)
+        public void UpdateProductInventory(ILumberProduct[] lumberProducts, IMiscellaneousProduct[] miscProducts)
         {
-            DatabaseCommandDirectory.Instance.UpdateLumberProductInventory(lumberProducts);
+            DatabaseCommandDirectory.Instance.UpdateProductInventory(lumberProducts, miscProducts);
         }
     }
 }

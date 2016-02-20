@@ -1,0 +1,26 @@
+﻿@model Thermory.Domain.IMiscellaneousCategory
+
+<table class="table table-condensed inventory">
+    <colgroup>
+        <col />
+        <col style="width: 100%;" />
+    </colgroup>
+    @foreach (var subCategory in Model.MiscellaneousSubCategories)
+    {
+        <tr class="englishHeading">
+            <td><div><strong>@subCategory.Name</strong></div></td>
+            <td><div><strong>Quantity</strong></div></td>
+        </tr>
+        foreach (var miscProduct in subCategory.MiscellaneousProducts)
+        {
+            var qtyId = string.Format("qty{0}", miscProduct.Id);
+            <tr>
+                <td class="productType">@miscProduct.Name (@miscProduct.Description)</td>
+                <td class="productType">
+                    <input type="hidden" id="@qtyId" value="@miscProduct.Quantity" />
+                    <input type="text" name="miscQty" id="@miscProduct.Id" class="form-control" maxlength="6" pattern="[0-9]*" value="@miscProduct.Quantity" />
+                </td>
+            </tr>
+        }
+    }
+</table>
