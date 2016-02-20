@@ -17,14 +17,18 @@ namespace Thermory.Data
             Database.CommandTimeout = Math.Max(Database.Connection.ConnectionTimeout, minCommandTimeout);
         }
 
-        public DbSet<ProductFamily> ProductFamilies { get; set; }
+        public DbSet<MiscellaneousCategory> MiscellaneousCategories { get; set; }
 
-        public DbSet<ProductInventory> ProductInventories { get; set; }
+        public DbSet<MiscellaneousSubCategory> MiscellaneousSubCategories { get; set; }
 
-        public DbSet<Product> Products { get; set; }
-
-        public DbSet<LumberFamily> LumberFamilies { get; set; }
+        public DbSet<MiscellaneousProduct> MiscellaneousProducts { get; set; }
 
         public DbSet<LumberProduct> LumberProducts { get; set; }
+
+        public DbSet<LumberCategory> LumberCategories { get; set; }
+
+        public DbSet<LumberSubCategory> LumberSubCategories { get; set; }
+
+        public DbSet<LumberType> LumberTypes { get; set; }
     }
 }

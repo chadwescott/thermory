@@ -1,16 +1,22 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Thermory.Data.Models
 {
     [Table("LumberProduct")]
-    internal class LumberProduct : Product, IDbLumberProduct
+    internal class LumberProduct : IDbLumberProduct
     {
-        public Guid LumberFamilyId { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid Id { get; set; }
 
-        [ForeignKey("LumberFamilyId")]
-        public LumberFamily Family { get; set; }
+        public Guid LumberTypeId { get; set; }
+
+        public IDbLumberType LumberType { get; set; }
 
         public int Length { get; set; }
+
+        public int Quantity { get; set; }
     }
 }

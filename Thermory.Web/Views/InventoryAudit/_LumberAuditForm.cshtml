@@ -1,12 +1,12 @@
 ﻿@using WebGrease.Css.Extensions
-@model Thermory.Domain.IProductCategory<Thermory.Domain.ILumberSubCategory>
+@model Thermory.Domain.ILumberCategory
 
-@foreach (var subCategory in Model.ProductSubCategories)
+@foreach (var subCategory in Model.LumberSubCategories)
 {
     var millimeterLengths = new List<int>();
-    subCategory.ProductTypes.ForEach(pt => pt.LumberProductLengthsMillimeters.ForEach(l => { if (!millimeterLengths.Contains(l)) millimeterLengths.Add(l); }));
+    subCategory.LumberTypes.ForEach(pt => pt.LumberLengthsMillimeters.ForEach(l => { if (!millimeterLengths.Contains(l)) millimeterLengths.Add(l); }));
     var feetLengths = new List<double>();
-    subCategory.ProductTypes.ForEach(pt => pt.LumberProductLengthsFeet.ForEach(l => { if (!feetLengths.Contains(l)) feetLengths.Add(l); }));
+    subCategory.LumberTypes.ForEach(pt => pt.LumberLengthsFeet.ForEach(l => { if (!feetLengths.Contains(l)) feetLengths.Add(l); }));
     var columns = millimeterLengths.Count + 4;
     var blankRow = string.Format("<tr><td colspan=\"{0}\">&nbsp;</td></tr>", columns);
 
@@ -29,31 +29,31 @@
             <td>Total LF</td>
             <td class="subCategoryCellPadding">Total SF</td>
         </tr>
-        @foreach (var productType in subCategory.ProductTypes)
+        @foreach (var lumberType in subCategory.LumberTypes)
         {
             @Html.Raw(blankRow)
             <tr>
-                <td colspan="2" class="productType productTypeHeading"><div class="headingWidth" title="@productType.Name">@productType.Name</div></td>
+                <td colspan="2" class="productType productTypeHeading"><div class="headingWidth" title="@lumberType.Name">@lumberType.Name</div></td>
                 @foreach (var length in millimeterLengths)
                 {
-                    var productForLength = productType.Products.SingleOrDefault(p => p.LengthInMillmeters == length);
-                    var quantity = @productForLength == null ? 0 : productForLength.Inventory.Quantity;
-                    var productId = @productForLength == null ? Guid.Empty : productForLength.Id;
+                    var lumberForLength = lumberType.LumberProducts.SingleOrDefault(p => p.LengthInMillmeters == length);
+                    var quantity = @lumberForLength == null ? 0 : lumberForLength.Quantity;
+                    var productId = @lumberForLength == null ? Guid.Empty : lumberForLength.Id;
                     var qtyId = string.Format("qty{0}", productId);
                     <td class="productType subCategoryCellPadding subCategoryLength">
                         <input type="hidden" id="@qtyId" value="@quantity" />
-                        <input type="text" name="inventory@productId" id="@productId" class="form-control" maxlength="6" pattern="[0-9]*" value="@quantity" />
+                        <input type="text" name="lumberQty" id="@productId" class="form-control" maxlength="6" pattern="[0-9]*" value="@quantity" />
                     </td>
                 }
-                <td rowspan="2" class="totalLinearFeet">@productType.TotalLinearFeet</td>
-                <td rowspan="2" class="totalSquareFeet">@productType.TotalSquareFeet</td>
+                <td rowspan="2" class="totalLinearFeet">@lumberType.TotalLinearFeet</td>
+                <td rowspan="2" class="totalSquareFeet">@lumberType.TotalSquareFeet</td>
             </tr>
             <tr>
                 <td colspan="2" class="productType productTypeStatistic">Tally %</td>
                 @foreach (var length in millimeterLengths)
                 {
-                    var productForLength = productType.Products.SingleOrDefault(p => p.LengthInMillmeters == length);
-                    var tally = @productForLength == null ? 0 : productForLength.Inventory.TallyPercentage;
+                    var lumberForLength = lumberType.LumberProducts.SingleOrDefault(p => p.LengthInMillmeters == length);
+                    var tally = @lumberForLength == null ? 0 : lumberForLength.TallyPercentage;
                     <td class="productType subCategoryCellPadding subCategoryLength productTypeTally">@tally%</td>
                 }
             </tr>
@@ -62,19 +62,19 @@
                 <td colspan="2" class="productType productTypeStatistic">LF / Length</td>
                 @foreach (var length in millimeterLengths)
                 {
-                    var productForLength = productType.Products.SingleOrDefault(p => p.LengthInMillmeters == length);
-                    var linearFeet = productForLength == null ? 0 : productForLength.Inventory.LinearFeet;
+                    var lumberForLength = lumberType.LumberProducts.SingleOrDefault(p => p.LengthInMillmeters == length);
+                    var linearFeet = lumberForLength == null ? 0 : lumberForLength.LinearFeet;
                     <td class="subCategoryCellPadding subCategoryLength">@linearFeet</td>
                 }
                 <td class="totalPieceHeading">Total PCS</td>
-                <td>@productType.TotalPieces</td>
+                <td>@lumberType.TotalPieces</td>
             </tr>
             <tr>
                 <td colspan="2" class="productType productTypeStatistic">SF / Length</td>
                 @foreach (var length in millimeterLengths)
                 {
-                    var productForLength = productType.Products.SingleOrDefault(p => p.LengthInMillmeters == length);
-                    var squareFeet = productForLength == null ? 0 : productForLength.Inventory.SquareFeet;
+                    var lumberForLength = lumberType.LumberProducts.SingleOrDefault(p => p.LengthInMillmeters == length);
+                    var squareFeet = lumberForLength == null ? 0 : lumberForLength.SquareFeet;
                     <td class="productType subCategoryCellPadding subCategoryLength">@squareFeet</td>
                 }
                 <td colspan="2">&nbsp;</td>
@@ -83,22 +83,3 @@
     </table>
     <br />
 }
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("input[name^='inventory']").keydown(function (e) {
-            // Allow: backspace, delete, tab, escape, enter and .
-            if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
-                // Allow: Ctrl+A, Command+A
-                (e.keyCode == 65 && (e.ctrlKey === true || e.metaKey === true)) ||
-                // Allow: home, end, left, right, down, up
-                (e.keyCode >= 35 && e.keyCode <= 40)) {
-                // let it happen, don't do anything
-                return;
-            }
-            // Ensure that it is a number and stop the keypress
-            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
-                e.preventDefault();
-            }
-        });
-    });
-</script>

@@ -1,14 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Thermory.Domain
 {
-    public interface ILumberSubCategory : IProductSubCategory
+    public interface ILumberSubCategory
     {
-        IProductCategory<ILumberSubCategory> Category { get; }
+        Guid Id { get; }
+
+        string Name { get; }
+
+        ILumberCategory LumberCategory { get; }
+
         int WidthInMillimeters { get; }
+
         double WidthInInches { get; }
+
         int ThicknessInMillimeters { get; }
+
         double ThicknessInInches { get; }
-        IList<ILumberProductType> ProductTypes { get; }
+
+        IList<ILumberType> LumberTypes { get; }
     }
 }

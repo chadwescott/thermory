@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Thermory.Business.Commands;
 using Thermory.Data;
-using Thermory.Data.Models;
 using Thermory.Domain;
 
 namespace Thermory.Business
@@ -9,7 +8,8 @@ namespace Thermory.Business
     public class CommandDirectory
     {
         private static CommandDirectory _instance;
-        private static IList<IProductCategory<ILumberSubCategory>> _lumberCategories;
+        private static IList<ILumberCategory> _lumberCategories;
+        private static IList<IMiscellaneousCategory> _miscellaneousCategories;
         private readonly object _categoryLock = new object();
 
         public static CommandDirectory Instance
@@ -21,33 +21,44 @@ namespace Thermory.Business
         {
             lock (_categoryLock)
             {
-                if (_lumberCategories != null) return;
-                var command = new GetAllLumberProducts();
-                command.Execute();
-                _lumberCategories = command.Result;
+                LoadLumberCategories();
+                LoadMiscellaneousCategories();
             }
         }
 
-        public IList<IDbProductFamily> GetAllProductFamilies()
+        private static void LoadLumberCategories()
         {
-            return DatabaseCommandDirectory.Instance.GetAllProductFamilies();
+            if (_lumberCategories != null) return;
+            var command = new GetAllLumberCategories();
+            command.Execute();
+            _lumberCategories = command.Result;
         }
 
-        public IList<IProductCategory<ILumberSubCategory>> GetAllLumberProducts()
+        private static void LoadMiscellaneousCategories()
         {
-            return _lumberCategories;
+            if (_miscellaneousCategories != null) return;
+            var command = new GetAllMiscellaneousCategories();
+            command.Execute();
+            _miscellaneousCategories = command.Result;
         }
 
-        public IList<IProductCategory<ILumberSubCategory>> GetAllLumberProductsWithInventory()
+        public IList<ILumberCategory> GetAllLumberCategories()
         {
-            var command = new UpdateLumberProductInventory(_lumberCategories);
+            var command = new RefreshLumberProductQuantities(_lumberCategories);
             command.Execute();
             return _lumberCategories;
         }
 
-        public void UpdateProductInventory<T>(IInventory<T>[] inventory) where T : IProduct
+        public IList<IMiscellaneousCategory> GetAllMiscellaneousCategories()
         {
-            DatabaseCommandDirectory.Instance.UpdateProductInventory(inventory);
+            var command = new RefreshMiscellaneousProductQuantities(_miscellaneousCategories);
+            command.Execute();
+            return _miscellaneousCategories;
+        }
+
+        public void UpdateProductInventory(ILumberProduct[] lumberProducts, IMiscellaneousProduct[] miscProducts)
+        {
+            DatabaseCommandDirectory.Instance.UpdateProductInventory(lumberProducts, miscProducts);
         }
     }
 }

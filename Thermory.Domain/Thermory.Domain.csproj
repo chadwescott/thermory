@@ -40,15 +40,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ICustomer.cs" />
-    <Compile Include="ILumberInventory.cs" />
+    <Compile Include="ILumberCategory.cs" />
     <Compile Include="ILumberProduct.cs" />
     <Compile Include="ILumberProductType.cs" />
     <Compile Include="ILumberSubCategory.cs" />
-    <Compile Include="IProduct.cs" />
-    <Compile Include="IProductCategory.cs" />
-    <Compile Include="IInventory.cs" />
-    <Compile Include="IProductSubCategory.cs" />
-    <Compile Include="IProductType.cs" />
+    <Compile Include="ILumberType.cs" />
+    <Compile Include="IMiscellaneousCategory.cs" />
+    <Compile Include="IMiscellaneousProduct.cs" />
+    <Compile Include="IMiscellaneousSubCategory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

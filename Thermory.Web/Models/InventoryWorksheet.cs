@@ -5,6 +5,8 @@ namespace Thermory.Web.Models
 {
     public class InventoryWorksheet
     {
-        public IList<IProductCategory<ILumberSubCategory>> LumberProductCategories { get; set; }
+        public IList<ILumberCategory> LumberCategories { get; set; }
+
+        public IList<IMiscellaneousCategory> MiscellaneousCategories { get; set; }
     }
 }

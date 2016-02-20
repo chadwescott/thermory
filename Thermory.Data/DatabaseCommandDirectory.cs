@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Thermory.Data.Commands;
 using Thermory.Data.Models;
 using Thermory.Domain;
@@ -17,23 +18,9 @@ namespace Thermory.Data
         private DatabaseCommandDirectory()
         { }
 
-        public IList<IDbProductFamily> GetAllProductFamilies()
+        public IList<IDbLumberCategory> GetAllLumberCategories()
         {
-            var command = new GetAllProductFamilies();
-            command.Execute();
-            return command.Result;
-        }
-
-        public IList<IDbProductInventory> GetAllLumberProductInventories()
-        {
-            var command = new GetAllLumberProductInventories();
-            command.Execute();
-            return command.Result;
-        }
-
-        public IList<IDbLumberFamily> GetAllLumberFamilies()
-        {
-            var command = new GetAllLumberFamilies();
+            var command = new GetAllLumberCategories();
             command.Execute();
             return command.Result;
         }
@@ -45,10 +32,29 @@ namespace Thermory.Data
             return command.Result;
         }
 
-        public void UpdateProductInventory<T>(IInventory<T>[] inventory) where T : IProduct
+        public IList<IDbMiscellaneousCategory> GetAllMiscellaneousCategories()
         {
-            var command = new UpdateProductInventory<T>(inventory);
-            var transaction = new TransactionalCommand(new[] { command });
+            var command = new GetAllMiscellaneousCategories();
+            command.Execute();
+            return command.Result;
+        }
+
+        public IList<IDbMiscellaneousProduct> GetAllMiscellaneousProducts()
+        {
+            var command = new GetAllMiscellaneousProducts();
+            command.Execute();
+            return command.Result;
+        }
+
+        public void UpdateProductInventory(ILumberProduct[] lumberProducts,
+            IMiscellaneousProduct[] miscProducts)
+        {
+            var lumberUpdateCommands = lumberProducts.Select(lp => new UpdateLumberProductInventory(lp)).ToList();
+            var miscUpdateCommands = miscProducts.Select(mp => new UpdateMiscellaneousProductInventory(mp)).ToList();
+            var updateCommands = new List<DatabaseCommand>();
+            updateCommands.AddRange(lumberUpdateCommands);
+            updateCommands.AddRange(miscUpdateCommands);
+            var transaction = new TransactionalCommand(updateCommands);
             transaction.Execute();
         }
     }

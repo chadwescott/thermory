@@ -1,11 +1,17 @@
 ﻿using System;
+
 namespace Thermory.Data.Models
 {
-
-    public interface IDbLumberProduct : IDbProduct
+    public interface IDbLumberProduct
     {
-        Guid LumberFamilyId { get; }
+        Guid Id { get; }
+
+        Guid LumberTypeId { get; }
+
+        IDbLumberType LumberType { get; }
 
         int Length { get; }
+
+        int Quantity { get; }
     }
 }
