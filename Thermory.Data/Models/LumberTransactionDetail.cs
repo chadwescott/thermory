@@ -4,18 +4,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Thermory.Data.Models
 {
-    internal class LumberProduct : IDbLumberProduct
+    internal class LumberTransactionDetail : IDbLumberTransactionDetail
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
-        public Guid LumberTypeId { get; set; }
+        public Guid InventoryTransactionId { get; set; }
 
-        public IDbLumberType LumberType { get; set; }
+        public Guid LumberProductId { get; set; }
 
-        public int Length { get; set; }
+        public int PreviousQuantity { get; set; }
 
-        public int Quantity { get; set; }
+        public int NewQuantity { get; set; }
     }
 }

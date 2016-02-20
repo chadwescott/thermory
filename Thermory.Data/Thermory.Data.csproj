@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\CreateInventoryTransaction.cs" />
     <Compile Include="Commands\GetAllLumberCategories.cs" />
     <Compile Include="Commands\GetAllMiscellaneousCategories.cs" />
     <Compile Include="Commands\GetAllMiscellaneousProducts.cs" />
@@ -63,20 +64,26 @@
     <Compile Include="DatabaseCommandDirectory.cs" />
     <Compile Include="Commands\DatabaseCommand.cs" />
     <Compile Include="Commands\DatabaseGetCommand.cs" />
+    <Compile Include="Models\IDbInventoryTransaction.cs" />
     <Compile Include="Models\IDbLumberCategory.cs" />
     <Compile Include="Models\IDbLumberProduct.cs" />
     <Compile Include="Models\IDbLumberSubCategory.cs" />
+    <Compile Include="Models\IDbLumberTransactionDetail.cs" />
     <Compile Include="Models\IDbLumberType.cs" />
     <Compile Include="Models\IDbMiscellaneousCategory.cs" />
     <Compile Include="Models\IDbMiscellaneousProduct.cs" />
     <Compile Include="Models\IDbMiscellaneousSubCategory.cs" />
+    <Compile Include="Models\IDbMiscellaneousTransactionDetail.cs" />
+    <Compile Include="Models\InventoryTransaction.cs" />
     <Compile Include="Models\LumberCategory.cs" />
     <Compile Include="Models\LumberProduct.cs" />
     <Compile Include="Models\LumberSubCategory.cs" />
+    <Compile Include="Models\LumberTransactionDetail.cs" />
     <Compile Include="Models\LumberType.cs" />
     <Compile Include="Models\MiscellaneousCategory.cs" />
     <Compile Include="Models\MiscellaneousProduct.cs" />
     <Compile Include="Models\MiscellaneousSubCategory.cs" />
+    <Compile Include="Models\MiscellaneousTransactionDetail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThermoryContext.cs" />
     <Compile Include="Commands\TransactionalCommand.cs" />

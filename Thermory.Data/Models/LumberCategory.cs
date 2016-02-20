@@ -6,7 +6,6 @@ using System.Linq;
 
 namespace Thermory.Data.Models
 {
-    [Table("LumberCategory")]
     internal class LumberCategory : IDbLumberCategory
     {
         [Key]

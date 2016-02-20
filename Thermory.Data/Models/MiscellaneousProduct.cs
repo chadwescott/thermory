@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Thermory.Data.Models
 {
-    [Table("MiscellaneousProduct")]
     internal class MiscellaneousProduct : IDbMiscellaneousProduct
     {
         [Key]

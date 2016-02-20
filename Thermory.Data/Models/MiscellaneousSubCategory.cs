@@ -6,7 +6,6 @@ using System.Linq;
 
 namespace Thermory.Data.Models
 {
-    [Table("MiscellaneousSubCategory")]
     internal class MiscellaneousSubCategory : IDbMiscellaneousSubCategory
     {
         [Key]
