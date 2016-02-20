@@ -18,7 +18,7 @@
                 <td class="productType">@miscProduct.Name (@miscProduct.Description)</td>
                 <td class="productType">
                     <input type="hidden" id="@qtyId" value="@miscProduct.Quantity" />
-                    <input type="text" name="miscQty" id="@miscProduct.Id" class="form-control" maxlength="6" pattern="[0-9]*" value="@miscProduct.Quantity" />
+                    <div style="width: 100px;"><input type="text" name="miscQty" id="@miscProduct.Id" class="form-control" maxlength="6" pattern="[0-9]*" value="@miscProduct.Quantity" /></div>
                 </td>
             </tr>
         }
