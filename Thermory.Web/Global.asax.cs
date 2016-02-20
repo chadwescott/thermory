@@ -1,4 +1,7 @@
-﻿using System.Threading;
+﻿using System;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Threading;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -33,11 +36,25 @@ namespace Thermory.Web
         {
             public SimpleMembershipInitializer()
             {
-                using (var context = new UsersContext())
-                    context.UserProfiles.Find(1);
+                Database.SetInitializer<UsersContext>(null);
 
-                if (!WebSecurity.Initialized)
+                try
+                {
+                    using (var context = new UsersContext())
+                    {
+                        if (!context.Database.Exists())
+                        {
+                            // Create the SimpleMembership database without Entity Framework migration schema
+                            ((IObjectContextAdapter)context).ObjectContext.CreateDatabase();
+                        }
+                    }
+
                     WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
+                }
+                catch (Exception ex)
+                {
+                    throw new InvalidOperationException("The ASP.NET Simple Membership database could not be initialized. For more information, please see http://go.microsoft.com/fwlink/?LinkId=256588", ex);
+                }
             }
         }
     }

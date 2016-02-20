@@ -4,14 +4,12 @@ using System.Transactions;
 using System.Web.Mvc;
 using System.Web.Security;
 using Microsoft.Web.WebPages.OAuth;
-using Thermory.Web.Filters;
 using Thermory.Web.Models;
 using WebMatrix.WebData;
 
 namespace Thermory.Web.Controllers
 {
     [Authorize]
-    [InitializeSimpleMembership]
     public class AccountController : Controller
     {
         //
