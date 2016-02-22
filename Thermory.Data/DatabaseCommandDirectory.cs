@@ -55,6 +55,14 @@ namespace Thermory.Data
             var createInventoryTransactionCommand = new CreateInventoryTransaction(inventoryTransaction);
             commands.Add(createInventoryTransactionCommand);
 
+            var createLumberTransactionDetailCommands =
+                lumberProducts.Select(p => new CreateLumberTransactionDetails(inventoryTransaction, p.Id, p.Quantity));
+            commands.AddRange(createLumberTransactionDetailCommands);
+            
+            var createMiscTransactionDetailCommands =
+                miscProducts.Select(p => new CreateMiscellaneousTransactionDetails(inventoryTransaction, p.Id, p.Quantity));
+            commands.AddRange(createMiscTransactionDetailCommands);
+
             var lumberUpdateCommands = lumberProducts.Select(lp => new UpdateLumberProductInventory(lp)).ToList();
             commands.AddRange(lumberUpdateCommands);
 

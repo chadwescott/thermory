@@ -53,6 +53,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\CreateInventoryTransaction.cs" />
+    <Compile Include="Commands\CreateLumberTransactionDetails.cs" />
+    <Compile Include="Commands\CreateMiscellaneousTransactionDetails.cs" />
     <Compile Include="Commands\GetAllLumberCategories.cs" />
     <Compile Include="Commands\GetAllMiscellaneousCategories.cs" />
     <Compile Include="Commands\GetAllMiscellaneousProducts.cs" />
