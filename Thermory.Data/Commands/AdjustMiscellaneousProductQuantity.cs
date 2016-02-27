@@ -21,6 +21,9 @@ namespace Thermory.Data.Commands
 
         protected override void OnExecute(ThermoryContext context)
         {
+            if (_delta == 0)
+                return;
+
             var miscellaneousProduct = context.MiscellaneousProducts.Single(p => p.Id == _miscellaneousProductId);
             var newQuantity = miscellaneousProduct.Quantity + _delta;
 

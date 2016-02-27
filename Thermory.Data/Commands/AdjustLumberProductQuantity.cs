@@ -21,6 +21,9 @@ namespace Thermory.Data.Commands
 
         protected override void OnExecute(ThermoryContext context)
         {
+            if (_delta == 0)
+                return;
+
             var lumberProduct = context.LumberProducts.Single(p => p.Id == _lumberProductId);
             var newQuantity = lumberProduct.Quantity + _delta;
 

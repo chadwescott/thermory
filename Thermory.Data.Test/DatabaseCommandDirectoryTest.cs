@@ -16,12 +16,14 @@ namespace Thermory.Data.Test
             lumberProduct.Stub(s => s.Id).Return(new Guid("815642C9-08C6-E511-8274-5CC5D43F6424"));
             var lumberLineItem = MockRepository.GenerateStub<IOrderLumberLineItem>();
             lumberLineItem.Stub(s => s.LumberProduct).Return(lumberProduct);
+            lumberLineItem.Stub(s => s.Quantity).Return(2);
             var lumberLineItems = new [] { lumberLineItem };
 
             var miscProduct = MockRepository.GenerateStub<IMiscellaneousProduct>();
             miscProduct.Stub(s => s.Id).Return(new Guid("D6888728-8DD5-E511-8E31-5CC5D43F6424"));
             var miscLineItem = MockRepository.GenerateStub<IOrderMiscellaneousLineItem>();
             miscLineItem.Stub(s => s.MiscellaneousProduct).Return(miscProduct);
+            miscLineItem.Stub(s => s.Quantity).Return(5);
             var miscLineItems = new[] { miscLineItem };
 
             DatabaseCommandDirectory.Instance.CreateOrder(1, OrderTypes.Purchase, lumberLineItems, miscLineItems);
