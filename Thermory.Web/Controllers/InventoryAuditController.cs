@@ -1,6 +1,7 @@
 ﻿using System.Web.Mvc;
 using Thermory.Business;
 using Thermory.Domain;
+using Thermory.Domain.Enums;
 using Thermory.Web.Models;
 using WebMatrix.WebData;
 
@@ -23,7 +24,8 @@ namespace Thermory.Web.Controllers
         {
             var lumberInventory = lumberProducts ?? new ILumberProduct[0];
             var miscInventory = miscProducts ?? new IMiscellaneousProduct[0];
-            CommandDirectory.Instance.UpdateProductInventory(WebSecurity.CurrentUserId, lumberInventory, miscInventory);
+            CommandDirectory.Instance.UpdateProductInventory(WebSecurity.CurrentUserId, TransactionTypes.Audit,
+                lumberInventory, miscInventory);
             return Json(new { status = "success"});
         }
     }

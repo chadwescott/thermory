@@ -4,12 +4,14 @@ namespace Thermory.Data.Models
 {
     internal interface IDbOrder
     {
-        Guid Id { get; set; }
+        Guid Id { get; }
 
-        Guid InventoryTransactionId { get; set; }
+        Guid InventoryTransactionId { get; }
 
         IDbInventoryTransaction InventoryTransaction { get; }
 
-        string OrderType { get; set; }
+        Guid OrderTypeId { get; }
+
+        IDbOrderType OrderType { get; }
     }
 }

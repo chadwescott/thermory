@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Thermory.Data.CommandBuilders;
 using Thermory.Data.Commands;
 using Thermory.Data.Models;
 using Thermory.Domain;
+using Thermory.Domain.Enums;
 
 namespace Thermory.Data
 {
@@ -17,6 +20,16 @@ namespace Thermory.Data
 
         private DatabaseCommandDirectory()
         { }
+
+        //public void CreateOrder(int userId, IOrder order, ILumberProduct[] lumberProducts,
+        //    IMiscellaneousProduct[] miscProducts)
+        //{
+        //    var order = new Order();
+        //    var builder = new CreateOrderBuilder(userId, lumberProducts, miscProducts, order);
+        //    var commands = builder.Commands;
+        //    var transaction = new TransactionalCommand(commands);
+        //    transaction.Execute();
+        //}
 
         public IList<IDbLumberCategory> GetAllLumberCategories()
         {
@@ -46,29 +59,21 @@ namespace Thermory.Data
             return command.Result;
         }
 
-        public void UpdateProductInventory(int userId, ILumberProduct[] lumberProducts,
-            IMiscellaneousProduct[] miscProducts)
+        internal Guid GetTransactionTypeIdByEnum(TransactionTypes transactionType)
         {
-            var commands = new List<DatabaseCommand>();
+            var command = new GetAllTransactionTypes();
+            command.Execute();
+            var transactionTypes = command.Result;
 
-            var inventoryTransaction = new InventoryTransaction {UserId = userId};
-            var createInventoryTransactionCommand = new CreateInventoryTransaction(inventoryTransaction);
-            commands.Add(createInventoryTransactionCommand);
+            return transactionTypes.Single(t => t.Name == transactionType.ToString()).Id;
+        }
 
-            var createLumberTransactionDetailCommands =
-                lumberProducts.Select(p => new CreateLumberTransactionDetails(inventoryTransaction, p.Id, p.Quantity));
-            commands.AddRange(createLumberTransactionDetailCommands);
-            
-            var createMiscTransactionDetailCommands =
-                miscProducts.Select(p => new CreateMiscellaneousTransactionDetails(inventoryTransaction, p.Id, p.Quantity));
-            commands.AddRange(createMiscTransactionDetailCommands);
-
-            var lumberUpdateCommands = lumberProducts.Select(lp => new UpdateLumberProductInventory(lp)).ToList();
-            commands.AddRange(lumberUpdateCommands);
-
-            var miscUpdateCommands = miscProducts.Select(mp => new UpdateMiscellaneousProductInventory(mp)).ToList();
-            commands.AddRange(miscUpdateCommands);
-
+        public void UpdateProductInventory(int userId, TransactionTypes transactionType,
+            ILumberProduct[] lumberProducts, IMiscellaneousProduct[] miscProducts)
+        {
+            var transactionTypeId = GetTransactionTypeIdByEnum(transactionType);
+            var builder = new InventoryTransactionBuilder(userId, transactionTypeId, lumberProducts, miscProducts);
+            var commands = builder.Commands;
             var transaction = new TransactionalCommand(commands);
             transaction.Execute();
         }

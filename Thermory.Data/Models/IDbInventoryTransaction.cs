@@ -6,9 +6,14 @@ namespace Thermory.Data.Models
     internal interface IDbInventoryTransaction
     {
         [Key]
-        Guid Id { get; set; }
+        Guid Id { get; }
 
-        int UserId { get; set; }
-        DateTime CreatedOn { get; set; }
+        Guid TransactionTypeId { get; }
+
+        IDbTransactionType TransactionType { get; }
+
+        int UserId { get; }
+
+        DateTime CreatedOn { get; }
     }
 }

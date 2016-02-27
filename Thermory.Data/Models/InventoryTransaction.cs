@@ -10,6 +10,14 @@ namespace Thermory.Data.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
+        public Guid TransactionTypeId { get; set; }
+
+        [ForeignKey("TransactionTypeId")]
+        public TransactionType DbTransactionType { get; set; }
+
+        [NotMapped]
+        public IDbTransactionType TransactionType { get { return DbTransactionType; } }
+
         public int UserId { get; set; }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]

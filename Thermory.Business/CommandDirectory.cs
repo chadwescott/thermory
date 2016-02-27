@@ -2,6 +2,7 @@
 using Thermory.Business.Commands;
 using Thermory.Data;
 using Thermory.Domain;
+using Thermory.Domain.Enums;
 
 namespace Thermory.Business
 {
@@ -56,9 +57,11 @@ namespace Thermory.Business
             return _miscellaneousCategories;
         }
 
-        public void UpdateProductInventory(int userId, ILumberProduct[] lumberProducts, IMiscellaneousProduct[] miscProducts)
+        public void UpdateProductInventory(int userId, TransactionTypes transactionType, ILumberProduct[] lumberProducts,
+            IMiscellaneousProduct[] miscProducts)
         {
-            DatabaseCommandDirectory.Instance.UpdateProductInventory(userId, lumberProducts, miscProducts);
+            DatabaseCommandDirectory.Instance.UpdateProductInventory(userId, transactionType, lumberProducts,
+                miscProducts);
         }
     }
 }

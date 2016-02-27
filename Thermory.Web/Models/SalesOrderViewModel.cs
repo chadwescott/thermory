@@ -1,19 +1,16 @@
-﻿using Thermory.Domain;
+﻿using System;
+using Thermory.Domain;
 
 namespace Thermory.Web.Models
 {
     public class SalesOrderViewModel : ICustomer
     {
-        public string FirstName { get { return "John"; } }
+        public Guid Id { get; set; }
 
-        public string LastName { get { return "Smith"; } }
+        public string Name { get { return "John Smith"; } }
 
-        public string StreetAddress { get { return "23 Main Street"; } }
+        public string AddressLine1 { get { return "23 Main Street"; } }
 
-        public string City { get { return "Batvia"; } }
-
-        public string State { get { return "NY"; } }
-
-        public string PostalCode { get { return "14020"; } }
+        public string AddressLine2 { get { return "Batvia, NY 14020"; } }
     }
 }

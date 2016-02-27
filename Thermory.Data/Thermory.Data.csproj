@@ -52,13 +52,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandBuilders\ICommandBuilder.cs" />
+    <Compile Include="CommandBuilders\CreateOrderBuilder.cs" />
+    <Compile Include="CommandBuilders\InventoryTransactionBuilder.cs" />
     <Compile Include="Commands\CreateInventoryTransaction.cs" />
     <Compile Include="Commands\CreateLumberTransactionDetails.cs" />
     <Compile Include="Commands\CreateMiscellaneousTransactionDetails.cs" />
+    <Compile Include="Commands\CreateOrder.cs" />
     <Compile Include="Commands\GetAllLumberCategories.cs" />
     <Compile Include="Commands\GetAllMiscellaneousCategories.cs" />
     <Compile Include="Commands\GetAllMiscellaneousProducts.cs" />
     <Compile Include="Commands\GetAllLumberProducts.cs" />
+    <Compile Include="Commands\GetAllOrderTypes.cs" />
+    <Compile Include="Commands\GetAllTransactionTypes.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\IGetCommand.cs" />
     <Compile Include="Commands\UpdateLumberProductInventory.cs" />
@@ -76,6 +82,8 @@
     <Compile Include="Models\IDbMiscellaneousProduct.cs" />
     <Compile Include="Models\IDbMiscellaneousSubCategory.cs" />
     <Compile Include="Models\IDbMiscellaneousTransactionDetail.cs" />
+    <Compile Include="Models\IDbOrderType.cs" />
+    <Compile Include="Models\IDbTransactionType.cs" />
     <Compile Include="Models\InventoryTransaction.cs" />
     <Compile Include="Models\IDbOrder.cs" />
     <Compile Include="Models\LumberCategory.cs" />
@@ -88,6 +96,8 @@
     <Compile Include="Models\MiscellaneousSubCategory.cs" />
     <Compile Include="Models\MiscellaneousTransactionDetail.cs" />
     <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\OrderType.cs" />
+    <Compile Include="Models\TransactionType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThermoryContext.cs" />
     <Compile Include="Commands\TransactionalCommand.cs" />

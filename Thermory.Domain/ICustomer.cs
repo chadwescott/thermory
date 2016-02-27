@@ -1,17 +1,15 @@
-﻿namespace Thermory.Domain
+﻿using System;
+
+namespace Thermory.Domain
 {
     public interface ICustomer
     {
-        string FirstName { get; }
+        Guid Id { get; }
 
-        string LastName { get; }
+        string Name { get; }
 
-        string StreetAddress { get; }
+        string AddressLine1 { get; }
 
-        string City { get; }
-
-        string State { get; }
-
-        string PostalCode { get; }
+        string AddressLine2 { get; }
     }
 }

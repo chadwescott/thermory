@@ -39,6 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\OrderTypes.cs" />
+    <Compile Include="Enums\TransactionTypes.cs" />
     <Compile Include="ICustomer.cs" />
     <Compile Include="ILumberCategory.cs" />
     <Compile Include="ILumberProduct.cs" />
@@ -48,6 +50,7 @@
     <Compile Include="IMiscellaneousCategory.cs" />
     <Compile Include="IMiscellaneousProduct.cs" />
     <Compile Include="IMiscellaneousSubCategory.cs" />
+    <Compile Include="IOrder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

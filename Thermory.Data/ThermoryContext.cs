@@ -38,5 +38,9 @@ namespace Thermory.Data
         public DbSet<LumberTransactionDetail> LumberTransactionDetails { get; set; }
 
         public DbSet<LumberType> LumberTypes { get; set; }
+
+        public DbSet<OrderType> OrderTypes { get; set; }
+
+        public DbSet<TransactionType> TransactionTypes { get; set; }
     }
 }
