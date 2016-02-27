@@ -10,14 +10,6 @@ namespace Thermory.Data.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
-        public Guid InventoryTransactionId { get; set; }
-
-        [ForeignKey("InventoryTransactionId")]
-        public InventoryTransaction DbInventoryTransaction { get; set; }
-
-        [NotMapped]
-        public IDbInventoryTransaction InventoryTransaction { get { return DbInventoryTransaction; } }
-
         public Guid OrderTypeId { get; set; }
 
         [ForeignKey("OrderTypeId")]

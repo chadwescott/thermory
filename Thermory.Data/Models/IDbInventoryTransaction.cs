@@ -15,5 +15,9 @@ namespace Thermory.Data.Models
         int UserId { get; }
 
         DateTime CreatedOn { get; }
+
+        Guid? OrderId { get; }
+
+        IDbOrder Order { get; }
     }
 }

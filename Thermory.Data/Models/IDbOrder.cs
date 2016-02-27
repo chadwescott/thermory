@@ -6,10 +6,6 @@ namespace Thermory.Data.Models
     {
         Guid Id { get; }
 
-        Guid InventoryTransactionId { get; }
-
-        IDbInventoryTransaction InventoryTransaction { get; }
-
         Guid OrderTypeId { get; }
 
         IDbOrderType OrderType { get; }

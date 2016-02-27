@@ -22,5 +22,13 @@ namespace Thermory.Data.Models
 
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime CreatedOn { get; set; }
+
+        public Guid? OrderId { get; set; }
+
+        [ForeignKey("OrderId")]
+        public Order DbOrder { get; set; }
+
+        [NotMapped]
+        public IDbOrder Order{ get { return DbOrder; } }
     }
 }

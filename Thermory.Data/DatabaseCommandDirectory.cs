@@ -21,15 +21,14 @@ namespace Thermory.Data
         private DatabaseCommandDirectory()
         { }
 
-        //public void CreateOrder(int userId, IOrder order, ILumberProduct[] lumberProducts,
-        //    IMiscellaneousProduct[] miscProducts)
-        //{
-        //    var order = new Order();
-        //    var builder = new CreateOrderBuilder(userId, lumberProducts, miscProducts, order);
-        //    var commands = builder.Commands;
-        //    var transaction = new TransactionalCommand(commands);
-        //    transaction.Execute();
-        //}
+        public void CreateOrder(int userId, OrderTypes orderType, IOrderLumberLineItem[] lumberLineItems,
+            IOrderMiscellaneousLineItem[] miscLineItems)
+        {
+            var builder = new CreateOrderBuilder(userId, orderType, lumberLineItems, miscLineItems);
+            var commands = builder.Commands;
+            var transaction = new TransactionalCommand(commands);
+            transaction.Execute();
+        }
 
         public IList<IDbLumberCategory> GetAllLumberCategories()
         {
@@ -59,6 +58,15 @@ namespace Thermory.Data
             return command.Result;
         }
 
+        internal Guid GetOrderTypeIdByEnum(OrderTypes orderType)
+        {
+            var command = new GetAllOrderTypes();
+            command.Execute();
+            var orderTypes = command.Result;
+
+            return orderTypes.Single(t => t.Name == orderType.ToString()).Id;
+        }
+
         internal Guid GetTransactionTypeIdByEnum(TransactionTypes transactionType)
         {
             var command = new GetAllTransactionTypes();
@@ -68,11 +76,11 @@ namespace Thermory.Data
             return transactionTypes.Single(t => t.Name == transactionType.ToString()).Id;
         }
 
-        public void UpdateProductInventory(int userId, TransactionTypes transactionType,
+        public void InventoryAudit(int userId, TransactionTypes transactionType,
             ILumberProduct[] lumberProducts, IMiscellaneousProduct[] miscProducts)
         {
             var transactionTypeId = GetTransactionTypeIdByEnum(transactionType);
-            var builder = new InventoryTransactionBuilder(userId, transactionTypeId, lumberProducts, miscProducts);
+            var builder = new InventoryAuditBuilder(userId, transactionTypeId, lumberProducts, miscProducts);
             var commands = builder.Commands;
             var transaction = new TransactionalCommand(commands);
             transaction.Execute();

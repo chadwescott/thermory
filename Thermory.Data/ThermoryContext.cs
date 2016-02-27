@@ -29,6 +29,10 @@ namespace Thermory.Data
 
         public DbSet<Order> Orders { get; set; }
 
+        public DbSet<OrderLumberLineItem> OrderLumberLineItems { get; set; }
+
+        public DbSet<OrderMiscellaneousLineItem> OrderMiscellaneousLineItems { get; set; }
+
         public DbSet<LumberProduct> LumberProducts { get; set; }
 
         public DbSet<LumberCategory> LumberCategories { get; set; }

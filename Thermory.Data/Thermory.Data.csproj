@@ -52,13 +52,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandBuilders\ICommandBuilder.cs" />
+    <Compile Include="CommandBuilders\CommandBuilder.cs" />
     <Compile Include="CommandBuilders\CreateOrderBuilder.cs" />
-    <Compile Include="CommandBuilders\InventoryTransactionBuilder.cs" />
+    <Compile Include="CommandBuilders\InventoryAuditBuilder.cs" />
+    <Compile Include="Commands\AdjustLumberProductQuantity.cs" />
+    <Compile Include="Commands\AdjustMiscellaneousProductQuantity.cs" />
     <Compile Include="Commands\CreateInventoryTransaction.cs" />
     <Compile Include="Commands\CreateLumberTransactionDetails.cs" />
     <Compile Include="Commands\CreateMiscellaneousTransactionDetails.cs" />
     <Compile Include="Commands\CreateOrder.cs" />
+    <Compile Include="Commands\CreateOrderLumberLineItem.cs" />
+    <Compile Include="Commands\CreateOrderMiscellaneousLineItem.cs" />
     <Compile Include="Commands\GetAllLumberCategories.cs" />
     <Compile Include="Commands\GetAllMiscellaneousCategories.cs" />
     <Compile Include="Commands\GetAllMiscellaneousProducts.cs" />
@@ -69,6 +73,7 @@
     <Compile Include="Commands\IGetCommand.cs" />
     <Compile Include="Commands\UpdateLumberProductInventory.cs" />
     <Compile Include="Commands\UpdateMiscellaneousProductInventory.cs" />
+    <Compile Include="Constants\OrderTypeNames.cs" />
     <Compile Include="DatabaseCommandDirectory.cs" />
     <Compile Include="Commands\DatabaseCommand.cs" />
     <Compile Include="Commands\DatabaseGetCommand.cs" />
@@ -82,6 +87,8 @@
     <Compile Include="Models\IDbMiscellaneousProduct.cs" />
     <Compile Include="Models\IDbMiscellaneousSubCategory.cs" />
     <Compile Include="Models\IDbMiscellaneousTransactionDetail.cs" />
+    <Compile Include="Models\IDbOrderLumberLineItem.cs" />
+    <Compile Include="Models\IDbOrderMiscellaneousLineItem.cs" />
     <Compile Include="Models\IDbOrderType.cs" />
     <Compile Include="Models\IDbTransactionType.cs" />
     <Compile Include="Models\InventoryTransaction.cs" />
@@ -96,6 +103,8 @@
     <Compile Include="Models\MiscellaneousSubCategory.cs" />
     <Compile Include="Models\MiscellaneousTransactionDetail.cs" />
     <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\OrderLumberLineItem.cs" />
+    <Compile Include="Models\OrderMiscellaneousLineItem.cs" />
     <Compile Include="Models\OrderType.cs" />
     <Compile Include="Models\TransactionType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

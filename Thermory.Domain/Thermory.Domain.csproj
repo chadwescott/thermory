@@ -51,6 +51,8 @@
     <Compile Include="IMiscellaneousProduct.cs" />
     <Compile Include="IMiscellaneousSubCategory.cs" />
     <Compile Include="IOrder.cs" />
+    <Compile Include="IOrderLumberLineItem.cs" />
+    <Compile Include="IOrderMiscellaneousLineItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

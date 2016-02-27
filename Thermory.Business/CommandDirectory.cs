@@ -60,7 +60,7 @@ namespace Thermory.Business
         public void UpdateProductInventory(int userId, TransactionTypes transactionType, ILumberProduct[] lumberProducts,
             IMiscellaneousProduct[] miscProducts)
         {
-            DatabaseCommandDirectory.Instance.UpdateProductInventory(userId, transactionType, lumberProducts,
+            DatabaseCommandDirectory.Instance.InventoryAudit(userId, transactionType, lumberProducts,
                 miscProducts);
         }
     }
