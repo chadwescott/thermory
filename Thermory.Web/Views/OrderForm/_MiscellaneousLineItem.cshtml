@@ -1,0 +1,27 @@
+﻿@model Thermory.Domain.IMiscellaneousCategory
+
+<table class="table table-condensed inventory">
+    <colgroup>
+        <col style="width: 25%;" />
+        <col style="width: 25%;" />
+        <col style="width: 50%;" />
+    </colgroup>
+    @foreach (var subCategory in Model.MiscellaneousSubCategories)
+    {
+        <tr class="englishHeading">
+            <td><div><strong>@subCategory.Name</strong></div></td>
+            <td><div><strong>On Hand</strong></div></td>
+            <td><div><strong>Order Quantity</strong></div></td>
+        </tr>
+        foreach (var miscProduct in subCategory.MiscellaneousProducts)
+        {
+            <tr>
+                <td class="productType">@miscProduct.Name (@miscProduct.Description)</td>
+                <td class="productType">@miscProduct.Quantity</td>
+                <td class="productType">
+                    <div style="width: 100px;"><input type="text" name="miscQty" id="@miscProduct.Id" class="form-control" maxlength="6" pattern="[0-9]*" value="0" /></div>
+                </td>
+            </tr>
+        }
+    }
+</table>

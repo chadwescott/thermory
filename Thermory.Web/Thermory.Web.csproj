@@ -189,15 +189,19 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InventoryAuditController.cs" />
     <Compile Include="Controllers\InventoryWorksheetController.cs" />
-    <Compile Include="Controllers\OrderController.cs" />
+    <Compile Include="Controllers\OrderFormController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
-    <Compile Include="Models\InventoryWorksheet.cs" />
+    <Compile Include="Models\ProductOrderQuantity.cs" />
+    <Compile Include="ViewModels\InventoryViewModel.cs" />
     <Compile Include="Models\LumberProduct.cs" />
     <Compile Include="Models\MiscellaneousProduct.cs" />
-    <Compile Include="Models\SalesOrderViewModel.cs" />
+    <Compile Include="Models\Order.cs" />
+    <Compile Include="ViewModels\OrderFormViewModel.cs" />
+    <Compile Include="Models\OrderLumberLineItem.cs" />
+    <Compile Include="Models\OrderMiscellaneousLineItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -331,11 +335,13 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\InventoryWorksheet\Index.cshtml" />
     <Content Include="Views\InventoryWorksheet\_LumberSummary.cshtml" />
-    <Content Include="Views\Order\Sample.cshtml" />
+    <Content Include="Views\OrderForm\Index.cshtml" />
     <Content Include="Views\InventoryAudit\_LumberAuditForm.cshtml" />
     <Content Include="Views\InventoryAudit\Index.cshtml" />
     <Content Include="Views\InventoryWorksheet\_MiscSummary.cshtml" />
     <Content Include="Views\InventoryAudit\_MiscellaneousAuditForm.cshtml" />
+    <Content Include="Views\OrderForm\_LumberLineItem.cshtml" />
+    <Content Include="Views\OrderForm\_MiscellaneousLineItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

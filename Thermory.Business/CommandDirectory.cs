@@ -43,6 +43,12 @@ namespace Thermory.Business
             _miscellaneousCategories = command.Result;
         }
 
+        public void CreateOrder(int userId, OrderTypes orderType, IOrderLumberLineItem[] lumberLineItems,
+            IOrderMiscellaneousLineItem[] miscLineItems)
+        {
+            DatabaseCommandDirectory.Instance.CreateOrder(userId, orderType, lumberLineItems, miscLineItems);
+        }
+
         public IList<ILumberCategory> GetAllLumberCategories()
         {
             var command = new RefreshLumberProductQuantities(_lumberCategories);

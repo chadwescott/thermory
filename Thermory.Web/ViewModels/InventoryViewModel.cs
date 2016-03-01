@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Thermory.Domain;
 
-namespace Thermory.Web.Models
+namespace Thermory.Web.ViewModels
 {
-    public class InventoryWorksheet
+    public class InventoryViewModel
     {
         public IList<ILumberCategory> LumberCategories { get; set; }
 

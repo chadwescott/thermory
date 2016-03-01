@@ -1,8 +1,10 @@
-﻿@model Thermory.Web.ViewModels.InventoryViewModel
+﻿@model Thermory.Web.ViewModels.OrderFormViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     var firstCategoryId = Model.LumberCategories.First().Id;
 }
+
+<h3>Create @Model.OrderType.ToString() Order</h3>
 
 <div id="worksheetPanel">
     <ul class="nav nav-tabs" data-tabs="tabs">
@@ -16,7 +18,7 @@
             {
                 <li><a href="#@category.Id" data-toggle="tab">@category.Name</a></li>
             }
-}
+        }
     </ul>
     <div class="tab-content" style="height: 500px; overflow: auto;">
         @{
@@ -24,16 +26,16 @@
             {
                 var active = category.Id == firstCategoryId ? "active" : "";
                 <div id="@category.Id" class="tab-pane @active">
-                    @Html.Partial("_LumberAuditForm", category)
+                    @Html.Partial("_LumberLineItem", category)
                 </div>
             }
             foreach (var category in Model.MiscellaneousCategories)
             {
                 <div id="@category.Id" class="tab-pane">
-                    @Html.Partial("_MiscellaneousAuditForm", category)
+                    @Html.Partial("_MiscellaneousLineItem", category)
                 </div>
             }
-}
+        }
     </div>
     <button type="button" onclick="saveInventory();">Save</button>
 </div>
@@ -74,15 +76,17 @@
 
         var lumberJson = JSON.stringify(lumberProducts);
         var miscJson = JSON.stringify(miscProducts);
-        var postData = '{"lumberProducts" : ' + lumberJson + ', "miscProducts" : ' + miscJson + '}';
+        var postData = '{"orderType" : "@Model.OrderType", "lumberOrderQuantities" : ' + lumberJson + ', "miscOrderQuantities" : ' + miscJson + '}';
 
         console.log(lumberJson);
         console.log(miscJson);
         console.log(postData);
 
+        $('#worksheetPanel').show();
+        $('#savingPanel').hide();
         $.ajax({
             type: 'POST',
-            url: '@Url.Action("Save", "InventoryAudit")',
+            url: '@Url.Action("CreateOrder", "OrderForm")',
             contentType: 'application/json',
             dataType: 'json',
             data: postData,
@@ -105,9 +109,8 @@
         $(query).each(function () {
             var id = $(this).attr('id');
             var qty = $(this).val();
-            var oldQty = $('#qty' + id).val();
 
-            if (oldQty != qty) {
+            if (qty > 0) {
                 products.push({
                     Id: id,
                     Quantity: qty

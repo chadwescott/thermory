@@ -9,12 +9,10 @@ namespace Thermory.Domain
 
         OrderTypes OrderType { get; }
 
-        string UserId { get; }
+        int UserId { get; }
 
-        DateTime CreatedOn { get; }
+        IOrderLumberLineItem[] LumberLineItems{ get; }
 
-        ILumberProduct[] LumberProducts { get; }
-
-        IMiscellaneousProduct[] MiscellaneousProducts { get; }
+        IOrderMiscellaneousLineItem[] MiscellaneousLineItems { get; }
     }
 }

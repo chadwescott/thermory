@@ -3,6 +3,7 @@ using Thermory.Business;
 using Thermory.Domain;
 using Thermory.Domain.Enums;
 using Thermory.Web.Models;
+using Thermory.Web.ViewModels;
 using WebMatrix.WebData;
 
 namespace Thermory.Web.Controllers
@@ -11,7 +12,7 @@ namespace Thermory.Web.Controllers
     {
         public ActionResult Index()
         {
-            var model = new InventoryWorksheet
+            var model = new InventoryViewModel
             {
                 LumberCategories = CommandDirectory.Instance.GetAllLumberCategories(),
                 MiscellaneousCategories = CommandDirectory.Instance.GetAllMiscellaneousCategories()
