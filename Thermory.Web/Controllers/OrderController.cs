@@ -9,18 +9,18 @@ using WebMatrix.WebData;
 
 namespace Thermory.Web.Controllers
 {
-    public class OrderFormController : Controller
+    public class OrderController : Controller
     {
         public ActionResult CreatePurchaseOrder()
         {
             var model = CreateOrderFormViewModel(OrderTypes.Purchase);
-            return View("Index", model);
+            return View("Create", model);
         }
 
         public ActionResult CreateSalesOrder()
         {
             var model = CreateOrderFormViewModel(OrderTypes.Sales);
-            return View("Index", model);
+            return View("Create", model);
         }
 
         [HttpPost]

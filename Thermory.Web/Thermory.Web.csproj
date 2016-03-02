@@ -187,9 +187,8 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\InventoryAuditController.cs" />
-    <Compile Include="Controllers\InventoryWorksheetController.cs" />
-    <Compile Include="Controllers\OrderFormController.cs" />
+    <Compile Include="Controllers\InventoryController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -263,6 +262,8 @@
     <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="Content\w2ui-1.4.3.css" />
+    <Content Include="Content\w2ui-1.4.3.min.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -294,6 +295,8 @@
     <Content Include="Scripts\knockout-2.2.0.debug.js" />
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\w2ui-1.4.3.js" />
+    <Content Include="Scripts\w2ui-1.4.3.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -331,15 +334,15 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
-    <Content Include="Views\InventoryWorksheet\Index.cshtml" />
-    <Content Include="Views\InventoryWorksheet\_LumberSummary.cshtml" />
-    <Content Include="Views\OrderForm\Index.cshtml" />
-    <Content Include="Views\InventoryAudit\_LumberAuditForm.cshtml" />
-    <Content Include="Views\InventoryAudit\Index.cshtml" />
-    <Content Include="Views\InventoryWorksheet\_MiscSummary.cshtml" />
-    <Content Include="Views\InventoryAudit\_MiscellaneousAuditForm.cshtml" />
-    <Content Include="Views\OrderForm\_LumberLineItem.cshtml" />
-    <Content Include="Views\OrderForm\_MiscellaneousLineItem.cshtml" />
+    <Content Include="Views\Inventory\Index.cshtml" />
+    <Content Include="Views\Inventory\_LumberSummary.cshtml" />
+    <Content Include="Views\Order\Create.cshtml" />
+    <Content Include="Views\Inventory\_LumberAuditForm.cshtml" />
+    <Content Include="Views\Inventory\Audit.cshtml" />
+    <Content Include="Views\Inventory\_MiscSummary.cshtml" />
+    <Content Include="Views\Inventory\_MiscellaneousAuditForm.cshtml" />
+    <Content Include="Views\Order\_LumberLineItem.cshtml" />
+    <Content Include="Views\Order\_MiscellaneousLineItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -356,6 +359,10 @@
     <ProjectReference Include="..\Thermory.Domain\Thermory.Domain.csproj">
       <Project>{A0CA1653-72EA-4E16-AFF9-2A0910D79657}</Project>
       <Name>Thermory.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Thermory.Web.Grid\Thermory.Web.Grid.csproj">
+      <Project>{d30997b6-0a34-4d23-9e99-2102c8d739ed}</Project>
+      <Name>Thermory.Web.Grid</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

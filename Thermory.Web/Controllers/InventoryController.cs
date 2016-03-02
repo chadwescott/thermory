@@ -8,7 +8,7 @@ using WebMatrix.WebData;
 
 namespace Thermory.Web.Controllers
 {
-    public class InventoryAuditController : Controller
+    public class InventoryController : Controller
     {
         public ActionResult Index()
         {
@@ -20,14 +20,25 @@ namespace Thermory.Web.Controllers
             return View(model);
         }
 
+        public ActionResult Audit()
+        {
+            var model = new InventoryViewModel
+            {
+                LumberCategories = CommandDirectory.Instance.GetAllLumberCategories(),
+                MiscellaneousCategories = CommandDirectory.Instance.GetAllMiscellaneousCategories()
+            };
+            return View(model);
+        }
+
         [HttpPost]
-        public JsonResult Save(LumberProduct[] lumberProducts, MiscellaneousProduct[] miscProducts)
+        public JsonResult Audit(LumberProduct[] lumberProducts, MiscellaneousProduct[] miscProducts)
         {
             var lumberInventory = lumberProducts ?? new ILumberProduct[0];
             var miscInventory = miscProducts ?? new IMiscellaneousProduct[0];
             CommandDirectory.Instance.UpdateProductInventory(WebSecurity.CurrentUserId, TransactionTypes.Audit,
                 lumberInventory, miscInventory);
-            return Json(new { status = "success"});
+            return Json(new { status = "success" });
         }
+
     }
 }
