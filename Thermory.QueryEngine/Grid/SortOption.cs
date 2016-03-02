@@ -1,4 +1,4 @@
-﻿using System.Data.Linq.Mapping;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
 
 namespace Thermory.QueryEngine.Grid
