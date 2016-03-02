@@ -211,7 +211,7 @@
     <Compile Include="Models\InventoryModel.cs" />
     <Compile Include="Models\LumberProduct.cs" />
     <Compile Include="Models\MiscellaneousProduct.cs" />
-    <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\OrderView.cs" />
     <Compile Include="Models\OrderFormModel.cs" />
     <Compile Include="Models\OrderLumberLineItem.cs" />
     <Compile Include="Models\OrderMiscellaneousLineItem.cs" />

@@ -5,10 +5,11 @@
     <title>Thermory Inventory</title>
     <link href="~/Images/favicon.png" rel="shortcut icon" type="image/x-icon" />
     <meta name="viewport" content="width=device-width" />
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/jquery")
     @Styles.Render("~/Content/w2ui-css")
+    @Styles.Render("~/Content/css")
+
     @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/w2ui")
     @RenderSection("scripts", required: false)
@@ -30,8 +31,6 @@
                             <li>@Html.ActionLink("Inventory", "Index", "Inventory")</li>
                             <li>@Html.ActionLink("Inventory Audit", "Audit", "Inventory")</li>
                             <li>@Html.ActionLink("Orders", "Index", "Order")</li>
-                            <li>@Html.ActionLink("Purchase Order", "CreatePurchaseOrder", "Order")</li>
-                            <li>@Html.ActionLink("Sales Order", "CreateSalesOrder", "Order")</li>
                         </ul>
                     </nav>
                 }

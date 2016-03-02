@@ -2,11 +2,7 @@
 
 namespace Thermory.Web.Controllers.Api
 {
-    public class OrderGridController : ThermoryGridController<Order, Order>
+    public class OrderGridController : ThermoryGridController<OrderView>
     {
-        protected override Order CreateViewModel(Order model)
-        {
-            return model;
-        }
     }
 }

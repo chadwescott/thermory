@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Data;
-using System.Data.Linq.Mapping;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Reflection;
 

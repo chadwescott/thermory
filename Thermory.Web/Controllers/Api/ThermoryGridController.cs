@@ -13,10 +13,10 @@ using WebMatrix.WebData;
 
 namespace Thermory.Web.Controllers.Api
 {
-    public abstract class ThermoryGridController<TM, TV> : ApiController
-        where TV : TM, IViewModel
+    public abstract class ThermoryGridController<T> : ApiController
+        where T : IViewModel
     {
-        public BaseResponse Post(PostData<TV> data)
+        public BaseResponse Post(PostData<T> data)
         {
             switch (data.cmd)
             {
@@ -24,28 +24,24 @@ namespace Thermory.Web.Controllers.Api
                     return (HttpContext.Current != null && WebSecurity.CurrentUserId > 0)
                         ? GetResults(data)
                         : null;
-                case "delete-records":
-                    return Delete(data.selected ?? new List<string>());
-                case "save-records":
-                    return Save(data);
             }
 
             return null;
         }
 
-        private BaseResponse GetResults(PostData<TV> data)
+        private BaseResponse GetResults(PostData<T> data)
         {
             try
             {
                 var connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-                var adapter = new SqlServerAdapter<TM>(connectionString);
+                var adapter = new SqlServerAdapter<T>(connectionString);
 
                 // Build search item list
                 List<SearchItem> searchItems = null;
                 if (data.search != null)
                 {
                     var searchItemBuilder = new SqlServerSearchItemBuilder();
-                    searchItems = data.search.Select(searchItemBuilder.BuildSearchItem<TM>).ToList();
+                    searchItems = data.search.Select(searchItemBuilder.BuildSearchItem<T>).ToList();
                 }
 
                 // Build the paging, sort and filter conditions
@@ -68,17 +64,17 @@ namespace Thermory.Web.Controllers.Api
 
                 if (data.sort != null)
                 {
-                    conditions.SortOptionSql = data.sort.Select(o => o.BuildSql<TM>()).ToList();
+                    conditions.SortOptionSql = data.sort.Select(o => o.BuildSql<T>()).ToList();
                 }
 
                 var result = adapter.GetRecords(conditions);
 
                 // Return the account view response
-                return new GetResponse<TV>
+                return new GetResponse<T>
                 {
                     status = ResponseCodes.Success,
                     total = currentCount,
-                    records = result.Select(CreateViewModel).ToList()
+                    records = result
                 };
             }
             catch (Exception ex)
@@ -91,55 +87,9 @@ namespace Thermory.Web.Controllers.Api
             }
         }
 
-
-        protected ModelAdapter<TM> CreateModelAdapter()
-        {
-            return new ModelAdapter<TM>();
-        }
-
-        protected abstract TV CreateViewModel(TM model);
-
         protected virtual List<SearchItem> GetRequiredSearchItem()
         {
             return null;
-        }
-
-        private BaseResponse Save(PostData<TV> data)
-        {
-            if (data.changes == null)
-                return new GetResponse<TV> { status = ResponseCodes.Success };
-            try
-            {
-                var adapter = CreateModelAdapter();
-                data.changes.ForEach(view => adapter.Save(view));
-
-                return new GetResponse<TV>
-                {
-                    status = ResponseCodes.Success
-                };
-            }
-            catch (Exception ex)
-            {
-                return new ErrorResponse { status = ResponseCodes.Error, message = ex.Message };
-            }
-        }
-
-        protected virtual BaseResponse Delete(List<string> deleteIds)
-        {
-            try
-            {
-                var adapter = CreateModelAdapter();
-                deleteIds.ForEach(adapter.Delete);
-
-                return new GetResponse<TV>
-                {
-                    status = ResponseCodes.Success
-                };
-            }
-            catch (Exception ex)
-            {
-                return new ErrorResponse { status = ResponseCodes.Error, message = ex.Message };
-            }
         }
     }
 }

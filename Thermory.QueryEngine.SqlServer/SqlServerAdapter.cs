@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Common;
-using System.Data.Linq.Mapping;
 using System.Data.SqlClient;
 using System.Linq;
 
@@ -18,11 +18,14 @@ namespace Thermory.QueryEngine.SqlServer
                 TargetType.GetProperties().FirstOrDefault(prop => Attribute.IsDefined(prop, typeof (KeyAttribute)));
             if (keyProperty != null)
             {
-                var columnAttribute = keyProperty.GetCustomAttributes(typeof(ColumnAttribute), true).FirstOrDefault();
-                _sortField = columnAttribute != null ? ((ColumnAttribute)columnAttribute).Name : keyProperty.Name;
+                var columnAttribute = keyProperty.GetCustomAttributes(typeof (ColumnAttribute), true).FirstOrDefault();
+                _sortField = columnAttribute != null ? ((ColumnAttribute) columnAttribute).Name : keyProperty.Name;
             }
             else
-                _sortField = TargetType.GetProperties().First().Name;
+            {
+                var columnAttribute = TargetType.GetProperties().First().GetCustomAttributes(typeof(ColumnAttribute), true).FirstOrDefault();
+                _sortField = columnAttribute != null ? ((ColumnAttribute)columnAttribute).Name : TargetType.GetProperties().First().Name;
+            }
         }
 
         protected override string GetSubQueryTerminator()
