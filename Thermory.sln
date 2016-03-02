@@ -19,8 +19,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thermory.QueryEngine", "The
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thermory.QueryEngine.SqlServer", "Thermory.QueryEngine.SqlServer\Thermory.QueryEngine.SqlServer.csproj", "{7BE5DBCF-5F2F-4925-8C54-597565A127E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thermory.Web.Grid", "Thermory.Web.Grid\Thermory.Web.Grid.csproj", "{D30997B6-0A34-4D23-9E99-2102C8D739ED}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,10 +57,6 @@ Global
 		{7BE5DBCF-5F2F-4925-8C54-597565A127E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BE5DBCF-5F2F-4925-8C54-597565A127E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7BE5DBCF-5F2F-4925-8C54-597565A127E7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D30997B6-0A34-4D23-9E99-2102C8D739ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D30997B6-0A34-4D23-9E99-2102C8D739ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D30997B6-0A34-4D23-9E99-2102C8D739ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D30997B6-0A34-4D23-9E99-2102C8D739ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

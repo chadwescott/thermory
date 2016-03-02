@@ -4,13 +4,17 @@ using Thermory.Business;
 using Thermory.Domain;
 using Thermory.Domain.Enums;
 using Thermory.Web.Models;
-using Thermory.Web.ViewModels;
 using WebMatrix.WebData;
 
 namespace Thermory.Web.Controllers
 {
     public class OrderController : Controller
     {
+        public ActionResult Index()
+        {
+            return View();
+        }
+
         public ActionResult CreatePurchaseOrder()
         {
             var model = CreateOrderFormViewModel(OrderTypes.Purchase);
@@ -47,9 +51,9 @@ namespace Thermory.Web.Controllers
             return Json(new { status = "success" });
         }
 
-        private OrderFormViewModel CreateOrderFormViewModel(OrderTypes orderType)
+        private OrderFormModel CreateOrderFormViewModel(OrderTypes orderType)
         {
-            return new OrderFormViewModel
+            return new OrderFormModel
             {
                 OrderType = orderType,
                 LumberCategories = CommandDirectory.Instance.GetAllLumberCategories(),

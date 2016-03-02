@@ -2,10 +2,12 @@
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Threading;
+using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using System.Web.SessionState;
 using Thermory.Web.Models;
 using WebMatrix.WebData;
 
@@ -56,6 +58,18 @@ namespace Thermory.Web
                     throw new InvalidOperationException("The ASP.NET Simple Membership database could not be initialized. For more information, please see http://go.microsoft.com/fwlink/?LinkId=256588", ex);
                 }
             }
+        }
+        protected void Application_PostAuthorizeRequest()
+        {
+            if (IsWebApiRequest())
+            {
+                HttpContext.Current.SetSessionStateBehavior(SessionStateBehavior.Required);
+            }
+        }
+
+        private static bool IsWebApiRequest()
+        {
+            return HttpContext.Current.Request.AppRelativeCurrentExecutionFilePath.StartsWith(WebApiConfig.UrlPrefixRelative);
         }
     }
 }

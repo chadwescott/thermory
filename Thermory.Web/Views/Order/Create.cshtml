@@ -1,4 +1,4 @@
-﻿@model Thermory.Web.ViewModels.OrderFormViewModel
+﻿@model Thermory.Web.Models.OrderFormModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     var firstCategoryId = Model.LumberCategories.First().Id;
@@ -86,7 +86,7 @@
         $('#savingPanel').hide();
         $.ajax({
             type: 'POST',
-            url: '@Url.Action("CreateOrder", "OrderForm")',
+            url: '@Url.Action("CreateOrder", "Order")',
             contentType: 'application/json',
             dataType: 'json',
             data: postData,

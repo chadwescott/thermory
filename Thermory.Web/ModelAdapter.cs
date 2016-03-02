@@ -1,4 +1,4 @@
-﻿namespace Thermory.Web.Grid
+﻿namespace Thermory.Web
 {
     public class ModelAdapter<T>
     {

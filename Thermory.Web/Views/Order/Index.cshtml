@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="orderDiv" style="height: 450px"></div>
+
+<script>
+    $(document).ready(function() {
+        $('#orderDiv').w2grid({
+            name: 'orderGrid',
+            url: '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "OrderGrid" })',
+            //url: '@Url.Action("Post", "OrderGrid")',
+            autoLoad: true,
+            limit: 500,
+            msgRefresh: 'Loading',
+            show: {
+                toolbar: true,
+                footer: false,
+                toolbarSave: false,
+                toolbarDelete: false,
+                toolbarSearch: true
+            },
+            searches: [
+                @*{ field: 'ReferenceNumber', caption: '@GoCardless.PatientReference', type: 'text' },
+                { field: 'FirstName', caption: '@GoCardless.FirstName', type: 'text' },
+                { field: 'LastName', caption: '@GoCardless.LastName', type: 'text' },
+                { field: 'Email', caption: '@GoCardless.EmailAddress', type: 'text' }*@
+            ],
+            columns: [
+                @*{
+                    field: 'ReferenceNumber', caption: '@GoCardless.PatientReference', size: '20%', sortable: true, resizable: true,
+                },
+                {
+                    field: 'FirstName', caption: '@GoCardless.FirstName', size: '20%', sortable: true, resizable: true,
+                },
+                {
+                    field: 'LastName', caption: '@GoCardless.LastName', size: '20%', sortable: true, resizable: true,
+                },
+                { field: 'Email', caption: '@GoCardless.EmailAddress', size: '40%', sortable: true, resizable: true }*@
+            ],
+            @*onSelect: function(event) {
+                window.location = ('@Url.Action("Summary", "Patient")/' + event.recid);
+            }*@
+        });
+    });
+</script>
