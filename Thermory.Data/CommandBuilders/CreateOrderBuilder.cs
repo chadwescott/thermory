@@ -1,18 +1,17 @@
 ﻿using System.Linq;
 using Thermory.Data.Commands;
 using Thermory.Data.Constants;
-using Thermory.Data.Models;
-using Thermory.Domain;
+using Thermory.Domain.Models;
 using Thermory.Domain.Enums;
 
 namespace Thermory.Data.CommandBuilders
 {
     internal class CreateOrderBuilder : CommandBuilder
     {
-        public CreateOrderBuilder(int userId, OrderTypes orderType, IOrderLumberLineItem[] lumberLineItems,
-            IOrderMiscellaneousLineItem[] miscLineItems)
+        public CreateOrderBuilder(int userId, OrderTypes orderType, OrderLumberLineItem[] lumberLineItems,
+            OrderMiscellaneousLineItem[] miscLineItems)
         {
-            var orderTypeId = DatabaseCommandDirectory.Instance.GetOrderTypeIdByEnum(orderType);
+            var orderTypeId = DatabaseCommandDirectory.Instance.GetOrderTypeyEnum(orderType);
             var adjustmentMultiplier = orderType.ToString() == OrderTypeNames.PurchaseOrder ? 1 : -1;
             var order = new Order { OrderTypeId = orderTypeId };
 
@@ -27,9 +26,9 @@ namespace Thermory.Data.CommandBuilders
             Commands.AddRange(createOrderMisceLinesCommands);
             
             var transactionTypeId =
-                DatabaseCommandDirectory.Instance.GetTransactionTypeIdByEnum(TransactionTypes.OrderCreate);
+                DatabaseCommandDirectory.Instance.GetTransactionTypeyEnum(TransactionTypes.OrderCreate);
             
-            var transaction = new InventoryTransaction { UserId = userId, DbOrder = order, TransactionTypeId = transactionTypeId };
+            var transaction = new InventoryTransaction { UserId = userId, Order = order, TransactionTypeId = transactionTypeId };
             var createInventoryTransactionCommand = new CreateInventoryTransaction(transaction);
             Commands.Add(createInventoryTransactionCommand);
 

@@ -1,12 +1,12 @@
 ﻿@using WebGrease.Css.Extensions
-@model Thermory.Domain.ILumberCategory
+@model Thermory.Domain.Models.LumberCategory
 
 @foreach (var subCategory in Model.LumberSubCategories)
 {
     var millimeterLengths = new List<int>();
-    subCategory.LumberTypes.ForEach(pt => pt.LumberLengthsMillimeters.ForEach(l => { if (!millimeterLengths.Contains(l)) millimeterLengths.Add(l); }));
+    subCategory.LumberTypes.ForEach(pt => pt.LengthsMillimeters.ForEach(l => { if (!millimeterLengths.Contains(l)) millimeterLengths.Add(l); }));
     var feetLengths = new List<double>();
-    subCategory.LumberTypes.ForEach(pt => pt.LumberLengthsFeet.ForEach(l => { if (!feetLengths.Contains(l)) feetLengths.Add(l); }));
+    subCategory.LumberTypes.ForEach(pt => pt.LengthsFeet.ForEach(l => { if (!feetLengths.Contains(l)) feetLengths.Add(l); }));
     var columns = millimeterLengths.Count + 4;
     var blankRow = string.Format("<tr><td colspan=\"{0}\">&nbsp;</td></tr>", columns);
 
@@ -36,7 +36,7 @@
                 <td colspan="2" class="productType productTypeHeading"><div class="headingWidth" title="@lumberType.Name">@lumberType.Name</div></td>
                 @foreach (var length in millimeterLengths)
                 {
-                    var lumberForLength = lumberType.LumberProducts.SingleOrDefault(p => p.LengthInMillmeters == length);
+                    var lumberForLength = lumberType.LumberProducts.SingleOrDefault(p => p.LengthInMillimeters == length);
                     var quantity = @lumberForLength == null ? 0 : lumberForLength.Quantity;
                     <td class="productType subCategoryCellPadding subCategoryLength">@quantity</td>
                 }
@@ -47,17 +47,17 @@
                 <td colspan="2" class="productType productTypeStatistic">Tally %</td>
                 @foreach (var length in millimeterLengths)
                 {
-                    var lumberForLength = lumberType.LumberProducts.SingleOrDefault(p => p.LengthInMillmeters == length);
+                    var lumberForLength = lumberType.LumberProducts.SingleOrDefault(p => p.LengthInMillimeters == length);
                     var tally = @lumberForLength == null ? 0 : lumberForLength.TallyPercentage;
                     <td class="productType subCategoryCellPadding subCategoryLength productTypeTally">@tally%</td>
                 }
             </tr>
             @Html.Raw(blankRow)
             <tr>
-                <td colspan="2" class="productType productTypeStatistic">LF / Length</td>
+                <td colspan="2" class="productType productTypeStatistic">LF / LengthInMillimeters</td>
                 @foreach (var length in millimeterLengths)
                 {
-                    var lumberForLength = lumberType.LumberProducts.SingleOrDefault(p => p.LengthInMillmeters == length);
+                    var lumberForLength = lumberType.LumberProducts.SingleOrDefault(p => p.LengthInMillimeters == length);
                     var linearFeet = lumberForLength == null ? 0 : lumberForLength.LinearFeet;
                     <td class="subCategoryCellPadding subCategoryLength">@linearFeet</td>
                 }
@@ -65,10 +65,10 @@
                 <td>@lumberType.TotalPieces</td>
             </tr>
             <tr>
-                <td colspan="2" class="productType productTypeStatistic">SF / Length</td>
+                <td colspan="2" class="productType productTypeStatistic">SF / LengthInMillimeters</td>
                 @foreach (var length in millimeterLengths)
                 {
-                    var lumberForLength = lumberType.LumberProducts.SingleOrDefault(p => p.LengthInMillmeters == length);
+                    var lumberForLength = lumberType.LumberProducts.SingleOrDefault(p => p.LengthInMillimeters == length);
                     var squareFeet = lumberForLength == null ? 0 : lumberForLength.SquareFeet;
                     <td class="productType subCategoryCellPadding subCategoryLength">@squareFeet</td>
                 }

@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Linq;
 using Thermory.Data.Commands;
-using Thermory.Data.Models;
-using Thermory.Domain;
+using Thermory.Domain.Models;
 
 namespace Thermory.Data.CommandBuilders
 {
     internal class InventoryAuditBuilder : CommandBuilder
     {
-        public InventoryAuditBuilder(int userId, Guid transactionTypeId, ILumberProduct[] lumberProducts,
-            IMiscellaneousProduct[] miscProducts)
+        public InventoryAuditBuilder(int userId, Guid transactionTypeId, LumberProduct[] lumberProducts,
+            MiscellaneousProduct[] miscProducts)
         {
             var transaction = new InventoryTransaction {UserId = userId, TransactionTypeId = transactionTypeId};
             var createInventoryTransactionCommand = new CreateInventoryTransaction(transaction);

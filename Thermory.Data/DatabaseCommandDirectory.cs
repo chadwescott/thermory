@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Thermory.Data.CommandBuilders;
 using Thermory.Data.Commands;
-using Thermory.Data.Models;
-using Thermory.Domain;
+using Thermory.Domain.Models;
 using Thermory.Domain.Enums;
 
 namespace Thermory.Data
@@ -21,8 +20,8 @@ namespace Thermory.Data
         private DatabaseCommandDirectory()
         { }
 
-        public void CreateOrder(int userId, OrderTypes orderType, IOrderLumberLineItem[] lumberLineItems,
-            IOrderMiscellaneousLineItem[] miscLineItems)
+        public void CreateOrder(int userId, OrderTypes orderType, OrderLumberLineItem[] lumberLineItems,
+            OrderMiscellaneousLineItem[] miscLineItems)
         {
             var builder = new CreateOrderBuilder(userId, orderType, lumberLineItems, miscLineItems);
             var commands = builder.Commands;
@@ -30,35 +29,42 @@ namespace Thermory.Data
             transaction.Execute();
         }
 
-        public IList<IDbLumberCategory> GetAllLumberCategories()
+        public IList<LumberCategory> GetAllLumberCategories()
         {
             var command = new GetAllLumberCategories();
             command.Execute();
             return command.Result;
         }
 
-        public IList<IDbLumberProduct> GetAllLumberProducts()
+        public IList<LumberProduct> GetAllLumberProducts()
         {
             var command = new GetAllLumberProducts();
             command.Execute();
             return command.Result;
         }
 
-        public IList<IDbMiscellaneousCategory> GetAllMiscellaneousCategories()
+        public IList<MiscellaneousCategory> GetAllMiscellaneousCategories()
         {
             var command = new GetAllMiscellaneousCategories();
             command.Execute();
             return command.Result;
         }
 
-        public IList<IDbMiscellaneousProduct> GetAllMiscellaneousProducts()
+        public IList<MiscellaneousProduct> GetAllMiscellaneousProducts()
         {
             var command = new GetAllMiscellaneousProducts();
             command.Execute();
             return command.Result;
         }
 
-        internal Guid GetOrderTypeIdByEnum(OrderTypes orderType)
+        public Order GetOrderById(Guid id)
+        {
+            var command = new GetOrderById(id);
+            command.Execute();
+            return command.Result;
+        }
+
+        internal Guid GetOrderTypeyEnum(OrderTypes orderType)
         {
             var command = new GetAllOrderTypes();
             command.Execute();
@@ -67,7 +73,7 @@ namespace Thermory.Data
             return orderTypes.Single(t => t.Name == orderType.ToString()).Id;
         }
 
-        internal Guid GetTransactionTypeIdByEnum(TransactionTypes transactionType)
+        internal Guid GetTransactionTypeyEnum(TransactionTypes transactionType)
         {
             var command = new GetAllTransactionTypes();
             command.Execute();
@@ -77,9 +83,9 @@ namespace Thermory.Data
         }
 
         public void InventoryAudit(int userId, TransactionTypes transactionType,
-            ILumberProduct[] lumberProducts, IMiscellaneousProduct[] miscProducts)
+            LumberProduct[] lumberProducts, MiscellaneousProduct[] miscProducts)
         {
-            var transactionTypeId = GetTransactionTypeIdByEnum(transactionType);
+            var transactionTypeId = GetTransactionTypeyEnum(transactionType);
             var builder = new InventoryAuditBuilder(userId, transactionTypeId, lumberProducts, miscProducts);
             var commands = builder.Commands;
             var transaction = new TransactionalCommand(commands);

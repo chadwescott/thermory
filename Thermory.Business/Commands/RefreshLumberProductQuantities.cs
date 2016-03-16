@@ -2,15 +2,15 @@
 using System.Linq;
 using Thermory.Data;
 using Thermory.Data.Commands;
-using Thermory.Domain;
+using Thermory.Domain.Models;
 
 namespace Thermory.Business.Commands
 {
     internal class RefreshLumberProductQuantities : ICommand
     {
-        private readonly IList<ILumberCategory> _lumberCategories;
+        private readonly IList<LumberCategory> _lumberCategories;
 
-        public RefreshLumberProductQuantities(IList<ILumberCategory> lumberCategories)
+        public RefreshLumberProductQuantities(IList<LumberCategory> lumberCategories)
         {
             _lumberCategories = lumberCategories;
         }

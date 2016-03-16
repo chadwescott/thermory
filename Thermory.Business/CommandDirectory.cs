@@ -1,16 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Thermory.Business.Commands;
 using Thermory.Data;
-using Thermory.Domain;
 using Thermory.Domain.Enums;
+using Thermory.Domain.Models;
 
 namespace Thermory.Business
 {
     public class CommandDirectory
     {
         private static CommandDirectory _instance;
-        private static IList<ILumberCategory> _lumberCategories;
-        private static IList<IMiscellaneousCategory> _miscellaneousCategories;
+        private static IList<LumberCategory> _lumberCategories;
+        private static IList<MiscellaneousCategory> _miscellaneousCategories;
         private readonly object _categoryLock = new object();
 
         public static CommandDirectory Instance
@@ -43,28 +44,33 @@ namespace Thermory.Business
             _miscellaneousCategories = command.Result;
         }
 
-        public void CreateOrder(int userId, OrderTypes orderType, IOrderLumberLineItem[] lumberLineItems,
-            IOrderMiscellaneousLineItem[] miscLineItems)
+        public void CreateOrder(int userId, OrderTypes orderType, OrderLumberLineItem[] lumberLineItems,
+            OrderMiscellaneousLineItem[] miscLineItems)
         {
             DatabaseCommandDirectory.Instance.CreateOrder(userId, orderType, lumberLineItems, miscLineItems);
         }
 
-        public IList<ILumberCategory> GetAllLumberCategories()
+        public IList<LumberCategory> GetAllLumberCategories()
         {
             var command = new RefreshLumberProductQuantities(_lumberCategories);
             command.Execute();
             return _lumberCategories;
         }
 
-        public IList<IMiscellaneousCategory> GetAllMiscellaneousCategories()
+        public IList<MiscellaneousCategory> GetAllMiscellaneousCategories()
         {
             var command = new RefreshMiscellaneousProductQuantities(_miscellaneousCategories);
             command.Execute();
             return _miscellaneousCategories;
         }
 
-        public void UpdateProductInventory(int userId, TransactionTypes transactionType, ILumberProduct[] lumberProducts,
-            IMiscellaneousProduct[] miscProducts)
+        public static Order GetOrderById(Guid id)
+        {
+            return DatabaseCommandDirectory.Instance.GetOrderById(id);
+        }
+
+        public void UpdateProductInventory(int userId, TransactionTypes transactionType, LumberProduct[] lumberProducts,
+            MiscellaneousProduct[] miscProducts)
         {
             DatabaseCommandDirectory.Instance.InventoryAudit(userId, transactionType, lumberProducts,
                 miscProducts);
