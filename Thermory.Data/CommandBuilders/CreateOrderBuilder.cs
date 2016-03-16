@@ -18,12 +18,12 @@ namespace Thermory.Data.CommandBuilders
             Commands.Add(new CreateOrder(order));
 
             var createOrderLumberLinesCommands =
-                lumberLineItems.Select(i => new CreateOrderLumberLineItem(order, i.LumberProduct.Id, i.Quantity * adjustmentMultiplier));
+                lumberLineItems.Select(i => new CreateOrderLumberLineItem(order, i.LumberProduct.Id, i.Quantity));
             Commands.AddRange(createOrderLumberLinesCommands);
 
-            var createOrderMisceLinesCommands =
-                miscLineItems.Select(i => new CreateOrderMiscellaneousLineItem(order, i.MiscellaneousProduct.Id, i.Quantity * adjustmentMultiplier));
-            Commands.AddRange(createOrderMisceLinesCommands);
+            var createOrderMiscLinesCommands =
+                miscLineItems.Select(i => new CreateOrderMiscellaneousLineItem(order, i.MiscellaneousProduct.Id, i.Quantity));
+            Commands.AddRange(createOrderMiscLinesCommands);
             
             var transactionTypeId =
                 DatabaseCommandDirectory.Instance.GetTransactionTypeyEnum(TransactionTypes.OrderCreate);

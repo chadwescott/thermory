@@ -207,10 +207,12 @@
     <Compile Include="ModelAdapter.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\IViewModel.cs" />
+    <Compile Include="Models\LumberOrderForm.cs" />
+    <Compile Include="Models\MiscellaneousOrderForm.cs" />
     <Compile Include="Models\ProductOrderQuantity.cs" />
     <Compile Include="Models\InventoryModel.cs" />
     <Compile Include="Models\OrderView.cs" />
-    <Compile Include="Models\OrderFormModel.cs" />
+    <Compile Include="Models\OrderForm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SessionVariables.cs" />
   </ItemGroup>

@@ -17,8 +17,13 @@ namespace Thermory.Data.Commands
         protected override void OnExecute(ThermoryContext context)
         {
             Result =
-                context.Orders.Include(o => o.OrderLumberLineItems)
-                    .Include(o => o.OrderMiscellaneousLineItems)
+                context.Orders.Include(
+                    o =>
+                        o.OrderLumberLineItems.Select(li => li.LumberProduct.LumberType.LumberSubCategory.LumberCategory))
+                    .Include(
+                        o =>
+                            o.OrderMiscellaneousLineItems.Select(
+                                li => li.MiscellaneousProduct.MiscellaneousSubCategory.MiscellaneousCategory))
                     .Include(o => o.OrderType)
                     .SingleOrDefault(o => o.Id == _id);
         }

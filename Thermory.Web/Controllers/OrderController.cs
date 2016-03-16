@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Thermory.Business;
@@ -29,15 +28,15 @@ namespace Thermory.Web.Controllers
             return View("Form", model);
         }
 
-        public ActionResult EditOrder(Guid orderId)
+        public ActionResult EditOrder(Guid id)
         {
-            var order = CommandDirectory.GetOrderById(orderId);
+            var order = CommandDirectory.GetOrderById(id);
             var model = CreateOrderFormViewModel(order);
             return View("Form", model);
         }
 
         [HttpPost]
-        public JsonResult SaveOrder(OrderTypes orderType, ProductOrderQuantity[] lumberOrderQuantities,
+        public ActionResult SaveOrder(OrderTypes orderType, ProductOrderQuantity[] lumberOrderQuantities,
             ProductOrderQuantity[] miscOrderQuantities)
         {
             var lumberLineItems = lumberOrderQuantities == null
@@ -60,28 +59,31 @@ namespace Thermory.Web.Controllers
             return Json(new { status = "success" });
         }
 
-        private OrderFormModel CreateOrderFormViewModel(Order order)
+        private OrderForm CreateOrderFormViewModel(Order order)
         {
             var model = CreateOrderFormViewModel(order.OrderType.OrderTypeEnum);
-            model.OrderQuantities = new List<ProductOrderQuantity>();
-            model.OrderQuantities.AddRange(
-                order.OrderLumberLineItems.Select(
-                    li => new ProductOrderQuantity { Id = li.LumberProductId, Quantity = li.Quantity }));
+            foreach (var form in model.LumberOrderForms)
+            {
+                form.LumberLineItems = order.OrderLumberLineItems.Where(
+                        li => li.LumberProduct.LumberType.LumberSubCategory.LumberCategoryId == form.LumberCategory.Id).ToList();
+            }
 
-            model.OrderQuantities.AddRange(
-                order.OrderMiscellaneousLineItems.Select(
-                    li => new ProductOrderQuantity { Id = li.MiscellaneousProductId, Quantity = li.Quantity }));
+            foreach (var form in model.MiscellaneousOrderForms)
+            {
+                form.MiscellaneousLineItems = order.OrderMiscellaneousLineItems.Where(
+                        li => li.MiscellaneousProduct.MiscellaneousSubCategory.MiscellaneousCategory.Id == form.MiscellaneousCategory.Id).ToList();
+            }
 
             return model;
         }
 
-        private OrderFormModel CreateOrderFormViewModel(OrderTypes orderType)
+        private OrderForm CreateOrderFormViewModel(OrderTypes orderType)
         {
-            return new OrderFormModel
+            return new OrderForm
             {
                 OrderType = orderType,
-                LumberCategories = CommandDirectory.Instance.GetAllLumberCategories(),
-                MiscellaneousCategories = CommandDirectory.Instance.GetAllMiscellaneousCategories()
+                LumberOrderForms = CommandDirectory.Instance.GetAllLumberCategories().Select(c => new LumberOrderForm{ LumberCategory = c }).ToList(),
+                MiscellaneousOrderForms = CommandDirectory.Instance.GetAllMiscellaneousCategories().Select(c => new MiscellaneousOrderForm { MiscellaneousCategory = c }).ToList()
             };
         }
     }

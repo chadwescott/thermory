@@ -1,20 +1,22 @@
-﻿@model Thermory.Web.Models.OrderFormModel
+﻿@model Thermory.Web.Models.OrderForm
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var firstCategoryId = Model.LumberCategories.First().Id;
+    var firstCategoryId = Model.LumberOrderForms.First().LumberCategory.Id;
+    var title = string.Format("{0} {1} Order", Model.Order == null ? "Create" : "Edit", Model.OrderType);
 }
 
-<h3>Create @Model.OrderType.ToString() Order</h3>
+<h3>@title</h3>
 
 <div id="worksheetPanel">
     <ul class="nav nav-tabs" data-tabs="tabs">
         @{
-            foreach (var category in Model.LumberCategories)
+            foreach (var orderForm in Model.LumberOrderForms)
             {
+                var category = orderForm.LumberCategory;
                 var active = category.Id == firstCategoryId ? "class=active" : "";
-                <li @active><a href="#@category.Id" data-toggle="tab">@category.Name</a></li>
+                <li @active><a href="#@orderForm.LumberCategory.Id" data-toggle="tab">@category.Name</a></li>
             }
-            foreach (var category in Model.MiscellaneousCategories)
+            foreach (var category in Model.MiscellaneousOrderForms.Select(orderForm => orderForm.MiscellaneousCategory))
             {
                 <li><a href="#@category.Id" data-toggle="tab">@category.Name</a></li>
             }
@@ -22,17 +24,19 @@
     </ul>
     <div class="tab-content" style="height: 500px; overflow: auto;">
         @{
-            foreach (var category in Model.LumberCategories)
+            foreach (var orderForm in Model.LumberOrderForms)
             {
+                var category = orderForm.LumberCategory;
                 var active = category.Id == firstCategoryId ? "active" : "";
                 <div id="@category.Id" class="tab-pane @active">
-                    @Html.Partial("_LumberLineItem", category)
+                    @Html.Partial("_LumberLineItem", orderForm)
                 </div>
             }
-            foreach (var category in Model.MiscellaneousCategories)
+            foreach (var orderForm in Model.MiscellaneousOrderForms)
             {
+                var category = orderForm.MiscellaneousCategory;
                 <div id="@category.Id" class="tab-pane">
-                    @Html.Partial("_MiscellaneousLineItem", category)
+                    @Html.Partial("_MiscellaneousLineItem", orderForm)
                 </div>
             }
         }
@@ -91,7 +95,7 @@
             dataType: 'json',
             data: postData,
             success: function (data, status, request) {
-                location.reload();
+                window.location = ('@Url.Action("Index", "Order")');
             },
             error: function (data, status, request) {
                 console.log(data);

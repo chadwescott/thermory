@@ -1,7 +1,7 @@
 ﻿@using WebGrease.Css.Extensions
-@model Thermory.Domain.Models.LumberCategory
+@model Thermory.Web.Models.LumberOrderForm
 
-@foreach (var subCategory in Model.LumberSubCategories)
+@foreach (var subCategory in Model.LumberCategory.LumberSubCategories)
 {
     var millimeterLengths = new List<int>();
     subCategory.LumberTypes.ForEach(pt => pt.LengthsMillimeters.ForEach(l => { if (!millimeterLengths.Contains(l)) millimeterLengths.Add(l); }));
@@ -51,8 +51,10 @@
                 {
                     var lumberForLength = lumberType.LumberProducts.SingleOrDefault(p => p.LengthInMillimeters == length);
                     var productId = @lumberForLength == null ? Guid.Empty : lumberForLength.Id;
+                    var lineItem = Model.LumberLineItems == null ? null : Model.LumberLineItems.SingleOrDefault(li => li.LumberProductId == productId);
+                    var orderQuantity = lineItem == null ? 0 : lineItem.Quantity;
                     <td class="productType subCategoryCellPadding subCategoryLength" style="border-top: none;">
-                        <input type="text" name="lumberQty" id="@productId" class="form-control" maxlength="6" pattern="[0-9]*" value="0" />
+                        <input type="text" name="lumberQty" id="@productId" class="form-control" maxlength="6" pattern="[0-9]*" value="@orderQuantity" />
                     </td>
                 }
             </tr>

@@ -40,7 +40,10 @@
             ],
             sortData: [
                 { field: 'CreatedOn', direction: 'desc' }
-            ]
+            ],
+            onSelect: function (event) {
+                window.location = ('@Url.Action("EditOrder", "Order")/' + event.recid);
+            }
         });
     });
 </script>

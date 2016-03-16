@@ -1,4 +1,4 @@
-﻿@model Thermory.Domain.Models.MiscellaneousCategory
+﻿@model Thermory.Web.Models.MiscellaneousOrderForm
 
 <table class="table table-condensed inventory">
     <colgroup>
@@ -6,7 +6,7 @@
         <col style="width: 25%;" />
         <col style="width: 50%;" />
     </colgroup>
-    @foreach (var subCategory in Model.MiscellaneousSubCategories)
+    @foreach (var subCategory in Model.MiscellaneousCategory.MiscellaneousSubCategories)
     {
         <tr class="englishHeading">
             <td><div><strong>@subCategory.Name</strong></div></td>
@@ -15,11 +15,13 @@
         </tr>
         foreach (var miscProduct in subCategory.MiscellaneousProducts)
         {
+            var lineItem = Model.MiscellaneousLineItems == null ? null : Model.MiscellaneousLineItems.SingleOrDefault(li => li.MiscellaneousProductId == miscProduct.Id);
+            var orderQuantity = lineItem == null ? 0 : lineItem.Quantity;
             <tr>
                 <td class="productType">@miscProduct.Name (@miscProduct.Description)</td>
                 <td class="productType">@miscProduct.Quantity</td>
                 <td class="productType">
-                    <div style="width: 100px;"><input type="text" name="miscQty" id="@miscProduct.Id" class="form-control" maxlength="6" pattern="[0-9]*" value="0" /></div>
+                    <div style="width: 100px;"><input type="text" name="miscQty" id="@miscProduct.Id" class="form-control" maxlength="6" pattern="[0-9]*" value="@orderQuantity" /></div>
                 </td>
             </tr>
         }
