@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="CommandBuilders\CommandBuilder.cs" />
     <Compile Include="CommandBuilders\CreateOrderBuilder.cs" />
+    <Compile Include="CommandBuilders\EditOrderBuilder.cs" />
     <Compile Include="CommandBuilders\InventoryAuditBuilder.cs" />
     <Compile Include="Commands\AdjustLumberProductQuantity.cs" />
     <Compile Include="Commands\AdjustMiscellaneousProductQuantity.cs" />
@@ -63,6 +64,8 @@
     <Compile Include="Commands\CreateOrder.cs" />
     <Compile Include="Commands\CreateOrderLumberLineItem.cs" />
     <Compile Include="Commands\CreateOrderMiscellaneousLineItem.cs" />
+    <Compile Include="Commands\DeleteOrderLumberLineItem.cs" />
+    <Compile Include="Commands\EditOrderLumberLineItem.cs" />
     <Compile Include="Commands\GetAllLumberCategories.cs" />
     <Compile Include="Commands\GetAllMiscellaneousCategories.cs" />
     <Compile Include="Commands\GetAllMiscellaneousProducts.cs" />
@@ -74,13 +77,14 @@
     <Compile Include="Commands\IGetCommand.cs" />
     <Compile Include="Commands\UpdateLumberProductInventory.cs" />
     <Compile Include="Commands\UpdateMiscellaneousProductInventory.cs" />
-    <Compile Include="Constants\OrderTypeNames.cs" />
     <Compile Include="DatabaseCommandDirectory.cs" />
     <Compile Include="Commands\DatabaseCommand.cs" />
     <Compile Include="Commands\DatabaseGetCommand.cs" />
+    <Compile Include="Extensions\OrderLumberLineItemsExt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThermoryContext.cs" />
     <Compile Include="Commands\TransactionalCommand.cs" />
+    <Compile Include="Tools\OrderHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Thermory.Domain\Thermory.Domain.csproj">

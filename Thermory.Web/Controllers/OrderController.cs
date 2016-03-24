@@ -18,13 +18,13 @@ namespace Thermory.Web.Controllers
 
         public ActionResult CreatePurchaseOrder()
         {
-            var model = CreateOrderFormViewModel(OrderTypes.Purchase);
+            var model = CreateOrderFormViewModel(OrderTypes.PurchaseOrder);
             return View("Form", model);
         }
 
         public ActionResult CreateSalesOrder()
         {
-            var model = CreateOrderFormViewModel(OrderTypes.Sales);
+            var model = CreateOrderFormViewModel(OrderTypes.SalesOrder);
             return View("Form", model);
         }
 
@@ -36,7 +36,7 @@ namespace Thermory.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult SaveOrder(OrderTypes orderType, ProductOrderQuantity[] lumberOrderQuantities,
+        public ActionResult SaveOrder(Guid orderId, OrderTypes orderType, ProductOrderQuantity[] lumberOrderQuantities,
             ProductOrderQuantity[] miscOrderQuantities)
         {
             var lumberLineItems = lumberOrderQuantities == null
@@ -55,7 +55,7 @@ namespace Thermory.Web.Controllers
                     Quantity = l.Quantity
                 }).ToArray();
 
-            CommandDirectory.Instance.CreateOrder(WebSecurity.CurrentUserId, orderType, lumberLineItems, miscLineItems);
+            CommandDirectory.Instance.SaveOrder(WebSecurity.CurrentUserId, orderId, orderType, lumberLineItems, miscLineItems);
             return Json(new { status = "success" });
         }
 
@@ -81,6 +81,7 @@ namespace Thermory.Web.Controllers
         {
             return new OrderForm
             {
+                Order = new Order(),
                 OrderType = orderType,
                 LumberOrderForms = CommandDirectory.Instance.GetAllLumberCategories().Select(c => new LumberOrderForm{ LumberCategory = c }).ToList(),
                 MiscellaneousOrderForms = CommandDirectory.Instance.GetAllMiscellaneousCategories().Select(c => new MiscellaneousOrderForm { MiscellaneousCategory = c }).ToList()

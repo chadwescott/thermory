@@ -3,7 +3,7 @@
     public enum OrderTypes
     {
         Unknown,
-        Purchase,
-        Sales
+        PurchaseOrder,
+        SalesOrder
     }
 }

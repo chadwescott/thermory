@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdjustmentMultiplier.cs" />
     <Compile Include="Constants\OrderTypeNames.cs" />
     <Compile Include="Enums\OrderTypes.cs" />
     <Compile Include="Enums\TransactionTypes.cs" />

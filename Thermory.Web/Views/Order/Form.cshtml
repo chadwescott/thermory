@@ -3,6 +3,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     var firstCategoryId = Model.LumberOrderForms.First().LumberCategory.Id;
     var title = string.Format("{0} {1} Order", Model.Order == null ? "Create" : "Edit", Model.OrderType);
+    var orderId = Model.Order == null ? Guid.Empty : Model.Order.Id;
 }
 
 <h3>@title</h3>
@@ -80,7 +81,7 @@
 
         var lumberJson = JSON.stringify(lumberProducts);
         var miscJson = JSON.stringify(miscProducts);
-        var postData = '{"orderType" : "@Model.OrderType", "lumberOrderQuantities" : ' + lumberJson + ', "miscOrderQuantities" : ' + miscJson + '}';
+        var postData = '{"orderType" : "@Model.OrderType", "orderId" : "@orderId", "lumberOrderQuantities" : ' + lumberJson + ', "miscOrderQuantities" : ' + miscJson + '}';
 
         console.log(lumberJson);
         console.log(miscJson);

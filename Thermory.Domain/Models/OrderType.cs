@@ -17,7 +17,7 @@ namespace Thermory.Domain.Models
         [NotMapped]
         public OrderTypes OrderTypeEnum
         {
-            get { return Name == OrderTypeNames.PurchaseOrder ? OrderTypes.Purchase : OrderTypes.Sales; }
+            get { return Name == OrderTypeNames.PurchaseOrder ? OrderTypes.PurchaseOrder : OrderTypes.SalesOrder; }
         }
     }
 }

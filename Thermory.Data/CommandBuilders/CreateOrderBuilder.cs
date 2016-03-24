@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Thermory.Data.Commands;
-using Thermory.Data.Constants;
+using Thermory.Domain.Constants;
 using Thermory.Domain.Models;
 using Thermory.Domain.Enums;
 

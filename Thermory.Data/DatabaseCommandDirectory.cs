@@ -29,6 +29,15 @@ namespace Thermory.Data
             transaction.Execute();
         }
 
+        public void EditOrder(int userId, Guid orderId, OrderLumberLineItem[] lumberLineItems,
+            OrderMiscellaneousLineItem[] miscLineItems)
+        {
+            var builder = new EditOrderBuilder(userId, orderId, lumberLineItems, miscLineItems);
+            IEnumerable<DatabaseCommand> commands = builder.Commands;
+            var transaction = new TransactionalCommand(commands);
+            transaction.Execute();
+        }
+
         public IList<LumberCategory> GetAllLumberCategories()
         {
             var command = new GetAllLumberCategories();
@@ -64,22 +73,22 @@ namespace Thermory.Data
             return command.Result;
         }
 
+        private IList<OrderType> _orderTypes;
+
         internal Guid GetOrderTypeyEnum(OrderTypes orderType)
         {
-            var command = new GetAllOrderTypes();
-            command.Execute();
-            var orderTypes = command.Result;
-
-            return orderTypes.Single(t => t.Name == orderType.ToString()).Id;
+            if (_orderTypes == null)
+                _orderTypes = ExecuteCommand(new GetAllOrderTypes());
+            return _orderTypes.Single(t => t.Name == orderType.ToString()).Id;
         }
 
+        private IList<TransactionType> _transactionTypes;
+ 
         internal Guid GetTransactionTypeyEnum(TransactionTypes transactionType)
         {
-            var command = new GetAllTransactionTypes();
-            command.Execute();
-            var transactionTypes = command.Result;
-
-            return transactionTypes.Single(t => t.Name == transactionType.ToString()).Id;
+            if (_transactionTypes == null)
+                _transactionTypes = ExecuteCommand(new GetAllTransactionTypes());
+            return _transactionTypes.Single(t => t.Name == transactionType.ToString()).Id;
         }
 
         public void InventoryAudit(int userId, TransactionTypes transactionType,
@@ -90,6 +99,12 @@ namespace Thermory.Data
             var commands = builder.Commands;
             var transaction = new TransactionalCommand(commands);
             transaction.Execute();
+        }
+
+        private T ExecuteCommand<T>(DatabaseGetCommand<T> command)
+        {
+            command.Execute();
+            return command.Result;
         }
     }
 }
