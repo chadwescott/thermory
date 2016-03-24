@@ -9,7 +9,10 @@ namespace Thermory.Data.Commands
     {
         protected override void OnExecute(ThermoryContext context)
         {
-            Result = context.MiscellaneousCategories.Include(c => c.MiscellaneousSubCategories.Select(s => s.MiscellaneousProducts)).ToList<MiscellaneousCategory>();
+            Result =
+                context.MiscellaneousCategories.Include(
+                    c => c.MiscellaneousSubCategories.Select(s => s.MiscellaneousProducts))
+                    .ToList();
         }
     }
 }

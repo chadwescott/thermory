@@ -5,13 +5,13 @@
         <col />
         <col style="width: 100%;" />
     </colgroup>
-    @foreach (var subCategory in Model.MiscellaneousSubCategories)
+    @foreach (var subCategory in Model.MiscellaneousSubCategories.OrderBy(s => s.SortOrder))
     {
         <tr class="englishHeading">
             <td><div><strong>@subCategory.Name</strong></div></td>
             <td><div><strong>Quantity</strong></div></td>
         </tr>
-        foreach (var miscProduct in subCategory.MiscellaneousProducts)
+        foreach (var miscProduct in subCategory.MiscellaneousProducts.OrderBy(p => p.SortOrder))
         {
             var qtyId = string.Format("qty{0}", miscProduct.Id);
             <tr>

@@ -5,13 +5,13 @@
         <col/>
         <col style="width: 100%;"/>
     </colgroup>
-    @foreach (var subCategory in Model.MiscellaneousSubCategories)
+    @foreach (var subCategory in Model.MiscellaneousSubCategories.OrderBy(s => s.SortOrder))
     {
         <tr class="englishHeading">
             <td><div><strong>@subCategory.Name</strong></div></td>
             <td><div><strong>Quantity</strong></div></td>
         </tr>
-        foreach (var miscellaneousProduct in subCategory.MiscellaneousProducts)
+        foreach (var miscellaneousProduct in subCategory.MiscellaneousProducts.OrderBy(p => p.SortOrder))
         {
             <tr>
                 <td class="productType">@miscellaneousProduct.Name (@miscellaneousProduct.Description)</td>

@@ -6,14 +6,14 @@
         <col style="width: 25%;" />
         <col style="width: 50%;" />
     </colgroup>
-    @foreach (var subCategory in Model.MiscellaneousCategory.MiscellaneousSubCategories)
+    @foreach (var subCategory in Model.MiscellaneousCategory.MiscellaneousSubCategories.OrderBy(s => s.SortOrder))
     {
         <tr class="englishHeading">
             <td><div><strong>@subCategory.Name</strong></div></td>
             <td><div><strong>On Hand</strong></div></td>
             <td><div><strong>Order Quantity</strong></div></td>
         </tr>
-        foreach (var miscProduct in subCategory.MiscellaneousProducts)
+        foreach (var miscProduct in subCategory.MiscellaneousProducts.OrderBy(p => p.SortOrder))
         {
             var lineItem = Model.MiscellaneousLineItems == null ? null : Model.MiscellaneousLineItems.SingleOrDefault(li => li.MiscellaneousProductId == miscProduct.Id);
             var orderQuantity = lineItem == null ? 0 : lineItem.Quantity;

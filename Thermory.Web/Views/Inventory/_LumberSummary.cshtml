@@ -1,7 +1,7 @@
 ﻿@using WebGrease.Css.Extensions
 @model Thermory.Domain.Models.LumberCategory
 
-@foreach (var subCategory in Model.LumberSubCategories)
+@foreach (var subCategory in Model.LumberSubCategories.OrderBy(s => s.SortOrder))
 {
     var millimeterLengths = new List<int>();
     subCategory.LumberTypes.ForEach(pt => pt.LengthsMillimeters.ForEach(l => { if (!millimeterLengths.Contains(l)) millimeterLengths.Add(l); }));
@@ -29,7 +29,7 @@
             <td>Total LF</td>
             <td class="subCategoryCellPadding">Total SF</td>
         </tr>
-        @foreach (var lumberType in subCategory.LumberTypes)
+        @foreach (var lumberType in subCategory.LumberTypes.OrderBy(t => t.SortOrder))
         {
             @Html.Raw(blankRow)
             <tr>
