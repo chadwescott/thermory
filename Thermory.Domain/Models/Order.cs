@@ -16,6 +16,8 @@ namespace Thermory.Domain.Models
 
         public Guid OrderTypeId { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         [ForeignKey("OrderTypeId")]
         public OrderType OrderType { get; set; }
 

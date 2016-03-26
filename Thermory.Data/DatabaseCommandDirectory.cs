@@ -29,6 +29,14 @@ namespace Thermory.Data
             transaction.Execute();
         }
 
+        public void DeleteOrder(int userId, Guid orderId)
+        {
+            var builder = new DeleteOrderBuilder(userId, orderId);
+            IEnumerable<DatabaseCommand> commands = builder.Commands;
+            var transaction = new TransactionalCommand(commands);
+            transaction.Execute();
+        }
+
         public void EditOrder(int userId, Guid orderId, OrderLumberLineItem[] lumberLineItems,
             OrderMiscellaneousLineItem[] miscLineItems)
         {

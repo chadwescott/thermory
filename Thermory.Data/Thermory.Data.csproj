@@ -56,6 +56,7 @@
     <Compile Include="CommandBuilders\CreateOrderBuilder.cs" />
     <Compile Include="CommandBuilders\DeleteLumberLineItemBuilder.cs" />
     <Compile Include="CommandBuilders\DeleteMiscellaneousLineItemBuilder.cs" />
+    <Compile Include="CommandBuilders\DeleteOrderBuilder.cs" />
     <Compile Include="CommandBuilders\EditOrderBuilder.cs" />
     <Compile Include="CommandBuilders\InventoryAuditBuilder.cs" />
     <Compile Include="CommandBuilders\OrderBuilder.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="Commands\IGetCommand.cs" />
     <Compile Include="Commands\UpdateLumberProductInventory.cs" />
     <Compile Include="Commands\UpdateMiscellaneousProductInventory.cs" />
+    <Compile Include="Commands\UpdateOrder.cs" />
     <Compile Include="DatabaseCommandDirectory.cs" />
     <Compile Include="Commands\DatabaseCommand.cs" />
     <Compile Include="Commands\DatabaseGetCommand.cs" />

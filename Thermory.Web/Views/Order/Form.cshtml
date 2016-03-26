@@ -1,8 +1,9 @@
-﻿@model Thermory.Web.Models.OrderForm
+﻿@using Thermory.Domain.Enums
+@model Thermory.Web.Models.OrderForm
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     var firstCategoryId = Model.LumberOrderForms.First().LumberCategory.Id;
-    var title = string.Format("{0} {1} Order", Model.Order == null ? "Create" : "Edit", Model.OrderType);
+    var title = string.Format("{0} {1} Order", Model.Order == null ? "Create" : "Edit", Model.OrderType == OrderTypes.PurchaseOrder ? "Purchase" : "Sales");
     var orderId = Model.Order == null ? Guid.Empty : Model.Order.Id;
 }
 
@@ -42,7 +43,11 @@
             }
         }
     </div>
-    <button type="button" onclick="saveInventory();">Save</button>
+    <button type="button" onclick=" saveOrder();">Save</button>
+    @if (Model.Order != null)
+    {
+        <button type="button" onclick="deleteOrder();">Delete</button>
+    }
 </div>
 
 <div id="savingPanel" style="display: none;">Saving...</div>
@@ -66,7 +71,34 @@
         });
     });
 
-    function saveInventory() {
+    function deleteOrder() {
+        $('#worksheetPanel').hide();
+        $('#savingPanel').show();
+        var postData = '{"orderId" : "@orderId"}';
+        console.log(postData);
+
+        $('#worksheetPanel').show();
+        $('#savingPanel').hide();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("DeleteOrder", "Order")',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: postData,
+            success: function (data, status, request) {
+                window.location = ('@Url.Action("Index", "Order")');
+            },
+            error: function (data, status, request) {
+                console.log(data);
+                console.log(status);
+                console.log(request);
+                $('#worksheetPanel').show();
+                $('#savingPanel').hide();
+            }
+        });
+    }
+
+    function saveOrder() {
         $('#worksheetPanel').hide();
         $('#savingPanel').show();
 

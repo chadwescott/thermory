@@ -37,6 +37,13 @@ namespace Thermory.Web.Controllers
         }
 
         [HttpPost]
+        public ActionResult DeleteOrder(Guid orderId)
+        {
+            CommandDirectory.Instance.DeleteOrder(WebSecurity.CurrentUserId, orderId);
+            return Json(new { status = "success" });
+        }
+
+        [HttpPost]
         public ActionResult SaveOrder(Guid orderId, OrderTypes orderType, ProductOrderQuantity[] lumberOrderQuantities,
             ProductOrderQuantity[] miscOrderQuantities)
         {

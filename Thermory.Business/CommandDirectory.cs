@@ -44,6 +44,11 @@ namespace Thermory.Business
             _miscellaneousCategories = command.Result;
         }
 
+        public void DeleteOrder(int userId, Guid orderId)
+        {
+            DatabaseCommandDirectory.Instance.DeleteOrder(userId, orderId);
+        }
+
         public void SaveOrder(int userId, Guid orderId, OrderTypes orderType, OrderLumberLineItem[] lumberLineItems,
             OrderMiscellaneousLineItem[] miscLineItems)
         {
