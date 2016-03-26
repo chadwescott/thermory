@@ -24,10 +24,7 @@ namespace Thermory.Data.CommandBuilders
             var adjustmentMultiplier = AdjustmentMultiplier.GetByOrderType(order.OrderType.OrderTypeEnum);
 
             AddLumberProductQuantityAdjustmentCommands(transaction, orderLumberLineItems, lumberLineItems.ToList(), adjustmentMultiplier);
-
-            //var adjustMiscellaneousProductQuantityCommands =
-            //    miscLineItems.Select(i => new AdjustMiscellaneousProductQuantity(transaction, i.MiscellaneousProduct.Id, i.Quantity * adjustmentMultiplier));
-            //Commands.AddRange(adjustMiscellaneousProductQuantityCommands);
+            AddMiscellaneousProductQuantityAdjustmentCommands(transaction, orderMiscLineItems, miscLineItems.ToList(), adjustmentMultiplier);
 
             AddCreatedLumberLineItemCommands(order, lumberLineItems);
             AddCreateMiscellaneousLineItemCommands(order, miscLineItems);
@@ -111,6 +108,69 @@ namespace Thermory.Data.CommandBuilders
                             new AdjustLumberProductQuantity(transaction, i.LumberProductId,
                                 -i.Quantity * adjustmentMultiplier));
             Commands.AddRange(adjustLumberProductQuantityCommands);
+        }
+
+        private void AddMiscellaneousProductQuantityAdjustmentCommands(InventoryTransaction transaction,
+            List<OrderMiscellaneousLineItem> previousLineItems, List<OrderMiscellaneousLineItem> currentLineItems,
+            int adjustmentMultiplier)
+        {
+            AddAddedMiscellaneousProductAddjustmentCommands(transaction, previousLineItems, currentLineItems,
+                adjustmentMultiplier);
+            AddEditedMiscellaneousProductAddjustmentCommands(transaction, previousLineItems, currentLineItems,
+                adjustmentMultiplier);
+            AddRemovedMiscellaneousProductAddjustmentCommands(transaction, previousLineItems, currentLineItems,
+                adjustmentMultiplier);
+        }
+
+        private void AddAddedMiscellaneousProductAddjustmentCommands(InventoryTransaction transaction,
+            IEnumerable<OrderMiscellaneousLineItem> previousLineItems, IEnumerable<OrderMiscellaneousLineItem> currentLineItems,
+            int adjustmentMultiplier)
+        {
+            var adjustMiscellaneousProductQuantityCommands =
+                currentLineItems.Where(
+                    i => !previousLineItems.Any(p => p.MiscellaneousProductId == i.MiscellaneousProductId && p.OrderId == i.OrderId))
+                    .Select(
+                        i =>
+                            new AdjustMiscellaneousProductQuantity(transaction, i.MiscellaneousProductId,
+                                i.Quantity * adjustmentMultiplier));
+            Commands.AddRange(adjustMiscellaneousProductQuantityCommands);
+        }
+
+        private void AddEditedMiscellaneousProductAddjustmentCommands(InventoryTransaction transaction,
+            IEnumerable<OrderMiscellaneousLineItem> previousLineItems, List<OrderMiscellaneousLineItem> currentLineItems,
+            int adjustmentMultiplier)
+        {
+            if (currentLineItems == null) return;
+
+            foreach (var command in from currentLineItem in currentLineItems.Where(
+                c =>
+                    previousLineItems.Any(
+                        p =>
+                            p.MiscellaneousProductId == c.MiscellaneousProductId &&
+                            p.OrderId == c.OrderId && p.Quantity != c.Quantity))
+                                    let previousLineItem = previousLineItems.Single(
+p =>
+p.MiscellaneousProductId == currentLineItem.MiscellaneousProductId &&
+p.OrderId == currentLineItem.OrderId && p.Quantity != currentLineItem.Quantity)
+                                    let delta = (currentLineItem.Quantity - previousLineItem.Quantity) * adjustmentMultiplier
+                                    select new AdjustMiscellaneousProductQuantity(transaction, currentLineItem.MiscellaneousProductId, delta))
+            {
+                Commands.Add(command);
+            }
+        }
+
+        private void AddRemovedMiscellaneousProductAddjustmentCommands(InventoryTransaction transaction,
+            IEnumerable<OrderMiscellaneousLineItem> previousLineItems, IEnumerable<OrderMiscellaneousLineItem> currentLineItems,
+            int adjustmentMultiplier)
+        {
+            var adjustMiscellaneousProductQuantityCommands =
+                previousLineItems.Where(
+                    i => !currentLineItems.Any(p => p.MiscellaneousProductId == i.MiscellaneousProductId && p.OrderId == i.OrderId))
+                    .Select(
+                        i =>
+                            new AdjustMiscellaneousProductQuantity(transaction, i.MiscellaneousProductId,
+                                -i.Quantity * adjustmentMultiplier));
+            Commands.AddRange(adjustMiscellaneousProductQuantityCommands);
         }
 
         protected override TransactionTypes TransactionType
