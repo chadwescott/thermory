@@ -59,6 +59,8 @@ namespace Thermory.Data.CommandBuilders
                 adjustmentMultiplier);
             AddEditedLumberProductAddjustmentCommands(transaction, previousLineItems, currentLineItems,
                 adjustmentMultiplier);
+            AddRemovedLumberProductAddjustmentCommands(transaction, previousLineItems, currentLineItems,
+                adjustmentMultiplier);
         }
 
         private void AddAddedLumberProductAddjustmentCommands(InventoryTransaction transaction,
@@ -95,6 +97,20 @@ namespace Thermory.Data.CommandBuilders
             {
                 Commands.Add(command);
             }
+        }
+
+        private void AddRemovedLumberProductAddjustmentCommands(InventoryTransaction transaction,
+            IEnumerable<OrderLumberLineItem> previousLineItems, IEnumerable<OrderLumberLineItem> currentLineItems,
+            int adjustmentMultiplier)
+        {
+            var adjustLumberProductQuantityCommands =
+                previousLineItems.Where(
+                    i => !currentLineItems.Any(p => p.LumberProductId == i.LumberProductId && p.OrderId == i.OrderId))
+                    .Select(
+                        i =>
+                            new AdjustLumberProductQuantity(transaction, i.LumberProductId,
+                                -i.Quantity * adjustmentMultiplier));
+            Commands.AddRange(adjustLumberProductQuantityCommands);
         }
 
         protected override TransactionTypes TransactionType
