@@ -17,11 +17,12 @@
         {
             var lineItem = Model.MiscellaneousLineItems == null ? null : Model.MiscellaneousLineItems.SingleOrDefault(li => li.MiscellaneousProductId == miscProduct.Id);
             var orderQuantity = lineItem == null ? 0 : lineItem.Quantity;
+            var lineItemId = lineItem == null ? Guid.Empty : lineItem.Id;
             <tr>
                 <td class="productType">@miscProduct.Name (@miscProduct.Description)</td>
                 <td class="productType">@miscProduct.Quantity</td>
                 <td class="productType">
-                    <div style="width: 100px;"><input type="text" name="miscQty" id="@miscProduct.Id" class="form-control" maxlength="6" pattern="[0-9]*" value="@orderQuantity" /></div>
+                    <div style="width: 100px;"><input type="text" name="miscQty" id="@lineItemId" productId="@miscProduct.Id" class="form-control" maxlength="6" pattern="[0-9]*" value="@orderQuantity" /></div>
                 </td>
             </tr>
         }

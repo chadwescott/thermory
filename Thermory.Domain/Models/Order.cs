@@ -11,6 +11,9 @@ namespace Thermory.Domain.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int OrderNumber { get; set; }
+
         public Guid OrderTypeId { get; set; }
 
         [ForeignKey("OrderTypeId")]

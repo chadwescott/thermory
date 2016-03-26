@@ -11,8 +11,15 @@ namespace Thermory.Data.Commands
             _lineItem = lineItem;
         }
 
+        protected override void OnBeforeExecute(ThermoryContext context)
+        {
+            _lineItem.Order = null;
+            _lineItem.LumberProduct = null;
+        }
+
         protected override void OnExecute(ThermoryContext context)
         {
+            context.OrderLumberLineItems.Attach(_lineItem);
             context.OrderLumberLineItems.Remove(_lineItem);
             context.SaveChanges();
         }

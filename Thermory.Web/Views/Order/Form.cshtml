@@ -113,15 +113,21 @@
         var query = 'input[name=\'' + prefix + 'Qty\']';
         $(query).each(function () {
             var id = $(this).attr('id');
+            var productId = $(this).attr('productId');
             var qty = $(this).val();
 
             if (qty > 0) {
-                products.push({
-                    Id: id,
-                    Quantity: qty
-                });
+                products.push(createProductLineItem(id, productId, qty));
             }
         });
         return products;
+    }
+
+    function createProductLineItem(id, productId, qty) {
+        return {
+            Id: id,
+            ProductId: productId,
+            Quantity: qty
+        };
     }
 </script>

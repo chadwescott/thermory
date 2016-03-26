@@ -13,6 +13,8 @@ namespace Thermory.Data.Test.Tools
         private Order _order;
         private OrderLumberLineItem _lumberLineItem1;
         private OrderLumberLineItem _lumberLineItem2;
+        private OrderMiscellaneousLineItem _miscLineItem1;
+        private OrderMiscellaneousLineItem _miscLineItem2;
 
         [TestInitialize]
         public void TestInitialize()
@@ -25,6 +27,8 @@ namespace Thermory.Data.Test.Tools
 
             _lumberLineItem1 = new OrderLumberLineItem { LumberProductId = Guid.NewGuid() };
             _lumberLineItem2 = new OrderLumberLineItem { LumberProductId = Guid.NewGuid() };
+            _miscLineItem1 = new OrderMiscellaneousLineItem { MiscellaneousProductId = Guid.NewGuid() };
+            _miscLineItem2 = new OrderMiscellaneousLineItem { MiscellaneousProductId = Guid.NewGuid() };
         }
 
         #region GetCreatedOrderLumberLineItemsTests
@@ -100,42 +104,87 @@ namespace Thermory.Data.Test.Tools
         }
 
         #endregion
-        
-        #region GetDeletedOrderLumberLineItemsTests
+
+        private static void CheckIfLumberLineItemIsinList(List<OrderLumberLineItem> lineItems, OrderLumberLineItem lineItem)
+        {
+            Assert.IsTrue(lineItems.Contains(lineItem));
+        }
+
+        #region GetCreatedOrderMiscellaneousLineItemsTests
 
         [TestMethod]
-        public void GetDeletedOrderLumberLineItemsNoneDeletedTest()
+        public void GetCreatedMiscellaneousLineItemsCreatedLineItemTest()
         {
-            _order.OrderLumberLineItems.Add(_lumberLineItem1);
-            var orderLumberLineItems = new List<OrderLumberLineItem> { _lumberLineItem1, _lumberLineItem2 };
-            var deletedLumberLineItems = OrderHelper.GetDeletedOrderLumberLineItems(_order, orderLumberLineItems).ToList();
-            Assert.IsFalse(deletedLumberLineItems.Any());
+            _order.OrderMiscellaneousLineItems.Add(_miscLineItem1);
+            var orderMiscellaneousLineItems = new List<OrderMiscellaneousLineItem> { _miscLineItem2 };
+            var createdMiscellaneousLineItems = OrderHelper.GetCreatedOrderMiscellaneousLineItems(_order, orderMiscellaneousLineItems).ToList();
+            CheckIfMiscellaneousLineItemIsinList(createdMiscellaneousLineItems, _miscLineItem2);
         }
 
         [TestMethod]
-        public void GetDeletedOrderLumberLineItemsOneDeletedTest()
+        public void GetCreatedMiscellaneousLineItemsTwoCreatedLineItemsTest()
         {
-            _order.OrderLumberLineItems.Add(_lumberLineItem1);
-            _order.OrderLumberLineItems.Add(_lumberLineItem2);
-            var orderLumberLineItems = new List<OrderLumberLineItem> { _lumberLineItem1 };
-            var deletedLumberLineItems = OrderHelper.GetDeletedOrderLumberLineItems(_order, orderLumberLineItems).ToList();
-            CheckIfLumberLineItemIsinList(deletedLumberLineItems, _lumberLineItem2);
+            var orderMiscellaneousLineItems = new List<OrderMiscellaneousLineItem> { _miscLineItem1, _miscLineItem2 };
+            var createdMiscellaneousLineItems = OrderHelper.GetCreatedOrderMiscellaneousLineItems(_order, orderMiscellaneousLineItems).ToList();
+            CheckIfMiscellaneousLineItemIsinList(createdMiscellaneousLineItems, _miscLineItem1);
+            CheckIfMiscellaneousLineItemIsinList(createdMiscellaneousLineItems, _miscLineItem2);
         }
 
         [TestMethod]
-        public void GetDeletedOrderLumberLineItemsTwoDeletedTest()
+        public void GetCreatedMiscellaneousLineItemsOneOrderLineItemsTwoCreatedLineItemsTest()
         {
-            _order.OrderLumberLineItems.Add(_lumberLineItem1);
-            _order.OrderLumberLineItems.Add(_lumberLineItem2);
-            var orderLumberLineItems = new List<OrderLumberLineItem>();
-            var deletedLumberLineItems = OrderHelper.GetDeletedOrderLumberLineItems(_order, orderLumberLineItems).ToList();
-            CheckIfLumberLineItemIsinList(deletedLumberLineItems, _lumberLineItem1);
-            CheckIfLumberLineItemIsinList(deletedLumberLineItems, _lumberLineItem2);
+            _order.OrderMiscellaneousLineItems.Add(_miscLineItem1);
+            var updatedMiscellaneousLineItems = new List<OrderMiscellaneousLineItem> { _miscLineItem1, _miscLineItem2 };
+            var createdMiscellaneousLineItems = OrderHelper.GetCreatedOrderMiscellaneousLineItems(_order, updatedMiscellaneousLineItems).ToList();
+            CheckIfMiscellaneousLineItemIsinList(createdMiscellaneousLineItems, _miscLineItem2);
+        }
+
+        [TestMethod]
+        public void GetCreatedMiscellaneousLineItemsNoCreatedLineItemsTest()
+        {
+            _order.OrderMiscellaneousLineItems.Add(_miscLineItem1);
+            _order.OrderMiscellaneousLineItems.Add(_miscLineItem2);
+            var orderMiscellaneousLineItems = new List<OrderMiscellaneousLineItem> { _miscLineItem2 };
+            var createdMiscellaneousLineItems = OrderHelper.GetCreatedOrderMiscellaneousLineItems(_order, orderMiscellaneousLineItems).ToList();
+            Assert.IsFalse(createdMiscellaneousLineItems.Any());
         }
 
         #endregion
 
-        private static void CheckIfLumberLineItemIsinList(List<OrderLumberLineItem> lineItems, OrderLumberLineItem lineItem)
+        #region GetEditedOrderMiscellaneousLineItemsTests
+
+        [TestMethod]
+        public void GetEditedOrderMiscellaneousLineItemsNoneEditedTest()
+        {
+            _order.OrderMiscellaneousLineItems.Add(_miscLineItem1);
+            var orderMiscellaneousLineItems = new List<OrderMiscellaneousLineItem> { _miscLineItem2 };
+            var editedMiscellaneousLineItems = OrderHelper.GetEditedOrderMiscellaneousLineItems(_order, orderMiscellaneousLineItems).ToList();
+            Assert.IsFalse(editedMiscellaneousLineItems.Any());
+        }
+
+        [TestMethod]
+        public void GetEditedOrderMiscellaneousLineItemsOneEditedTest()
+        {
+            _order.OrderMiscellaneousLineItems.Add(_miscLineItem1);
+            var orderMiscellaneousLineItems = new List<OrderMiscellaneousLineItem> { _miscLineItem1 };
+            var editedMiscellaneousLineItems = OrderHelper.GetEditedOrderMiscellaneousLineItems(_order, orderMiscellaneousLineItems).ToList();
+            CheckIfMiscellaneousLineItemIsinList(editedMiscellaneousLineItems, _miscLineItem1);
+        }
+
+        [TestMethod]
+        public void GetEditedOrderMiscellaneousLineItemsTwoEditedTest()
+        {
+            _order.OrderMiscellaneousLineItems.Add(_miscLineItem1);
+            _order.OrderMiscellaneousLineItems.Add(_miscLineItem2);
+            var orderMiscellaneousLineItems = new List<OrderMiscellaneousLineItem> { _miscLineItem1, _miscLineItem2 };
+            var editedMiscellaneousLineItems = OrderHelper.GetEditedOrderMiscellaneousLineItems(_order, orderMiscellaneousLineItems).ToList();
+            CheckIfMiscellaneousLineItemIsinList(editedMiscellaneousLineItems, _miscLineItem1);
+            CheckIfMiscellaneousLineItemIsinList(editedMiscellaneousLineItems, _miscLineItem2);
+        }
+
+        #endregion
+
+        private static void CheckIfMiscellaneousLineItemIsinList(List<OrderMiscellaneousLineItem> lineItems, OrderMiscellaneousLineItem lineItem)
         {
             Assert.IsTrue(lineItems.Contains(lineItem));
         }

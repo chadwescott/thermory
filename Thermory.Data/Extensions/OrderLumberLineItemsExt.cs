@@ -10,7 +10,8 @@ namespace Thermory.Data.Extensions
         public static IEnumerable<CreateOrderLumberLineItem> MakeCreateOrderLumberLineItemCommands(
             this IEnumerable<OrderLumberLineItem> createdLumberLineItems, Order order)
         {
-            return createdLumberLineItems.Select(i => new CreateOrderLumberLineItem(order, i.LumberProduct.Id, i.Quantity));
+            return
+                createdLumberLineItems.Select(i => new CreateOrderLumberLineItem(order, i.LumberProductId, i.Quantity));
         }
 
         public static IEnumerable<EditOrderLumberLineItem> MakeEditOrderLumberLineItemCommands(

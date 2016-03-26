@@ -1,44 +1,40 @@
 ﻿using System.Linq;
 using Thermory.Data.Commands;
-using Thermory.Domain.Constants;
+using Thermory.Domain;
 using Thermory.Domain.Models;
 using Thermory.Domain.Enums;
 
 namespace Thermory.Data.CommandBuilders
 {
-    internal class CreateOrderBuilder : CommandBuilder
+    internal class CreateOrderBuilder : OrderBuilder
     {
         public CreateOrderBuilder(int userId, OrderTypes orderType, OrderLumberLineItem[] lumberLineItems,
             OrderMiscellaneousLineItem[] miscLineItems)
         {
-            var orderTypeId = DatabaseCommandDirectory.Instance.GetOrderTypeyEnum(orderType);
-            var adjustmentMultiplier = orderType.ToString() == OrderTypeNames.PurchaseOrder ? 1 : -1;
+            var orderTypeId = DatabaseCommandDirectory.Instance.GetOrderTypeIdByEnum(orderType);
             var order = new Order { OrderTypeId = orderTypeId };
 
             Commands.Add(new CreateOrder(order));
 
-            var createOrderLumberLinesCommands =
-                lumberLineItems.Select(i => new CreateOrderLumberLineItem(order, i.LumberProduct.Id, i.Quantity));
-            Commands.AddRange(createOrderLumberLinesCommands);
+            AddCreatedLumberLineItemCommands(order, lumberLineItems);
+            AddCreateMiscellaneousLineItemCommands(order, miscLineItems);
 
-            var createOrderMiscLinesCommands =
-                miscLineItems.Select(i => new CreateOrderMiscellaneousLineItem(order, i.MiscellaneousProduct.Id, i.Quantity));
-            Commands.AddRange(createOrderMiscLinesCommands);
-            
-            var transactionTypeId =
-                DatabaseCommandDirectory.Instance.GetTransactionTypeyEnum(TransactionTypes.OrderCreate);
-            
-            var transaction = new InventoryTransaction { UserId = userId, Order = order, TransactionTypeId = transactionTypeId };
-            var createInventoryTransactionCommand = new CreateInventoryTransaction(transaction);
-            Commands.Add(createInventoryTransactionCommand);
+            var transaction = CreateInventoryTransaction(userId, order);
+
+            var adjustmentMultiplier = AdjustmentMultiplier.GetByOrderType(orderType);
 
             var adjustLumberProductQuantityCommands =
-                lumberLineItems.Select(i => new AdjustLumberProductQuantity(transaction, i.LumberProduct.Id, i.Quantity * adjustmentMultiplier));
+                lumberLineItems.Select(i => new AdjustLumberProductQuantity(transaction, i.LumberProductId, i.Quantity * adjustmentMultiplier));
             Commands.AddRange(adjustLumberProductQuantityCommands);
 
             var adjustMiscellaneousProductQuantityCommands =
-                miscLineItems.Select(i => new AdjustMiscellaneousProductQuantity(transaction, i.MiscellaneousProduct.Id, i.Quantity * adjustmentMultiplier));
+                miscLineItems.Select(i => new AdjustMiscellaneousProductQuantity(transaction, i.MiscellaneousProductId, i.Quantity * adjustmentMultiplier));
             Commands.AddRange(adjustMiscellaneousProductQuantityCommands);
+        }
+
+        protected override TransactionTypes TransactionType
+        {
+            get { return TransactionTypes.OrderCreate; }
         }
     }
 }

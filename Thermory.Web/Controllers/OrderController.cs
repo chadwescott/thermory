@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Thermory.Business;
@@ -43,16 +44,20 @@ namespace Thermory.Web.Controllers
                 ? new OrderLumberLineItem[0]
                 : lumberOrderQuantities.Select(l => new OrderLumberLineItem
                 {
-                    LumberProduct = new LumberProduct {Id = l.Id},
+                    Id = l.Id,
+                    OrderId = orderId,
+                    LumberProductId = l.ProductId,
                     Quantity = l.Quantity
                 }).ToArray();
 
             var miscLineItems = miscOrderQuantities == null
                 ? new OrderMiscellaneousLineItem[0]
-                : miscOrderQuantities.Select(l => new OrderMiscellaneousLineItem
+                : miscOrderQuantities.Select(m => new OrderMiscellaneousLineItem
                 {
-                    MiscellaneousProduct = new MiscellaneousProduct {Id = l.Id},
-                    Quantity = l.Quantity
+                    Id = m.Id,
+                    OrderId = orderId,
+                    MiscellaneousProductId = m.ProductId,
+                    Quantity = m.Quantity
                 }).ToArray();
 
             CommandDirectory.Instance.SaveOrder(WebSecurity.CurrentUserId, orderId, orderType, lumberLineItems, miscLineItems);
@@ -61,7 +66,14 @@ namespace Thermory.Web.Controllers
 
         private OrderForm CreateOrderFormViewModel(Order order)
         {
-            var model = CreateOrderFormViewModel(order.OrderType.OrderTypeEnum);
+            var model = new OrderForm
+            {
+                Order = order,
+                OrderType = order.OrderType.OrderTypeEnum,
+                LumberOrderForms = GetLumberOrderForms(),
+                MiscellaneousOrderForms = GetMiscellaneousOrderForms()
+            };
+
             foreach (var form in model.LumberOrderForms)
             {
                 form.LumberLineItems = order.OrderLumberLineItems.Where(
@@ -83,9 +95,23 @@ namespace Thermory.Web.Controllers
             {
                 Order = new Order(),
                 OrderType = orderType,
-                LumberOrderForms = CommandDirectory.Instance.GetAllLumberCategories().Select(c => new LumberOrderForm{ LumberCategory = c }).ToList(),
-                MiscellaneousOrderForms = CommandDirectory.Instance.GetAllMiscellaneousCategories().Select(c => new MiscellaneousOrderForm { MiscellaneousCategory = c }).ToList()
+                LumberOrderForms = GetLumberOrderForms(),
+                MiscellaneousOrderForms = GetMiscellaneousOrderForms()
             };
+        }
+
+        private List<LumberOrderForm> GetLumberOrderForms()
+        {
+            return CommandDirectory.Instance.GetAllLumberCategories()
+                .Select(c => new LumberOrderForm { LumberCategory = c })
+                .ToList();
+        }
+
+        private static List<MiscellaneousOrderForm> GetMiscellaneousOrderForms()
+        {
+            return CommandDirectory.Instance.GetAllMiscellaneousCategories()
+                .Select(c => new MiscellaneousOrderForm { MiscellaneousCategory = c })
+                .ToList();
         }
     }
 }

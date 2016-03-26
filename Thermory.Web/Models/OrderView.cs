@@ -9,6 +9,9 @@ namespace Thermory.Web.Models
         [Column("OrderId")]
         public string recid { get; set; }
 
+        [Column("OrderNumber")]
+        public string OrderNumber { get; set; }
+
         [Column("OrderType")]
         public string OrderType { get; set; }
 

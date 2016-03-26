@@ -9,8 +9,9 @@ namespace Thermory.Data.Tools
         public static IEnumerable<OrderLumberLineItem> GetCreatedOrderLumberLineItems(Order order,
             IEnumerable<OrderLumberLineItem> updatedLumberLineItems)
         {
-            return
-                updatedLumberLineItems.Where(
+            return order.OrderLumberLineItems == null
+                ? updatedLumberLineItems
+                : updatedLumberLineItems.Where(
                     i => order.OrderLumberLineItems.All(li => li.LumberProductId != i.LumberProductId));
         }
 
@@ -19,14 +20,30 @@ namespace Thermory.Data.Tools
         {
             return
                 updatedLumberLineItems.Where(
-                    i => order.OrderLumberLineItems.Any(li => li.LumberProductId == i.LumberProductId));
+                    i =>
+                        order.OrderLumberLineItems.Any(
+                            li => li.LumberProductId == i.LumberProductId && li.Quantity != i.Quantity));
         }
 
-        public static IEnumerable<OrderLumberLineItem> GetDeletedOrderLumberLineItems(Order order,
-            IEnumerable<OrderLumberLineItem> updatedLumberLineItems)
+        public static IEnumerable<OrderMiscellaneousLineItem> GetCreatedOrderMiscellaneousLineItems(Order order,
+            IEnumerable<OrderMiscellaneousLineItem> updatedMiscellaneousLineItems)
         {
-            return order.OrderLumberLineItems.Where(
-                i => updatedLumberLineItems.All(li => li.LumberProductId != i.LumberProductId));
+            return order.OrderMiscellaneousLineItems == null
+                ? updatedMiscellaneousLineItems
+                : updatedMiscellaneousLineItems.Where(
+                    i =>
+                        order.OrderMiscellaneousLineItems.All(
+                            li => li.MiscellaneousProductId != i.MiscellaneousProductId));
+        }
+
+        public static IEnumerable<OrderMiscellaneousLineItem> GetEditedOrderMiscellaneousLineItems(Order order,
+            IEnumerable<OrderMiscellaneousLineItem> updatedMiscellaneousLineItems)
+        {
+            return
+                updatedMiscellaneousLineItems.Where(
+                    i =>
+                        order.OrderMiscellaneousLineItems.Any(
+                            mi => mi.MiscellaneousProductId == i.MiscellaneousProductId && mi.Quantity != i.Quantity));
         }
     }
 }

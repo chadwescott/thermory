@@ -53,8 +53,9 @@
                     var productId = @lumberForLength == null ? Guid.Empty : lumberForLength.Id;
                     var lineItem = Model.LumberLineItems == null ? null : Model.LumberLineItems.SingleOrDefault(li => li.LumberProductId == productId);
                     var orderQuantity = lineItem == null ? 0 : lineItem.Quantity;
+                    var lineItemId = lineItem == null ? Guid.Empty : lineItem.Id;
                     <td class="productType subCategoryCellPadding subCategoryLength" style="border-top: none;">
-                        <input type="text" name="lumberQty" id="@productId" class="form-control" maxlength="6" pattern="[0-9]*" value="@orderQuantity" />
+                        <input type="text" name="lumberQty" id="@lineItemId" productId="@productId" class="form-control" maxlength="6" pattern="[0-9]*" value="@orderQuantity" />
                     </td>
                 }
             </tr>

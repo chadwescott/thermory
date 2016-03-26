@@ -75,16 +75,16 @@ namespace Thermory.Data
 
         private IList<OrderType> _orderTypes;
 
-        internal Guid GetOrderTypeyEnum(OrderTypes orderType)
+        internal Guid GetOrderTypeIdByEnum(OrderTypes orderType)
         {
             if (_orderTypes == null)
                 _orderTypes = ExecuteCommand(new GetAllOrderTypes());
-            return _orderTypes.Single(t => t.Name == orderType.ToString()).Id;
+            return _orderTypes.Single(t => t.OrderTypeEnum == orderType).Id;
         }
 
         private IList<TransactionType> _transactionTypes;
  
-        internal Guid GetTransactionTypeyEnum(TransactionTypes transactionType)
+        internal Guid GetTransactionTypeIdByEnum(TransactionTypes transactionType)
         {
             if (_transactionTypes == null)
                 _transactionTypes = ExecuteCommand(new GetAllTransactionTypes());
@@ -94,7 +94,7 @@ namespace Thermory.Data
         public void InventoryAudit(int userId, TransactionTypes transactionType,
             LumberProduct[] lumberProducts, MiscellaneousProduct[] miscProducts)
         {
-            var transactionTypeId = GetTransactionTypeyEnum(transactionType);
+            var transactionTypeId = GetTransactionTypeIdByEnum(transactionType);
             var builder = new InventoryAuditBuilder(userId, transactionTypeId, lumberProducts, miscProducts);
             var commands = builder.Commands;
             var transaction = new TransactionalCommand(commands);

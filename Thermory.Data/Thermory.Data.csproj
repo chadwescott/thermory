@@ -54,8 +54,13 @@
   <ItemGroup>
     <Compile Include="CommandBuilders\CommandBuilder.cs" />
     <Compile Include="CommandBuilders\CreateOrderBuilder.cs" />
+    <Compile Include="CommandBuilders\DeleteLumberLineItemBuilder.cs" />
+    <Compile Include="CommandBuilders\DeleteMiscellaneousLineItemBuilder.cs" />
+    <Compile Include="CommandBuilders\EditMiscellaneousLineItemBuilder.cs" />
     <Compile Include="CommandBuilders\EditOrderBuilder.cs" />
+    <Compile Include="CommandBuilders\EditLumberLineItemBuilder.cs" />
     <Compile Include="CommandBuilders\InventoryAuditBuilder.cs" />
+    <Compile Include="CommandBuilders\OrderBuilder.cs" />
     <Compile Include="Commands\AdjustLumberProductQuantity.cs" />
     <Compile Include="Commands\AdjustMiscellaneousProductQuantity.cs" />
     <Compile Include="Commands\CreateInventoryTransaction.cs" />
@@ -65,7 +70,9 @@
     <Compile Include="Commands\CreateOrderLumberLineItem.cs" />
     <Compile Include="Commands\CreateOrderMiscellaneousLineItem.cs" />
     <Compile Include="Commands\DeleteOrderLumberLineItem.cs" />
+    <Compile Include="Commands\DeleteOrderMiscellaneousLineItem.cs" />
     <Compile Include="Commands\EditOrderLumberLineItem.cs" />
+    <Compile Include="Commands\EditOrderMiscellaneousLineItem.cs" />
     <Compile Include="Commands\GetAllLumberCategories.cs" />
     <Compile Include="Commands\GetAllMiscellaneousCategories.cs" />
     <Compile Include="Commands\GetAllMiscellaneousProducts.cs" />
@@ -81,6 +88,7 @@
     <Compile Include="Commands\DatabaseCommand.cs" />
     <Compile Include="Commands\DatabaseGetCommand.cs" />
     <Compile Include="Extensions\OrderLumberLineItemsExt.cs" />
+    <Compile Include="Extensions\OrderMiscellaneousLineItemExt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThermoryContext.cs" />
     <Compile Include="Commands\TransactionalCommand.cs" />
