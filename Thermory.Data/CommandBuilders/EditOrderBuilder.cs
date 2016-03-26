@@ -14,6 +14,7 @@ namespace Thermory.Data.CommandBuilders
             OrderMiscellaneousLineItem[] miscLineItems)
         {
             var order = GetOrder(orderId);
+            if (order.IsDeleted) return;
 
             var orderLumberLineItems = order.OrderLumberLineItems;
             var orderMiscLineItems = order.OrderMiscellaneousLineItems;

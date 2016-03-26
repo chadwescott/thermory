@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Thermory.Domain.Constants;
 
 namespace Thermory.Domain.Models
 {
@@ -26,5 +27,8 @@ namespace Thermory.Domain.Models
 
         [ForeignKey("OrderId")]
         public List<OrderMiscellaneousLineItem> OrderMiscellaneousLineItems { get; set; }
+
+        [NotMapped]
+        public string OrderNumberString { get { return OrderNumber.ToString(Formats.OrderNumberFormat); } }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Routing;
 using Thermory.Business;
 using Thermory.Domain.Enums;
 using Thermory.Domain.Models;
@@ -15,6 +16,15 @@ namespace Thermory.Web.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+        public ActionResult Review(Guid id)
+        {
+            var order = CommandDirectory.GetOrderById(id);
+            if (order == null)
+                return RedirectToAction("Index");
+
+            var model = CreateOrderFormViewModel(order);
+            return View(model);
         }
 
         public ActionResult CreatePurchaseOrder()
@@ -32,7 +42,12 @@ namespace Thermory.Web.Controllers
         public ActionResult EditOrder(Guid id)
         {
             var order = CommandDirectory.GetOrderById(id);
+            if (order == null)
+                return RedirectToAction("Index");
+
             var model = CreateOrderFormViewModel(order);
+            if (order.IsDeleted)
+                return RedirectToAction("Review", new RouteValueDictionary {{"id", id}});
             return View("Form", model);
         }
 

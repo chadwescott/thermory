@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using Thermory.Domain.Constants;
 
 namespace Thermory.Web.Models
 {
@@ -10,7 +11,10 @@ namespace Thermory.Web.Models
         public string recid { get; set; }
 
         [Column("OrderNumber")]
-        public string OrderNumber { get; set; }
+        public int OrderNumber { get; set; }
+
+        [NotMapped]
+        public string OrderNumberString { get { return OrderNumber.ToString(Formats.OrderNumberFormat); } }
 
         [Column("OrderType")]
         public string OrderType { get; set; }
