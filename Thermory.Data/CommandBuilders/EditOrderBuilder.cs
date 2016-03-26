@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Thermory.Data.Commands;
 using Thermory.Domain;
 using Thermory.Domain.Enums;
 using Thermory.Domain.Models;
@@ -20,9 +23,7 @@ namespace Thermory.Data.CommandBuilders
             var transaction = CreateInventoryTransaction(userId, order.Id);
             var adjustmentMultiplier = AdjustmentMultiplier.GetByOrderType(order.OrderType.OrderTypeEnum);
 
-            //var adjustLumberProductQuantityCommands =
-            //    lumberLineItems.Select(i => new AdjustLumberProductQuantity(transaction, i.LumberProduct.Id, i.Quantity * adjustmentMultiplier));
-            //Commands.AddRange(adjustLumberProductQuantityCommands);
+            AddLumberProductQuantityAdjustmentCommands(transaction, orderLumberLineItems, lumberLineItems.ToList(), adjustmentMultiplier);
 
             //var adjustMiscellaneousProductQuantityCommands =
             //    miscLineItems.Select(i => new AdjustMiscellaneousProductQuantity(transaction, i.MiscellaneousProduct.Id, i.Quantity * adjustmentMultiplier));
@@ -38,16 +39,62 @@ namespace Thermory.Data.CommandBuilders
             AddDeleteMiscellaneousLineItemCommands(order);
         }
 
-        protected void AddDeleteLumberLineItemCommands(Order order)
+        private void AddDeleteLumberLineItemCommands(Order order)
         {
             var builder = new DeleteLumberLineItemBuilder(order);
             Commands.AddRange(builder.Commands);
         }
 
-        protected void AddDeleteMiscellaneousLineItemCommands(Order order)
+        private void AddDeleteMiscellaneousLineItemCommands(Order order)
         {
             var builder = new DeleteMiscellaneousLineItemBuilder(order);
             Commands.AddRange(builder.Commands);
+        }
+
+        private void AddLumberProductQuantityAdjustmentCommands(InventoryTransaction transaction,
+            List<OrderLumberLineItem> previousLineItems, List<OrderLumberLineItem> currentLineItems,
+            int adjustmentMultiplier)
+        {
+            AddAddedLumberProductAddjustmentCommands(transaction, previousLineItems, currentLineItems,
+                adjustmentMultiplier);
+            AddEditedLumberProductAddjustmentCommands(transaction, previousLineItems, currentLineItems,
+                adjustmentMultiplier);
+        }
+
+        private void AddAddedLumberProductAddjustmentCommands(InventoryTransaction transaction,
+            IEnumerable<OrderLumberLineItem> previousLineItems, IEnumerable<OrderLumberLineItem> currentLineItems,
+            int adjustmentMultiplier)
+        {
+            var adjustLumberProductQuantityCommands =
+                currentLineItems.Where(
+                    i => !previousLineItems.Any(p => p.LumberProductId == i.LumberProductId && p.OrderId == i.OrderId))
+                    .Select(
+                        i =>
+                            new AdjustLumberProductQuantity(transaction, i.LumberProductId,
+                                i.Quantity*adjustmentMultiplier));
+            Commands.AddRange(adjustLumberProductQuantityCommands);
+        }
+
+        private void AddEditedLumberProductAddjustmentCommands(InventoryTransaction transaction,
+            IEnumerable<OrderLumberLineItem> previousLineItems, List<OrderLumberLineItem> currentLineItems,
+            int adjustmentMultiplier)
+        {
+            if (currentLineItems == null) return;
+
+            foreach (var command in from currentLineItem in currentLineItems.Where(
+                c =>
+                    previousLineItems.Any(
+                        p =>
+                            p.LumberProductId == c.LumberProductId &&
+                            p.OrderId == c.OrderId && p.Quantity != c.Quantity)) let previousLineItem = previousLineItems.Single(
+                                p =>
+                                    p.LumberProductId == currentLineItem.LumberProductId &&
+                                    p.OrderId == currentLineItem.OrderId && p.Quantity != currentLineItem.Quantity)
+                                    let delta = (currentLineItem.Quantity - previousLineItem.Quantity) * adjustmentMultiplier
+                                    select new AdjustLumberProductQuantity(transaction, currentLineItem.LumberProductId, delta))
+            {
+                Commands.Add(command);
+            }
         }
 
         protected override TransactionTypes TransactionType

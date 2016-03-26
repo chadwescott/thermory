@@ -56,9 +56,7 @@
     <Compile Include="CommandBuilders\CreateOrderBuilder.cs" />
     <Compile Include="CommandBuilders\DeleteLumberLineItemBuilder.cs" />
     <Compile Include="CommandBuilders\DeleteMiscellaneousLineItemBuilder.cs" />
-    <Compile Include="CommandBuilders\EditMiscellaneousLineItemBuilder.cs" />
     <Compile Include="CommandBuilders\EditOrderBuilder.cs" />
-    <Compile Include="CommandBuilders\EditLumberLineItemBuilder.cs" />
     <Compile Include="CommandBuilders\InventoryAuditBuilder.cs" />
     <Compile Include="CommandBuilders\OrderBuilder.cs" />
     <Compile Include="Commands\AdjustLumberProductQuantity.cs" />

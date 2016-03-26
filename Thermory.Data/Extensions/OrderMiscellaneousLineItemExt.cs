@@ -15,12 +15,6 @@ namespace Thermory.Data.Extensions
                     i => new CreateOrderMiscellaneousLineItem(order, i.MiscellaneousProductId, i.Quantity));
         }
 
-        public static IEnumerable<EditOrderMiscellaneousLineItem> MakeEditOrderMiscellaneousLineItemCommands(
-            this IEnumerable<OrderMiscellaneousLineItem> editedMiscellaneousLineItems)
-        {
-            return editedMiscellaneousLineItems.Select(i => new EditOrderMiscellaneousLineItem(i));
-        }
-
         public static IEnumerable<DeleteOrderMiscellaneousLineItem> MakeDeleteOrderMiscellaneousLineItemCommands(
             this IEnumerable<OrderMiscellaneousLineItem> deletedMiscellaneousLineItems)
         {
