@@ -22,6 +22,9 @@ namespace Thermory.Web.Models
         [Column("OrderType")]
         public string OrderType { get; set; }
 
+        [Column("CustomerName")]
+        public string CustomerName { get; set; }
+
         [Column("CreatedBy")]
         public string CreatedBy { get; set; }
 

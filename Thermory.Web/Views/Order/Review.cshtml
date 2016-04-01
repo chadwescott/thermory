@@ -10,10 +10,10 @@
     var orderMiscCategories = Model.OrderMiscellaneousLineItems.Select(i => i.MiscellaneousProduct.MiscellaneousSubCategory.MiscellaneousCategory).Distinct();
 }
 
-<h1>@orderType @Model.OrderNumberString</h1>
+<h3><strong>@orderType @Model.OrderNumberString</strong></h3>
 @if (@Model.Customer != null)
 {
-    <h2>@Model.Customer.Name</h2>
+    <h4>@Model.Customer.Name</h4>
 }
 @if (!Model.IsDeleted)
 {
