@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Thermory.Data.Models;
+using Thermory.Domain.Models;
 
 namespace Thermory.Data.Commands
 {
-    internal class GetAllLumberProducts : DatabaseGetCommand<IList<IDbLumberProduct>>
+    internal class GetAllLumberProducts : DatabaseGetCommand<IList<LumberProduct>>
     {
         protected override void OnExecute(ThermoryContext context)
         {
-            Result = context.LumberProducts.ToList<IDbLumberProduct>();
+            Result = context.LumberProducts.ToList();
         }
     }
 }

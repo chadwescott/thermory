@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Data.Entity;
-using Thermory.Data.Models;
+using Thermory.Domain.Models;
 
 namespace Thermory.Data
 {
@@ -17,15 +17,9 @@ namespace Thermory.Data
             Database.CommandTimeout = Math.Max(Database.Connection.ConnectionTimeout, minCommandTimeout);
         }
 
+        public DbSet<Customer> Customers { get; set; }
+
         public DbSet<InventoryTransaction> InventoryTransactions { get; set; }
-
-        public DbSet<MiscellaneousCategory> MiscellaneousCategories { get; set; }
-
-        public DbSet<MiscellaneousSubCategory> MiscellaneousSubCategories { get; set; }
-
-        public DbSet<MiscellaneousProduct> MiscellaneousProducts { get; set; }
-
-        public DbSet<MiscellaneousTransactionDetail> MiscellaneousTransactionDetails { get; set; }
 
         public DbSet<LumberProduct> LumberProducts { get; set; }
 
@@ -36,5 +30,23 @@ namespace Thermory.Data
         public DbSet<LumberTransactionDetail> LumberTransactionDetails { get; set; }
 
         public DbSet<LumberType> LumberTypes { get; set; }
+
+        public DbSet<MiscellaneousCategory> MiscellaneousCategories { get; set; }
+
+        public DbSet<MiscellaneousSubCategory> MiscellaneousSubCategories { get; set; }
+
+        public DbSet<MiscellaneousProduct> MiscellaneousProducts { get; set; }
+
+        public DbSet<MiscellaneousTransactionDetail> MiscellaneousTransactionDetails { get; set; }
+
+        public DbSet<Order> Orders { get; set; }
+
+        public DbSet<OrderLumberLineItem> OrderLumberLineItems { get; set; }
+
+        public DbSet<OrderMiscellaneousLineItem> OrderMiscellaneousLineItems { get; set; }
+
+        public DbSet<OrderType> OrderTypes { get; set; }
+
+        public DbSet<TransactionType> TransactionTypes { get; set; }
     }
 }

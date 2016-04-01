@@ -1,4 +1,4 @@
-﻿using Thermory.Data.Models;
+﻿using Thermory.Domain.Models;
 
 namespace Thermory.Data.Commands
 {

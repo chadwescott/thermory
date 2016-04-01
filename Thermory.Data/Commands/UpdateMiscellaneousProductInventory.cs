@@ -1,13 +1,13 @@
 ﻿using System.Linq;
-using Thermory.Domain;
+using Thermory.Domain.Models;
 
 namespace Thermory.Data.Commands
 {
     internal class UpdateMiscellaneousProductInventory : DatabaseCommand
     {
-        private readonly IMiscellaneousProduct _miscProduct;
+        private readonly MiscellaneousProduct _miscProduct;
 
-        public UpdateMiscellaneousProductInventory(IMiscellaneousProduct miscProduct)
+        public UpdateMiscellaneousProductInventory(MiscellaneousProduct miscProduct)
         {
             _miscProduct = miscProduct;
         }

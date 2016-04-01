@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Thermory.Data.Models;
+using Thermory.Domain.Models;
 
 namespace Thermory.Data.Commands
 {
@@ -20,6 +20,9 @@ namespace Thermory.Data.Commands
         protected override void OnExecute(ThermoryContext context)
         {
             var lumberProduct = context.LumberProducts.Single(lp => lp.Id == _lumberProductId);
+            if (_newQuantity == lumberProduct.Quantity)
+                return;
+
             var detail = new LumberTransactionDetail
             {
                 InventoryTransactionId = _transaction.Id,

@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Thermory.Data.CommandBuilders;
 using Thermory.Data.Commands;
-using Thermory.Data.Models;
-using Thermory.Domain;
+using Thermory.Domain.Models;
+using Thermory.Domain.Enums;
 
 namespace Thermory.Data
 {
@@ -18,59 +20,99 @@ namespace Thermory.Data
         private DatabaseCommandDirectory()
         { }
 
-        public IList<IDbLumberCategory> GetAllLumberCategories()
+        public void CreateOrder(int userId, OrderTypes orderType, OrderLumberLineItem[] lumberLineItems,
+            OrderMiscellaneousLineItem[] miscLineItems)
+        {
+            var builder = new CreateOrderBuilder(userId, orderType, lumberLineItems, miscLineItems);
+            var commands = builder.Commands;
+            var transaction = new TransactionalCommand(commands);
+            transaction.Execute();
+        }
+
+        public void DeleteOrder(int userId, Guid orderId)
+        {
+            var builder = new DeleteOrderBuilder(userId, orderId);
+            IEnumerable<DatabaseCommand> commands = builder.Commands;
+            var transaction = new TransactionalCommand(commands);
+            transaction.Execute();
+        }
+
+        public void EditOrder(int userId, Guid orderId, OrderLumberLineItem[] lumberLineItems,
+            OrderMiscellaneousLineItem[] miscLineItems)
+        {
+            var builder = new EditOrderBuilder(userId, orderId, lumberLineItems, miscLineItems);
+            IEnumerable<DatabaseCommand> commands = builder.Commands;
+            var transaction = new TransactionalCommand(commands);
+            transaction.Execute();
+        }
+
+        public IList<LumberCategory> GetAllLumberCategories()
         {
             var command = new GetAllLumberCategories();
             command.Execute();
             return command.Result;
         }
 
-        public IList<IDbLumberProduct> GetAllLumberProducts()
+        public IList<LumberProduct> GetAllLumberProducts()
         {
             var command = new GetAllLumberProducts();
             command.Execute();
             return command.Result;
         }
 
-        public IList<IDbMiscellaneousCategory> GetAllMiscellaneousCategories()
+        public IList<MiscellaneousCategory> GetAllMiscellaneousCategories()
         {
             var command = new GetAllMiscellaneousCategories();
             command.Execute();
             return command.Result;
         }
 
-        public IList<IDbMiscellaneousProduct> GetAllMiscellaneousProducts()
+        public IList<MiscellaneousProduct> GetAllMiscellaneousProducts()
         {
             var command = new GetAllMiscellaneousProducts();
             command.Execute();
             return command.Result;
         }
 
-        public void UpdateProductInventory(int userId, ILumberProduct[] lumberProducts,
-            IMiscellaneousProduct[] miscProducts)
+        public Order GetOrderById(Guid id)
         {
-            var commands = new List<DatabaseCommand>();
+            var command = new GetOrderById(id);
+            command.Execute();
+            return command.Result;
+        }
 
-            var inventoryTransaction = new InventoryTransaction {UserId = userId};
-            var createInventoryTransactionCommand = new CreateInventoryTransaction(inventoryTransaction);
-            commands.Add(createInventoryTransactionCommand);
+        private IList<OrderType> _orderTypes;
 
-            var createLumberTransactionDetailCommands =
-                lumberProducts.Select(p => new CreateLumberTransactionDetails(inventoryTransaction, p.Id, p.Quantity));
-            commands.AddRange(createLumberTransactionDetailCommands);
-            
-            var createMiscTransactionDetailCommands =
-                miscProducts.Select(p => new CreateMiscellaneousTransactionDetails(inventoryTransaction, p.Id, p.Quantity));
-            commands.AddRange(createMiscTransactionDetailCommands);
+        internal Guid GetOrderTypeIdByEnum(OrderTypes orderType)
+        {
+            if (_orderTypes == null)
+                _orderTypes = ExecuteCommand(new GetAllOrderTypes());
+            return _orderTypes.Single(t => t.OrderTypeEnum == orderType).Id;
+        }
 
-            var lumberUpdateCommands = lumberProducts.Select(lp => new UpdateLumberProductInventory(lp)).ToList();
-            commands.AddRange(lumberUpdateCommands);
+        private IList<TransactionType> _transactionTypes;
+ 
+        internal Guid GetTransactionTypeIdByEnum(TransactionTypes transactionType)
+        {
+            if (_transactionTypes == null)
+                _transactionTypes = ExecuteCommand(new GetAllTransactionTypes());
+            return _transactionTypes.Single(t => t.Name == transactionType.ToString()).Id;
+        }
 
-            var miscUpdateCommands = miscProducts.Select(mp => new UpdateMiscellaneousProductInventory(mp)).ToList();
-            commands.AddRange(miscUpdateCommands);
-
+        public void InventoryAudit(int userId, TransactionTypes transactionType,
+            LumberProduct[] lumberProducts, MiscellaneousProduct[] miscProducts)
+        {
+            var transactionTypeId = GetTransactionTypeIdByEnum(transactionType);
+            var builder = new InventoryAuditBuilder(userId, transactionTypeId, lumberProducts, miscProducts);
+            var commands = builder.Commands;
             var transaction = new TransactionalCommand(commands);
             transaction.Execute();
+        }
+
+        private T ExecuteCommand<T>(DatabaseGetCommand<T> command)
+        {
+            command.Execute();
+            return command.Result;
         }
     }
 }

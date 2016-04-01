@@ -2,15 +2,15 @@
 using System.Linq;
 using Thermory.Data;
 using Thermory.Data.Commands;
-using Thermory.Domain;
+using Thermory.Domain.Models;
 
 namespace Thermory.Business.Commands
 {
     internal class RefreshMiscellaneousProductQuantities : ICommand
     {
-        private readonly IList<IMiscellaneousCategory> _miscellaneousCategories;
+        private readonly IList<MiscellaneousCategory> _miscellaneousCategories;
 
-        public RefreshMiscellaneousProductQuantities(IList<IMiscellaneousCategory> miscellaneousCategories)
+        public RefreshMiscellaneousProductQuantities(IList<MiscellaneousCategory> miscellaneousCategories)
         {
             _miscellaneousCategories = miscellaneousCategories;
         }

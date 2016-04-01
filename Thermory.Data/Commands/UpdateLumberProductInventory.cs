@@ -1,13 +1,13 @@
 ﻿using System.Linq;
-using Thermory.Domain;
+using Thermory.Domain.Models;
 
 namespace Thermory.Data.Commands
 {
     internal class UpdateLumberProductInventory : DatabaseCommand
     {
-        private readonly ILumberProduct _lumberProduct;
+        private readonly LumberProduct _lumberProduct;
 
-        public UpdateLumberProductInventory(ILumberProduct lumberProduct)
+        public UpdateLumberProductInventory(LumberProduct lumberProduct)
         {
             _lumberProduct = lumberProduct;
         }
