@@ -274,6 +274,7 @@
     <None Include="Properties\PublishProfiles\thermory.pubxml" />
     <Content Include="Images\favicon.png" />
     <Content Include="Images\logo.jpg" />
+    <Content Include="Scripts\bootstrap-confirmation.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
