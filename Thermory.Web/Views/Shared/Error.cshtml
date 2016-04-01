@@ -4,7 +4,12 @@
     ViewBag.Title = "Error";
 }
 
-<hgroup class="title">
-    <h1 class="error">Error.</h1>
+<div class="title">
     <h2 class="error">An error occurred while processing your request.</h2>
-</hgroup>
+</div>
+<h3><em>@Model.Exception.Message</em></h3>
+@if (Model.Exception.InnerException != null)
+{
+    <br />
+    <h3><em>@Model.Exception.InnerException.Message</em></h3>
+}

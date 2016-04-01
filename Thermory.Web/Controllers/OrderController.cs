@@ -18,9 +18,12 @@ namespace Thermory.Web.Controllers
             return View();
         }
 
-        public ActionResult Review(Guid id)
+        public ActionResult Review(Guid? id)
         {
-            var order = CommandDirectory.Instance.GetOrderById(id);
+            if (id == null)
+                return RedirectToAction("Index");
+
+            var order = CommandDirectory.Instance.GetOrderById(id.Value);
             if (order == null)
                 return RedirectToAction("Index");
             return View(order);
@@ -38,9 +41,12 @@ namespace Thermory.Web.Controllers
             return View("Form", model);
         }
 
-        public ActionResult EditOrder(Guid id)
+        public ActionResult EditOrder(Guid? id)
         {
-            var order = CommandDirectory.Instance.GetOrderById(id);
+            if (id == null)
+                return RedirectToAction("Index");
+
+            var order = CommandDirectory.Instance.GetOrderById(id.Value);
             if (order == null)
                 return RedirectToAction("Index");
 
