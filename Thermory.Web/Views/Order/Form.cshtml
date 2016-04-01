@@ -3,16 +3,40 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     var firstCategoryId = Model.LumberOrderForms.First().LumberCategory.Id;
-    var action = Model.Order == null ? "Create" : "Edit";
+    var action = Model.Order.Id == Guid.Empty ? "Create" : "Edit";
     var orderType = Model.OrderType == OrderTypes.PurchaseOrder ? "Purchase" : "Sales";
-    var orderNumber = Model.Order == null ? "" : Model.Order.OrderNumberString;
+    var orderNumber = Model.Order.Id == Guid.Empty ? "" : Model.Order.OrderNumberString;
     var title = string.Format("{0} {1} Order {2}", action, orderType, orderNumber);
     var orderId = Model.Order == null ? Guid.Empty : Model.Order.Id;
 }
 
-<h3>@title</h3>
-
+<h3><strong>@title</strong></h3>
+<br/>
 <div id="worksheetPanel">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Customer</h3>
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                <select id="customerId" onchange="customerChanged();">
+                    <option value="@Guid.Empty" selected="selected">Add New</option>
+                    @foreach (var customer in Model.Customers)
+                    {
+                        var selected = customer.Id == Model.Order.CustomerId ? " selected=\"selected\"" : "";
+                        <option value="@customer.Id"@selected>@customer.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="customerName">Name</label>
+                <input type="text" id="customerName" class="form-control" />
+            </div>
+        </div>
+    </div>
+    <button type="button" onclick=" saveOrder();">Save</button>
+    <br />
+    <br />
     <ul class="nav nav-tabs" data-tabs="tabs">
         @{
             foreach (var orderForm in Model.LumberOrderForms)
@@ -27,7 +51,7 @@
             }
         }
     </ul>
-    <div class="tab-content" style="height: 500px; overflow: auto;">
+    <div class="tab-content">
         @{
             foreach (var orderForm in Model.LumberOrderForms)
             {
@@ -68,24 +92,34 @@
                 e.preventDefault();
             }
         });
+        customerChanged();
     });
 
-    function saveOrder() {
-        $('#worksheetPanel').hide();
-        $('#savingPanel').show();
+    function customerChanged() {
+        console.log('customerChanged');
+        var selectedCustomer = $('#customerId option:selected');
 
+        var customerName = selectedCustomer.val() == '@Guid.Empty' ? '' : selectedCustomer.text();
+        $('#customerName').val(customerName);
+    }
+
+    function saveOrder() {
         var lumberProducts = getInventory('lumber');
         var miscProducts = getInventory('misc');
 
         if (lumberProducts.length == 0 && miscProducts == 0) {
-            $('#worksheetPanel').show();
-            $('#savingPanel').hide();
             return;
         }
 
+        $('#worksheetPanel').hide();
+        $('#savingPanel').show();
+
+        var customer = getCustomer();
+        var customerJson = JSON.stringify(customer);
         var lumberJson = JSON.stringify(lumberProducts);
         var miscJson = JSON.stringify(miscProducts);
-        var postData = '{"orderType" : "@Model.OrderType", "orderId" : "@orderId", "lumberOrderQuantities" : ' + lumberJson + ', "miscOrderQuantities" : ' + miscJson + '}';
+
+        var postData = '{"orderType" : "@Model.OrderType", "orderId" : "@orderId", "customer" : ' + customerJson + ', "lumberOrderQuantities" : ' + lumberJson + ', "miscOrderQuantities" : ' + miscJson + '}';
 
         console.log(lumberJson);
         console.log(miscJson);
@@ -110,6 +144,13 @@
                 $('#savingPanel').hide();
             }
         });
+    }
+
+    function getCustomer() {
+        return {
+            Id: $('#customerId').val(),
+            Name: $('#customerName').val()
+        };
     }
 
     function getInventory(prefix) {

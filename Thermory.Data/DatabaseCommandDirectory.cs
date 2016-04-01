@@ -20,10 +20,10 @@ namespace Thermory.Data
         private DatabaseCommandDirectory()
         { }
 
-        public void CreateOrder(int userId, OrderTypes orderType, OrderLumberLineItem[] lumberLineItems,
-            OrderMiscellaneousLineItem[] miscLineItems)
+        public void CreateOrder(int userId, OrderTypes orderType, Customer customer,
+            OrderLumberLineItem[] lumberLineItems, OrderMiscellaneousLineItem[] miscLineItems)
         {
-            var builder = new CreateOrderBuilder(userId, orderType, lumberLineItems, miscLineItems);
+            var builder = new CreateOrderBuilder(userId, orderType, customer, lumberLineItems, miscLineItems);
             var commands = builder.Commands;
             var transaction = new TransactionalCommand(commands);
             transaction.Execute();
@@ -37,13 +37,20 @@ namespace Thermory.Data
             transaction.Execute();
         }
 
-        public void EditOrder(int userId, Guid orderId, OrderLumberLineItem[] lumberLineItems,
+        public void EditOrder(int userId, Guid orderId, Customer customer, OrderLumberLineItem[] lumberLineItems,
             OrderMiscellaneousLineItem[] miscLineItems)
         {
-            var builder = new EditOrderBuilder(userId, orderId, lumberLineItems, miscLineItems);
+            var builder = new EditOrderBuilder(userId, orderId, customer, lumberLineItems, miscLineItems);
             IEnumerable<DatabaseCommand> commands = builder.Commands;
             var transaction = new TransactionalCommand(commands);
             transaction.Execute();
+        }
+
+        public IList<Customer> GetAllCustomers()
+        {
+            var command = new GetAllCustomers();
+            command.Execute();
+            return command.Result;
         }
 
         public IList<LumberCategory> GetAllLumberCategories()

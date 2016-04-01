@@ -17,9 +17,10 @@ namespace Thermory.Web.Controllers
         {
             return View();
         }
+
         public ActionResult Review(Guid id)
         {
-            var order = CommandDirectory.GetOrderById(id);
+            var order = CommandDirectory.Instance.GetOrderById(id);
             if (order == null)
                 return RedirectToAction("Index");
             return View(order);
@@ -39,13 +40,13 @@ namespace Thermory.Web.Controllers
 
         public ActionResult EditOrder(Guid id)
         {
-            var order = CommandDirectory.GetOrderById(id);
+            var order = CommandDirectory.Instance.GetOrderById(id);
             if (order == null)
                 return RedirectToAction("Index");
 
             var model = CreateOrderFormViewModel(order);
             if (order.IsDeleted)
-                return RedirectToAction("Review", new RouteValueDictionary {{"id", id}});
+                return RedirectToAction("Review", new RouteValueDictionary { { "id", id } });
             return View("Form", model);
         }
 
@@ -57,7 +58,7 @@ namespace Thermory.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult SaveOrder(Guid orderId, OrderTypes orderType, ProductOrderQuantity[] lumberOrderQuantities,
+        public ActionResult SaveOrder(Guid orderId, OrderTypes orderType, Customer customer, ProductOrderQuantity[] lumberOrderQuantities,
             ProductOrderQuantity[] miscOrderQuantities)
         {
             var lumberLineItems = lumberOrderQuantities == null
@@ -66,7 +67,7 @@ namespace Thermory.Web.Controllers
                 {
                     Id = l.Id,
                     OrderId = orderId,
-                    LumberProductId = l.ProductId,
+                LumberProductId = l.ProductId,
                     Quantity = l.Quantity
                 }).ToArray();
 
@@ -80,7 +81,7 @@ namespace Thermory.Web.Controllers
                     Quantity = m.Quantity
                 }).ToArray();
 
-            CommandDirectory.Instance.SaveOrder(WebSecurity.CurrentUserId, orderId, orderType, lumberLineItems, miscLineItems);
+            CommandDirectory.Instance.SaveOrder(WebSecurity.CurrentUserId, orderId, orderType, customer, lumberLineItems, miscLineItems);
             return Json(new { status = "success" });
         }
 
@@ -88,6 +89,7 @@ namespace Thermory.Web.Controllers
         {
             var model = new OrderForm
             {
+                Customers = CommandDirectory.Instance.GetAllCustomers(),
                 Order = order,
                 OrderType = order.OrderType.OrderTypeEnum,
                 LumberOrderForms = GetLumberOrderForms(),
@@ -113,6 +115,7 @@ namespace Thermory.Web.Controllers
         {
             return new OrderForm
             {
+                Customers = CommandDirectory.Instance.GetAllCustomers(),
                 Order = new Order(),
                 OrderType = orderType,
                 LumberOrderForms = GetLumberOrderForms(),

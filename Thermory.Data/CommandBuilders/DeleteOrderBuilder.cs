@@ -16,7 +16,7 @@ namespace Thermory.Data.CommandBuilders
             if (order.IsDeleted) return;
 
             order.IsDeleted = true;
-            Commands.Add(new UpdateOrder(order));
+            Commands.Add(new SaveOrder(order));
 
             var orderLumberLineItems = order.OrderLumberLineItems;
             var orderMiscLineItems = order.OrderMiscellaneousLineItems;

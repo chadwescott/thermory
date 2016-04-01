@@ -65,13 +65,13 @@
     <Compile Include="Commands\CreateInventoryTransaction.cs" />
     <Compile Include="Commands\CreateLumberTransactionDetails.cs" />
     <Compile Include="Commands\CreateMiscellaneousTransactionDetails.cs" />
-    <Compile Include="Commands\CreateOrder.cs" />
     <Compile Include="Commands\CreateOrderLumberLineItem.cs" />
     <Compile Include="Commands\CreateOrderMiscellaneousLineItem.cs" />
     <Compile Include="Commands\DeleteOrderLumberLineItem.cs" />
     <Compile Include="Commands\DeleteOrderMiscellaneousLineItem.cs" />
     <Compile Include="Commands\EditOrderLumberLineItem.cs" />
     <Compile Include="Commands\EditOrderMiscellaneousLineItem.cs" />
+    <Compile Include="Commands\GetAllCustomers.cs" />
     <Compile Include="Commands\GetAllLumberCategories.cs" />
     <Compile Include="Commands\GetAllMiscellaneousCategories.cs" />
     <Compile Include="Commands\GetAllMiscellaneousProducts.cs" />
@@ -81,9 +81,10 @@
     <Compile Include="Commands\GetOrderById.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\IGetCommand.cs" />
+    <Compile Include="Commands\SaveCustomer.cs" />
     <Compile Include="Commands\UpdateLumberProductInventory.cs" />
     <Compile Include="Commands\UpdateMiscellaneousProductInventory.cs" />
-    <Compile Include="Commands\UpdateOrder.cs" />
+    <Compile Include="Commands\SaveOrder.cs" />
     <Compile Include="DatabaseCommandDirectory.cs" />
     <Compile Include="Commands\DatabaseCommand.cs" />
     <Compile Include="Commands\DatabaseGetCommand.cs" />
