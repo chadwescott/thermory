@@ -92,7 +92,7 @@ namespace Thermory.Web.Controllers.Api
 
         protected virtual List<SearchItem> GetRequiredSearchItem()
         {
-            return null;
+            return new List<SearchItem>();
         }
     }
 }

@@ -51,7 +51,7 @@ namespace Thermory.QueryEngine
                     const string countQuery = @"SELECT COUNT(1) FROM {0}";
                     var queryBuilder = new StringBuilder().AppendFormat(countQuery, TargetTable);
 
-                    if (conditions.SearchItems != null || conditions.RequiredSearchItems != null)
+                    if (searchItems != null || conditions.RequiredSearchItems.Any())
                     {
                         var first = true;
                         conditions.RequiredSearchItems.ForEach(delegate(SearchItem item)
@@ -129,7 +129,7 @@ namespace Thermory.QueryEngine
 
                         queryBuilder.AppendFormat(" rn FROM {0} a", TargetTable);
 
-                        if (conditions.SearchItems != null || conditions.RequiredSearchItems != null)
+                        if (conditions.SearchItems != null || conditions.RequiredSearchItems.Any())
                         {
                             var first = true;
                             conditions.RequiredSearchItems.ForEach(delegate(SearchItem item)

@@ -16,17 +16,24 @@
         $('#orderDiv').w2grid({
             name: 'orderGrid',
             url: '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "OrderGrid" })',
-            //url: '@Url.Action("Post", "OrderGrid")',
             autoLoad: true,
             limit: 500,
             msgRefresh: 'Loading',
             show: {
-                toolbar: false,
+                toolbar: true,
                 footer: false,
                 toolbarSave: false,
                 toolbarDelete: false,
-                toolbarSearch: false
+                toolbarSearch: true
             },
+            searches: [
+                { field: 'OrderNumber', caption: 'Order Number', type: 'text' },
+                { field: 'OrderType', caption: 'Order Type', type: 'list', options: { items: ['Sales Order', 'Purchase Order'] } },
+                { field: 'CustomerName', caption: 'Customer', type: 'text' },
+                { field: 'CreatedOn', caption: 'Created On', type: 'date' },
+                { field: 'CreatedBy', caption: 'Created By', type: 'text' },
+                { field: 'IsDeleted', caption: 'Deleted', type: 'list', options: { items: ['true', 'false']} }
+            ],
             columns: [
                 {
                     field: 'OrderNumberString', caption: 'Order Number', size: '10%', sortable: true, resizable: true, render: 'text'

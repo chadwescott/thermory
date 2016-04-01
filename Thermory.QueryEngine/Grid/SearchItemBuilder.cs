@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
-using System.Data.Linq.Mapping;
 using System.Reflection;
 using System.Text;
 
