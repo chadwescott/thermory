@@ -34,14 +34,14 @@
                 var category = orderForm.LumberCategory;
                 var active = category.Id == firstCategoryId ? "active" : "";
                 <div id="@category.Id" class="tab-pane @active">
-                    @Html.Partial("_LumberLineItem", orderForm)
+                    @Html.Partial("_LumberLineItemForm", orderForm)
                 </div>
             }
             foreach (var orderForm in Model.MiscellaneousOrderForms)
             {
                 var category = orderForm.MiscellaneousCategory;
                 <div id="@category.Id" class="tab-pane">
-                    @Html.Partial("_MiscellaneousLineItem", orderForm)
+                    @Html.Partial("_MiscellaneousLineItemForm", orderForm)
                 </div>
             }
         }

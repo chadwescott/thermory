@@ -22,9 +22,7 @@ namespace Thermory.Web.Controllers
             var order = CommandDirectory.GetOrderById(id);
             if (order == null)
                 return RedirectToAction("Index");
-
-            var model = CreateOrderFormViewModel(order);
-            return View(model);
+            return View(order);
         }
 
         public ActionResult CreatePurchaseOrder()

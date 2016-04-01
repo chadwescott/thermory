@@ -1,6 +1,7 @@
-﻿@model Thermory.Domain.Models.OrderLumberLineItem
+﻿@using WebGrease.Css.Extensions
+@model Thermory.Web.Models.LumberOrderForm
 
-@foreach (var subCategory in Model)
+@foreach (var subCategory in Model.LumberCategory.LumberSubCategories.OrderBy(s => s.SortOrder))
 {
     var millimeterLengths = new List<int>();
     subCategory.LumberTypes.ForEach(pt => pt.LengthsMillimeters.ForEach(l => { if (!millimeterLengths.Contains(l)) millimeterLengths.Add(l); }));

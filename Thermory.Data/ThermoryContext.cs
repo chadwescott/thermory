@@ -17,7 +17,19 @@ namespace Thermory.Data
             Database.CommandTimeout = Math.Max(Database.Connection.ConnectionTimeout, minCommandTimeout);
         }
 
+        public DbSet<Customer> Customers { get; set; }
+
         public DbSet<InventoryTransaction> InventoryTransactions { get; set; }
+
+        public DbSet<LumberProduct> LumberProducts { get; set; }
+
+        public DbSet<LumberCategory> LumberCategories { get; set; }
+
+        public DbSet<LumberSubCategory> LumberSubCategories { get; set; }
+
+        public DbSet<LumberTransactionDetail> LumberTransactionDetails { get; set; }
+
+        public DbSet<LumberType> LumberTypes { get; set; }
 
         public DbSet<MiscellaneousCategory> MiscellaneousCategories { get; set; }
 
@@ -32,16 +44,6 @@ namespace Thermory.Data
         public DbSet<OrderLumberLineItem> OrderLumberLineItems { get; set; }
 
         public DbSet<OrderMiscellaneousLineItem> OrderMiscellaneousLineItems { get; set; }
-
-        public DbSet<LumberProduct> LumberProducts { get; set; }
-
-        public DbSet<LumberCategory> LumberCategories { get; set; }
-
-        public DbSet<LumberSubCategory> LumberSubCategories { get; set; }
-
-        public DbSet<LumberTransactionDetail> LumberTransactionDetails { get; set; }
-
-        public DbSet<LumberType> LumberTypes { get; set; }
 
         public DbSet<OrderType> OrderTypes { get; set; }
 

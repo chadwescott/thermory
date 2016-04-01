@@ -10,6 +10,9 @@ namespace Thermory.Web.Models
         [Column("OrderId")]
         public string recid { get; set; }
 
+        [Column("IsDeleted")]
+        public bool IsDeleted { get; set; }
+
         [Column("OrderNumber")]
         public int OrderNumber { get; set; }
 

@@ -47,6 +47,7 @@
     <Compile Include="Enums\OrderTypes.cs" />
     <Compile Include="Enums\TransactionTypes.cs" />
     <Compile Include="LengthConverter.cs" />
+    <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\InventoryTransaction.cs" />
     <Compile Include="Models\LumberCategory.cs" />
     <Compile Include="Models\LumberProduct.cs" />
