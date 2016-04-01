@@ -33,6 +33,7 @@ namespace Thermory.Web.Controllers.Api
         {
             try
             {
+                ValidatePostData(data);
                 var connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
                 var adapter = new SqlServerAdapter<T>(connectionString);
 
@@ -86,6 +87,8 @@ namespace Thermory.Web.Controllers.Api
                 };
             }
         }
+
+        protected virtual void ValidatePostData(PostData<T> data) { }
 
         protected virtual List<SearchItem> GetRequiredSearchItem()
         {
