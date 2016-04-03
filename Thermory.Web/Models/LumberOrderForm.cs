@@ -8,5 +8,7 @@ namespace Thermory.Web.Models
         public List<OrderLumberLineItem> LumberLineItems { get; set; }
 
         public LumberCategory LumberCategory { get; set; }
+
+        public bool ValidateQuantityOnHand { get; set; }
     }
 }

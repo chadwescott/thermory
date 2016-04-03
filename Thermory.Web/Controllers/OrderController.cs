@@ -101,7 +101,7 @@ namespace Thermory.Web.Controllers
                 Customers = CommandDirectory.Instance.GetAllCustomers(),
                 Order = order,
                 OrderType = order.OrderType.OrderTypeEnum,
-                LumberOrderForms = GetLumberOrderForms(),
+                LumberOrderForms = GetLumberOrderForms(order.OrderType.OrderTypeEnum),
                 MiscellaneousOrderForms = GetMiscellaneousOrderForms()
             };
 
@@ -127,15 +127,15 @@ namespace Thermory.Web.Controllers
                 Customers = CommandDirectory.Instance.GetAllCustomers(),
                 Order = new Order(),
                 OrderType = orderType,
-                LumberOrderForms = GetLumberOrderForms(),
+                LumberOrderForms = GetLumberOrderForms(orderType),
                 MiscellaneousOrderForms = GetMiscellaneousOrderForms()
             };
         }
 
-        private List<LumberOrderForm> GetLumberOrderForms()
+        private List<LumberOrderForm> GetLumberOrderForms(OrderTypes orderType)
         {
             return CommandDirectory.Instance.GetAllLumberCategories()
-                .Select(c => new LumberOrderForm { LumberCategory = c })
+                .Select(c => new LumberOrderForm { LumberCategory = c, ValidateQuantityOnHand = orderType == OrderTypes.SalesOrder })
                 .ToList();
         }
 
