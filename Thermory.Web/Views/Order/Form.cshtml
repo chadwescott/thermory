@@ -98,7 +98,6 @@
     });
 
     function customerChanged() {
-        console.log('customerChanged');
         var selectedCustomer = $('#customerId option:selected');
 
         var customerName = selectedCustomer.val() == '@Guid.Empty' ? '' : selectedCustomer.text();
@@ -122,10 +121,6 @@
         var miscJson = JSON.stringify(miscProducts);
 
         var postData = '{"orderType" : "@Model.OrderType", "orderId" : "@orderId", "customer" : ' + customerJson + ', "lumberOrderQuantities" : ' + lumberJson + ', "miscOrderQuantities" : ' + miscJson + '}';
-
-        console.log(lumberJson);
-        console.log(miscJson);
-        console.log(postData);
 
         $('#worksheetPanel').show();
         $('#savingPanel').hide();

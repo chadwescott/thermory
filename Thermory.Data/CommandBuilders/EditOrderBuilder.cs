@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Thermory.Data.Commands;
-using Thermory.Domain;
 using Thermory.Domain.Enums;
 using Thermory.Domain.Models;
+using Thermory.Domain.Utils;
 
 namespace Thermory.Data.CommandBuilders
 {

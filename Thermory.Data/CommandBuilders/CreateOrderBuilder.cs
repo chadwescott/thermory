@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using Thermory.Data.Commands;
-using Thermory.Domain;
 using Thermory.Domain.Models;
 using Thermory.Domain.Enums;
+using Thermory.Domain.Utils;
 
 namespace Thermory.Data.CommandBuilders
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Thermory.Domain
+namespace Thermory.Domain.Utils
 {
     public static class LengthConverter
     {

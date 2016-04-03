@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Thermory.Domain.Utils;
 
 namespace Thermory.Domain.Models
 {
@@ -28,13 +29,13 @@ namespace Thermory.Domain.Models
         [NotMapped]
         public double TallyPercentage
         {
-            get { return LumberType == null ? 0 : Math.Round(LinearFeet/LumberType.TotalLinearFeet*100, 0); }
+            get { return LumberType == null ? 0 : Math.Round(LinearFeet / LumberType.TotalLinearFeet * 100, 0); }
         }
 
         [NotMapped]
         public double LinearFeet
         {
-            get { return Math.Round(Quantity*LengthInInches/12, 0); }
+            get { return LumberCalculations.GetLinearFeet(Quantity, LengthInInches); }
         }
 
         [NotMapped]
@@ -42,7 +43,7 @@ namespace Thermory.Domain.Models
         {
             get
             {
-                return LumberType == null ? 0 : Math.Round(LinearFeet*LumberType.LumberSubCategory.WidthInInches/12, 0);
+                return LumberType == null ? 0 : LumberCalculations.GetSquareFeet(LinearFeet, LumberType.LumberSubCategory.WidthInInches);
             }
         }
     }

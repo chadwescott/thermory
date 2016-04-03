@@ -1,7 +1,6 @@
-﻿using Thermory.Domain.Constants;
-using Thermory.Domain.Enums;
+﻿using Thermory.Domain.Enums;
 
-namespace Thermory.Domain
+namespace Thermory.Domain.Utils
 {
     public static class AdjustmentMultiplier
     {

@@ -40,13 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdjustmentMultiplier.cs" />
+    <Compile Include="Utils\AdjustmentMultiplier.cs" />
     <Compile Include="Constants\Formats.cs" />
     <Compile Include="Constants\OrderTypeNames.cs" />
     <Compile Include="Constants\TransactionTypeNames.cs" />
     <Compile Include="Enums\OrderTypes.cs" />
     <Compile Include="Enums\TransactionTypes.cs" />
-    <Compile Include="LengthConverter.cs" />
+    <Compile Include="Utils\LumberCalculations.cs" />
+    <Compile Include="Utils\LengthConverter.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\InventoryTransaction.cs" />
     <Compile Include="Models\LumberCategory.cs" />

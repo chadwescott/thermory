@@ -54,7 +54,7 @@
             </tr>
             @Html.Raw(blankRow)
             <tr>
-                <td colspan="2" class="productType productTypeStatistic">LF / LengthInMillimeters</td>
+                <td colspan="2" class="productType productTypeStatistic">LF / Length</td>
                 @foreach (var length in millimeterLengths)
                 {
                     var lumberForLength = lumberType.LumberProducts.SingleOrDefault(p => p.LengthInMillimeters == length);
@@ -65,7 +65,7 @@
                 <td>@lumberType.TotalPieces</td>
             </tr>
             <tr>
-                <td colspan="2" class="productType productTypeStatistic">SF / LengthInMillimeters</td>
+                <td colspan="2" class="productType productTypeStatistic">SF / Length</td>
                 @foreach (var length in millimeterLengths)
                 {
                     var lumberForLength = lumberType.LumberProducts.SingleOrDefault(p => p.LengthInMillimeters == length);
