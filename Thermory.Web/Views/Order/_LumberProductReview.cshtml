@@ -1,0 +1,54 @@
+﻿@model Thermory.Web.Models.OrderReview
+
+@{
+    var orderLumberCategories = Model.Order.OrderLumberLineItems.Select(i => i.LumberProduct.LumberType.LumberSubCategory.LumberCategory).Distinct();
+    var orderLumberSubCategories = Model.Order.OrderLumberLineItems.Select(i => i.LumberProduct.LumberType.LumberSubCategory).Distinct();
+    var orderLumberTypes = Model.Order.OrderLumberLineItems.Select(i => i.LumberProduct.LumberType).Distinct();
+    
+    foreach (var category in orderLumberCategories.OrderBy(c => c.SortOrder))
+    {
+        foreach (var subCategory in orderLumberSubCategories.OrderBy(s => s.SortOrder).Where(s => s.LumberCategoryId == category.Id))
+        {
+            foreach (var lumberType in orderLumberTypes.OrderBy(s => s.SortOrder).Where(s => s.LumberSubCategoryId == subCategory.Id))
+            {
+                var totalLinearFeet = 0.0;
+                var totalSquareFeet = 0.0;
+                var totalPieces = 0;
+                <h3><strong>@category.Name:</strong> @subCategory.Name</h3>
+                <h5><em>@lumberType.Name</em></h5>
+                <table class="table table-striped table-condensed" style="width: 800px;">
+                    <thead>
+                        <tr>
+                            <th>Length</th>
+                            <th>Width</th>
+                            <th>Quantity</th>
+                            <th>Linear Feet</th>
+                            <th>Square Feet</th>
+                        </tr>
+                    </thead>
+                    @foreach (var lineItem in Model.Order.OrderLumberLineItems.Where(li => li.LumberProduct.LumberType.Id == lumberType.Id))
+                    {
+                        totalLinearFeet += lineItem.LinearFeet;
+                        totalSquareFeet += lineItem.SquareFeet;
+                        totalPieces += lineItem.Quantity;
+                        <tr>
+                            <td>@lineItem.LumberProduct.LengthInInches"</td>
+                            <td>@lineItem.LumberProduct.LumberType.LumberSubCategory.WidthInInches"</td>
+                            <td>@lineItem.Quantity</td>
+                            <td>@lineItem.LinearFeet ft</td>
+                            <td>@lineItem.SquareFeet ft<sup>2</sup></td>
+                        </tr>
+                    }
+                    <tr>
+                        <td><strong>Total</strong></td>
+                        <td>&nbsp;</td>
+                        <td><strong>@totalPieces</strong></td>
+                        <td><strong>@totalLinearFeet ft</strong></td>
+                        <td><strong>@totalSquareFeet ft<sup>2</sup></strong></td>
+                    </tr>
+                </table>
+            }
+        }
+    }
+
+}

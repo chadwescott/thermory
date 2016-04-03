@@ -1,0 +1,32 @@
+﻿@model Thermory.Web.Models.LumberTransactionDetails
+
+<h3><strong>Lumber Changes</strong></h3>
+<table class="table table-striped table-condensed" style="width: 800px;">
+    <thead>
+        <tr>
+            <th>Category</th>
+            <th>Sub Category</th>
+            <th>Type</th>
+            <th>Length</th>
+            <th>Delta</th>
+        </tr>
+    </thead>
+
+    @foreach (var detail in Model.Details
+                                        .OrderBy(d => d.LumberProduct.LumberType.LumberSubCategory.LumberCategory.Name)
+                                        .ThenBy(d => d.LumberProduct.LumberType.LumberSubCategory.Name)
+                                        .ThenBy(d => d.LumberProduct.LumberType.Name)
+                                        .ThenBy(d => d.LumberProduct.LengthInMillimeters))
+    {
+        var delta = detail.Delta*Model.AdjustmentMultiplier;
+        var deltaPrefix = delta > 0 ? "+" : "";
+        <tr>
+            <td>@detail.LumberProduct.LumberType.LumberSubCategory.LumberCategory.Name</td>
+            <td>@detail.LumberProduct.LumberType.LumberSubCategory.Name</td>
+            <td>@detail.LumberProduct.LumberType.Name</td>
+            <td>@detail.LumberProduct.LengthInInches"</td>
+            <td>@deltaPrefix@delta</td>
+        </tr>
+    }
+</table>
+

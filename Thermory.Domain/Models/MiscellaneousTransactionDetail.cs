@@ -20,5 +20,8 @@ namespace Thermory.Domain.Models
         public int PreviousQuantity { get; set; }
 
         public int NewQuantity { get; set; }
+
+        [NotMapped]
+        public int Delta { get { return NewQuantity - PreviousQuantity; } }
     }
 }

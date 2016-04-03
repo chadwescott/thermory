@@ -24,6 +24,8 @@ namespace Thermory.Domain.Models
 
         public string Name { get; set; }
 
+        public string Description { get; set; }
+
         [NotMapped]
         public TransactionTypes TransactionTypeEnum
         {
