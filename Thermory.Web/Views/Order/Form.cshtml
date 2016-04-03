@@ -15,19 +15,21 @@
 <div id="worksheetPanel">
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h3 class="panel-title">Customer</h3>
+            <div class="form-group">
+                <div class="panel-title">
+                    Customer
+                    <select id="customerId" onchange="customerChanged();">
+                        <option value="@Guid.Empty" selected="selected">Add New</option>
+                        @foreach (var customer in Model.Customers)
+                        {
+                            var selected = customer.Id == Model.Order.CustomerId ? " selected=\"selected\"" : "";
+                            <option value="@customer.Id" @selected>@customer.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
         </div>
         <div class="panel-body">
-            <div class="form-group">
-                <select id="customerId" onchange="customerChanged();">
-                    <option value="@Guid.Empty" selected="selected">Add New</option>
-                    @foreach (var customer in Model.Customers)
-                    {
-                        var selected = customer.Id == Model.Order.CustomerId ? " selected=\"selected\"" : "";
-                        <option value="@customer.Id"@selected>@customer.Name</option>
-                    }
-                </select>
-            </div>
             <div class="form-group">
                 <label for="customerName">Name</label>
                 <input type="text" id="customerName" class="form-control" />
