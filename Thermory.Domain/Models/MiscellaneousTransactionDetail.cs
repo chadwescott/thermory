@@ -14,6 +14,9 @@ namespace Thermory.Domain.Models
 
         public Guid MiscellaneousProductId { get; set; }
 
+        [ForeignKey("MiscellaneousProductId")]
+        public MiscellaneousProduct MiscellaneousProduct { get; set; }
+
         public int PreviousQuantity { get; set; }
 
         public int NewQuantity { get; set; }

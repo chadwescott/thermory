@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
+using Thermory.Domain.Models;
 
 namespace Thermory.Web.Models
 {
@@ -8,21 +8,9 @@ namespace Thermory.Web.Models
     {
         public UsersContext()
             : base("DefaultConnection")
-        {
-        }
+        { }
 
         public DbSet<UserProfile> UserProfiles { get; set; }
-    }
-
-    [Table("UserProfile")]
-    public class UserProfile
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int UserId { get; set; }
-        public string UserName { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
     }
 
     public class RegisterExternalLoginModel

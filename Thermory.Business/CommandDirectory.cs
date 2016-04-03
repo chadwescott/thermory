@@ -78,6 +78,11 @@ namespace Thermory.Business
             return _miscellaneousCategories;
         }
 
+        public IList<InventoryTransaction> GetInventoryTransactionsByOrderId(Guid orderId)
+        {
+            return DatabaseCommandDirectory.Instance.GetInventoryTransactionsByOrderId(orderId);
+        }
+
         public Order GetOrderById(Guid id)
         {
             return DatabaseCommandDirectory.Instance.GetOrderById(id);

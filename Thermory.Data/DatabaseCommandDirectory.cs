@@ -81,6 +81,13 @@ namespace Thermory.Data
             return command.Result;
         }
 
+        public IList<InventoryTransaction> GetInventoryTransactionsByOrderId(Guid orderId)
+        {
+            var command = new GetInventoryTransactionsByOrderId(orderId);
+            command.Execute();
+            return command.Result;
+        } 
+
         public Order GetOrderById(Guid id)
         {
             var command = new GetOrderById(id);

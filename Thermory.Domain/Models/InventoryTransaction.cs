@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -17,6 +18,9 @@ namespace Thermory.Domain.Models
 
         public int UserId { get; set; }
 
+        [ForeignKey("UserId")]
+        public UserProfile CreatedBy { get; set; }
+
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime CreatedOn { get; set; }
 
@@ -24,5 +28,11 @@ namespace Thermory.Domain.Models
 
         [ForeignKey("OrderId")]
         public Order Order { get; set; }
+
+        [ForeignKey("InventoryTransactionId")]
+        public List<LumberTransactionDetail> LumberTransactionDetails { get; set; }
+
+        [ForeignKey("InventoryTransactionId")]
+        public List<MiscellaneousTransactionDetail> MiscellaneousTransactionDetails { get; set; }
     }
 }

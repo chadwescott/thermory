@@ -4,6 +4,7 @@ using System.Transactions;
 using System.Web.Mvc;
 using System.Web.Security;
 using Microsoft.Web.WebPages.OAuth;
+using Thermory.Domain.Models;
 using Thermory.Web.Models;
 using WebMatrix.WebData;
 

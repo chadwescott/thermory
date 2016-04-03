@@ -33,6 +33,9 @@ namespace Thermory.Domain.Models
         [ForeignKey("OrderId")]
         public List<OrderMiscellaneousLineItem> OrderMiscellaneousLineItems { get; set; }
 
+        [ForeignKey("OrderId")]
+        public List<InventoryTransaction> InventoryTransactions { get; set; }
+
         [NotMapped]
         public string OrderNumberString { get { return OrderNumber.ToString(Formats.OrderNumberFormat); } }
     }

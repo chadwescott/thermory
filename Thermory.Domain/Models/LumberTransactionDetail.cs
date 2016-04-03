@@ -14,6 +14,9 @@ namespace Thermory.Domain.Models
 
         public Guid LumberProductId { get; set; }
 
+        [ForeignKey("LumberProductId")]
+        public LumberProduct LumberProduct { get; set; }
+
         public int PreviousQuantity { get; set; }
 
         public int NewQuantity { get; set; }

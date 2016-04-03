@@ -26,7 +26,10 @@ namespace Thermory.Web.Controllers
             var order = CommandDirectory.Instance.GetOrderById(id.Value);
             if (order == null)
                 return RedirectToAction("Index");
-            return View(order);
+
+            var inventoryTransactions = CommandDirectory.Instance.GetInventoryTransactionsByOrderId(order.Id);
+            var model = new OrderReview { Order = order, InventoryTransactions = inventoryTransactions };
+            return View(model);
         }
 
         public ActionResult CreatePurchaseOrder()
@@ -73,7 +76,7 @@ namespace Thermory.Web.Controllers
                 {
                     Id = l.Id,
                     OrderId = orderId,
-                LumberProductId = l.ProductId,
+                    LumberProductId = l.ProductId,
                     Quantity = l.Quantity
                 }).ToArray();
 
