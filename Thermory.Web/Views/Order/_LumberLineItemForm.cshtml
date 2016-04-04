@@ -121,7 +121,6 @@
                 var quantityOnHandId = 'quantityOnHand' + lumberTypeId + lengthInMillimeters;
                 var qtyOnHand = parseInt($('#' + quantityOnHandId).val());
                 if (qtyOnHand < pieces) {
-                    console.log(qtyOnHand + ' < ' + pieces);
                     $(this).parent().closest('div').addClass('has-error');
                 } else {
                     $(this).parent().closest('div').removeClass('has-error');
