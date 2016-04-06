@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using Thermory.Business;
+using Thermory.Domain.Constants;
 using Thermory.Domain.Enums;
 using Thermory.Domain.Models;
 using Thermory.Web.Models;
@@ -19,6 +20,7 @@ namespace Thermory.Web.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = Role.InventoryMaster)]
         public ActionResult Audit()
         {
             var model = new InventoryModel
@@ -30,6 +32,7 @@ namespace Thermory.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = Role.InventoryMaster)]
         public JsonResult Audit(LumberProduct[] lumberProducts, MiscellaneousProduct[] miscProducts)
         {
             var lumberInventory = lumberProducts ?? new LumberProduct[0];

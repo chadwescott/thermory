@@ -1,0 +1,16 @@
+﻿@model Thermory.Web.Models.ErrorInfo
+@{
+    ViewBag.Title = "Error";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (Model != null)
+{
+    <h1>@Model.Message</h1>
+    <p>@Model.Description</p>
+}
+else
+{
+    <h1>An Error Has Occured</h1>
+    <p>An unexpected error occured on our website. The website administrator has been notified.</p>
+}

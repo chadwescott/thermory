@@ -199,18 +199,20 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="AuthorizeAttribute.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Api\OrderGridController.cs" />
     <Compile Include="Controllers\Api\ThermoryGridController.cs" />
+    <Compile Include="Controllers\OhNoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
-    <Compile Include="Controllers\PageNotFoundController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="ModelAdapter.cs" />
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\ErrorInfo.cs" />
     <Compile Include="Models\IViewModel.cs" />
     <Compile Include="Models\LumberOrderForm.cs" />
     <Compile Include="Models\LumberTransactionDetails.cs" />
@@ -348,15 +350,15 @@
     <Content Include="Views\Order\_MiscellaneousLineItemForm.cshtml" />
     <Content Include="Views\Order\Index.cshtml" />
     <Content Include="Views\Order\Review.cshtml" />
-    <Content Include="Views\PageNotFound\Index.cshtml" />
     <Content Include="Views\Order\_LumberProductReview.cshtml" />
     <Content Include="Views\Order\_MiscellaneousProductReview.cshtml" />
     <Content Include="Views\Order\_LumberTransactionDetails.cshtml" />
     <Content Include="Views\Order\_MiscellaneousTransactionDetails.cshtml" />
+    <Content Include="Views\Shared\OhNo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Filters\" />
+    <Folder Include="Views\PurchaseOrder\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

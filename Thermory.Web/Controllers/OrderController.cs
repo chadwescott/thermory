@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Thermory.Business;
+using Thermory.Domain.Constants;
 using Thermory.Domain.Enums;
 using Thermory.Domain.Models;
 using Thermory.Web.Models;
@@ -32,18 +33,21 @@ namespace Thermory.Web.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = Role.InventoryMaster)]
         public ActionResult CreatePurchaseOrder()
         {
             var model = CreateOrderFormViewModel(OrderTypes.PurchaseOrder);
             return View("Form", model);
         }
 
+        [Authorize(Roles = Role.InventoryMaster)]
         public ActionResult CreateSalesOrder()
         {
             var model = CreateOrderFormViewModel(OrderTypes.SalesOrder);
             return View("Form", model);
         }
 
+        [Authorize(Roles = Role.InventoryMaster)]
         public ActionResult EditOrder(Guid? id)
         {
             if (id == null)
@@ -59,6 +63,7 @@ namespace Thermory.Web.Controllers
             return View("Form", model);
         }
 
+        [Authorize(Roles = Role.InventoryMaster)]
         [HttpPost]
         public ActionResult DeleteOrder(Guid orderId)
         {
@@ -66,6 +71,7 @@ namespace Thermory.Web.Controllers
             return Json(new { status = "success" });
         }
 
+        [Authorize(Roles = Role.InventoryMaster)]
         [HttpPost]
         public ActionResult SaveOrder(Guid orderId, OrderTypes orderType, Customer customer, ProductOrderQuantity[] lumberOrderQuantities,
             ProductOrderQuantity[] miscOrderQuantities)
