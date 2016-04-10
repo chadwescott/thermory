@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Thermory.Domain.Constants
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -28,9 +29,13 @@
                 {
                     <nav>
                         <ul id="menu">
-                            <li>@Html.ActionLink("Inventory", "Index", "Inventory")</li>
-                            <li>@Html.ActionLink("Inventory Audit", "Audit", "Inventory")</li>
-                            <li>@Html.ActionLink("Orders", "Index", "Order")</li>
+                            @if (User.IsInRole(Role.InventoryMaster))
+                            {
+                                <li>@Html.ActionLink("Inventory", "Index", "Inventory")</li>
+                                <li>@Html.ActionLink("Inventory Audit", "Audit", "Inventory")</li>
+                                <li>@Html.ActionLink("Incoming ", "Index", "PurchaseOrder")</li>
+                                <li>@Html.ActionLink("Sales Orders", "Index", "SalesOrder")</li>
+                            }
                         </ul>
                     </nav>
                 }

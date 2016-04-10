@@ -202,11 +202,15 @@
     <Compile Include="AuthorizeAttribute.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Api\OrderGridController.cs" />
+    <Compile Include="Controllers\Api\SalesOrderGridController.cs" />
+    <Compile Include="Controllers\Api\PurchaseOrderGridController.cs" />
     <Compile Include="Controllers\Api\ThermoryGridController.cs" />
     <Compile Include="Controllers\OhNoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
+    <Compile Include="Controllers\PurchaseOrderController.cs" />
+    <Compile Include="Controllers\SalesOrderController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -341,24 +345,26 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Inventory\Index.cshtml" />
     <Content Include="Views\Inventory\_LumberSummary.cshtml" />
-    <Content Include="Views\Order\Form.cshtml" />
+    <Content Include="Views\SalesOrder\Form.cshtml" />
     <Content Include="Views\Inventory\_LumberAuditForm.cshtml" />
     <Content Include="Views\Inventory\Audit.cshtml" />
     <Content Include="Views\Inventory\_MiscSummary.cshtml" />
     <Content Include="Views\Inventory\_MiscellaneousAuditForm.cshtml" />
-    <Content Include="Views\Order\_LumberLineItemForm.cshtml" />
-    <Content Include="Views\Order\_MiscellaneousLineItemForm.cshtml" />
-    <Content Include="Views\Order\Index.cshtml" />
-    <Content Include="Views\Order\Review.cshtml" />
-    <Content Include="Views\Order\_LumberProductReview.cshtml" />
-    <Content Include="Views\Order\_MiscellaneousProductReview.cshtml" />
-    <Content Include="Views\Order\_LumberTransactionDetails.cshtml" />
-    <Content Include="Views\Order\_MiscellaneousTransactionDetails.cshtml" />
+    <Content Include="Views\Shared\Order\_LumberLineItemForm.cshtml" />
+    <Content Include="Views\Shared\Order\_MiscellaneousLineItemForm.cshtml" />
+    <Content Include="Views\SalesOrder\Index.cshtml" />
+    <Content Include="Views\SalesOrder\Review.cshtml" />
+    <Content Include="Views\Shared\Order\_LumberProductReview.cshtml" />
+    <Content Include="Views\Shared\Order\_MiscellaneousProductReview.cshtml" />
+    <Content Include="Views\Shared\Order\_LumberTransactionDetails.cshtml" />
+    <Content Include="Views\Shared\Order\_MiscellaneousTransactionDetails.cshtml" />
     <Content Include="Views\Shared\OhNo.cshtml" />
+    <Content Include="Views\PurchaseOrder\Form.cshtml" />
+    <Content Include="Views\PurchaseOrder\Index.cshtml" />
+    <Content Include="Views\PurchaseOrder\Review.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\PurchaseOrder\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

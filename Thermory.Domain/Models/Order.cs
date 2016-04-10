@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Thermory.Domain.Constants;
+using Thermory.Domain.Enums;
 
 namespace Thermory.Domain.Models
 {
@@ -38,5 +39,8 @@ namespace Thermory.Domain.Models
 
         [NotMapped]
         public string OrderNumberString { get { return OrderNumber.ToString(Formats.OrderNumberFormat); } }
+
+        [NotMapped]
+        public int AdjustmentMultiplier { get { return OrderType.OrderTypeEnum == OrderTypes.PurchaseOrder ? 1 : -1; } }
     }
 }

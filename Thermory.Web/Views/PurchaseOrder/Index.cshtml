@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>@Html.ActionLink("Create Purchase Order", "Create", "PurchaseOrder")</div>
+<h3><strong>Incoming Orders</strong></h3>
+<div id="orderDiv" style="height: 450px"></div>
+
+<script>
+    $(document).ready(function () {
+        $('#orderDiv').w2grid({
+            name: 'orderGrid',
+            url: '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "PurchaseOrderGrid" })',
+            autoLoad: true,
+            limit: 500,
+            msgRefresh: 'Loading',
+            show: {
+                toolbar: true,
+                footer: false,
+                toolbarSave: false,
+                toolbarDelete: false,
+                toolbarSearch: true
+            },
+            searches: [
+                { field: 'OrderNumber', caption: 'Order Number', type: 'text' },
+                { field: 'CustomerName', caption: 'Customer', type: 'text' },
+                { field: 'CreatedOn', caption: 'Created On', type: 'date' },
+                { field: 'CreatedBy', caption: 'Created By', type: 'text' },
+                { field: 'IsDeleted', caption: 'Deleted', type: 'list', options: { items: ['true', 'false']} }
+            ],
+            columns: [
+                {
+                    field: 'OrderNumberString', caption: 'Order Number', size: '20%', sortable: true, resizable: true, render: 'text'
+                },
+                {
+                    field: 'CustomerName', caption: 'Customer', size: '30%', sortable: true, resizable: true, render: 'text'
+                },
+                {
+                    field: 'CreatedOn', caption: 'Created On', size: '20%', sortable: true, resizable: true, render: 'date'
+                },
+                {
+                    field: 'CreatedBy', caption: 'Created By', size: '20%', sortable: true, resizable: true, render: 'text'
+                },
+                {
+                    field: 'IsDeleted', caption: 'Deleted', size: '10%', sortable: true, resizable: true, render: 'text'
+                }
+            ],
+            sortData: [
+                { field: 'CreatedOn', direction: 'desc' }
+            ],
+            onSelect: function (event) {
+                window.location = ('@Url.Action("Review", "PurchaseOrder")/' + event.recid);
+            }
+        });
+    });
+</script>

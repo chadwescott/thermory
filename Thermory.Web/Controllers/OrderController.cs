@@ -12,12 +12,9 @@ using WebMatrix.WebData;
 
 namespace Thermory.Web.Controllers
 {
-    public class OrderController : Controller
+    public abstract class OrderController : Controller
     {
-        public ActionResult Index()
-        {
-            return View();
-        }
+        protected abstract OrderTypes OrderType { get; }
 
         public ActionResult Review(Guid? id)
         {
@@ -34,21 +31,14 @@ namespace Thermory.Web.Controllers
         }
 
         [Authorize(Roles = Role.InventoryMaster)]
-        public ActionResult CreatePurchaseOrder()
+        public ActionResult Create()
         {
-            var model = CreateOrderFormViewModel(OrderTypes.PurchaseOrder);
+            var model = CreateOrderFormViewModel(OrderType);
             return View("Form", model);
         }
 
         [Authorize(Roles = Role.InventoryMaster)]
-        public ActionResult CreateSalesOrder()
-        {
-            var model = CreateOrderFormViewModel(OrderTypes.SalesOrder);
-            return View("Form", model);
-        }
-
-        [Authorize(Roles = Role.InventoryMaster)]
-        public ActionResult EditOrder(Guid? id)
+        public ActionResult Edit(Guid? id)
         {
             if (id == null)
                 return RedirectToAction("Index");
@@ -65,7 +55,7 @@ namespace Thermory.Web.Controllers
 
         [Authorize(Roles = Role.InventoryMaster)]
         [HttpPost]
-        public ActionResult DeleteOrder(Guid orderId)
+        public ActionResult Delete(Guid orderId)
         {
             CommandDirectory.Instance.DeleteOrder(WebSecurity.CurrentUserId, orderId);
             return Json(new { status = "success" });
@@ -73,7 +63,7 @@ namespace Thermory.Web.Controllers
 
         [Authorize(Roles = Role.InventoryMaster)]
         [HttpPost]
-        public ActionResult SaveOrder(Guid orderId, OrderTypes orderType, Customer customer, ProductOrderQuantity[] lumberOrderQuantities,
+        public ActionResult Save(Guid orderId, OrderTypes orderType, Customer customer, ProductOrderQuantity[] lumberOrderQuantities,
             ProductOrderQuantity[] miscOrderQuantities)
         {
             var lumberLineItems = lumberOrderQuantities == null

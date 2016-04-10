@@ -1,12 +1,10 @@
-﻿@using Thermory.Domain.Enums
-@model Thermory.Web.Models.OrderForm
+﻿@model Thermory.Web.Models.OrderForm
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     var firstCategoryId = Model.LumberOrderForms.First().LumberCategory.Id;
     var action = Model.Order.Id == Guid.Empty ? "Create" : "Edit";
-    var orderType = Model.OrderType == OrderTypes.PurchaseOrder ? "Purchase" : "Sales";
     var orderNumber = Model.Order.Id == Guid.Empty ? "" : Model.Order.OrderNumberString;
-    var title = string.Format("{0} {1} Order {2}", action, orderType, orderNumber);
+    var title = string.Format("{0} Purchase Order {1}", action, orderNumber);
     var orderId = Model.Order == null ? Guid.Empty : Model.Order.Id;
 }
 
@@ -60,14 +58,14 @@
                 var category = orderForm.LumberCategory;
                 var active = category.Id == firstCategoryId ? "active" : "";
                 <div id="@category.Id" class="tab-pane @active">
-                    @Html.Partial("_LumberLineItemForm", orderForm)
+                    @Html.Partial("Order/_LumberLineItemForm", orderForm)
                 </div>
             }
             foreach (var orderForm in Model.MiscellaneousOrderForms)
             {
                 var category = orderForm.MiscellaneousCategory;
                 <div id="@category.Id" class="tab-pane">
-                    @Html.Partial("_MiscellaneousLineItemForm", orderForm)
+                    @Html.Partial("Order/_MiscellaneousLineItemForm", orderForm)
                 </div>
             }
         }
@@ -126,12 +124,12 @@
         $('#savingPanel').hide();
         $.ajax({
             type: 'POST',
-            url: '@Url.Action("SaveOrder", "Order")',
+            url: '@Url.Action("Save", "PurchaseOrder")',
             contentType: 'application/json',
             dataType: 'json',
             data: postData,
             success: function (data, status, request) {
-                window.location = ('@Url.Action("Index", "Order")');
+                window.location = ('@Url.Action("Index", "PurchaseOrder")');
             },
             error: function (data, status, request) {
                 console.log(data);

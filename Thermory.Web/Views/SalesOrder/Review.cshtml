@@ -1,13 +1,10 @@
-﻿@using Thermory.Domain.Enums
-@using Thermory.Web.Models
-@model Thermory.Web.Models.OrderReview
+﻿@using Thermory.Web.Models
+@model OrderReview
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var orderType = string.Format("{0} Order", Model.Order.OrderType.OrderTypeEnum == OrderTypes.PurchaseOrder ? "Purchase" : "Sales");
-    var adjustmentMultiplier = Model.Order.OrderType.OrderTypeEnum == OrderTypes.PurchaseOrder ? 1 : -1;
 }
 
-<h3><strong>@orderType @Model.Order.OrderNumberString</strong></h3>
+<h3><strong>Sales Order @Model.Order.OrderNumberString</strong></h3>
 @if (@Model.Order.Customer != null)
 {
     <h4>@Model.Order.Customer.Name</h4>
@@ -16,7 +13,7 @@
 {
     <div>
         <br>
-        <button type="button" onclick="window.location = ('@Url.Action("EditOrder", "Order", new RouteValueDictionary{{"id", Model.Order.Id}})');">Edit</button>
+        <button type="button" onclick="window.location = ('@Url.Action("Edit", "SalesOrder", new RouteValueDictionary{{"id", Model.Order.Id}})');">Edit</button>
         <button type="button" id="deleteButton" data-toggle="confirmation">Delete</button>
         <br><br>
     </div>
@@ -29,8 +26,8 @@
     <div class="tab-content">
         <div id="orderSummary" class="tab-pane active">
             @{
-                @Html.Partial("_LumberProductReview", Model)
-                @Html.Partial("_MiscellaneousProductReview", Model)
+                @Html.Partial("Order/_LumberProductReview", Model)
+                @Html.Partial("Order/_MiscellaneousProductReview", Model)
             }
         </div>
         <div id="orderTransactions" class="tab-pane">
@@ -46,13 +43,13 @@
                         <div id="@transaction.Id" class="collapse">
                             @if (transaction.LumberTransactionDetails.Any())
                             {
-                                var model = new LumberTransactionDetails { AdjustmentMultiplier = adjustmentMultiplier, Details = transaction.LumberTransactionDetails };
-                                @Html.Partial("_LumberTransactionDetails", model)
+                                var model = new LumberTransactionDetails { AdjustmentMultiplier = Model.Order.AdjustmentMultiplier, Details = transaction.LumberTransactionDetails };
+                                @Html.Partial("Order/_LumberTransactionDetails", model)
                             }
                             @if (transaction.MiscellaneousTransactionDetails.Any())
                             {
-                                var model = new MiscellaneousTransactionDetails { AdjustmentMultiplier = adjustmentMultiplier, Details = transaction.MiscellaneousTransactionDetails };
-                                @Html.Partial("_MiscellaneousTransactionDetails", model)
+                                var model = new MiscellaneousTransactionDetails { AdjustmentMultiplier = Model.Order.AdjustmentMultiplier, Details = transaction.MiscellaneousTransactionDetails };
+                                @Html.Partial("Order/_MiscellaneousTransactionDetails", model)
                             }
                         </div>
                     </div>
@@ -80,12 +77,12 @@
 
         $.ajax({
             type: 'POST',
-            url: '@Url.Action("DeleteOrder", "Order")',
+            url: '@Url.Action("Delete", "SalesOrder")',
             contentType: 'application/json',
             dataType: 'json',
             data: postData,
             success: function (data, status, request) {
-                window.location = ('@Url.Action("Index", "Order")');
+                window.location = ('@Url.Action("Index", "SalesOrder")');
             },
             error: function (data, status, request) {
                 console.log(data);

@@ -10,6 +10,7 @@ namespace Thermory.Web.Controllers
 {
     public class InventoryController : Controller
     {
+        [Authorize(Role.InventoryMaster, Role.WarehouseCrew)]
         public ActionResult Index()
         {
             var model = new InventoryModel
