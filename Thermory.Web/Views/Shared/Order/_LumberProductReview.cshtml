@@ -32,19 +32,19 @@
                         totalSquareFeet += lineItem.SquareFeet;
                         totalPieces += lineItem.Quantity;
                         <tr>
-                            <td>@lineItem.LumberProduct.LengthInInches"</td>
+                            <td>@lineItem.LumberProduct.LengthInFeet FT</td>
                             <td>@lineItem.LumberProduct.LumberType.LumberSubCategory.WidthInInches"</td>
                             <td>@lineItem.Quantity</td>
-                            <td>@lineItem.LinearFeet ft</td>
-                            <td>@lineItem.SquareFeet ft<sup>2</sup></td>
+                            <td>@lineItem.LinearFeet LF</td>
+                            <td>@lineItem.SquareFeet SF</td>
                         </tr>
                     }
                     <tr>
                         <td><strong>Total</strong></td>
                         <td>&nbsp;</td>
                         <td><strong>@totalPieces</strong></td>
-                        <td><strong>@totalLinearFeet ft</strong></td>
-                        <td><strong>@totalSquareFeet ft<sup>2</sup></strong></td>
+                        <td><strong>@totalLinearFeet LF</strong></td>
+                        <td><strong>@totalSquareFeet SF</strong></td>
                     </tr>
                 </table>
             }

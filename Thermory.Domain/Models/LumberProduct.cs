@@ -27,6 +27,12 @@ namespace Thermory.Domain.Models
         }
 
         [NotMapped]
+        public double LengthInFeet
+        {
+            get { return LengthConverter.ConvertMillimetersToFeet(LengthInMillimeters); }
+        }
+
+        [NotMapped]
         public double TallyPercentage
         {
             get { return LumberType == null ? 0 : Math.Round(LinearFeet / LumberType.TotalLinearFeet * 100, 0); }
