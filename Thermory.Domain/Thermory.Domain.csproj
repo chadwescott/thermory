@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants\Role.cs" />
+    <Compile Include="Models\PackagingType.cs" />
     <Compile Include="Utils\AdjustmentMultiplier.cs" />
     <Compile Include="Constants\Formats.cs" />
     <Compile Include="Constants\OrderTypeNames.cs" />

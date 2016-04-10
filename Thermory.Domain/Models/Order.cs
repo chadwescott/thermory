@@ -13,20 +13,25 @@ namespace Thermory.Domain.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
+        public Guid? CustomerId { get; set; }
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int OrderNumber { get; set; }
 
         public Guid OrderTypeId { get; set; }
 
-        public Guid? CustomerId { get; set; }
+        public Guid? PackagingTypeId { get; set; }
+
+        public bool IsDeleted { get; set; }
 
         [ForeignKey("CustomerId")]
         public Customer Customer { get; set; }
 
-        public bool IsDeleted { get; set; }
-
         [ForeignKey("OrderTypeId")]
         public OrderType OrderType { get; set; }
+
+        [ForeignKey("PackagingTypeId")]
+        public PackagingType PackagingType { get; set; }
 
         [ForeignKey("OrderId")]
         public List<OrderLumberLineItem> OrderLumberLineItems { get; set; }

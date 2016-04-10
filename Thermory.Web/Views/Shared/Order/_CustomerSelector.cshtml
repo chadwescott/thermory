@@ -1,0 +1,36 @@
+﻿@model Thermory.Web.Models.OrderForm
+
+<div class="form-inline">
+    <div class="form-group">
+        <label for="customerId">Customer</label>
+        <select id="customerId" class="form-control" onchange="customerChanged();">
+            <option value="@Guid.Empty" selected="selected">Add New</option>
+            @foreach (var customer in Model.Customers)
+            {
+                var selected = customer.Id == Model.Order.CustomerId ? " selected=\"selected\"" : "";
+                <option value="@customer.Id" @selected>@customer.Name</option>
+            }
+        </select>
+        <input type="text" id="customerName" class="form-control" />
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        customerChanged();
+    });
+
+    function customerChanged() {
+        var selectedCustomer = $('#customerId option:selected');
+
+        var customerName = selectedCustomer.val() == '@Guid.Empty' ? '' : selectedCustomer.text();
+        $('#customerName').val(customerName);
+    }
+
+    function getCustomer() {
+        return {
+            Id: $('#customerId').val(),
+            Name: $('#customerName').val()
+        };
+    }
+</script>

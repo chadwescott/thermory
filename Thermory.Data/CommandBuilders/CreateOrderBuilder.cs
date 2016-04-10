@@ -8,7 +8,7 @@ namespace Thermory.Data.CommandBuilders
 {
     internal class CreateOrderBuilder : OrderBuilder
     {
-        public CreateOrderBuilder(int userId, OrderTypes orderType, Customer customer,
+        public CreateOrderBuilder(int userId, OrderTypes orderType, Customer customer, PackagingType packagingType,
             OrderLumberLineItem[] lumberLineItems, OrderMiscellaneousLineItem[] miscLineItems)
         {
             var orderTypeId = DatabaseCommandDirectory.Instance.GetOrderTypeIdByEnum(orderType);
@@ -18,7 +18,12 @@ namespace Thermory.Data.CommandBuilders
             else
                 Commands.Add(new SaveCustomer(customer));
 
-            var order = new Order { OrderTypeId = orderTypeId, Customer = customer };
+            if (packagingType.Name == null)
+                packagingType = null;
+            else
+                Commands.Add(new SavePackagingType(packagingType));
+
+            var order = new Order { OrderTypeId = orderTypeId, Customer = customer, PackagingType = packagingType};
 
             Commands.Add(new SaveOrder(order));
 

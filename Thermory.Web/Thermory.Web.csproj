@@ -211,6 +211,7 @@
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\PurchaseOrderController.cs" />
     <Compile Include="Controllers\SalesOrderController.cs" />
+    <Compile Include="CustomHandleErrorAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -362,6 +363,8 @@
     <Content Include="Views\PurchaseOrder\Form.cshtml" />
     <Content Include="Views\PurchaseOrder\Index.cshtml" />
     <Content Include="Views\PurchaseOrder\Review.cshtml" />
+    <Content Include="Views\Shared\Order\_CustomerSelector.cshtml" />
+    <Content Include="Views\Shared\Order\_PackagingTypeSelector.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -47,6 +47,8 @@ namespace Thermory.Data
 
         public DbSet<OrderType> OrderTypes { get; set; }
 
+        public DbSet<PackagingType> PackagingTypes { get; set; }
+
         public DbSet<TransactionType> TransactionTypes { get; set; }
     }
 }

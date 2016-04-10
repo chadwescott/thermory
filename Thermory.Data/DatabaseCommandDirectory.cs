@@ -20,10 +20,11 @@ namespace Thermory.Data
         private DatabaseCommandDirectory()
         { }
 
-        public void CreateOrder(int userId, OrderTypes orderType, Customer customer,
+        public void CreateOrder(int userId, OrderTypes orderType, Customer customer, PackagingType packagingType,
             OrderLumberLineItem[] lumberLineItems, OrderMiscellaneousLineItem[] miscLineItems)
         {
-            var builder = new CreateOrderBuilder(userId, orderType, customer, lumberLineItems, miscLineItems);
+            var builder = new CreateOrderBuilder(userId, orderType, customer, packagingType, lumberLineItems,
+                miscLineItems);
             var commands = builder.Commands;
             var transaction = new TransactionalCommand(commands);
             transaction.Execute();
@@ -37,10 +38,10 @@ namespace Thermory.Data
             transaction.Execute();
         }
 
-        public void EditOrder(int userId, Guid orderId, Customer customer, OrderLumberLineItem[] lumberLineItems,
-            OrderMiscellaneousLineItem[] miscLineItems)
+        public void EditOrder(int userId, Guid orderId, Customer customer, PackagingType packagingType,
+            OrderLumberLineItem[] lumberLineItems, OrderMiscellaneousLineItem[] miscLineItems)
         {
-            var builder = new EditOrderBuilder(userId, orderId, customer, lumberLineItems, miscLineItems);
+            var builder = new EditOrderBuilder(userId, orderId, customer, packagingType, lumberLineItems, miscLineItems);
             IEnumerable<DatabaseCommand> commands = builder.Commands;
             var transaction = new TransactionalCommand(commands);
             transaction.Execute();
@@ -77,6 +78,13 @@ namespace Thermory.Data
         public IList<MiscellaneousProduct> GetAllMiscellaneousProducts()
         {
             var command = new GetAllMiscellaneousProducts();
+            command.Execute();
+            return command.Result;
+        }
+
+        public IList<PackagingType> GetAllPackagingTypes()
+        {
+            var command = new GetAllPackagingTypes();
             command.Execute();
             return command.Result;
         }

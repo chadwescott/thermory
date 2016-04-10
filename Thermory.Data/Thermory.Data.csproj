@@ -77,11 +77,13 @@
     <Compile Include="Commands\GetAllMiscellaneousProducts.cs" />
     <Compile Include="Commands\GetAllLumberProducts.cs" />
     <Compile Include="Commands\GetAllOrderTypes.cs" />
+    <Compile Include="Commands\GetAllPackagingTypes.cs" />
     <Compile Include="Commands\GetAllTransactionTypes.cs" />
     <Compile Include="Commands\GetOrderById.cs" />
     <Compile Include="Commands\GetInventoryTransactionsByOrderId.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\IGetCommand.cs" />
+    <Compile Include="Commands\SavePackagingType.cs" />
     <Compile Include="Commands\SaveCustomer.cs" />
     <Compile Include="Commands\UpdateLumberProductInventory.cs" />
     <Compile Include="Commands\UpdateMiscellaneousProductInventory.cs" />

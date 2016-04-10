@@ -9,31 +9,17 @@
 }
 
 <h3><strong>@title</strong></h3>
-<br/>
+<br />
+<div id="errorPanel" class="alert alert-danger" role="alert" style="display: none;">
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    <span class="sr-only">Error:</span>
+    <span id="errorMessage"></span>
+</div>
 <div id="worksheetPanel">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <div class="form-group">
-                <div class="panel-title">
-                    Customer
-                    <select id="customerId" onchange="customerChanged();">
-                        <option value="@Guid.Empty" selected="selected">Add New</option>
-                        @foreach (var customer in Model.Customers)
-                        {
-                            var selected = customer.Id == Model.Order.CustomerId ? " selected=\"selected\"" : "";
-                            <option value="@customer.Id" @selected>@customer.Name</option>
-                        }
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="panel-body">
-            <div class="form-group">
-                <label for="customerName">Name</label>
-                <input type="text" id="customerName" class="form-control" />
-            </div>
-        </div>
-    </div>
+    @Html.Partial("Order/_CustomerSelector", Model)
+    <br />
+    @Html.Partial("Order/_PackagingTypeSelector", Model)
+    <br />
     <button type="button" onclick=" saveOrder();">Save</button>
     <br />
     <br />
@@ -92,15 +78,7 @@
                 e.preventDefault();
             }
         });
-        customerChanged();
     });
-
-    function customerChanged() {
-        var selectedCustomer = $('#customerId option:selected');
-
-        var customerName = selectedCustomer.val() == '@Guid.Empty' ? '' : selectedCustomer.text();
-        $('#customerName').val(customerName);
-    }
 
     function saveOrder() {
         var lumberProducts = getInventory('lumber');
@@ -112,13 +90,16 @@
 
         $('#worksheetPanel').hide();
         $('#savingPanel').show();
+        $('#errorPanel').hide();
 
         var customer = getCustomer();
+        var packagingType = getPackagingType();
         var customerJson = JSON.stringify(customer);
+        var packagingTypeJson = JSON.stringify(packagingType);
         var lumberJson = JSON.stringify(lumberProducts);
         var miscJson = JSON.stringify(miscProducts);
 
-        var postData = '{"orderType" : "@Model.OrderType", "orderId" : "@orderId", "customer" : ' + customerJson + ', "lumberOrderQuantities" : ' + lumberJson + ', "miscOrderQuantities" : ' + miscJson + '}';
+        var postData = '{"orderType" : "@Model.OrderType", "orderId" : "@orderId", "customer" : ' + customerJson + ', "packagingType" : ' + packagingTypeJson + ', "lumberOrderQuantities" : ' + lumberJson + ', "miscOrderQuantities" : ' + miscJson + '}';
 
         $('#worksheetPanel').show();
         $('#savingPanel').hide();
@@ -132,20 +113,12 @@
                 window.location = ('@Url.Action("Index", "SalesOrder")');
             },
             error: function (data, status, request) {
-                console.log(data);
-                console.log(status);
-                console.log(request);
+                $('#errorMessage').text(data.responseText);
+                $('#errorPanel').show();
                 $('#worksheetPanel').show();
                 $('#savingPanel').hide();
             }
         });
-    }
-
-    function getCustomer() {
-        return {
-            Id: $('#customerId').val(),
-            Name: $('#customerName').val()
-        };
     }
 
     function getInventory(prefix) {

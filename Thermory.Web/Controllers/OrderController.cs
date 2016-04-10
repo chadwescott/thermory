@@ -63,8 +63,8 @@ namespace Thermory.Web.Controllers
 
         [Authorize(Roles = Role.InventoryMaster)]
         [HttpPost]
-        public ActionResult Save(Guid orderId, OrderTypes orderType, Customer customer, ProductOrderQuantity[] lumberOrderQuantities,
-            ProductOrderQuantity[] miscOrderQuantities)
+        public ActionResult Save(Guid orderId, OrderTypes orderType, Customer customer, PackagingType packagingType,
+            ProductOrderQuantity[] lumberOrderQuantities, ProductOrderQuantity[] miscOrderQuantities)
         {
             var lumberLineItems = lumberOrderQuantities == null
                 ? new OrderLumberLineItem[0]
@@ -86,7 +86,9 @@ namespace Thermory.Web.Controllers
                     Quantity = m.Quantity
                 }).ToArray();
 
-            CommandDirectory.Instance.SaveOrder(WebSecurity.CurrentUserId, orderId, orderType, customer, lumberLineItems, miscLineItems);
+            CommandDirectory.Instance.SaveOrder(WebSecurity.CurrentUserId, orderId, orderType, customer,
+                packagingType,
+                lumberLineItems, miscLineItems);
             return Json(new { status = "success" });
         }
 
@@ -98,7 +100,8 @@ namespace Thermory.Web.Controllers
                 Order = order,
                 OrderType = order.OrderType.OrderTypeEnum,
                 LumberOrderForms = GetLumberOrderForms(order.OrderType.OrderTypeEnum),
-                MiscellaneousOrderForms = GetMiscellaneousOrderForms()
+                MiscellaneousOrderForms = GetMiscellaneousOrderForms(),
+                PackagingTypes = CommandDirectory.Instance.GetAllPackagingTypes()
             };
 
             foreach (var form in model.LumberOrderForms)
@@ -124,7 +127,8 @@ namespace Thermory.Web.Controllers
                 Order = new Order(),
                 OrderType = orderType,
                 LumberOrderForms = GetLumberOrderForms(orderType),
-                MiscellaneousOrderForms = GetMiscellaneousOrderForms()
+                MiscellaneousOrderForms = GetMiscellaneousOrderForms(),
+                PackagingTypes = CommandDirectory.Instance.GetAllPackagingTypes()
             };
         }
 

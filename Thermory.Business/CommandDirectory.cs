@@ -50,19 +50,21 @@ namespace Thermory.Business
         }
 
         public void SaveOrder(int userId, Guid orderId, OrderTypes orderType, Customer customer,
-            OrderLumberLineItem[] lumberLineItems, OrderMiscellaneousLineItem[] miscLineItems)
+            PackagingType packagingType, OrderLumberLineItem[] lumberLineItems,
+            OrderMiscellaneousLineItem[] miscLineItems)
         {
             if (orderId == Guid.Empty)
-                DatabaseCommandDirectory.Instance.CreateOrder(userId, orderType, customer, lumberLineItems,
-                    miscLineItems);
+                DatabaseCommandDirectory.Instance.CreateOrder(userId, orderType, customer, packagingType,
+                    lumberLineItems, miscLineItems);
             else
-                DatabaseCommandDirectory.Instance.EditOrder(userId, orderId, customer, lumberLineItems, miscLineItems);
+                DatabaseCommandDirectory.Instance.EditOrder(userId, orderId, customer, packagingType, lumberLineItems,
+                    miscLineItems);
         }
 
         public IList<Customer> GetAllCustomers()
         {
             return DatabaseCommandDirectory.Instance.GetAllCustomers();
-        } 
+        }
 
         public IList<LumberCategory> GetAllLumberCategories()
         {
@@ -76,6 +78,11 @@ namespace Thermory.Business
             var command = new RefreshMiscellaneousProductQuantities(_miscellaneousCategories);
             command.Execute();
             return _miscellaneousCategories;
+        }
+
+        public IList<PackagingType> GetAllPackagingTypes()
+        {
+            return DatabaseCommandDirectory.Instance.GetAllPackagingTypes();
         }
 
         public IList<InventoryTransaction> GetInventoryTransactionsByOrderId(Guid orderId)
