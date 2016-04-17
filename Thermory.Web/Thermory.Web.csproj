@@ -205,12 +205,14 @@
     <Compile Include="Controllers\Api\SalesOrderGridController.cs" />
     <Compile Include="Controllers\Api\PurchaseOrderGridController.cs" />
     <Compile Include="Controllers\Api\ThermoryGridController.cs" />
-    <Compile Include="Controllers\OhNoController.cs" />
+    <Compile Include="Controllers\Api\UserGridController.cs" />
+    <Compile Include="Controllers\ExceptionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\PurchaseOrderController.cs" />
     <Compile Include="Controllers\SalesOrderController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="CustomHandleErrorAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -229,6 +231,7 @@
     <Compile Include="Models\InventoryModel.cs" />
     <Compile Include="Models\OrderForm.cs" />
     <Compile Include="Models\TransactionDetails.cs" />
+    <Compile Include="Models\UserRoleView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SessionVariables.cs" />
   </ItemGroup>
@@ -359,15 +362,17 @@
     <Content Include="Views\Shared\Order\_MiscellaneousProductReview.cshtml" />
     <Content Include="Views\Shared\Order\_LumberTransactionDetails.cshtml" />
     <Content Include="Views\Shared\Order\_MiscellaneousTransactionDetails.cshtml" />
-    <Content Include="Views\Shared\OhNo.cshtml" />
+    <Content Include="Views\Shared\Exception.cshtml" />
     <Content Include="Views\PurchaseOrder\Form.cshtml" />
     <Content Include="Views\PurchaseOrder\Index.cshtml" />
     <Content Include="Views\PurchaseOrder\Review.cshtml" />
     <Content Include="Views\Shared\Order\_CustomerSelector.cshtml" />
     <Content Include="Views\Shared\Order\_PackagingTypeSelector.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\UserGrid\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

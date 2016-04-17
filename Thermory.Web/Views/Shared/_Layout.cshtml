@@ -31,6 +31,7 @@
                         <ul id="menu">
                             @if (User.IsInRole(Role.InventoryMaster))
                             {
+                                <li>@Html.ActionLink("Users", "Index", "User")</li>
                                 <li>@Html.ActionLink("Inventory", "Index", "Inventory")</li>
                                 <li>@Html.ActionLink("Inventory Audit", "Audit", "Inventory")</li>
                                 <li>@Html.ActionLink("Incoming ", "Index", "PurchaseOrder")</li>

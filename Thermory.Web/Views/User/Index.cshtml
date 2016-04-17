@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3><strong>Users</strong></h3>
+<div id="userDiv" style="height: 450px"></div>
+
+<script>
+    $(document).ready(function () {
+        $('#userDiv').w2grid({
+            name: 'userGrid',
+            url: '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "UserGrid" })',
+            autoLoad: true,
+            limit: 500,
+            msgRefresh: 'Loading',
+            show: {
+                toolbar: true,
+                footer: false,
+                toolbarSave: false,
+                toolbarDelete: false,
+                toolbarSearch: true
+            },
+            searches: [
+                { field: 'FirstName', caption: 'First Name', type: 'text' },
+                { field: 'LastName', caption: 'Last Name', type: 'text' }
+            ],
+            columns: [
+                {
+                    field: 'FirstName', caption: 'First Name', size: '20%', sortable: true, resizable: true, render: 'text'
+                },
+                {
+                    field: 'LastName', caption: 'Last Name', size: '20%', sortable: true, resizable: true, render: 'text'
+                },
+                {
+                    field: 'EmailAddress', caption: 'Email Address', size: '30%', sortable: true, resizable: true, render: 'text'
+                },
+                {
+                    field: 'RoleNames', caption: 'Roles', size: '30%', sortable: true, resizable: true, render: 'text'
+                }
+            ]
+        });
+    });
+</script>

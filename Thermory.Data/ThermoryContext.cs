@@ -49,6 +49,12 @@ namespace Thermory.Data
 
         public DbSet<PackagingType> PackagingTypes { get; set; }
 
+        public DbSet<WebPageRole> Roles { get; set; }
+
         public DbSet<TransactionType> TransactionTypes { get; set; }
+
+        public DbSet<UserProfile> UserProfiles { get; set; }
+
+        public DbSet<UserRoleXref> UserRoles { get; set; }
     }
 }
