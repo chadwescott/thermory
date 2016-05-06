@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.SessionState;
+using log4net.Config;
 using Thermory.Web.Models;
 using WebMatrix.WebData;
 
@@ -24,6 +25,7 @@ namespace Thermory.Web
 
         protected void Application_Start()
         {
+            XmlConfigurator.Configure();
             AreaRegistration.RegisterAllAreas();
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
