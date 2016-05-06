@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using Thermory.Business;
 using Thermory.Domain.Models;
 
 namespace Thermory.Web.Controllers
@@ -10,9 +11,10 @@ namespace Thermory.Web.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpPut]
         public object Save(UserProfile user)
         {
+            CommandDirectory.Instance.UpdateUserRoles(user);
             return true;
         }
     }

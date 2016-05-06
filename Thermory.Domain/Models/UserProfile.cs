@@ -26,18 +26,22 @@ namespace Thermory.Domain.Models
         [NotMapped]
         public string FullName { get { return string.Format("{0} {1}", FirstName, LastName); } }
 
+        private IList<UserRoleXref> _userRoles;
+
         [JsonIgnore]
         [ForeignKey("UserId")]
-        public IList<UserRoleXref> UserRoles { get; set; }
-
-        [NotMapped]
-        public List<string> RoleNames
+        public IList<UserRoleXref> UserRoles
         {
-            get
+            get { return _userRoles; }
+            set
             {
-                return UserRoles == null ? new List<string>():  UserRoles.Select(r => r.WebPageRole.RoleName).ToList();
+                _userRoles = value;
+                RoleNames = _userRoles == null ? new List<string>() : UserRoles.Select(r => r.WebPageRole.RoleName).ToList();
             }
         }
+
+        [NotMapped]
+        public List<string> RoleNames { get; set; }
 
         [NotMapped]
         public string recid

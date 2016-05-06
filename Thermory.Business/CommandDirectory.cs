@@ -106,5 +106,10 @@ namespace Thermory.Business
             DatabaseCommandDirectory.Instance.InventoryAudit(userId, transactionType, lumberProducts,
                 miscProducts);
         }
+
+        public void UpdateUserRoles(UserProfile user)
+        {
+            DatabaseCommandDirectory.Instance.UpdateUserRoles(user);
+        }
     }
 }

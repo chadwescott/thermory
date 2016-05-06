@@ -25,16 +25,14 @@ namespace Thermory.Data
         {
             var builder = new CreateOrderBuilder(userId, orderType, customer, packagingType, lumberLineItems,
                 miscLineItems);
-            var commands = builder.Commands;
-            var transaction = new TransactionalCommand(commands);
+            var transaction = new TransactionalCommand(builder.Commands);
             transaction.Execute();
         }
 
         public void DeleteOrder(int userId, Guid orderId)
         {
             var builder = new DeleteOrderBuilder(userId, orderId);
-            IEnumerable<DatabaseCommand> commands = builder.Commands;
-            var transaction = new TransactionalCommand(commands);
+            var transaction = new TransactionalCommand(builder.Commands);
             transaction.Execute();
         }
 
@@ -42,8 +40,7 @@ namespace Thermory.Data
             OrderLumberLineItem[] lumberLineItems, OrderMiscellaneousLineItem[] miscLineItems)
         {
             var builder = new EditOrderBuilder(userId, orderId, customer, packagingType, lumberLineItems, miscLineItems);
-            IEnumerable<DatabaseCommand> commands = builder.Commands;
-            var transaction = new TransactionalCommand(commands);
+            var transaction = new TransactionalCommand(builder.Commands);
             transaction.Execute();
         }
 
@@ -133,12 +130,18 @@ namespace Thermory.Data
         {
             var transactionTypeId = GetTransactionTypeIdByEnum(transactionType);
             var builder = new InventoryAuditBuilder(userId, transactionTypeId, lumberProducts, miscProducts);
-            var commands = builder.Commands;
-            var transaction = new TransactionalCommand(commands);
+            var transaction = new TransactionalCommand(builder.Commands);
             transaction.Execute();
         }
 
-        private T ExecuteCommand<T>(DatabaseGetCommand<T> command)
+        public void UpdateUserRoles(UserProfile user)
+        {
+            var builder = new UpdateUserRolesBuilder(user);
+            var transaction = new TransactionalCommand(builder.Commands);
+            transaction.Execute();
+        }
+
+        private static T ExecuteCommand<T>(IGetCommand<T> command)
         {
             command.Execute();
             return command.Result;
