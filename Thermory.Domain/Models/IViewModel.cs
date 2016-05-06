@@ -1,4 +1,4 @@
-﻿namespace Thermory.Web.Models
+﻿namespace Thermory.Domain.Models
 {
     public interface IViewModel
     {

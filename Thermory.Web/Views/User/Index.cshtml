@@ -5,8 +5,33 @@
 
 <h3><strong>Users</strong></h3>
 <div id="userDiv" style="height: 450px"></div>
+<div id="userDetails" style="width: 400px; display: none; padding-top: 10px;">
+    <div class="row" style="margin-top: 5px">
+        <div class="col-sm-4" style="text-align: right">
+            <label>User Name:</label>
+        </div>
+        <div class="col-sm-5">
+            <span id="emailAddress"></span>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 5px">
+        <div class="col-sm-4" style="text-align: right">
+            <label>Roles:</label>
+        </div>
+        <div class="col-sm-5">
+            <input id="roles" />
+        </div>
+    </div>
+    <div style="margin-left: 85px; padding-top: 10px">
+        <div class="btn btn-default" onclick="saveUser();">Save</div>&nbsp;
+        <div class="btn btn-default" onclick="$('#userDetails').hide();">Cancel</div>
+    </div>
+</div>
 
-<script>
+<script type="text/javascript">
+    var roles = ['Inventory Master', 'Warehouse Crew'];
+    var currentUser = null;
+
     $(document).ready(function () {
         $('#userDiv').w2grid({
             name: 'userGrid',
@@ -33,12 +58,48 @@
                     field: 'LastName', caption: 'Last Name', size: '20%', sortable: true, resizable: true, render: 'text'
                 },
                 {
-                    field: 'EmailAddress', caption: 'Email Address', size: '30%', sortable: true, resizable: true, render: 'text'
+                    field: 'UserName', caption: 'Email Address', size: '30%', sortable: true, resizable: true, render: 'text'
                 },
                 {
-                    field: 'RoleNames', caption: 'Roles', size: '30%', sortable: true, resizable: true, render: 'text'
+                    field: 'RoleNames', caption: 'Roles', size: '30%', resizable: true
                 }
-            ]
+            ],
+            onClick: function (event) {
+                currentUser = w2ui['userGrid'].get(event.recid);
+                console.log(currentUser.RoleNames);
+                $('#userDetails').show();
+                $('#emailAddress').text(currentUser.EmailAddress);
+                $('#roles').w2field('enum', { items: roles, openOnFocus: true, selected: currentUser.RoleNames });
+            }
         });
     });
+
+    function saveUser() {
+        // Create the user object if it's new
+        if (currentUser == null) {
+            currentUser = { EmailAddress: $('#emailAddress').val() };
+        }
+
+        var selected = $('#roles').data('selected');
+        currentUser.RoleNames = [];
+
+        for (var i = 0; i < selected.length; ++i) {
+            currentUser.RoleNames.push(selected[i].id);
+        }
+
+        $.ajax({
+            type: 'PUT',
+            url: '@Url.Action("Save", "User")',
+            data: currentUser,
+            dataType: 'text',
+            success: function (data) {
+                if (data != 'true') {
+                    w2alert(data, 'Error');
+                }
+
+                $('#userDetails').hide();
+                w2ui['userGrid'].reload();
+            }
+        });
+    }
 </script>

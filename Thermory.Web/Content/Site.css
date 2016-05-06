@@ -120,6 +120,8 @@ footer {
     background-color: #e2e2e2;
     font-size: .8em;
     height: 20px;
+    border-top: solid 1px darkgray;
+    padding: 5px 0 5px 0;
 }
 
 

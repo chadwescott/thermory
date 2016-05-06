@@ -95,6 +95,11 @@ namespace Thermory.Business
             return DatabaseCommandDirectory.Instance.GetOrderById(id);
         }
 
+        public IList<UserRoleXref> GetUserRolesByUserId(int userId)
+        {
+            return DatabaseCommandDirectory.Instance.GetUserRolesByUserId(userId);
+        }
+
         public void UpdateProductInventory(int userId, TransactionTypes transactionType, LumberProduct[] lumberProducts,
             MiscellaneousProduct[] miscProducts)
         {

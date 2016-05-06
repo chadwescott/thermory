@@ -11,8 +11,8 @@
 
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/w2ui")
+    @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </head>
 <body>
@@ -31,11 +31,12 @@
                         <ul id="menu">
                             @if (User.IsInRole(Role.InventoryMaster))
                             {
-                                <li>@Html.ActionLink("Users", "Index", "User")</li>
-                                <li>@Html.ActionLink("Inventory", "Index", "Inventory")</li>
-                                <li>@Html.ActionLink("Inventory Audit", "Audit", "Inventory")</li>
-                                <li>@Html.ActionLink("Incoming ", "Index", "PurchaseOrder")</li>
-                                <li>@Html.ActionLink("Sales Orders", "Index", "SalesOrder")</li>
+                                <li role="presentation">@Html.ActionLink("Catalog", "Index", "Catalog")</li>
+                                <li role="presentation">@Html.ActionLink("Users", "Index", "User")</li>
+                                <li role="presentation">@Html.ActionLink("Inventory", "Index", "Inventory")</li>
+                                <li role="presentation">@Html.ActionLink("Inventory Audit", "Audit", "Inventory")</li>
+                                <li role="presentation">@Html.ActionLink("Incoming ", "Index", "PurchaseOrder")</li>
+                                <li role="presentation">@Html.ActionLink("Sales Orders", "Index", "SalesOrder")</li>
                             }
                         </ul>
                     </nav>

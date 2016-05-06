@@ -121,6 +121,13 @@ namespace Thermory.Data
             return _transactionTypes.Single(t => t.Name == transactionType.ToString()).Id;
         }
 
+        public IList<UserRoleXref> GetUserRolesByUserId(int userId)
+        {
+            var command = new GetUserRolesByUserId(userId);
+            command.Execute();
+            return command.Result;
+        }
+
         public void InventoryAudit(int userId, TransactionTypes transactionType,
             LumberProduct[] lumberProducts, MiscellaneousProduct[] miscProducts)
         {

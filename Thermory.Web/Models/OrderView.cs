@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using Thermory.Domain.Constants;
+using Thermory.Domain.Models;
 
 namespace Thermory.Web.Models
 {

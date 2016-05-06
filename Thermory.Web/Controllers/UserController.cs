@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using Thermory.Domain.Models;
 
 namespace Thermory.Web.Controllers
 {
@@ -7,6 +8,12 @@ namespace Thermory.Web.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+        [HttpPost]
+        public object Save(UserProfile user)
+        {
+            return true;
         }
     }
 }

@@ -4,11 +4,11 @@ using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
+using Thermory.Domain.Models;
 using Thermory.QueryEngine;
 using Thermory.QueryEngine.Grid;
 using Thermory.QueryEngine.Grid.Response;
 using Thermory.QueryEngine.SqlServer;
-using Thermory.Web.Models;
 using WebMatrix.WebData;
 
 namespace Thermory.Web.Controllers.Api
@@ -69,6 +69,7 @@ namespace Thermory.Web.Controllers.Api
                 }
 
                 var result = adapter.GetRecords(conditions);
+                FinalizeResults(result);
 
                 // Return the account view response
                 return new GetResponse<T>
@@ -87,6 +88,8 @@ namespace Thermory.Web.Controllers.Api
                 };
             }
         }
+
+        protected virtual void FinalizeResults(List<T> results){}
 
         protected virtual void ValidatePostData(PostData<T> data) { }
 

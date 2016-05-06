@@ -81,6 +81,7 @@
     <Compile Include="Commands\GetAllTransactionTypes.cs" />
     <Compile Include="Commands\GetOrderById.cs" />
     <Compile Include="Commands\GetInventoryTransactionsByOrderId.cs" />
+    <Compile Include="Commands\GetUserRolesByUserId.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\IGetCommand.cs" />
     <Compile Include="Commands\SavePackagingType.cs" />
