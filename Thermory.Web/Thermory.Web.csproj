@@ -374,8 +374,8 @@
     <Content Include="Views\Shared\Order\_PackagingTypeSelector.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\Catalog\Index.cshtml" />
-    <Content Include="Views\Catalog\_LumberSummary.cshtml" />
-    <Content Include="Views\Catalog\_MiscSummary.cshtml" />
+    <Content Include="Views\Catalog\_LumberCatalog.cshtml" />
+    <Content Include="Views\Catalog\_MiscCatalog.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
 using Thermory.Business;
+using Thermory.Domain.Models;
 using Thermory.Web.Models;
 
 namespace Thermory.Web.Controllers
@@ -27,6 +28,12 @@ namespace Thermory.Web.Controllers
                 MiscellaneousCategories = CommandDirectory.Instance.GetAllMiscellaneousCategories()
             };
             return View("Index", model);
+        }
+
+        [HttpPut]
+        public ActionResult SaveLumberCategory(LumberCategory model)
+        {
+            return null;
         }
     }
 }

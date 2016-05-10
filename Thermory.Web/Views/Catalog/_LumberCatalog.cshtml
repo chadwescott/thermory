@@ -1,0 +1,119 @@
+﻿@model Thermory.Domain.Models.LumberCategory
+@{
+    var firstSubCategoryId = Model.LumberSubCategories.First().Id;
+}
+<style>
+    .lumberCategoryView {
+    }
+
+    .lumberCategoryForm {
+    }
+</style>
+<input type="hidden" id="lumberCategoryId" value="@Model.Id" />
+<form>
+    <div>
+        <div class="lumberCategoryView" style="margin-bottom: 10px;">
+            <h2>
+                @Model.Name <span class="glyphicon glyphicon-edit lumberCategoryView" style="cursor: pointer;" onclick="showLumberCategoryForm();"></span>
+            </h2>
+        </div>
+        <div class="lumberCategoryForm row" style="margin-top: 13px; display: none;">
+            <div class="col-md-8">
+                <input type="text" id="lumberCategoryName" name="lumberCategoryName" class="form-control"
+                       value="@Model.Name" placeholder="Category Name" />
+            </div>
+            <div class="col-md-2">
+                <input type="button" class="lumberCategoryForm" value="Save" onclick="saveLumberCategory();" />
+            </div>
+            <div class="col-md-2">
+                <input type="button" class="lumberCategoryForm" value="Cancel" onclick="showLumberCategoryView();" />
+            </div>
+        </div>
+    </div>
+    <div class="dropdown">
+        <button class="dropdown-toggle" type="button" id="subCategoryDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            Choose a Sub Category
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="subCategoryDropDown">
+            <li><a href="~/Catalog/Add"><span class="glyphicon glyphicon-plus"></span> Add</a></li>
+            @{
+                foreach (var subCategory in Model.LumberSubCategories.OrderBy(s => s.SortOrder))
+                {
+                    <li><a href="~/Catalog/Index/@subCategory.Id">@subCategory.Name</a></li>
+                }
+            }
+        </ul>
+    </div>
+    <ul class="nav nav-tabs" data-tabs="tabs">
+        @foreach (var subCategory in Model.LumberSubCategories.OrderBy(s => s.SortOrder))
+        {
+            var active = subCategory.Id == firstSubCategoryId ? "class=active" : "";
+            <li @active><a href="#@subCategory.Id" data-toggle="tab">@subCategory.Name</a></li>
+        }
+    </ul>
+    <div class="tab-content">
+        @foreach (var subCategory in Model.LumberSubCategories.OrderBy(s => s.SortOrder))
+        {
+            var active = subCategory.Id == firstSubCategoryId ? "active" : "";
+            var widthId = string.Format("width{0}", subCategory.Id);
+            var thicknessId = string.Format("thickness{0}", subCategory.Id);
+            <div id="@subCategory.Id" class="tab-pane @active">
+                <div>
+                    <div class="col-md-3" style="margin-top: 8px;">
+                        <label for="lumberSubCategoryName">Sub Category Name</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" name="lumberSubCategoryName" id="lumberSubCategoryName" value="@subCategory.Name" placeholder="Sub Category Name" />
+                    </div>
+                </div>
+                <div class="form-group" row>
+                    <div class="col-md-3" style="margin-top: 8px;">
+                        <label for="@widthId">Width mm</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" name="@widthId" id="@widthId" value="@subCategory.WidthInMillimeters" maxlength="6" pattern="[0-9]*" placeholder="Width mm" />
+                    </div>
+                </div>
+                <div class="form-group" row>
+                    <div class="col-md-3" style="margin-top: 8px;">
+                        <label for="@thicknessId">Thickness mm</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" name="@thicknessId" id="@thicknessId" value="@subCategory.ThicknessInMillimeters" maxlength="6" pattern="[0-9]*" placeholder="Thickness mm" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</form>
+<script type="text/javascript">
+    function showLumberCategoryForm() {
+        $('.lumberCategoryForm').show();
+        $('.lumberCategoryView').hide();
+    }
+
+    function saveLumberCategory() {
+        var id = $('#lumberCategoryId').val();
+        var name = $('#lumberCategoryName').val();
+        var category = {
+            Id: id,
+            Name: name
+        };
+        console.log(category);
+        $.ajax({
+            type: 'PUT',
+            url: '@Url.Action("SaveLumberCategory", "Catalog")',
+            data: category,
+            dataType: 'text',
+            success: function (data) {
+                console.log('saveLumberCategory success');
+            }
+        });
+    }
+
+    function showLumberCategoryView() {
+        $('.lumberCategoryForm').hide();
+        $('.lumberCategoryView').show();
+    }
+</script>
