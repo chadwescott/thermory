@@ -33,7 +33,8 @@ namespace Thermory.Web.Controllers
         [HttpPut]
         public ActionResult SaveLumberCategory(LumberCategory model)
         {
-            return null;
+            CommandDirectory.Instance.SaveLumberCategory(model);
+            return Json(model);
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Thermory.Business.Commands;
 using Thermory.Data;
 using Thermory.Domain.Enums;
@@ -12,7 +14,8 @@ namespace Thermory.Business
         private static CommandDirectory _instance;
         private static IList<LumberCategory> _lumberCategories;
         private static IList<MiscellaneousCategory> _miscellaneousCategories;
-        private readonly object _categoryLock = new object();
+        private readonly object _lumberCategoryLock = new object();
+        private readonly object _miscCategoryLock = new object();
 
         public static CommandDirectory Instance
         {
@@ -21,44 +24,40 @@ namespace Thermory.Business
 
         private CommandDirectory()
         {
-            lock (_categoryLock)
+            LoadCatalog();
+        }
+
+        private void LoadCatalog()
+        {
+            LoadLumberCategories();
+            LoadMiscellaneousCategories();
+        }
+
+        private void LoadLumberCategories()
+        {
+            lock (_lumberCategoryLock)
             {
-                LoadLumberCategories();
-                LoadMiscellaneousCategories();
+                var command = new GetAllLumberCategories();
+                command.Execute();
+                _lumberCategories = command.Result;
             }
+
         }
 
-        private static void LoadLumberCategories()
+        private void LoadMiscellaneousCategories()
         {
-            if (_lumberCategories != null) return;
-            var command = new GetAllLumberCategories();
-            command.Execute();
-            _lumberCategories = command.Result;
-        }
-
-        private static void LoadMiscellaneousCategories()
-        {
-            if (_miscellaneousCategories != null) return;
-            var command = new GetAllMiscellaneousCategories();
-            command.Execute();
-            _miscellaneousCategories = command.Result;
+            lock (_miscCategoryLock)
+            {
+                if (_miscellaneousCategories != null) return;
+                var command = new GetAllMiscellaneousCategories();
+                command.Execute();
+                _miscellaneousCategories = command.Result;
+            }
         }
 
         public void DeleteOrder(int userId, Guid orderId)
         {
             DatabaseCommandDirectory.Instance.DeleteOrder(userId, orderId);
-        }
-
-        public void SaveOrder(int userId, Guid orderId, OrderTypes orderType, Customer customer,
-            PackagingType packagingType, OrderLumberLineItem[] lumberLineItems,
-            OrderMiscellaneousLineItem[] miscLineItems)
-        {
-            if (orderId == Guid.Empty)
-                DatabaseCommandDirectory.Instance.CreateOrder(userId, orderType, customer, packagingType,
-                    lumberLineItems, miscLineItems);
-            else
-                DatabaseCommandDirectory.Instance.EditOrder(userId, orderId, customer, packagingType, lumberLineItems,
-                    miscLineItems);
         }
 
         public IList<Customer> GetAllCustomers()
@@ -98,6 +97,24 @@ namespace Thermory.Business
         public IList<UserRoleXref> GetUserRolesByUserId(int userId)
         {
             return DatabaseCommandDirectory.Instance.GetUserRolesByUserId(userId);
+        }
+
+        public void SaveLumberCategory(LumberCategory model)
+        {
+            DatabaseCommandDirectory.Instance.SaveLumberCategory(model);
+            new TaskFactory().StartNew(LoadLumberCategories);
+        }
+
+        public void SaveOrder(int userId, Guid orderId, OrderTypes orderType, Customer customer,
+            PackagingType packagingType, OrderLumberLineItem[] lumberLineItems,
+            OrderMiscellaneousLineItem[] miscLineItems)
+        {
+            if (orderId == Guid.Empty)
+                DatabaseCommandDirectory.Instance.CreateOrder(userId, orderType, customer, packagingType,
+                    lumberLineItems, miscLineItems);
+            else
+                DatabaseCommandDirectory.Instance.EditOrder(userId, orderId, customer, packagingType, lumberLineItems,
+                    miscLineItems);
         }
 
         public void UpdateProductInventory(int userId, TransactionTypes transactionType, LumberProduct[] lumberProducts,

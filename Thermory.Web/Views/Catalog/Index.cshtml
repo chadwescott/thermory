@@ -1,4 +1,5 @@
-﻿@model Thermory.Web.Models.CatalogModel
+﻿@using Thermory.Domain.Models
+@model Thermory.Web.Models.CatalogModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -28,25 +29,16 @@
     if (Model.LumberCategories.Any(c => c.Id == Model.SelectedCategoryId))
     {
         var category = Model.LumberCategories.SingleOrDefault(c => c.Id == Model.SelectedCategoryId);
-        <div id="@category.Id" class="tab-pane">
-            @Html.Partial("_LumberCatalog", category)
-        </div>
+        @Html.Partial("_LumberCatalog", category)
     }
     else if (Model.MiscellaneousCategories.Any(c => c.Id == Model.SelectedCategoryId))
     {
         var category = Model.MiscellaneousCategories.SingleOrDefault(c => c.Id == Model.SelectedCategoryId);
-        <div id="@category.Id" class="tab-pane">
-            @Html.Partial("_MiscCatalog", category)
-        </div>
+        @Html.Partial("_MiscCatalog", category)
     }
     else if (Model.SelectedCategoryId == Guid.Empty)
     {
-        <div id="@Guid.Empty" class="tab-pane">
-            Add lumber category
-        </div>
+        var category = new LumberCategory();
+        @Html.Partial("_LumberCatalog", category)
     }
 }
-@*<script type="text/javascript">
-    $(document).ready(function () {
-    });
-</script>*@
