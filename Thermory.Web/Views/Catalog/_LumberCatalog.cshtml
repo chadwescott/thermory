@@ -1,4 +1,6 @@
-﻿@model Thermory.Domain.Models.LumberCategory
+﻿@using Thermory.Domain.Models
+@using Thermory.Web.Models
+@model LumberCategory
 
 <style>
     .lumberCategoryView {
@@ -36,61 +38,26 @@
     @if (Model.Id != Guid.Empty)
     {
         var firstSubCategoryId = Model.LumberSubCategories.Any() ? Model.LumberSubCategories.First().Id : Guid.Empty;
-        <div class="dropdown">
-            <button class="dropdown-toggle" type="button" id="subCategoryDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                Choose a Sub Category
-                <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="subCategoryDropDown">
-                <li><a href="~/Catalog/Add"><span class="glyphicon glyphicon-plus"></span> Add</a></li>
-                @{
-                    foreach (var subCategory in Model.LumberSubCategories.OrderBy(s => s.SortOrder))
-                    {
-                        <li><a href="~/Catalog/Index/@subCategory.Id">@subCategory.Name</a></li>
-                    }
-                }
-            </ul>
-        </div>
-        <br />
         <ul class="nav nav-tabs" data-tabs="tabs">
+            @{ string active;}
             @foreach (var subCategory in Model.LumberSubCategories.OrderBy(s => s.SortOrder))
             {
-                var active = subCategory.Id == firstSubCategoryId ? "class=active" : "";
+                active = subCategory.Id == firstSubCategoryId ? "class=active" : "";
                 <li @active><a href="#@subCategory.Id" data-toggle="tab">@subCategory.Name</a></li>
             }
+            @{ active = firstSubCategoryId == Guid.Empty ? "class=active" : "";}
+            <li @active><a href="#@Guid.Empty" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span> Add</a></li>
         </ul>
         <div class="tab-content">
+            @{ LumberSubCategoryViewModel subCategoryViewModel;}
             @foreach (var subCategory in Model.LumberSubCategories.OrderBy(s => s.SortOrder))
             {
-                var active = subCategory.Id == firstSubCategoryId ? "active" : "";
-                var widthId = string.Format("width{0}", subCategory.Id);
-                var thicknessId = string.Format("thickness{0}", subCategory.Id);
-                <div id="@subCategory.Id" class="tab-pane @active">
-                    <div>
-                        <div class="col-md-3" style="margin-top: 8px;">
-                            <label for="lumberSubCategoryName">Sub Category Name</label>
-                        </div>
-                        <div class="col-md-9">
-                            <input type="text" class="form-control" name="lumberSubCategoryName" id="lumberSubCategoryName" value="@subCategory.Name" placeholder="Sub Category Name" />
-                        </div>
-                    </div>
-                    <div class="form-group" row>
-                        <div class="col-md-3" style="margin-top: 8px;">
-                            <label for="@widthId">Width mm</label>
-                        </div>
-                        <div class="col-md-9">
-                            <input type="text" class="form-control" name="@widthId" id="@widthId" value="@subCategory.WidthInMillimeters" maxlength="6" pattern="[0-9]*" placeholder="Width mm" />
-                        </div>
-                    </div>
-                    <div class="form-group" row>
-                        <div class="col-md-3" style="margin-top: 8px;">
-                            <label for="@thicknessId">Thickness mm</label>
-                        </div>
-                        <div class="col-md-9">
-                            <input type="text" class="form-control" name="@thicknessId" id="@thicknessId" value="@subCategory.ThicknessInMillimeters" maxlength="6" pattern="[0-9]*" placeholder="Thickness mm" />
-                        </div>
-                    </div>
-                </div>
+                subCategoryViewModel = new LumberSubCategoryViewModel { Active = subCategory.Id == firstSubCategoryId, SubCategory = subCategory };
+                @Html.Partial("_LumberSubCategoryForm", subCategoryViewModel)
+            }
+            @{
+                subCategoryViewModel = new LumberSubCategoryViewModel {Active = !Model.LumberSubCategories.Any(), SubCategory = new LumberSubCategory()};
+                @Html.Partial("_LumberSubCategoryForm", subCategoryViewModel)
             }
         </div>
     }

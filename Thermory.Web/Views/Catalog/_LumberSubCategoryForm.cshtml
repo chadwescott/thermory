@@ -1,0 +1,32 @@
+﻿@model Thermory.Web.Models.LumberSubCategoryViewModel
+@{
+    var active = Model.Active ? "active" : "";
+    var widthId = string.Format("width{0}", Model.SubCategory.Id);
+    var thicknessId = string.Format("thickness{0}", Model.SubCategory.Id);
+}
+<div id="@Model.SubCategory.Id" class="tab-pane @active">
+    <div>
+        <div class="col-md-3" style="margin-top: 8px;">
+            <label for="lumberSubCategoryName">Sub Category Name</label>
+        </div>
+        <div class="col-md-9">
+            <input type="text" class="form-control" name="lumberSubCategoryName" id="lumberSubCategoryName" value="@Model.SubCategory.Name" placeholder="Sub Category Name" />
+        </div>
+    </div>
+    <div class="form-group" row>
+        <div class="col-md-3" style="margin-top: 8px;">
+            <label for="@widthId">Width mm</label>
+        </div>
+        <div class="col-md-9">
+            <input type="text" class="form-control" name="@widthId" id="@widthId" value="@Model.SubCategory.WidthInMillimeters" maxlength="6" pattern="[0-9]*" placeholder="Width mm" />
+        </div>
+    </div>
+    <div class="form-group" row>
+        <div class="col-md-3" style="margin-top: 8px;">
+            <label for="@thicknessId">Thickness mm</label>
+        </div>
+        <div class="col-md-9">
+            <input type="text" class="form-control" name="@thicknessId" id="@thicknessId" value="@Model.SubCategory.ThicknessInMillimeters" maxlength="6" pattern="[0-9]*" placeholder="Thickness mm" />
+        </div>
+    </div>
+</div>
