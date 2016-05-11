@@ -127,6 +127,7 @@
                     location.href = "Index/" + category.Id;
                 }
                 $('#lumberCategoryNameView').text(category.Name);
+                $('#lumberCategoryEdit' + category.Id).text(category.Name);
                 showLumberCategoryView();
             }
         });
