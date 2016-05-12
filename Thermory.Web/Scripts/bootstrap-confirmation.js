@@ -104,10 +104,10 @@
         copyAttributes: 'href target',
         onConfirm: $.noop,
         onCancel: $.noop,
-        btnOkClass: 'btn-xs btn-primary',
+        btnOkClass: 'btn-xs btn-success',
         btnOkIcon: 'glyphicon glyphicon-ok',
         btnOkLabel: 'Yes',
-        btnCancelClass: 'btn-xs btn-default',
+        btnCancelClass: 'btn-xs btn-danger',
         btnCancelIcon: 'glyphicon glyphicon-remove',
         btnCancelLabel: 'No',
         template:

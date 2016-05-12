@@ -18,8 +18,6 @@
 <div id="worksheetPanel">
     @Html.Partial("Order/_CustomerSelector", Model)
     <br />
-    @Html.Partial("Order/_PackagingTypeSelector", Model)
-    <br />
     <div type="button" class="btn btn-success" onclick="saveOrder();">
         <span class="glyphicon glyphicon-check"></span> Save
     </div>
@@ -97,13 +95,11 @@
         $('#errorPanel').hide();
 
         var customer = getCustomer();
-        var packagingType = getPackagingType();
         var customerJson = JSON.stringify(customer);
-        var packagingTypeJson = JSON.stringify(packagingType);
         var lumberJson = JSON.stringify(lumberProducts);
         var miscJson = JSON.stringify(miscProducts);
 
-        var postData = '{"orderType" : "@Model.OrderType", "orderId" : "@orderId", "customer" : ' + customerJson + ', "packagingType" : ' + packagingTypeJson + ', "lumberOrderQuantities" : ' + lumberJson + ', "miscOrderQuantities" : ' + miscJson + '}';
+        var postData = '{"orderType" : "@Model.OrderType", "orderId" : "@orderId", "customer" : ' + customerJson + ', "lumberOrderQuantities" : ' + lumberJson + ', "miscOrderQuantities" : ' + miscJson + '}';
 
         $('#worksheetPanel').show();
         $('#savingPanel').hide();

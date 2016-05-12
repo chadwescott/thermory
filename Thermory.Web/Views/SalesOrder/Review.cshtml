@@ -13,8 +13,12 @@
 {
     <div>
         <br>
-        <button type="button" onclick="window.location = ('@Url.Action("Edit", "SalesOrder", new RouteValueDictionary{{"id", Model.Order.Id}})');">Edit</button>
-        <button type="button" id="deleteButton" data-toggle="confirmation">Delete</button>
+        <div type="button" class="btn btn-primary" onclick="window.location = ('@Url.Action("Edit", "SalesOrder", new RouteValueDictionary { { "id", Model.Order.Id } })');">
+            <span class="glyphicon glyphicon-edit"></span> Edit
+        </div>
+        <div type="button" class="btn btn-danger" id="deleteButton" data-toggle="confirmation">
+            <span class="glyphicon glyphicon-remove"></span> Delete
+        </div>
         <br><br>
     </div>
 }
