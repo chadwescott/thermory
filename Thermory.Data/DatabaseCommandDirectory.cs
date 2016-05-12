@@ -140,6 +140,12 @@ namespace Thermory.Data
             command.Execute();
         }
 
+        public void SaveLumberSubCategory(LumberSubCategory model)
+        {
+            var command = new SaveLumberSubCategory(model);
+            command.Execute();
+        }
+
         public void UpdateUserRoles(UserProfile user)
         {
             var builder = new UpdateUserRolesBuilder(user);

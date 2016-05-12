@@ -1,32 +1,46 @@
 ﻿@model Thermory.Web.Models.LumberSubCategoryViewModel
 @{
     var active = Model.Active ? "active" : "";
-    var widthId = string.Format("width{0}", Model.SubCategory.Id);
-    var thicknessId = string.Format("thickness{0}", Model.SubCategory.Id);
 }
+
+<input type="hidden" id="@string.Format("sortOrder{0}", Model.SubCategory.Id)" value="@Model.SubCategory.SortOrder" />
 <div id="@Model.SubCategory.Id" class="tab-pane @active">
-    <div>
-        <div class="col-md-3" style="margin-top: 8px;">
-            <label for="lumberSubCategoryName">Sub Category Name</label>
-        </div>
-        <div class="col-md-9">
-            <input type="text" class="form-control" name="lumberSubCategoryName" id="lumberSubCategoryName" value="@Model.SubCategory.Name" placeholder="Sub Category Name" />
-        </div>
+    <table>
+        <tr>
+            <td>
+                <label class="lumberSubCategoryView" id="@string.Format("nameView{0}", Model.SubCategory.Id)">@Model.SubCategory.Name</label>
+                <label class="lumberSubCategoryForm" for="lumberSubCategoryName">Sub Category Name</label>
+            </td>
+            <td>
+                <div type="button" class="btn btn-primary lumberSubCategoryView" onclick="initiateLumberSubCategoryEditMode()">
+                    <span class="glyphicon glyphicon-edit"></span> Edit
+                </div>
+                <input type="text" class="form-control lumberSubCategoryForm" name="lumberSubCategoryName" id="@string.Format("name{0}", Model.SubCategory.Id)" value="@Model.SubCategory.Name" placeholder="Sub Category Name" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>Width mm</label>
+            </td>
+            <td>
+                <div class="lumberSubCategoryView" id="@string.Format("widthView{0}", Model.SubCategory.Id)">@Model.SubCategory.WidthInMillimeters</div>
+                <input type="text" class="form-control lumberSubCategoryForm numeric" id="@string.Format("width{0}", Model.SubCategory.Id)" value="@Model.SubCategory.WidthInMillimeters" maxlength="6" pattern="[0-9]*" placeholder="Width mm" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>Thickness mm</label>
+            </td>
+            <td>
+                <div class="lumberSubCategoryView" id="@string.Format("thicknessView{0}", Model.SubCategory.Id)">@Model.SubCategory.ThicknessInMillimeters</div>
+                <input type="text" class="form-control lumberSubCategoryForm numeric" id="@string.Format("thickness{0}", Model.SubCategory.Id)" value="@Model.SubCategory.ThicknessInMillimeters" maxlength="6" pattern="[0-9]*" placeholder="Thickness mm" />
+            </td>
+        </tr>
+    </table>
+    <div type="button" class="btn btn-success lumberSubCategoryForm" onclick="saveLumberSubCategory('@Model.SubCategory.Id');">
+        <span class="glyphicon glyphicon-ok"></span> Save
     </div>
-    <div class="form-group" row>
-        <div class="col-md-3" style="margin-top: 8px;">
-            <label for="@widthId">Width mm</label>
-        </div>
-        <div class="col-md-9">
-            <input type="text" class="form-control" name="@widthId" id="@widthId" value="@Model.SubCategory.WidthInMillimeters" maxlength="6" pattern="[0-9]*" placeholder="Width mm" />
-        </div>
-    </div>
-    <div class="form-group" row>
-        <div class="col-md-3" style="margin-top: 8px;">
-            <label for="@thicknessId">Thickness mm</label>
-        </div>
-        <div class="col-md-9">
-            <input type="text" class="form-control" name="@thicknessId" id="@thicknessId" value="@Model.SubCategory.ThicknessInMillimeters" maxlength="6" pattern="[0-9]*" placeholder="Thickness mm" />
-        </div>
+    <div type="button" class="btn btn-danger lumberSubCategoryForm" onclick="initiateLumberSubCategoryViewMode();">
+        <span class="glyphicon glyphicon-remove"></span> Cancel
     </div>
 </div>

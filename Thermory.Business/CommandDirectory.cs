@@ -105,6 +105,12 @@ namespace Thermory.Business
             new TaskFactory().StartNew(LoadLumberCategories);
         }
 
+        public void SaveLumberSubCategory(LumberSubCategory model)
+        {
+            DatabaseCommandDirectory.Instance.SaveLumberSubCategory(model);
+            new TaskFactory().StartNew(LoadLumberCategories);
+        }
+
         public void SaveOrder(int userId, Guid orderId, OrderTypes orderType, Customer customer,
             PackagingType packagingType, OrderLumberLineItem[] lumberLineItems,
             OrderMiscellaneousLineItem[] miscLineItems)

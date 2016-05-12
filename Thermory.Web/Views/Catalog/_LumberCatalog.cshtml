@@ -2,13 +2,6 @@
 @using Thermory.Web.Models
 @model LumberCategory
 
-<style>
-    .lumberCategoryView {
-    }
-
-    .lumberCategoryForm {
-    }
-</style>
 <form>
     <input type="hidden" id="lumberCategoryId" value="@Model.Id" />
     <input type="hidden" id="lumberCategorySortOrder" value="@Model.SortOrder" />
@@ -22,8 +15,8 @@
                         </h2>
                     </td>
                     <td>
-                        <div type="button" class="btn btn-primary" onclick="showLumberCategoryForm();" style="margin-top: 20px;">
-                            <span class="glyphicon glyphicon-edit lumberCategoryView"></span> Edit
+                        <div type="button" class="btn btn-primary lumberCategoryView" onclick="showLumberCategoryForm();" style="margin-top: 20px;">
+                            <span class="glyphicon glyphicon-edit"></span> Edit
                         </div>
                     </td>
                 </tr>
@@ -51,6 +44,10 @@
                     </td>
                 </tr>
             </table>
+            <div class="panel panel-danger" id="lumberCategoryErrorPanel">
+                <div class="panel-heading">Error</div>
+                <div id="lumberCategoryError" class="panel-body"></div>
+            </div>
         </div>
     </div>
     <br />
@@ -61,11 +58,11 @@
             @{ string active;}
             @foreach (var subCategory in Model.LumberSubCategories.OrderBy(s => s.SortOrder))
             {
-                active = subCategory.Id == firstSubCategoryId ? "class=active" : "";
-                <li @active><a href="#@subCategory.Id" data-toggle="tab">@subCategory.Name</a></li>
+                active = subCategory.Id == firstSubCategoryId ? "active" : "";
+                <li class="lumberSubCategoryTab @active"><a id="@string.Format("lumberSubCategoryLink{0}", subCategory.Id)" href="#@subCategory.Id" data-toggle="tab">@subCategory.Name</a></li>
             }
             @{ active = firstSubCategoryId == Guid.Empty ? "class=active" : "";}
-            <li @active><a href="#@Guid.Empty" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span> Add</a></li>
+            <li class="lumberSubCategoryTab @active"><a href="#@Guid.Empty" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span> Add</a></li>
         </ul>
         <div class="tab-content">
             @{ LumberSubCategoryViewModel subCategoryViewModel;}
@@ -85,11 +82,20 @@
     $(document).ready(function () {
         @{ var command = Model.Id == Guid.Empty ? "showLumberCategoryForm();" : "showLumberCategoryView();";}
         @command
+        $('.numeric').keydown(rejectNonNumericText);
+        initiateLumberSubCategoryViewMode();
     });
 
     function showLumberCategoryForm() {
+        $('#lumberCategoryErrorPanel').hide();
         $('.lumberCategoryForm').show();
         $('.lumberCategoryView').hide();
+    }
+
+    function showLumberCategoryView() {
+        $('#lumberCategoryErrorPanel').hide();
+        $('.lumberCategoryForm').hide();
+        $('.lumberCategoryView').show();
     }
 
     function saveLumberCategory() {
@@ -115,12 +121,67 @@
                 $('#lumberCategoryNameView').text(category.Name);
                 $('#lumberCategoryEdit' + category.Id).text(category.Name);
                 showLumberCategoryView();
+            },
+            error: function (data) {
+                $('#lumberCategoryError').text(data.responseText);
+                $('#lumberCategoryErrorPanel').show();
             }
         });
     }
 
-    function showLumberCategoryView() {
-        $('.lumberCategoryForm').hide();
-        $('.lumberCategoryView').show();
+    function initiateLumberSubCategoryEditMode() {
+        $('.lumberSubCategoryTab').addClass('disabled');
+        $('.lumberSubCategoryTab').find('a').removeAttr('data-toggle');
+        $('.lumberSubCategoryView').hide();
+        $('.lumberSubCategoryForm').show();
+    }
+
+    function initiateLumberSubCategoryViewMode() {
+        $('.lumberSubCategoryTab').removeClass('disabled');
+        $('.lumberSubCategoryTab').find('a').attr('data-toggle', 'tab');
+        $('.lumberSubCategoryView').show();
+        $('.lumberSubCategoryForm').hide();
+    }
+
+    function saveLumberSubCategory(id) {
+        var name = $('#name' + id).val();
+        var sortOrder = $('#sortOrder' + id).val();
+        var width = $('#width' + id).val();
+        var thickness = $('#thickness' + id).val();
+        var subCategory = {
+            LumberCategoryId: '@Model.Id',
+            Id: id,
+            Name: name,
+            SortOrder: sortOrder,
+            WidthInMillimeters: width,
+            ThicknessInMillimeters: thickness
+        };
+        
+        $.ajax({
+            type: 'PUT',
+            url: '@Url.Action("SaveLumberSubCategory", "Catalog")',
+            data: subCategory,
+            dataType: 'text',
+            success: function (data) {
+                subCategory = JSON.parse(data);
+                if (id == '@Guid.Empty') {
+                    id = subCategory.Id;
+                    // insert new tab...
+                }
+
+                console.log(data);
+
+                $('#lumberSubCategoryLink' + id).text(subCategory.Name);
+                $('#nameView' + id).text(subCategory.Name);
+                $('#sortOrder' + id).text(subCategory.SortOrder);
+                $('#widthView' + id).text(subCategory.WidthInMillimeters);
+                $('#thicknessView' + id).text(subCategory.ThicknessInMillimeters);
+                initiateLumberSubCategoryViewMode();
+            },
+            error: function (data) {
+                $('#lumberCategoryError').text(data.responseText);
+                $('#lumberCategoryErrorPanel').show();
+            }
+        });
     }
 </script>

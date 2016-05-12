@@ -309,6 +309,7 @@
     <Content Include="Scripts\knockout-3.4.0.debug.js" />
     <Content Include="Scripts\knockout-3.4.0.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\thermory.js" />
     <Content Include="Scripts\w2ui-1.4.3.js" />
     <Content Include="Scripts\w2ui-1.4.3.min.js" />
     <Content Include="Web.config">
