@@ -5,6 +5,10 @@
 
 <input type="hidden" id="@string.Format("sortOrder{0}", Model.SubCategory.Id)" value="@Model.SubCategory.SortOrder" />
 <div id="@Model.SubCategory.Id" class="tab-pane @active">
+    <div class="panel panel-danger lumberSubCategoryErrorPanel">
+        <div class="panel-heading">Error</div>
+        <div id="@string.Format("lumberSubCategoryError{0}", @Model.SubCategory.Id)" class="panel-body"></div>
+    </div>
     <table>
         <tr>
             <td>

@@ -53,7 +53,7 @@
     <br />
     @if (Model.Id != Guid.Empty)
     {
-        var firstSubCategoryId = Model.LumberSubCategories.Any() ? Model.LumberSubCategories.First().Id : Guid.Empty;
+        var firstSubCategoryId = Model.LumberSubCategories.Any() ? Model.LumberSubCategories.OrderBy(s => s.SortOrder).First().Id : Guid.Empty;
         <ul class="nav nav-tabs" data-tabs="tabs">
             @{ string active;}
             @foreach (var subCategory in Model.LumberSubCategories.OrderBy(s => s.SortOrder))
@@ -62,7 +62,7 @@
                 <li class="lumberSubCategoryTab @active"><a id="@string.Format("lumberSubCategoryLink{0}", subCategory.Id)" href="#@subCategory.Id" data-toggle="tab">@subCategory.Name</a></li>
             }
             @{ active = firstSubCategoryId == Guid.Empty ? "class=active" : "";}
-            <li class="lumberSubCategoryTab @active"><a href="#@Guid.Empty" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span> Add</a></li>
+            <li class="lumberSubCategoryTab @active"><a id="@string.Format("lumberSubCategoryLink{0}", Guid.Empty)" href="#@Guid.Empty" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span> Add</a></li>
         </ul>
         <div class="tab-content">
             @{ LumberSubCategoryViewModel subCategoryViewModel;}
@@ -117,6 +117,7 @@
                 category = JSON.parse(data);
                 if (id == '@Guid.Empty') {
                     location.href = "Index/" + category.Id;
+                    return;
                 }
                 $('#lumberCategoryNameView').text(category.Name);
                 $('#lumberCategoryEdit' + category.Id).text(category.Name);
@@ -137,6 +138,7 @@
     }
 
     function initiateLumberSubCategoryViewMode() {
+        $('.lumberSubCategoryErrorPanel').hide();
         $('.lumberSubCategoryTab').removeClass('disabled');
         $('.lumberSubCategoryTab').find('a').attr('data-toggle', 'tab');
         $('.lumberSubCategoryView').show();
@@ -165,11 +167,8 @@
             success: function (data) {
                 subCategory = JSON.parse(data);
                 if (id == '@Guid.Empty') {
-                    id = subCategory.Id;
-                    // insert new tab...
+                    location.reload();
                 }
-
-                console.log(data);
 
                 $('#lumberSubCategoryLink' + id).text(subCategory.Name);
                 $('#nameView' + id).text(subCategory.Name);
@@ -179,8 +178,9 @@
                 initiateLumberSubCategoryViewMode();
             },
             error: function (data) {
-                $('#lumberCategoryError').text(data.responseText);
-                $('#lumberCategoryErrorPanel').show();
+                console.log(data);
+                $('#lumberSubCategoryError' + id).text(data.responseText);
+                $('.lumberSubCategoryErrorPanel').show();
             }
         });
     }

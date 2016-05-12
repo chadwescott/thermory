@@ -18,11 +18,13 @@ namespace Thermory.Data.Commands
         {
             base.OnBeforeExecute(context);
             if (_model.Id != Guid.Empty) return;
-            _model.SortOrder =
-                context.LumberSubCategories.Where(c => c.LumberCategoryId == _model.LumberCategoryId)
-                    .DefaultIfEmpty(new LumberSubCategory {SortOrder = 0})
-                    .Select(c => c.SortOrder)
-                    .Max() + 1;
+
+            var existingSubCategories =
+                context.LumberSubCategories.Where(c => c.LumberCategoryId == _model.LumberCategoryId);
+
+            _model.SortOrder = existingSubCategories.Any()
+                ? existingSubCategories.Select(c => c.SortOrder).Max() + 1
+                : 1;
         }
 
         protected override void OnExecute(ThermoryContext context)
