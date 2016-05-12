@@ -33,7 +33,9 @@
                     @Html.LabelFor(m => m.RememberMe, new { @class = "checkbox" })
                 </li>
             </ol>
-            <input type="submit" value="Log in" />
+            <div type="button" class="btn btn-primary" onclick="$('form').submit();">
+                <span class="glyphicon glyphicon-check"></span> Log in
+            </div>
         </fieldset>
         <p>
             @Html.ActionLink("Register", "Register") if you don't have an account.

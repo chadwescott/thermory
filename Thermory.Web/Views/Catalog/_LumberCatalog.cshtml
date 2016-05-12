@@ -13,25 +13,44 @@
     <input type="hidden" id="lumberCategoryId" value="@Model.Id" />
     <input type="hidden" id="lumberCategorySortOrder" value="@Model.SortOrder" />
     <div>
-        <div class="lumberCategoryView" style="padding: 2px 0 12px 0; margin-bottom: 2px;">
-            <h2>
-                <span id="lumberCategoryNameView">@Model.Name</span> <span class="glyphicon glyphicon-edit lumberCategoryView" style="cursor: pointer;" onclick="showLumberCategoryForm();"></span>
-            </h2>
+        <div class="lumberCategoryView" style="margin-bottom: -2px;">
+            <table>
+                <tr>
+                    <td>
+                        <h2>
+                            <span id="lumberCategoryNameView">@Model.Name</span>
+                        </h2>
+                    </td>
+                    <td>
+                        <div type="button" class="btn btn-primary" onclick="showLumberCategoryForm();" style="margin-top: 20px;">
+                            <span class="glyphicon glyphicon-edit lumberCategoryView"></span> Edit
+                        </div>
+                    </td>
+                </tr>
+            </table>
         </div>
-        <div class="lumberCategoryForm row" style="margin-top: 13px;">
-            <div class="col-md-4">
-                <input type="text" id="lumberCategoryName" name="lumberCategoryName" class="form-control"
-                       value="@Model.Name" placeholder="Category Name" />
-            </div>
-            <div class="col-md-1">
-                <input type="button" class="lumberCategoryForm" value="Save" onclick="saveLumberCategory();" />
-            </div>
-            @if (Model.Id != Guid.Empty)
-            {
-                <div class="col-md-1">
-                    <input type="button" class="lumberCategoryForm" value="Cancel" onclick=" showLumberCategoryView(); " />
-                </div>
-            }
+        <div class="lumberCategoryForm" style="margin: 24px 0 -6px 0;">
+            <table>
+                <tr>
+                    <td>
+                        <input type="text" id="lumberCategoryName" name="lumberCategoryName" class="form-control"
+                               value="@Model.Name" placeholder="Category Name" />
+                    </td>
+                    <td>
+                        <div type="button" class="lumberCategoryForm btn btn-success" onclick="saveLumberCategory();">
+                            <span class="glyphicon glyphicon-check"></span> Save
+                        </div>
+                    </td>
+                    <td>
+                        @if (Model.Id != Guid.Empty)
+                        {
+                            <div type="button" class="lumberCategoryForm btn btn-danger" onclick="showLumberCategoryView();">
+                                <span class="glyphicon glyphicon-remove"></span> Cancel
+                            </div>
+                        }
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
     <br />
@@ -56,8 +75,8 @@
                 @Html.Partial("_LumberSubCategoryForm", subCategoryViewModel)
             }
             @{
-                subCategoryViewModel = new LumberSubCategoryViewModel {Active = !Model.LumberSubCategories.Any(), SubCategory = new LumberSubCategory()};
-                @Html.Partial("_LumberSubCategoryForm", subCategoryViewModel)
+        subCategoryViewModel = new LumberSubCategoryViewModel { Active = !Model.LumberSubCategories.Any(), SubCategory = new LumberSubCategory() };
+        @Html.Partial("_LumberSubCategoryForm", subCategoryViewModel)
             }
         </div>
     }
