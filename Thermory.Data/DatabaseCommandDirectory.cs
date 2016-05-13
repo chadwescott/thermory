@@ -140,9 +140,21 @@ namespace Thermory.Data
             command.Execute();
         }
 
+        public void SaveLumberProduct(LumberProduct model)
+        {
+            var command = new SaveLumberProduct(model);
+            command.Execute();
+        }
+
         public void SaveLumberSubCategory(LumberSubCategory model)
         {
             var command = new SaveLumberSubCategory(model);
+            command.Execute();
+        }
+
+        public void SaveLumberType(LumberType model)
+        {
+            var command = new SaveLumberType(model);
             command.Execute();
         }
 

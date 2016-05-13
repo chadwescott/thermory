@@ -88,7 +88,9 @@
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\IGetCommand.cs" />
     <Compile Include="Commands\SaveLumberCategory.cs" />
+    <Compile Include="Commands\SaveLumberProduct.cs" />
     <Compile Include="Commands\SaveLumberSubCategory.cs" />
+    <Compile Include="Commands\SaveLumberType.cs" />
     <Compile Include="Commands\SavePackagingType.cs" />
     <Compile Include="Commands\SaveCustomer.cs" />
     <Compile Include="Commands\UpdateLumberProductInventory.cs" />

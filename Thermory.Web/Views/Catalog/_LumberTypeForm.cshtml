@@ -45,7 +45,7 @@
                     active = lumberProduct.Id == firstLumberTypeId ? "active" : "";
                     <li class="lumberProductTab @active"><a id="@string.Format("lumberProductLink{0}{1}", Model.LumberType.Id, lumberProduct.Id)" href="#@string.Format("lumberProductTab{0}{1}", Model.LumberType.Id, lumberProduct.Id)" data-toggle="tab">@lumberProduct.LengthInMillimeters</a></li>
                 }
-                @if (Model.LumberType.LumberProducts.Any())
+                @if (Model.LumberType.Id != Guid.Empty)
                 {
                     active = firstLumberTypeId == Guid.Empty ? "class=active" : "";
                     <li class="lumberProductTab @active"><a id="@string.Format("lumberProductLink{0}{1}", Model.LumberType.Id, Guid.Empty)" href="#@string.Format("lumberProductTab{0}{1}", Model.LumberType.Id, Guid.Empty)" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span> Add</a></li>
@@ -58,7 +58,7 @@
                     lumberProductViewModel = new LumberProductViewModel { Active = lumberProduct.Id == firstLumberTypeId, LumberProduct = lumberProduct };
                     @Html.Partial("_LumberProductForm", lumberProductViewModel)
                 }
-                @if (Model.LumberType.LumberProducts.Any())
+                @if (Model.LumberType.Id != Guid.Empty)
                 {
                     lumberProductViewModel = new LumberProductViewModel { Active = !Model.LumberType.LumberProducts.Any(), LumberProduct = new LumberProduct { LumberTypeId = Model.LumberType.Id } };
                     @Html.Partial("_LumberProductForm", lumberProductViewModel)

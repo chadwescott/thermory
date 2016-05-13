@@ -105,9 +105,21 @@ namespace Thermory.Business
             new TaskFactory().StartNew(LoadLumberCategories);
         }
 
+        public void SaveLumberProduct(LumberProduct model)
+        {
+            DatabaseCommandDirectory.Instance.SaveLumberProduct(model);
+            new TaskFactory().StartNew(LoadLumberCategories);
+        }
+
         public void SaveLumberSubCategory(LumberSubCategory model)
         {
             DatabaseCommandDirectory.Instance.SaveLumberSubCategory(model);
+            new TaskFactory().StartNew(LoadLumberCategories);
+        }
+
+        public void SaveLumberType(LumberType model)
+        {
+            DatabaseCommandDirectory.Instance.SaveLumberType(model);
             new TaskFactory().StartNew(LoadLumberCategories);
         }
 

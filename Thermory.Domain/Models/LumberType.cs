@@ -26,18 +26,18 @@ namespace Thermory.Domain.Models
         public List<LumberProduct> LumberProducts { get; set; }
 
         [NotMapped]
-        public int TotalPieces { get { return LumberProducts.Sum(lp => lp.Quantity); } }
+        public int TotalPieces { get { return LumberProducts == null ? 0 : LumberProducts.Sum(lp => lp.Quantity); } }
 
         [NotMapped]
-        public double TotalLinearFeet { get { return LumberProducts.Sum(lp => lp.LinearFeet); } }
+        public double TotalLinearFeet { get { return LumberProducts == null ? 0 : LumberProducts.Sum(lp => lp.LinearFeet); } }
 
         [NotMapped]
-        public double TotalSquareFeet { get { return LumberProducts.Sum(lp => lp.SquareFeet); } }
+        public double TotalSquareFeet { get { return LumberProducts == null ? 0 : LumberProducts.Sum(lp => lp.SquareFeet); } }
 
         [NotMapped]
-        public int[] LengthsMillimeters { get { return LumberProducts.Select(lp => lp.LengthInMillimeters).ToArray(); } }
+        public int[] LengthsMillimeters { get { return LumberProducts == null ? new int[0] : LumberProducts.Select(lp => lp.LengthInMillimeters).ToArray(); } }
 
         [NotMapped]
-        public double[] LengthsFeet { get { return LumberProducts.Select(p => LengthConverter.ConvertMillimetersToFeet(p.LengthInMillimeters)).ToArray(); } }
+        public double[] LengthsFeet { get { return LumberProducts == null ? new double[0] : LumberProducts.Select(p => LengthConverter.ConvertMillimetersToFeet(p.LengthInMillimeters)).ToArray(); } }
     }
 }

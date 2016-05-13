@@ -38,9 +38,23 @@ namespace Thermory.Web.Controllers
         }
 
         [HttpPut]
+        public ActionResult SaveLumberProduct(LumberProduct model)
+        {
+            CommandDirectory.Instance.SaveLumberProduct(model);
+            return Json(model);
+        }
+
+        [HttpPut]
         public ActionResult SaveLumberSubCategory(LumberSubCategory model)
         {
             CommandDirectory.Instance.SaveLumberSubCategory(model);
+            return Json(model);
+        }
+
+        [HttpPut]
+        public ActionResult SaveLumberType(LumberType model)
+        {
+            CommandDirectory.Instance.SaveLumberType(model);
             return Json(model);
         }
     }

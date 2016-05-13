@@ -234,9 +234,8 @@
         };
 
         console.log(lumberType);
-        initiateLumberTypeViewMode();
 
-        @*$.ajax({
+        $.ajax({
             type: 'PUT',
             url: '@Url.Action("SaveLumberType", "Catalog")',
             data: lumberType,
@@ -247,19 +246,17 @@
                     location.reload();
                 }
 
-                $('#lumberSubCategoryLink' + suffix).text(lumberType.Name);
+                $('#lumberTypeLink' + suffix).text(lumberType.Name);
                 $('#nameView' + suffix).text(lumberType.Name);
                 $('#sortOrder' + suffix).text(lumberType.SortOrder);
-                $('#widthView' + suffix).text(lumberType.WidthInMillimeters);
-                $('#thicknessView' + suffix).text(lumberType.ThicknessInMillimeters);
-                initiateLumberSubCategoryViewMode();
+                initiateLumberTypeViewMode();
             },
             error: function (data) {
                 console.log(data);
-                $('#lumberSubCategoryError' + suffix).text(data.responseText);
-                $('.lumberSubCategoryErrorPanel').show();
+                $('#lumberTypeError' + suffix).text(data.responseText);
+                $('.lumberTypeErrorPanel').show();
             }
-        });*@
+        });
     }
 
     function saveLumberProduct(suffix) {
@@ -267,39 +264,39 @@
         var lumberTypeId = $('#lumberTypeId' + suffix).val();
         var length = $('#length' + suffix).val();
         var sortOrder = $('#sortOrder' + suffix).val();
-        var lumberType = {
+        var quantity = $('#quantity' + suffix).val();
+        var lumberProduct = {
             Id: id,
             LumberTypeId: lumberTypeId,
-            Length: length,
+            LengthInMillimeters: length,
+            Quantity: quantity,
             SortOrder: sortOrder
         };
 
-        console.log(lumberType);
-        initiateLumberProductViewMode();
+        console.log(lumberProduct);
 
-        @*$.ajax({
+        $.ajax({
             type: 'PUT',
-            url: '@Url.Action("SaveLumberType", "Catalog")',
-            data: lumberType,
+            url: '@Url.Action("SaveLumberProduct", "Catalog")',
+            data: lumberProduct,
             dataType: 'text',
             success: function (data) {
-                lumberType = JSON.parse(data);
+                lumberProduct = JSON.parse(data);
                 if (id == '@Guid.Empty') {
                     location.reload();
                 }
 
-                $('#lumberSubCategoryLink' + suffix).text(lumberType.Name);
-                $('#nameView' + suffix).text(lumberType.Name);
-                $('#sortOrder' + suffix).text(lumberType.SortOrder);
-                $('#widthView' + suffix).text(lumberType.WidthInMillimeters);
-                $('#thicknessView' + suffix).text(lumberType.ThicknessInMillimeters);
-                initiateLumberSubCategoryViewMode();
+                $('#lumberProductLink' + suffix).text(lumberProduct.LengthInMillimeters);
+                $('#lengthView' + suffix).text(lumberProduct.LengthInMillimeters);
+                $('#quantity' + suffix).text(lumberProduct.Quantity);
+                $('#sortOrder' + suffix).text(lumberProduct.SortOrder);
+                initiateLumberProductViewMode();
             },
             error: function (data) {
                 console.log(data);
-                $('#lumberSubCategoryError' + suffix).text(data.responseText);
-                $('.lumberSubCategoryErrorPanel').show();
+                $('#lumberProductError' + suffix).text(data.responseText);
+                $('.lumberProductErrorPanel').show();
             }
-        });*@
+        });
         }
 </script>
