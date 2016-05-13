@@ -882,6 +882,10 @@ td.totalPieceHeading {
     font-weight: bold;
 }
 
+.noLength {
+    margin-top: 12px;
+}
+
 .btn-primary {
     color: #fff;
     background-color: #a0522d;

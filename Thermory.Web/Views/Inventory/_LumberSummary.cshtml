@@ -14,7 +14,7 @@
         <tr class="metricHeading">
             <td class="subCategoryUnit">mm</td>
             <td class="subCategoryDimensions">@subCategory.ThicknessInMillimeters x @subCategory.WidthInMillimeters</td>
-            @foreach (var length in millimeterLengths)
+            @foreach (var length in millimeterLengths.OrderBy(l => l))
             {
                 <td class="subCategoryCellPadding subCategoryLength">@length</td>
             }
@@ -34,7 +34,7 @@
             @Html.Raw(blankRow)
             <tr>
                 <td colspan="2" class="productType productTypeHeading"><div class="headingWidth" title="@lumberType.Name">@lumberType.Name</div></td>
-                @foreach (var length in millimeterLengths)
+                @foreach (var length in millimeterLengths.OrderBy(l => l))
                 {
                     var lumberForLength = lumberType.LumberProducts.SingleOrDefault(p => p.LengthInMillimeters == length);
                     var quantity = @lumberForLength == null ? 0 : lumberForLength.Quantity;
