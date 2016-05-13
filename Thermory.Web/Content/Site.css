@@ -1,4 +1,7 @@
-﻿.lumberCategoryView {
+﻿.numeric {
+}
+
+.lumberCategoryView {
 }
 
 .lumberCategoryForm {
@@ -16,7 +19,28 @@
 .lumberSubCategoryErrorPanel {
 }
 
-.numeric {
+.lumberTypeTab {
+}
+
+.lumberTypeView {
+}
+
+.lumberTypeForm {
+}
+
+.lumberTypeErrorPanel {
+}
+
+.lumberProductTab {
+}
+
+.lumberProductView {
+}
+
+.lumberProductForm {
+}
+
+.lumberProductErrorPanel {
 }
 
 html {

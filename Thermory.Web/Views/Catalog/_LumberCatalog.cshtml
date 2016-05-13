@@ -59,10 +59,10 @@
             @foreach (var subCategory in Model.LumberSubCategories.OrderBy(s => s.SortOrder))
             {
                 active = subCategory.Id == firstSubCategoryId ? "active" : "";
-                <li class="lumberSubCategoryTab @active"><a id="@string.Format("lumberSubCategoryLink{0}", subCategory.Id)" href="#@subCategory.Id" data-toggle="tab">@subCategory.Name</a></li>
+                <li class="lumberSubCategoryTab @active"><a id="@string.Format("lumberSubCategoryLink{0}", subCategory.Id)" href="#@string.Format("lumberSubCategoryTab{0}", subCategory.Id)" data-toggle="tab">@subCategory.Name</a></li>
             }
             @{ active = firstSubCategoryId == Guid.Empty ? "class=active" : "";}
-            <li class="lumberSubCategoryTab @active"><a id="@string.Format("lumberSubCategoryLink{0}", Guid.Empty)" href="#@Guid.Empty" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span> Add</a></li>
+            <li class="lumberSubCategoryTab @active"><a id="@string.Format("lumberSubCategoryLink{0}", Guid.Empty)" href="#@string.Format("lumberSubCategoryTab{0}", Guid.Empty)" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span> Add</a></li>
         </ul>
         <div class="tab-content">
             @{ LumberSubCategoryViewModel subCategoryViewModel;}
@@ -72,7 +72,7 @@
                 @Html.Partial("_LumberSubCategoryForm", subCategoryViewModel)
             }
             @{
-        subCategoryViewModel = new LumberSubCategoryViewModel { Active = !Model.LumberSubCategories.Any(), SubCategory = new LumberSubCategory() };
+        subCategoryViewModel = new LumberSubCategoryViewModel { Active = !Model.LumberSubCategories.Any(), SubCategory = new LumberSubCategory{LumberTypes = new List<LumberType>()} };
         @Html.Partial("_LumberSubCategoryForm", subCategoryViewModel)
             }
         </div>
@@ -84,6 +84,8 @@
         @command
         $('.numeric').keydown(rejectNonNumericText);
         initiateLumberSubCategoryViewMode();
+        initiateLumberTypeViewMode();
+        initiateLumberProductViewMode();
     });
 
     function showLumberCategoryForm() {
@@ -96,6 +98,55 @@
         $('#lumberCategoryErrorPanel').hide();
         $('.lumberCategoryForm').hide();
         $('.lumberCategoryView').show();
+    }
+
+    function disableNavTabByCssClasss(cssClass) {
+        $('.' + cssClass).addClass('disabled');
+        $('.' + cssClass).find('a').removeAttr('data-toggle');
+    }
+
+    function enableNavTabByCssClasss(cssClass) {
+        $('.' + cssClass).removeClass('disabled');
+        $('.' + cssClass).find('a').attr('data-toggle', 'tab');
+    }
+
+    function initiateLumberSubCategoryEditMode() {
+        disableNavTabByCssClasss('lumberSubCategoryTab');
+        $('.lumberSubCategoryView').hide();
+        $('.lumberSubCategoryForm').show();
+    }
+
+    function initiateLumberSubCategoryViewMode() {
+        $('.lumberSubCategoryErrorPanel').hide();
+        enableNavTabByCssClasss('lumberSubCategoryTab');
+        $('.lumberSubCategoryView').show();
+        $('.lumberSubCategoryForm').hide();
+    }
+
+    function initiateLumberTypeEditMode() {
+        disableNavTabByCssClasss('lumberTypeTab');
+        $('.lumberTypeView').hide();
+        $('.lumberTypeForm').show();
+    }
+
+    function initiateLumberTypeViewMode() {
+        $('.lumberTypeErrorPanel').hide();
+        enableNavTabByCssClasss('lumberTypeTab');
+        $('.lumberTypeView').show();
+        $('.lumberTypeForm').hide();
+    }
+
+    function initiateLumberProductEditMode() {
+        disableNavTabByCssClasss('lumberProductTab');
+        $('.lumberProductView').hide();
+        $('.lumberProductForm').show();
+    }
+
+    function initiateLumberProductViewMode() {
+        $('.lumberProductErrorPanel').hide();
+        enableNavTabByCssClasss('lumberProductTab');
+        $('.lumberProductView').show();
+        $('.lumberProductForm').hide();
     }
 
     function saveLumberCategory() {
@@ -130,21 +181,6 @@
         });
     }
 
-    function initiateLumberSubCategoryEditMode() {
-        $('.lumberSubCategoryTab').addClass('disabled');
-        $('.lumberSubCategoryTab').find('a').removeAttr('data-toggle');
-        $('.lumberSubCategoryView').hide();
-        $('.lumberSubCategoryForm').show();
-    }
-
-    function initiateLumberSubCategoryViewMode() {
-        $('.lumberSubCategoryErrorPanel').hide();
-        $('.lumberSubCategoryTab').removeClass('disabled');
-        $('.lumberSubCategoryTab').find('a').attr('data-toggle', 'tab');
-        $('.lumberSubCategoryView').show();
-        $('.lumberSubCategoryForm').hide();
-    }
-
     function saveLumberSubCategory(id) {
         var name = $('#name' + id).val();
         var sortOrder = $('#sortOrder' + id).val();
@@ -158,7 +194,7 @@
             WidthInMillimeters: width,
             ThicknessInMillimeters: thickness
         };
-        
+
         $.ajax({
             type: 'PUT',
             url: '@Url.Action("SaveLumberSubCategory", "Catalog")',
@@ -184,4 +220,86 @@
             }
         });
     }
+
+    function saveLumberType(suffix) {
+        var id = $('#lumberTypeId' + suffix).val();
+        var subCategoryId = $('#subCategoryId' + suffix).val();
+        var name = $('#name' + suffix).val();
+        var sortOrder = $('#sortOrder' + suffix).val();
+        var lumberType = {
+            Id: id,
+            LumberSubCategoryId: subCategoryId,
+            Name: name,
+            SortOrder: sortOrder
+        };
+
+        console.log(lumberType);
+        initiateLumberTypeViewMode();
+
+        @*$.ajax({
+            type: 'PUT',
+            url: '@Url.Action("SaveLumberType", "Catalog")',
+            data: lumberType,
+            dataType: 'text',
+            success: function (data) {
+                lumberType = JSON.parse(data);
+                if (id == '@Guid.Empty') {
+                    location.reload();
+                }
+
+                $('#lumberSubCategoryLink' + suffix).text(lumberType.Name);
+                $('#nameView' + suffix).text(lumberType.Name);
+                $('#sortOrder' + suffix).text(lumberType.SortOrder);
+                $('#widthView' + suffix).text(lumberType.WidthInMillimeters);
+                $('#thicknessView' + suffix).text(lumberType.ThicknessInMillimeters);
+                initiateLumberSubCategoryViewMode();
+            },
+            error: function (data) {
+                console.log(data);
+                $('#lumberSubCategoryError' + suffix).text(data.responseText);
+                $('.lumberSubCategoryErrorPanel').show();
+            }
+        });*@
+    }
+
+    function saveLumberProduct(suffix) {
+        var id = $('#lumberProductId' + suffix).val();
+        var lumberTypeId = $('#lumberTypeId' + suffix).val();
+        var length = $('#length' + suffix).val();
+        var sortOrder = $('#sortOrder' + suffix).val();
+        var lumberType = {
+            Id: id,
+            LumberTypeId: lumberTypeId,
+            Length: length,
+            SortOrder: sortOrder
+        };
+
+        console.log(lumberType);
+        initiateLumberProductViewMode();
+
+        @*$.ajax({
+            type: 'PUT',
+            url: '@Url.Action("SaveLumberType", "Catalog")',
+            data: lumberType,
+            dataType: 'text',
+            success: function (data) {
+                lumberType = JSON.parse(data);
+                if (id == '@Guid.Empty') {
+                    location.reload();
+                }
+
+                $('#lumberSubCategoryLink' + suffix).text(lumberType.Name);
+                $('#nameView' + suffix).text(lumberType.Name);
+                $('#sortOrder' + suffix).text(lumberType.SortOrder);
+                $('#widthView' + suffix).text(lumberType.WidthInMillimeters);
+                $('#thicknessView' + suffix).text(lumberType.ThicknessInMillimeters);
+                initiateLumberSubCategoryViewMode();
+            },
+            error: function (data) {
+                console.log(data);
+                $('#lumberSubCategoryError' + suffix).text(data.responseText);
+                $('.lumberSubCategoryErrorPanel').show();
+            }
+        });*@
+        }
 </script>
