@@ -165,7 +165,7 @@ footer {
     background-color: #e2e2e2;
     font-size: .8em;
     height: 20px;
-    border-top: solid 1px darkgray;
+    border-top: solid 1px lightgray;
     padding: 5px 0 5px 0;
 }
 
@@ -802,10 +802,10 @@ tr.pager td {
 
 a.logo, a.logo:hover, a.logo:active {
     background: url(../Images/logo.jpg) no-repeat top left;
-    background-size: 180px 100px;
+    background-size: 146px 70px;
     display: block;
-    width: 180px;
-    height: 100px;
+    width: 146px;
+    height: 70px;
     text-indent: -9999px; /* hides the link text */
 }
 

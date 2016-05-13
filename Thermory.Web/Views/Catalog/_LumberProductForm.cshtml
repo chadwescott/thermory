@@ -24,7 +24,7 @@
                     <div type="button" class="btn btn-primary lumberProductView" onclick="initiateLumberProductEditMode()">
                         <span class="glyphicon glyphicon-edit"></span> Edit
                     </div>
-                    <input type="text" class="form-control lumberProductForm" name="lumberProductName" id="@string.Format("length{0}", suffix)" value="@Model.LumberProduct.LengthInMillimeters" placeholder="Length in millimeters" />
+                    <input type="text" class="form-control lumberProductForm numeric" name="lumberProductName" id="@string.Format("length{0}", suffix)" value="@Model.LumberProduct.LengthInMillimeters" placeholder="Length in millimeters" />
                 </td>
             </tr>
         </table>
