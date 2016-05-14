@@ -20,28 +20,31 @@ namespace Thermory.Data
         private DatabaseCommandDirectory()
         { }
 
-        public void CreateOrder(int userId, OrderTypes orderType, Customer customer, PackagingType packagingType,
+        public Order CreateOrder(int userId, OrderTypes orderType, Customer customer, PackagingType packagingType,
             OrderLumberLineItem[] lumberLineItems, OrderMiscellaneousLineItem[] miscLineItems)
         {
             var builder = new CreateOrderBuilder(userId, orderType, customer, packagingType, lumberLineItems,
                 miscLineItems);
             var transaction = new TransactionalCommand(builder.Commands);
             transaction.Execute();
+            return builder.Order;
         }
 
-        public void DeleteOrder(int userId, Guid orderId)
+        public Order DeleteOrder(int userId, Guid orderId)
         {
             var builder = new DeleteOrderBuilder(userId, orderId);
             var transaction = new TransactionalCommand(builder.Commands);
             transaction.Execute();
+            return builder.Order;
         }
 
-        public void EditOrder(int userId, Guid orderId, Customer customer, PackagingType packagingType,
+        public Order EditOrder(int userId, Guid orderId, Customer customer, PackagingType packagingType,
             OrderLumberLineItem[] lumberLineItems, OrderMiscellaneousLineItem[] miscLineItems)
         {
             var builder = new EditOrderBuilder(userId, orderId, customer, packagingType, lumberLineItems, miscLineItems);
             var transaction = new TransactionalCommand(builder.Commands);
             transaction.Execute();
+            return builder.Order;
         }
 
         public IList<Customer> GetAllCustomers()

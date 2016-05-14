@@ -106,7 +106,7 @@
             dataType: 'json',
             data: postData,
             success: function (data, status, request) {
-                window.location = ('@Url.Action("Index", "SalesOrder")');
+                window.location = ('/SalesOrder/Review/' + data);
             },
             error: function (data, status, request) {
                 $('#errorMessage').text(data.responseText);

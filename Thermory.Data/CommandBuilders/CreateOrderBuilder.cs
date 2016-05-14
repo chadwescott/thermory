@@ -23,14 +23,14 @@ namespace Thermory.Data.CommandBuilders
             else
                 Commands.Add(new SavePackagingType(packagingType));
 
-            var order = new Order { OrderTypeId = orderTypeId, Customer = customer, PackagingType = packagingType};
+            Order = new Order { OrderTypeId = orderTypeId, Customer = customer, PackagingType = packagingType};
 
-            Commands.Add(new SaveOrder(order));
+            Commands.Add(new SaveOrder(Order));
 
-            AddCreatedLumberLineItemCommands(order, lumberLineItems);
-            AddCreateMiscellaneousLineItemCommands(order, miscLineItems);
+            AddCreatedLumberLineItemCommands(Order, lumberLineItems);
+            AddCreateMiscellaneousLineItemCommands(Order, miscLineItems);
 
-            var transaction = CreateInventoryTransaction(userId, order);
+            var transaction = CreateInventoryTransaction(userId, Order);
 
             var adjustmentMultiplier = AdjustmentMultiplier.GetByOrderType(orderType);
 

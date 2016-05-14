@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Microsoft.Ajax.Utilities;
+using Newtonsoft.Json;
 using Thermory.Business;
 using Thermory.Domain.Constants;
 using Thermory.Domain.Enums;
@@ -86,10 +88,10 @@ namespace Thermory.Web.Controllers
                     Quantity = m.Quantity
                 }).ToArray();
 
-            CommandDirectory.Instance.SaveOrder(WebSecurity.CurrentUserId, orderId, orderType, customer,
+            var order = CommandDirectory.Instance.SaveOrder(WebSecurity.CurrentUserId, orderId, orderType, customer,
                 packagingType,
                 lumberLineItems, miscLineItems);
-            return Json(new { status = "success" });
+            return Json(order.Id);
         }
 
         private OrderForm CreateOrderFormViewModel(Order order)

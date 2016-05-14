@@ -9,6 +9,8 @@ namespace Thermory.Data.CommandBuilders
 {
     internal abstract class OrderBuilder : CommandBuilder
     {
+        public Order Order { get; protected set; }
+
         protected Order GetOrder(Guid orderId)
         {
             var getOrderCommand = new GetOrderById(orderId);

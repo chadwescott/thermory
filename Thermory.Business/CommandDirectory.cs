@@ -123,15 +123,15 @@ namespace Thermory.Business
             new TaskFactory().StartNew(LoadLumberCategories);
         }
 
-        public void SaveOrder(int userId, Guid orderId, OrderTypes orderType, Customer customer,
+        public Order SaveOrder(int userId, Guid orderId, OrderTypes orderType, Customer customer,
             PackagingType packagingType, OrderLumberLineItem[] lumberLineItems,
             OrderMiscellaneousLineItem[] miscLineItems)
         {
             if (orderId == Guid.Empty)
-                DatabaseCommandDirectory.Instance.CreateOrder(userId, orderType, customer, packagingType,
+                return DatabaseCommandDirectory.Instance.CreateOrder(userId, orderType, customer, packagingType,
                     lumberLineItems, miscLineItems);
             else
-                DatabaseCommandDirectory.Instance.EditOrder(userId, orderId, customer, packagingType, lumberLineItems,
+                return DatabaseCommandDirectory.Instance.EditOrder(userId, orderId, customer, packagingType, lumberLineItems,
                     miscLineItems);
         }
 

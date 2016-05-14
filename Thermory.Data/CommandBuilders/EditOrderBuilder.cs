@@ -13,22 +13,22 @@ namespace Thermory.Data.CommandBuilders
         public EditOrderBuilder(int userId, Guid orderId, Customer customer, PackagingType packagingType,
             OrderLumberLineItem[] lumberLineItems, OrderMiscellaneousLineItem[] miscLineItems)
         {
-            var order = GetOrder(orderId);
-            if (order.IsDeleted) return;
+            Order = GetOrder(orderId);
+            if (Order.IsDeleted) return;
 
-            var orderLumberLineItems = order.OrderLumberLineItems;
-            var orderMiscLineItems = order.OrderMiscellaneousLineItems;
+            var orderLumberLineItems = Order.OrderLumberLineItems;
+            var orderMiscLineItems = Order.OrderMiscellaneousLineItems;
             
-            ClearOrderLineItems(order);
+            ClearOrderLineItems(Order);
 
-            var transaction = CreateInventoryTransaction(userId, order.Id);
-            var adjustmentMultiplier = AdjustmentMultiplier.GetByOrderType(order.OrderType.OrderTypeEnum);
+            var transaction = CreateInventoryTransaction(userId, Order.Id);
+            var adjustmentMultiplier = AdjustmentMultiplier.GetByOrderType(Order.OrderType.OrderTypeEnum);
 
             AddLumberProductQuantityAdjustmentCommands(transaction, orderLumberLineItems, lumberLineItems.ToList(), adjustmentMultiplier);
             AddMiscellaneousProductQuantityAdjustmentCommands(transaction, orderMiscLineItems, miscLineItems.ToList(), adjustmentMultiplier);
 
-            AddCreatedLumberLineItemCommands(order, lumberLineItems);
-            AddCreateMiscellaneousLineItemCommands(order, miscLineItems);
+            AddCreatedLumberLineItemCommands(Order, lumberLineItems);
+            AddCreateMiscellaneousLineItemCommands(Order, miscLineItems);
 
             if (customer.Name == null)
                 customer = null;
@@ -40,9 +40,9 @@ namespace Thermory.Data.CommandBuilders
             else
                 Commands.Add(new SavePackagingType(packagingType));
 
-            order.Customer = customer;
-            order.PackagingType = packagingType;
-            Commands.Add(new SaveOrder(order));
+            Order.Customer = customer;
+            Order.PackagingType = packagingType;
+            Commands.Add(new SaveOrder(Order));
         }
 
         private void ClearOrderLineItems(Order order)

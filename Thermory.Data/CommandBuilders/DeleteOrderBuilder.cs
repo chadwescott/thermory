@@ -12,17 +12,17 @@ namespace Thermory.Data.CommandBuilders
     {
         public DeleteOrderBuilder(int userId, Guid orderId)
         {
-            var order = GetOrder(orderId);
-            if (order.IsDeleted) return;
+            Order = GetOrder(orderId);
+            if (Order.IsDeleted) return;
 
-            order.IsDeleted = true;
-            Commands.Add(new SaveOrder(order));
+            Order.IsDeleted = true;
+            Commands.Add(new SaveOrder(Order));
 
-            var orderLumberLineItems = order.OrderLumberLineItems;
-            var orderMiscLineItems = order.OrderMiscellaneousLineItems;
+            var orderLumberLineItems = Order.OrderLumberLineItems;
+            var orderMiscLineItems = Order.OrderMiscellaneousLineItems;
 
-            var transaction = CreateInventoryTransaction(userId, order.Id);
-            var adjustmentMultiplier = AdjustmentMultiplier.GetByOrderType(order.OrderType.OrderTypeEnum);
+            var transaction = CreateInventoryTransaction(userId, Order.Id);
+            var adjustmentMultiplier = AdjustmentMultiplier.GetByOrderType(Order.OrderType.OrderTypeEnum);
 
             AddLumberProductQuantityAdjustmentCommands(transaction, orderLumberLineItems, adjustmentMultiplier);
             AddMiscellaneousProductQuantityAdjustmentCommands(transaction, orderMiscLineItems, adjustmentMultiplier);
