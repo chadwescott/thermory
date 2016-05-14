@@ -7,76 +7,81 @@
 
 <input type="hidden" id="@string.Format("sortOrder{0}", Model.SubCategory.Id)" value="@Model.SubCategory.SortOrder" />
 <div id="@string.Format("lumberSubCategoryTab{0}", Model.SubCategory.Id)" class="tab-pane @active">
-    <div class="well">
-        <div class="panel panel-danger lumberSubCategoryErrorPanel">
-            <div class="panel-heading">Error</div>
-            <div id="@string.Format("lumberSubCategoryError{0}", @Model.SubCategory.Id)" class="panel-body"></div>
-        </div>
-        <table>
-            <tr>
-                <td>
-                    <label class="lumberSubCategoryView" id="@string.Format("nameView{0}", Model.SubCategory.Id)">@Model.SubCategory.Name</label>
-                    <label class="lumberSubCategoryForm" for="lumberSubCategoryName">Sub Category Name</label>
-                </td>
-                <td>
-                    <div type="button" class="btn btn-primary lumberSubCategoryView" onclick="initiateLumberSubCategoryEditMode()">
-                        <span class="glyphicon glyphicon-edit"></span> Edit
-                    </div>
-                    <input type="text" class="form-control lumberSubCategoryForm" name="lumberSubCategoryName" id="@string.Format("name{0}", Model.SubCategory.Id)" value="@Model.SubCategory.Name" placeholder="Sub Category Name" />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label>Width mm</label>
-                </td>
-                <td>
-                    <div class="lumberSubCategoryView" id="@string.Format("widthView{0}", Model.SubCategory.Id)">@Model.SubCategory.WidthInMillimeters</div>
-                    <input type="text" class="form-control lumberSubCategoryForm numeric" id="@string.Format("width{0}", Model.SubCategory.Id)" value="@Model.SubCategory.WidthInMillimeters" maxlength="6" pattern="[0-9]*" placeholder="Width mm" />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label>Thickness mm</label>
-                </td>
-                <td>
-                    <div class="lumberSubCategoryView" id="@string.Format("thicknessView{0}", Model.SubCategory.Id)">@Model.SubCategory.ThicknessInMillimeters</div>
-                    <input type="text" class="form-control lumberSubCategoryForm numeric" id="@string.Format("thickness{0}", Model.SubCategory.Id)" value="@Model.SubCategory.ThicknessInMillimeters" maxlength="6" pattern="[0-9]*" placeholder="Thickness mm" />
-                </td>
-            </tr>
-        </table>
+    <table>
+        <tr>
+            <td>
+                <label class="lumberSubCategoryView" id="@string.Format("nameView{0}", Model.SubCategory.Id)">@Model.SubCategory.Name</label>
+                <label class="lumberSubCategoryForm" for="lumberSubCategoryName">Sub Category Name</label>
+            </td>
+            <td>
+                <div type="button" class="btn btn-primary lumberSubCategoryView" onclick="initiateLumberSubCategoryEditMode()">
+                    <span class="glyphicon glyphicon-edit"></span> Edit
+                </div>
+                <input type="text" class="form-control lumberSubCategoryForm" name="lumberSubCategoryName" id="@string.Format("name{0}", Model.SubCategory.Id)" value="@Model.SubCategory.Name" placeholder="Sub Category Name" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>Width mm</label>
+            </td>
+            <td>
+                <div class="lumberSubCategoryView" id="@string.Format("widthView{0}", Model.SubCategory.Id)">@Model.SubCategory.WidthInMillimeters</div>
+                <input type="text" class="form-control lumberSubCategoryForm numeric" id="@string.Format("width{0}", Model.SubCategory.Id)" value="@Model.SubCategory.WidthInMillimeters" maxlength="6" pattern="[0-9]*" placeholder="Width mm" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>Thickness mm</label>
+            </td>
+            <td>
+                <div class="lumberSubCategoryView" id="@string.Format("thicknessView{0}", Model.SubCategory.Id)">@Model.SubCategory.ThicknessInMillimeters</div>
+                <input type="text" class="form-control lumberSubCategoryForm numeric" id="@string.Format("thickness{0}", Model.SubCategory.Id)" value="@Model.SubCategory.ThicknessInMillimeters" maxlength="6" pattern="[0-9]*" placeholder="Thickness mm" />
+            </td>
+        </tr>
+    </table>
+    <div class="lumberSubCategoryForm" style="margin-bottom: 10px;">
         <div type="button" class="btn btn-success lumberSubCategoryForm" onclick="saveLumberSubCategory('@Model.SubCategory.Id');">
             <span class="glyphicon glyphicon-ok"></span> Save
         </div>
         <div type="button" class="btn btn-danger lumberSubCategoryForm" onclick="initiateLumberSubCategoryViewMode();">
             <span class="glyphicon glyphicon-remove"></span> Cancel
         </div>
-        @{
-            var firstLumberTypeId = Model.SubCategory.LumberTypes.Any() ? Model.SubCategory.LumberTypes.OrderBy(s => s.SortOrder).First().Id : Guid.Empty;
-            <ul class="nav nav-tabs" data-tabs="tabs">
-                @foreach (var lumberType in Model.SubCategory.LumberTypes.OrderBy(s => s.SortOrder))
-                {
-                    active = lumberType.Id == firstLumberTypeId ? "active" : "";
-                    <li class="lumberTypeTab @active"><a id="@string.Format("lumberTypeLink{0}{1}", Model.SubCategory.Id, lumberType.Id)" href="#@string.Format("lumberTypeTab{0}{1}", Model.SubCategory.Id, lumberType.Id)" data-toggle="tab">@lumberType.Name</a></li>
-                }
-                @if (Model.SubCategory.LumberTypes.Any())
-                {
-                    active = firstLumberTypeId == Guid.Empty ? "class=active" : "";
-                    <li class="lumberTypeTab @active"><a id="@string.Format("lumberTypeLink{0}{1}", Model.SubCategory.Id, Guid.Empty)" href="#@string.Format("lumberTypeTab{0}{1}", Model.SubCategory.Id, Guid.Empty)" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span> Add</a></li>
-                }
-            </ul>
-            <div class="tab-content">
-                @{ LumberTypeViewModel lumberTypeViewModel;}
-                @foreach (var subCategory in Model.SubCategory.LumberTypes.OrderBy(s => s.SortOrder))
-                {
-                    lumberTypeViewModel = new LumberTypeViewModel { Active = subCategory.Id == firstLumberTypeId, LumberType = subCategory };
-                    @Html.Partial("_LumberTypeForm", lumberTypeViewModel)
-                }
-                @if (Model.SubCategory.LumberTypes.Any())
-                {
-                    lumberTypeViewModel = new LumberTypeViewModel { Active = !Model.SubCategory.LumberTypes.Any(), LumberType = new LumberType { LumberSubCategoryId = Model.SubCategory.Id, LumberProducts = new List<LumberProduct>() } };
-                    @Html.Partial("_LumberTypeForm", lumberTypeViewModel)
-                }
-            </div>
-        }
     </div>
+    <div class="panel panel-danger lumberSubCategoryErrorPanel" style="display: none;">
+        <div class="panel-heading">Error</div>
+        <div id="@string.Format("lumberSubCategoryError{0}", @Model.SubCategory.Id)" class="panel-body"></div>
+    </div>
+    @{
+        var firstLumberTypeId = Model.SubCategory.LumberTypes.Any() ? Model.SubCategory.LumberTypes.OrderBy(s => s.SortOrder).First().Id : Guid.Empty;
+        <div class="panel panel-default">
+            <div class="panel-heading">Types</div>
+            <div class="panel-body">
+                <ul class="nav nav-tabs" data-tabs="tabs">
+                    @foreach (var lumberType in Model.SubCategory.LumberTypes.OrderBy(s => s.SortOrder))
+                    {
+                        active = lumberType.Id == firstLumberTypeId ? "active" : "";
+                        <li class="lumberTypeTab @active"><a id="@string.Format("lumberTypeLink{0}{1}", Model.SubCategory.Id, lumberType.Id)" href="#@string.Format("lumberTypeTab{0}{1}", Model.SubCategory.Id, lumberType.Id)" data-toggle="tab">@lumberType.Name</a></li>
+                    }
+                    @if (Model.SubCategory.LumberTypes.Any())
+                    {
+                        active = firstLumberTypeId == Guid.Empty ? "class=active" : "";
+                        <li class="lumberTypeTab @active"><a id="@string.Format("lumberTypeLink{0}{1}", Model.SubCategory.Id, Guid.Empty)" href="#@string.Format("lumberTypeTab{0}{1}", Model.SubCategory.Id, Guid.Empty)" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span> Add</a></li>
+                    }
+                </ul>
+                <div class="tab-content">
+                    @{ LumberTypeViewModel lumberTypeViewModel;}
+                    @foreach (var subCategory in Model.SubCategory.LumberTypes.OrderBy(s => s.SortOrder))
+                    {
+                        lumberTypeViewModel = new LumberTypeViewModel { Active = subCategory.Id == firstLumberTypeId, LumberType = subCategory };
+                        @Html.Partial("_LumberTypeForm", lumberTypeViewModel)
+                    }
+                    @if (Model.SubCategory.LumberTypes.Any())
+                    {
+                        lumberTypeViewModel = new LumberTypeViewModel { Active = !Model.SubCategory.LumberTypes.Any(), LumberType = new LumberType { LumberSubCategoryId = Model.SubCategory.Id, LumberProducts = new List<LumberProduct>() } };
+                        @Html.Partial("_LumberTypeForm", lumberTypeViewModel)
+                    }
+                </div>
+            </div>
+        </div>
+    }
 </div>

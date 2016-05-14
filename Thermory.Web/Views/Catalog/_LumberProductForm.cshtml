@@ -9,30 +9,30 @@
 <input type="hidden" id="@string.Format("quantity{0}", suffix)" value="@Model.LumberProduct.Quantity" />
 <input type="hidden" id="@string.Format("sortOrder{0}", suffix)" value="@Model.LumberProduct.LengthInMillimeters" />
 <div id="@string.Format("lumberProductTab{0}", suffix)" class="tab-pane @active">
-    <div class="well">
-        <div class="panel panel-danger lumberProductErrorPanel">
-            <div class="panel-heading">Error</div>
-            <div id="@string.Format("lumberProductError{0}{1}", Model.LumberProduct.LumberTypeId, @Model.LumberProduct.Id)" class="panel-body"></div>
-        </div>
-        <table>
-            <tr>
-                <td>
-                    <label class="lumberProductView" id="@string.Format("lengthView{0}", suffix)">@Model.LumberProduct.LengthInMillimeters</label>
-                    <label class="lumberProductForm" for="lumberProductName">Length in millimeters</label>
-                </td>
-                <td>
-                    <div type="button" class="btn btn-primary lumberProductView" onclick="initiateLumberProductEditMode()">
-                        <span class="glyphicon glyphicon-edit"></span> Edit
-                    </div>
-                    <input type="text" class="form-control lumberProductForm numeric" name="lumberProductName" id="@string.Format("length{0}", suffix)" value="@Model.LumberProduct.LengthInMillimeters" placeholder="Length in millimeters" />
-                </td>
-            </tr>
-        </table>
+    <table>
+        <tr>
+            <td>
+                <label class="lumberProductView">@Model.LumberProduct.LengthInMillimeters</label>
+                <label class="lumberProductForm" for="lumberProductName">Length in millimeters</label>
+            </td>
+            <td>
+                <div type="button" class="btn btn-primary lumberProductView" onclick="initiateLumberProductEditMode()">
+                    <span class="glyphicon glyphicon-edit"></span> Edit
+                </div>
+                <input type="text" class="form-control lumberProductForm numeric" name="lumberProductName" id="@string.Format("length{0}", suffix)" value="@Model.LumberProduct.LengthInMillimeters" placeholder="Length in millimeters" />
+            </td>
+        </tr>
+    </table>
+    <div class="lumberProductForm" style="margin-bottom: 10px;">
         <div type="button" class="btn btn-success lumberProductForm" onclick="saveLumberProduct('@suffix');">
             <span class="glyphicon glyphicon-ok"></span> Save
         </div>
         <div type="button" class="btn btn-danger lumberProductForm" onclick="initiateLumberProductViewMode();">
             <span class="glyphicon glyphicon-remove"></span> Cancel
         </div>
+    </div>
+    <div class="panel panel-danger lumberProductErrorPanel" style="display: none;">
+        <div class="panel-heading">Error</div>
+        <div id="@string.Format("lumberProductError{0}{1}", Model.LumberProduct.LumberTypeId, @Model.LumberProduct.Id)" class="panel-body"></div>
     </div>
 </div>
