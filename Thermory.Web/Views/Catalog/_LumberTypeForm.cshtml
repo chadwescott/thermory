@@ -11,31 +11,29 @@
 <input type="hidden" id="@string.Format("sortOrder{0}", suffix)" value="@Model.LumberType.SortOrder" />
 <div id="@string.Format("lumberTypeTab{0}", suffix)" class="tab-pane @active">
     <div class="well">
-        <div class="well">
-            <div class="panel panel-danger lumberTypeErrorPanel">
-                <div class="panel-heading">Error</div>
-                <div id="@string.Format("lumberTypeError{0}{1}", Model.LumberType.LumberSubCategoryId, @Model.LumberType.Id)" class="panel-body"></div>
-            </div>
-            <table>
-                <tr>
-                    <td>
-                        <label class="lumberTypeView" id="@string.Format("nameView{0}", suffix)">@Model.LumberType.Name</label>
-                        <label class="lumberTypeForm" for="lumberTypeName">Lumber Type Name</label>
-                    </td>
-                    <td>
-                        <div type="button" class="btn btn-primary lumberTypeView" onclick="initiateLumberTypeEditMode()">
-                            <span class="glyphicon glyphicon-edit"></span> Edit
-                        </div>
-                        <input type="text" class="form-control lumberTypeForm" name="lumberTypeName" id="@string.Format("name{0}", suffix)" value="@Model.LumberType.Name" placeholder="Lumber Type Name" />
-                    </td>
-                </tr>
-            </table>
-            <div type="button" class="btn btn-success lumberTypeForm" onclick="saveLumberType('@suffix');">
-                <span class="glyphicon glyphicon-ok"></span> Save
-            </div>
-            <div type="button" class="btn btn-danger lumberTypeForm" onclick="initiateLumberTypeViewMode();">
-                <span class="glyphicon glyphicon-remove"></span> Cancel
-            </div>
+        <div class="panel panel-danger lumberTypeErrorPanel">
+            <div class="panel-heading">Error</div>
+            <div id="@string.Format("lumberTypeError{0}{1}", Model.LumberType.LumberSubCategoryId, @Model.LumberType.Id)" class="panel-body"></div>
+        </div>
+        <table>
+            <tr>
+                <td>
+                    <label class="lumberTypeView" id="@string.Format("nameView{0}", suffix)">@Model.LumberType.Name</label>
+                    <label class="lumberTypeForm" for="lumberTypeName">Lumber Type Name</label>
+                </td>
+                <td>
+                    <div type="button" class="btn btn-primary lumberTypeView" onclick="initiateLumberTypeEditMode()">
+                        <span class="glyphicon glyphicon-edit"></span> Edit
+                    </div>
+                    <input type="text" class="form-control lumberTypeForm" name="lumberTypeName" id="@string.Format("name{0}", suffix)" value="@Model.LumberType.Name" placeholder="Lumber Type Name" />
+                </td>
+            </tr>
+        </table>
+        <div type="button" class="btn btn-success lumberTypeForm" onclick="saveLumberType('@suffix');">
+            <span class="glyphicon glyphicon-ok"></span> Save
+        </div>
+        <div type="button" class="btn btn-danger lumberTypeForm" onclick="initiateLumberTypeViewMode();">
+            <span class="glyphicon glyphicon-remove"></span> Cancel
         </div>
         @{
             var firstLumberTypeId = Model.LumberType.LumberProducts.Any() ? Model.LumberType.LumberProducts.OrderBy(p => p.LengthInMillimeters).First().Id : Guid.Empty;
