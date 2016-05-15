@@ -1,4 +1,6 @@
-﻿namespace Thermory.Data.Commands
+﻿using Thermory.Domain.Commands;
+
+namespace Thermory.Data.Commands
 {
     internal abstract class DatabaseGetCommand<T> : DatabaseCommand, IGetCommand<T>
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Thermory.Data;
-using Thermory.Data.Commands;
+using Thermory.Domain.Commands;
 using Thermory.Domain.Models;
 
 namespace Thermory.Business.Commands

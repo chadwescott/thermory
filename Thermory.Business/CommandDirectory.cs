@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 using Thermory.Business.Commands;
 using Thermory.Data;
@@ -41,7 +40,6 @@ namespace Thermory.Business
                 command.Execute();
                 _lumberCategories = command.Result;
             }
-
         }
 
         private void LoadMiscellaneousCategories()

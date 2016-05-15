@@ -1,4 +1,4 @@
-﻿namespace Thermory.Data.Commands
+﻿namespace Thermory.Domain.Commands
 {
     public interface ICommand
     {

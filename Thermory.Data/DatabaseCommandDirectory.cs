@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Thermory.Data.CommandBuilders;
 using Thermory.Data.Commands;
+using Thermory.Domain.Commands;
 using Thermory.Domain.Models;
 using Thermory.Domain.Enums;
 
@@ -81,6 +82,13 @@ namespace Thermory.Data
             command.Execute();
             return command.Result;
         }
+
+        public IList<OrderStatus> GetAllOrderStatuses()
+        {
+            var command = new GetAllOrderStatuses();
+            command.Execute();
+            return command.Result;
+        } 
 
         public IList<PackagingType> GetAllPackagingTypes()
         {
