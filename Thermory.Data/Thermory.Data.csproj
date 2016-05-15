@@ -90,6 +90,9 @@
     <Compile Include="Commands\SaveLumberProduct.cs" />
     <Compile Include="Commands\SaveLumberSubCategory.cs" />
     <Compile Include="Commands\SaveLumberType.cs" />
+    <Compile Include="Commands\SaveMiscellaneousCategory.cs" />
+    <Compile Include="Commands\SaveMiscellaneousProduct.cs" />
+    <Compile Include="Commands\SaveMiscellaneousSubCategory.cs" />
     <Compile Include="Commands\SavePackagingType.cs" />
     <Compile Include="Commands\SaveCustomer.cs" />
     <Compile Include="Commands\UpdateLumberProductInventory.cs" />

@@ -57,5 +57,26 @@ namespace Thermory.Web.Controllers
             CommandDirectory.Instance.SaveLumberType(model);
             return Json(model);
         }
+
+        [HttpPut]
+        public ActionResult SaveMiscellaneousCategory(MiscellaneousCategory model)
+        {
+            CommandDirectory.Instance.SaveMiscellaneousCategory(model);
+            return Json(model);
+        }
+
+        [HttpPut]
+        public ActionResult SaveMiscellaneousProduct(MiscellaneousProduct model)
+        {
+            CommandDirectory.Instance.SaveMiscellaneousProduct(model);
+            return Json(model);
+        }
+
+        [HttpPut]
+        public ActionResult SaveMiscellaneousSubCategory(MiscellaneousSubCategory model)
+        {
+            CommandDirectory.Instance.SaveMiscellaneousSubCategory(model);
+            return Json(model);
+        }
     }
 }

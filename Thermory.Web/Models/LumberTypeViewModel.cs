@@ -2,7 +2,7 @@
 
 namespace Thermory.Web.Models
 {
-    public class LumberTypeViewModel : LumberFormViewModel
+    public class LumberTypeViewModel : CatalogFormViewModel
     {
         public LumberType LumberType { get; set; }
     }

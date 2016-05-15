@@ -2,10 +2,10 @@
 @using Thermory.Web.Models
 @model LumberCategory
 
-<form>
+<form id="lumberForm" style="display: none;">
     <input type="hidden" id="lumberCategoryId" value="@Model.Id" />
     <input type="hidden" id="lumberCategorySortOrder" value="@Model.SortOrder" />
-    <div>
+    <div style="margin-top: -20px;">
         <div class="lumberCategoryView" style="margin-bottom: -2px;">
             <table>
                 <tr>
@@ -15,7 +15,7 @@
                         </h2>
                     </td>
                     <td>
-                        <div type="button" class="btn btn-primary lumberCategoryView" onclick="showLumberCategoryForm();" style="margin-top: 20px;">
+                        <div type="button" class="btn btn-primary lumberCategoryView" onclick="showCategoryForm('lumber');" style="margin-top: 20px;">
                             <span class="glyphicon glyphicon-edit"></span> Edit
                         </div>
                     </td>
@@ -37,7 +37,7 @@
                     <td>
                         @if (Model.Id != Guid.Empty)
                         {
-                            <div type="button" class="lumberCategoryForm btn btn-danger" onclick="showLumberCategoryView();">
+                            <div type="button" class="lumberCategoryForm btn btn-danger" onclick="showCategoryView('lumber');">
                                 <span class="glyphicon glyphicon-remove"></span> Cancel
                             </div>
                         }
@@ -51,12 +51,12 @@
         </div>
     </div>
     <br />
-    <div class="panel panel-default">
-        <div class="panel-heading">Sub Categories</div>
-        <div class="panel-body">
-            @if (Model.Id != Guid.Empty)
-            {
-                var firstSubCategoryId = Model.LumberSubCategories.Any() ? Model.LumberSubCategories.OrderBy(s => s.SortOrder).First().Id : Guid.Empty;
+    @if (Model.Id != Guid.Empty)
+    {
+        var firstSubCategoryId = Model.LumberSubCategories.Any() ? Model.LumberSubCategories.OrderBy(s => s.SortOrder).First().Id : Guid.Empty;
+        <div class="panel panel-default">
+            <div class="panel-heading">Sub Categories</div>
+            <div class="panel-body">
                 <ul class="nav nav-tabs" data-tabs="tabs">
                     @{ string active;}
                     @foreach (var subCategory in Model.LumberSubCategories.OrderBy(s => s.SortOrder))
@@ -75,84 +75,24 @@
                         @Html.Partial("_LumberSubCategoryForm", subCategoryViewModel)
                     }
                     @{
-                subCategoryViewModel = new LumberSubCategoryViewModel { Active = !Model.LumberSubCategories.Any(), SubCategory = new LumberSubCategory { LumberTypes = new List<LumberType>() } };
-                @Html.Partial("_LumberSubCategoryForm", subCategoryViewModel)
+        subCategoryViewModel = new LumberSubCategoryViewModel { Active = !Model.LumberSubCategories.Any(), SubCategory = new LumberSubCategory { LumberTypes = new List<LumberType>() } };
+        @Html.Partial("_LumberSubCategoryForm", subCategoryViewModel)
                     }
                 </div>
-            }
+            </div>
         </div>
-    </div>
+    }
 </form>
 <script type="text/javascript">
     $(document).ready(function () {
-        @{ var command = Model.Id == Guid.Empty ? "showLumberCategoryForm();" : "showLumberCategoryView();";}
-        @command
+        @{ var command = Model.Id == Guid.Empty ? "showCategoryForm('lumber');" : "showCategoryView('lumber');";}
+        @Html.Raw(command)
         $('.numeric').keydown(rejectNonNumericText);
-        initiateLumberSubCategoryViewMode();
-        initiateLumberTypeViewMode();
-        initiateLumberProductViewMode();
+        initiateViewMode('lumberSubCategory');
+        initiateViewMode('lumberType');
+        initiateViewMode('lumberProduct');
+        $('#lumberForm').show();
     });
-
-    function showLumberCategoryForm() {
-        $('#lumberCategoryErrorPanel').hide();
-        $('.lumberCategoryForm').show();
-        $('.lumberCategoryView').hide();
-    }
-
-    function showLumberCategoryView() {
-        $('#lumberCategoryErrorPanel').hide();
-        $('.lumberCategoryForm').hide();
-        $('.lumberCategoryView').show();
-    }
-
-    function disableNavTabByCssClasss(cssClass) {
-        $('.' + cssClass).addClass('disabled');
-        $('.' + cssClass).find('a').removeAttr('data-toggle');
-    }
-
-    function enableNavTabByCssClasss(cssClass) {
-        $('.' + cssClass).removeClass('disabled');
-        $('.' + cssClass).find('a').attr('data-toggle', 'tab');
-    }
-
-    function initiateLumberSubCategoryEditMode() {
-        disableNavTabByCssClasss('lumberSubCategoryTab');
-        $('.lumberSubCategoryView').hide();
-        $('.lumberSubCategoryForm').show();
-    }
-
-    function initiateLumberSubCategoryViewMode() {
-        $('.lumberSubCategoryErrorPanel').hide();
-        enableNavTabByCssClasss('lumberSubCategoryTab');
-        $('.lumberSubCategoryView').show();
-        $('.lumberSubCategoryForm').hide();
-    }
-
-    function initiateLumberTypeEditMode() {
-        disableNavTabByCssClasss('lumberTypeTab');
-        $('.lumberTypeView').hide();
-        $('.lumberTypeForm').show();
-    }
-
-    function initiateLumberTypeViewMode() {
-        $('.lumberTypeErrorPanel').hide();
-        enableNavTabByCssClasss('lumberTypeTab');
-        $('.lumberTypeView').show();
-        $('.lumberTypeForm').hide();
-    }
-
-    function initiateLumberProductEditMode() {
-        disableNavTabByCssClasss('lumberProductTab');
-        $('.lumberProductView').hide();
-        $('.lumberProductForm').show();
-    }
-
-    function initiateLumberProductViewMode() {
-        $('.lumberProductErrorPanel').hide();
-        enableNavTabByCssClasss('lumberProductTab');
-        $('.lumberProductView').show();
-        $('.lumberProductForm').hide();
-    }
 
     function saveLumberCategory() {
         var id = $('#lumberCategoryId').val();
@@ -177,7 +117,7 @@
                 }
                 $('#lumberCategoryNameView').text(category.Name);
                 $('#lumberCategoryEdit' + category.Id).text(category.Name);
-                showLumberCategoryView();
+                showCategoryView('lumber');
             },
             error: function (data) {
                 $('#lumberCategoryError').text(data.responseText);
@@ -216,7 +156,7 @@
                 $('#sortOrder' + id).text(subCategory.SortOrder);
                 $('#widthView' + id).text(subCategory.WidthInMillimeters);
                 $('#thicknessView' + id).text(subCategory.ThicknessInMillimeters);
-                initiateLumberSubCategoryViewMode();
+                initiateViewMode('lumberSubCategory');
             },
             error: function (data) {
                 console.log(data);
@@ -238,8 +178,6 @@
             SortOrder: sortOrder
         };
 
-        console.log(lumberType);
-
         $.ajax({
             type: 'PUT',
             url: '@Url.Action("SaveLumberType", "Catalog")',
@@ -254,7 +192,7 @@
                 $('#lumberTypeLink' + suffix).text(lumberType.Name);
                 $('#nameView' + suffix).text(lumberType.Name);
                 $('#sortOrder' + suffix).text(lumberType.SortOrder);
-                initiateLumberTypeViewMode();
+                initiateViewMode('lumberType');
             },
             error: function (data) {
                 console.log(data);
@@ -295,7 +233,7 @@
                 $('#lengthView' + suffix).text(lumberProduct.LengthInMillimeters);
                 $('#quantity' + suffix).text(lumberProduct.Quantity);
                 $('#sortOrder' + suffix).text(lumberProduct.SortOrder);
-                initiateLumberProductViewMode();
+                initiateViewMode('lumberProduct');
             },
             error: function (data) {
                 console.log(data);
@@ -303,5 +241,5 @@
                 $('.lumberProductErrorPanel').show();
             }
         });
-        }
+    }
 </script>

@@ -1,6 +1,7 @@
 ﻿@using Thermory.Domain.Models
 @using Thermory.Web.Models
 @model LumberSubCategoryViewModel
+
 @{
     var active = Model.Active ? "active" : "";
 }
@@ -14,7 +15,7 @@
                 <label class="lumberSubCategoryForm" for="lumberSubCategoryName">Sub Category Name</label>
             </td>
             <td>
-                <div type="button" class="btn btn-primary lumberSubCategoryView" onclick="initiateLumberSubCategoryEditMode()">
+                <div type="button" class="btn btn-primary lumberSubCategoryView" onclick="initiateEditMode('lumberSubCategory')">
                     <span class="glyphicon glyphicon-edit"></span> Edit
                 </div>
                 <input type="text" class="form-control lumberSubCategoryForm" name="lumberSubCategoryName" id="@string.Format("name{0}", Model.SubCategory.Id)" value="@Model.SubCategory.Name" placeholder="Sub Category Name" />
@@ -43,7 +44,7 @@
         <div type="button" class="btn btn-success lumberSubCategoryForm" onclick="saveLumberSubCategory('@Model.SubCategory.Id');">
             <span class="glyphicon glyphicon-ok"></span> Save
         </div>
-        <div type="button" class="btn btn-danger lumberSubCategoryForm" onclick="initiateLumberSubCategoryViewMode();">
+        <div type="button" class="btn btn-danger lumberSubCategoryForm" onclick="initiateViewMode('lumberSubCategory');">
             <span class="glyphicon glyphicon-remove"></span> Cancel
         </div>
     </div>
@@ -53,35 +54,38 @@
     </div>
     @{
         var firstLumberTypeId = Model.SubCategory.LumberTypes.Any() ? Model.SubCategory.LumberTypes.OrderBy(s => s.SortOrder).First().Id : Guid.Empty;
-        <div class="panel panel-default">
-            <div class="panel-heading">Types</div>
-            <div class="panel-body">
-                <ul class="nav nav-tabs" data-tabs="tabs">
-                    @foreach (var lumberType in Model.SubCategory.LumberTypes.OrderBy(s => s.SortOrder))
-                    {
-                        active = lumberType.Id == firstLumberTypeId ? "active" : "";
-                        <li class="lumberTypeTab @active"><a id="@string.Format("lumberTypeLink{0}{1}", Model.SubCategory.Id, lumberType.Id)" href="#@string.Format("lumberTypeTab{0}{1}", Model.SubCategory.Id, lumberType.Id)" data-toggle="tab">@lumberType.Name</a></li>
-                    }
-                    @if (Model.SubCategory.LumberTypes.Any())
-                    {
-                        active = firstLumberTypeId == Guid.Empty ? "class=active" : "";
-                        <li class="lumberTypeTab @active"><a id="@string.Format("lumberTypeLink{0}{1}", Model.SubCategory.Id, Guid.Empty)" href="#@string.Format("lumberTypeTab{0}{1}", Model.SubCategory.Id, Guid.Empty)" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span> Add</a></li>
-                    }
-                </ul>
-                <div class="tab-content">
-                    @{ LumberTypeViewModel lumberTypeViewModel;}
-                    @foreach (var subCategory in Model.SubCategory.LumberTypes.OrderBy(s => s.SortOrder))
-                    {
-                        lumberTypeViewModel = new LumberTypeViewModel { Active = subCategory.Id == firstLumberTypeId, LumberType = subCategory };
-                        @Html.Partial("_LumberTypeForm", lumberTypeViewModel)
-                    }
-                    @if (Model.SubCategory.LumberTypes.Any())
-                    {
-                        lumberTypeViewModel = new LumberTypeViewModel { Active = !Model.SubCategory.LumberTypes.Any(), LumberType = new LumberType { LumberSubCategoryId = Model.SubCategory.Id, LumberProducts = new List<LumberProduct>() } };
-                        @Html.Partial("_LumberTypeForm", lumberTypeViewModel)
-                    }
+        if (Model.SubCategory.Id != Guid.Empty)
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">Types</div>
+                <div class="panel-body">
+                    <ul class="nav nav-tabs" data-tabs="tabs">
+                        @foreach (var lumberType in Model.SubCategory.LumberTypes.OrderBy(s => s.SortOrder))
+                        {
+                            active = lumberType.Id == firstLumberTypeId ? "active" : "";
+                            <li class="lumberTypeTab @active"><a id="@string.Format("lumberTypeLink{0}{1}", Model.SubCategory.Id, lumberType.Id)" href="#@string.Format("lumberTypeTab{0}{1}", Model.SubCategory.Id, lumberType.Id)" data-toggle="tab">@lumberType.Name</a></li>
+                        }
+                        @if (Model.SubCategory.LumberTypes != null)
+                        {
+                            active = firstLumberTypeId == Guid.Empty ? "class=active" : "";
+                            <li class="lumberTypeTab @active"><a id="@string.Format("lumberTypeLink{0}{1}", Model.SubCategory.Id, Guid.Empty)" href="#@string.Format("lumberTypeTab{0}{1}", Model.SubCategory.Id, Guid.Empty)" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span> Add</a></li>
+                        }
+                    </ul>
+                    <div class="tab-content">
+                        @{ LumberTypeViewModel lumberTypeViewModel; }
+                        @foreach (var subCategory in Model.SubCategory.LumberTypes.OrderBy(s => s.SortOrder))
+                        {
+                            lumberTypeViewModel = new LumberTypeViewModel {Active = subCategory.Id == firstLumberTypeId, LumberType = subCategory};
+                            @Html.Partial("_LumberTypeForm", lumberTypeViewModel)
+                        }
+                        @if (Model.SubCategory.LumberTypes != null)
+                        {
+                            lumberTypeViewModel = new LumberTypeViewModel {Active = !Model.SubCategory.LumberTypes.Any(), LumberType = new LumberType {LumberSubCategoryId = Model.SubCategory.Id, LumberProducts = new List<LumberProduct>()}};
+                            @Html.Partial("_LumberTypeForm", lumberTypeViewModel)
+                        }
+                    </div>
                 </div>
             </div>
-        </div>
+        }
     }
 </div>

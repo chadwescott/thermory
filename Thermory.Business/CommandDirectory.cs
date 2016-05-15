@@ -46,7 +46,6 @@ namespace Thermory.Business
         {
             lock (_miscCategoryLock)
             {
-                if (_miscellaneousCategories != null) return;
                 var command = new GetAllMiscellaneousCategories();
                 command.Execute();
                 _miscellaneousCategories = command.Result;
@@ -121,15 +120,32 @@ namespace Thermory.Business
             new TaskFactory().StartNew(LoadLumberCategories);
         }
 
+        public void SaveMiscellaneousCategory(MiscellaneousCategory model)
+        {
+            DatabaseCommandDirectory.Instance.SaveMiscellaneousCategory(model);
+            new TaskFactory().StartNew(LoadMiscellaneousCategories);
+        }
+
+        public void SaveMiscellaneousProduct(MiscellaneousProduct model)
+        {
+            DatabaseCommandDirectory.Instance.SaveMiscellaneousProduct(model);
+            new TaskFactory().StartNew(LoadMiscellaneousCategories);
+        }
+
+        public void SaveMiscellaneousSubCategory(MiscellaneousSubCategory model)
+        {
+            DatabaseCommandDirectory.Instance.SaveMiscellaneousSubCategory(model);
+            new TaskFactory().StartNew(LoadMiscellaneousCategories);
+        }
+
         public Order SaveOrder(int userId, Guid orderId, OrderTypes orderType, Customer customer,
             PackagingType packagingType, OrderLumberLineItem[] lumberLineItems,
             OrderMiscellaneousLineItem[] miscLineItems)
         {
-            if (orderId == Guid.Empty)
-                return DatabaseCommandDirectory.Instance.CreateOrder(userId, orderType, customer, packagingType,
-                    lumberLineItems, miscLineItems);
-            else
-                return DatabaseCommandDirectory.Instance.EditOrder(userId, orderId, customer, packagingType, lumberLineItems,
+            return (orderId == Guid.Empty)
+                ? DatabaseCommandDirectory.Instance.CreateOrder(userId, orderType, customer, packagingType,
+                    lumberLineItems, miscLineItems)
+                : DatabaseCommandDirectory.Instance.EditOrder(userId, orderId, customer, packagingType, lumberLineItems,
                     miscLineItems);
         }
 

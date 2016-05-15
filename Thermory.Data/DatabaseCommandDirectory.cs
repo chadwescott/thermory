@@ -169,6 +169,24 @@ namespace Thermory.Data
             command.Execute();
         }
 
+        public void SaveMiscellaneousCategory(MiscellaneousCategory model)
+        {
+            var command = new SaveMiscellaneousCategory(model);
+            command.Execute();
+        }
+
+        public void SaveMiscellaneousProduct(MiscellaneousProduct model)
+        {
+            var command = new SaveMiscellaneousProduct(model);
+            command.Execute();
+        }
+
+        public void SaveMiscellaneousSubCategory(MiscellaneousSubCategory model)
+        {
+            var command = new SaveMiscellaneousSubCategory(model);
+            command.Execute();
+        }
+
         public void UpdateUserRoles(UserProfile user)
         {
             var builder = new UpdateUserRolesBuilder(user);

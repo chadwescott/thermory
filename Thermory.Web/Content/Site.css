@@ -43,6 +43,36 @@
 .lumberProductErrorPanel {
 }
 
+.miscCategoryView {
+}
+
+.miscCategoryForm {
+}
+
+.miscSubCategoryTab {
+}
+
+.miscSubCategoryView {
+}
+
+.miscSubCategoryForm {
+}
+
+.miscSubCategoryErrorPanel {
+}
+
+.miscProductTab {
+}
+
+.miscProductView {
+}
+
+.miscProductForm {
+}
+
+.miscProductErrorPanel {
+}
+
 html {
     background-color: #e2e2e2;
     margin: 0;
@@ -802,10 +832,10 @@ tr.pager td {
 
 a.logo, a.logo:hover, a.logo:active {
     background: url(../Images/logo.jpg) no-repeat top left;
-    background-size: 146px 70px;
+    background-size: 164px 80px;
     display: block;
-    width: 146px;
-    height: 70px;
+    width: 164px;
+    height: 80px;
     text-indent: -9999px; /* hides the link text */
 }
 
@@ -893,22 +923,22 @@ td.totalPieceHeading {
 }
 
 
-.btn-primary:hover {
-    color: #fff;
-    background-color: #d2691e;
-    border-color: #a0522d;
-}
+    .btn-primary:hover {
+        color: #fff;
+        background-color: #d2691e;
+        border-color: #a0522d;
+    }
 
 
-.btn-primary:active:hover, .btn-primary.active:hover, .open > .dropdown-toggle.btn-primary:hover, .btn-primary:active:focus, .btn-primary.active:focus, .open > .dropdown-toggle.btn-primary:focus, .btn-primary:active.focus, .btn-primary.active.focus, .open > .dropdown-toggle.btn-primary.focus {
-    color: #fff;
-    background-color: #d2691e;
-    border-color: #a0522d;
-}
+    .btn-primary:active:hover, .btn-primary.active:hover, .open > .dropdown-toggle.btn-primary:hover, .btn-primary:active:focus, .btn-primary.active:focus, .open > .dropdown-toggle.btn-primary:focus, .btn-primary:active.focus, .btn-primary.active.focus, .open > .dropdown-toggle.btn-primary.focus {
+        color: #fff;
+        background-color: #d2691e;
+        border-color: #a0522d;
+    }
 
 
-.btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
-    color: #fff;
-    background-color: #d2691e;
-    border-color: #a0522d;
-}
+    .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
+        color: #fff;
+        background-color: #d2691e;
+        border-color: #a0522d;
+    }

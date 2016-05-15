@@ -13,3 +13,38 @@
         e.preventDefault();
     }
 }
+
+function showCategoryForm(prefix) {
+    $('#' + prefix + 'CategoryErrorPanel').hide();
+    $('.' + prefix + 'CategoryForm').show();
+    $('.' + prefix + 'CategoryView').hide();
+}
+
+function showCategoryView(prefix) {
+    $('#' + prefix + 'CategoryErrorPanel').hide();
+    $('.' + prefix + 'CategoryForm').hide();
+    $('.' + prefix + 'CategoryView').show();
+}
+
+function enableNavTabByCssClasss(cssClass) {
+    $('.' + cssClass).removeClass('disabled');
+    $('.' + cssClass).find('a').attr('data-toggle', 'tab');
+}
+
+function disableNavTabByCssClasss(cssClass) {
+    $('.' + cssClass).addClass('disabled');
+    $('.' + cssClass).find('a').removeAttr('data-toggle');
+}
+
+function initiateViewMode(prefix) {
+    $('.' + prefix + 'ErrorPanel').hide();
+    enableNavTabByCssClasss(prefix + 'Tab');
+    $('.' + prefix + 'View').show();
+    $('.' + prefix + 'Form').hide();
+}
+
+function initiateEditMode(prefix) {
+    disableNavTabByCssClasss(prefix + 'Tab');
+    $('.' + prefix + 'View').hide();
+    $('.' + prefix + 'Form').show();
+}

@@ -1,22 +1,195 @@
-﻿@model Thermory.Domain.Models.MiscellaneousCategory
+﻿@using Thermory.Domain.Models
+@using Thermory.Web.Models
+@model MiscellaneousCategory
 
-<table class="table table-condensed inventory">
-    <colgroup>
-        <col/>
-        <col style="width: 100%;"/>
-    </colgroup>
-    @foreach (var subCategory in Model.MiscellaneousSubCategories.OrderBy(s => s.SortOrder))
-    {
-        <tr class="englishHeading">
-            <td><div><strong>@subCategory.Name</strong></div></td>
-            <td><div><strong>Quantity</strong></div></td>
-        </tr>
-        foreach (var miscellaneousProduct in subCategory.MiscellaneousProducts.OrderBy(p => p.SortOrder))
-        {
-            <tr>
-                <td class="productType">@miscellaneousProduct.Name (@miscellaneousProduct.Description)</td>
-                <td class="productType">@miscellaneousProduct.Quantity</td>
-            </tr>
-        }
+<form id="miscForm" style="display: none;">
+    <input type="hidden" id="miscCategoryId" value="@Model.Id" />
+    <input type="hidden" id="miscCategorySortOrder" value="@Model.SortOrder" />
+    <div style="margin-top: -20px;">
+        <div class="miscCategoryView" style="margin-bottom: -2px;">
+            <table>
+                <tr>
+                    <td>
+                        <h2>
+                            <span id="miscCategoryNameView">@Model.Name</span>
+                        </h2>
+                    </td>
+                    <td>
+                        <div type="button" class="btn btn-primary miscCategoryView" onclick="showCategoryForm('misc');" style="margin-top: 20px;">
+                            <span class="glyphicon glyphicon-edit"></span> Edit
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="miscCategoryForm" style="margin: 24px 0 -6px 0; display: none;">
+            <table>
+                <tr>
+                    <td>
+                        <input type="text" id="miscCategoryName" name="miscCategoryName" class="form-control"
+                               value="@Model.Name" placeholder="Category Name" />
+                    </td>
+                    <td>
+                        <div type="button" class="miscCategoryForm btn btn-success" onclick="saveMiscCategory();">
+                            <span class="glyphicon glyphicon-ok"></span> Save
+                        </div>
+                    </td>
+                    <td>
+                        @if (Model.Id != Guid.Empty)
+                        {
+                            <div type="button" class="miscCategoryForm btn btn-danger" onclick="showCategoryView('misc');">
+                                <span class="glyphicon glyphicon-remove"></span> Cancel
+                            </div>
+                        }
+                    </td>
+                </tr>
+            </table>
+            <div class="panel panel-danger" id="miscCategoryErrorPanel" style="display: none;">
+                <div class="panel-heading">Error</div>
+                <div id="miscCategoryError" class="panel-body"></div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="panel panel-default">
+        <div class="panel-heading">Sub Categories</div>
+        <div class="panel-body">
+            @if (Model.Id != Guid.Empty)
+            {
+                var firstSubCategoryId = Model.MiscellaneousSubCategories.Any() ? Model.MiscellaneousSubCategories.OrderBy(s => s.SortOrder).First().Id : Guid.Empty;
+                <ul class="nav nav-tabs" data-tabs="tabs">
+                    @{ string active;}
+                    @foreach (var subCategory in Model.MiscellaneousSubCategories.OrderBy(s => s.SortOrder))
+                    {
+                        active = subCategory.Id == firstSubCategoryId ? "active" : "";
+                        <li class="miscSubCategoryTab @active"><a id="@string.Format("miscSubCategoryLink{0}", subCategory.Id)" href="#@string.Format("miscSubCategoryTab{0}", subCategory.Id)" data-toggle="tab">@subCategory.Name</a></li>
+                    }
+                    @{ active = firstSubCategoryId == Guid.Empty ? "class=active" : "";}
+                    <li class="miscSubCategoryTab @active"><a id="@string.Format("miscSubCategoryLink{0}", Guid.Empty)" href="#@string.Format("miscSubCategoryTab{0}", Guid.Empty)" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span> Add</a></li>
+                </ul>
+                <div class="tab-content">
+                    @{ MiscellaneousSubCategoryViewModel subCategoryViewModel;}
+                    @foreach (var subCategory in Model.MiscellaneousSubCategories.OrderBy(s => s.SortOrder))
+                    {
+                        subCategoryViewModel = new MiscellaneousSubCategoryViewModel { Active = subCategory.Id == firstSubCategoryId, SubCategory = subCategory };
+                        @Html.Partial("_MiscSubCategoryForm", subCategoryViewModel)
+                    }
+                    @{
+                subCategoryViewModel = new MiscellaneousSubCategoryViewModel { Active = !Model.MiscellaneousSubCategories.Any(), SubCategory = new MiscellaneousSubCategory { MiscellaneousProducts = new List<MiscellaneousProduct>() } };
+                @Html.Partial("_MiscSubCategoryForm", subCategoryViewModel)
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.numeric').keydown(rejectNonNumericText);
+        initiateViewMode('miscSubCategory');
+        initiateViewMode('miscProduct');
+        $('#miscForm').show();
+    });
+
+    function saveMiscCategory() {
+        var id = $('#miscCategoryId').val();
+        var name = $('#miscCategoryName').val();
+        var sortOrder = $('#miscCategorySortOrder').val();
+        var category = {
+            Id: id,
+            Name: name,
+            SortOrder: sortOrder
+        };
+
+        $.ajax({
+            type: 'PUT',
+            url: '@Url.Action("SaveMiscellaneousCategory", "Catalog")',
+            data: category,
+            dataType: 'text',
+            success: function (data) {
+                category = JSON.parse(data);
+                if (id == '@Guid.Empty') {
+                    location.href = "Index/" + category.Id;
+                    return;
+                }
+                $('#miscCategoryNameView').text(category.Name);
+                $('#miscCategoryEdit' + category.Id).text(category.Name);
+                showCategoryView('misc');
+            },
+            error: function (data) {
+                $('#miscCategoryError').text(data.responseText);
+                $('#miscCategoryErrorPanel').show();
+            }
+        });
     }
-</table>
+
+    function saveMiscSubCategory(id) {
+        var name = $('#name' + id).val();
+        var sortOrder = $('#sortOrder' + id).val();
+        var subCategory = {
+            MiscellaneousCategoryId: '@Model.Id',
+            Id: id,
+            Name: name,
+            SortOrder: sortOrder
+        };
+
+        $.ajax({
+            type: 'PUT',
+            url: '@Url.Action("SaveMiscellaneousSubCategory", "Catalog")',
+            data: subCategory,
+            dataType: 'text',
+            success: function (data) {
+                subCategory = JSON.parse(data);
+                if (id == '@Guid.Empty') {
+                    location.reload();
+                }
+
+                $('#miscSubCategoryLink' + id).text(subCategory.Name);
+                $('#nameView' + id).text(subCategory.Name);
+                $('#sortOrder' + id).text(subCategory.SortOrder);
+                initiateViewMode('miscSubCategory');
+            },
+            error: function (data) {
+                console.log(data);
+                $('#miscSubCategoryError' + id).text(data.responseText);
+                $('.miscSubCategoryErrorPanel').show();
+            }
+        });
+    }
+
+    function saveMiscProduct(suffix) {
+        var id = $('#miscProductId' + suffix).val();
+        var name = $('#name' + suffix).val();
+        var subCategoryId = $('#miscSubCategoryId' + suffix).val();
+        var sortOrder = $('#sortOrder' + suffix).val();
+        var product = {
+            Id: id,
+            MiscellaneousSubCategoryId: subCategoryId,
+            Name: name,
+            SortOrder: sortOrder
+        };
+
+        $.ajax({
+            type: 'PUT',
+            url: '@Url.Action("SaveMiscellaneousProduct", "Catalog")',
+            data: product,
+            dataType: 'text',
+            success: function (data) {
+                product = JSON.parse(data);
+                if (id == '@Guid.Empty') {
+                    location.reload();
+                }
+
+                $('#miscProductLink' + suffix).text(product.Name);
+                $('#nameView' + suffix).text(product.Name);
+                $('#sortOrder' + suffix).text(product.SortOrder);
+                initiateViewMode('miscProduct');
+            },
+            error: function (data) {
+                console.log(data);
+                $('#miscProductError' + suffix).text(data.responseText);
+                $('.miscProductErrorPanel').show();
+            }
+        });
+    }
+</script>

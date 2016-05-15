@@ -1,0 +1,38 @@
+﻿@using Thermory.Web.Models
+@model MiscellaneousProductViewModel
+@{
+    var active = Model.Active ? "active" : "";
+    var suffix = string.Format("{0}{1}", Model.MiscProduct.MiscellaneousSubCategoryId, Model.MiscProduct.Id);
+}
+
+<input type="hidden" id="@string.Format("miscProductId{0}", suffix)" value="@Model.MiscProduct.Id" />
+<input type="hidden" id="@string.Format("miscSubCategoryId{0}", suffix)" value="@Model.MiscProduct.MiscellaneousSubCategoryId" />
+<input type="hidden" id="@string.Format("sortOrder{0}", suffix)" value="@Model.MiscProduct.SortOrder" />
+<div id="@string.Format("miscProductTab{0}", suffix)" class="tab-pane @active">
+    <table>
+        <tr>
+            <td>
+                <label id="@string.Format("nameView{0}", suffix)" class=" miscProductView">@Model.MiscProduct.Name</label>
+                <label class="miscProductForm" for="miscProductName">Name</label>
+            </td>
+            <td>
+                <div type="button" class="btn btn-primary miscProductView" onclick="initiateEditMode('miscProduct')">
+                    <span class="glyphicon glyphicon-edit"></span> Edit
+                </div>
+                <input type="text" class="form-control miscProductForm" name="miscProductName" id="@string.Format("name{0}", suffix)" value="@Model.MiscProduct.Name" placeholder="Name" />
+            </td>
+        </tr>
+    </table>
+    <div class="miscProductForm" style="margin-bottom: 10px;">
+        <div type="button" class="btn btn-success miscProductForm" onclick="saveMiscProduct('@suffix');">
+            <span class="glyphicon glyphicon-ok"></span> Save
+        </div>
+        <div type="button" class="btn btn-danger miscProductForm" onclick="initiateViewMode('miscProduct');">
+            <span class="glyphicon glyphicon-remove"></span> Cancel
+        </div>
+    </div>
+    <div class="panel panel-danger miscProductErrorPanel" style="display: none;">
+        <div class="panel-heading">Error</div>
+        <div id="@string.Format("miscProductError{0}", suffix)" class="panel-body"></div>
+    </div>
+</div>

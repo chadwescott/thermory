@@ -2,7 +2,7 @@
 
 namespace Thermory.Web.Models
 {
-    public class LumberSubCategoryViewModel : LumberFormViewModel
+    public class LumberSubCategoryViewModel : CatalogFormViewModel
     {
         public LumberSubCategory SubCategory { get; set; }
     }

@@ -222,14 +222,16 @@
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\CatalogModel.cs" />
     <Compile Include="Models\ErrorInfo.cs" />
-    <Compile Include="Models\LumberFormViewModel.cs" />
+    <Compile Include="Models\CatalogFormViewModel.cs" />
     <Compile Include="Models\LumberOrderForm.cs" />
     <Compile Include="Models\LumberProductViewModel.cs" />
     <Compile Include="Models\LumberSubCategoryViewModel.cs" />
     <Compile Include="Models\LumberTransactionDetails.cs" />
     <Compile Include="Models\LumberTypeViewModel.cs" />
     <Compile Include="Models\MiscellaneousOrderForm.cs" />
+    <Compile Include="Models\MiscellaneousProductViewModel.cs" />
     <Compile Include="Models\MiscellaneousTransactionDetails.cs" />
+    <Compile Include="Models\MiscellaneousSubCategoryViewModel.cs" />
     <Compile Include="Models\OrderReview.cs" />
     <Compile Include="Models\OrderView.cs" />
     <Compile Include="Models\ProductOrderQuantity.cs" />
@@ -384,6 +386,8 @@
     <Content Include="Views\Catalog\_LumberSubCategoryForm.cshtml" />
     <Content Include="Views\Catalog\_LumberTypeForm.cshtml" />
     <Content Include="Views\Catalog\_LumberProductForm.cshtml" />
+    <Content Include="Views\Catalog\_MiscSubCategoryForm.cshtml" />
+    <Content Include="Views\Catalog\_MiscProductForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

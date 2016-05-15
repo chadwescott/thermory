@@ -1,6 +1,6 @@
 ﻿namespace Thermory.Web.Models
 {
-    public abstract class LumberFormViewModel
+    public abstract class CatalogFormViewModel
     {
         public bool Active { get; set; }
     }
