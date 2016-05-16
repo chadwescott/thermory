@@ -45,7 +45,7 @@ namespace Thermory.Data
 
         public DbSet<OrderMiscellaneousLineItem> OrderMiscellaneousLineItems { get; set; }
 
-        public DbSet<OrderStatus> OrderStatuses { get; set; }
+        public DbSet<OrderStatus> OrderStatus { get; set; }
 
         public DbSet<OrderType> OrderTypes { get; set; }
 

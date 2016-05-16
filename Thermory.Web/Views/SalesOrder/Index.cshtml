@@ -3,7 +3,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div>@Html.ActionLink("Create Sales Order", "Create", "SalesOrder")</div>
+<div type="button" class="btn btn-primary" onclick="window.location = ('@Url.Action("Create", "SalesOrder")');">
+    <span class="glyphicon glyphicon-plus"></span> Create Sales Order
+</div>
 <h3><strong>Sales Orders</strong></h3>
 <div id="orderDiv" style="height: 450px"></div>
 
@@ -27,14 +29,14 @@
                 { field: 'CustomerName', caption: 'Customer', type: 'text' },
                 { field: 'CreatedOn', caption: 'Created On', type: 'date' },
                 { field: 'CreatedBy', caption: 'Created By', type: 'text' },
-                { field: 'IsDeleted', caption: 'Deleted', type: 'list', options: { items: ['true', 'false']} }
+                { field: 'Status', caption: 'Status', type: 'list', options: { items: ['Sent to warehouse', 'Warehouse received', 'Pulled', 'Packaging slip created', 'Loaded', 'Deleted'] } }
             ],
             columns: [
                 {
                     field: 'OrderNumberString', caption: 'Order Number', size: '20%', sortable: true, resizable: true, render: 'text'
                 },
                 {
-                    field: 'CustomerName', caption: 'Customer', size: '30%', sortable: true, resizable: true, render: 'text'
+                    field: 'CustomerName', caption: 'Customer', size: '20%', sortable: true, resizable: true, render: 'text'
                 },
                 {
                     field: 'CreatedOn', caption: 'Created On', size: '20%', sortable: true, resizable: true, render: 'date'
@@ -43,7 +45,14 @@
                     field: 'CreatedBy', caption: 'Created By', size: '20%', sortable: true, resizable: true, render: 'text'
                 },
                 {
-                    field: 'IsDeleted', caption: 'Deleted', size: '10%', sortable: true, resizable: true, render: 'text'
+                    field: 'Status',
+                    caption: 'Status',
+                    size: '20%',
+                    sortable: false,
+                    resizable: true,
+                    render: function (record) {
+                        return '<div class="' + record.OrderStatus.StatusLabel.CssClass + '" style="margin-left: 3px;' + record.OrderStatus.StatusLabel.Style + '">' + record.Status + '</div>';
+                    }
                 }
             ],
             sortData: [

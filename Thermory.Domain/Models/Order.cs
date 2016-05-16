@@ -18,6 +18,8 @@ namespace Thermory.Domain.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int OrderNumber { get; set; }
 
+        public Guid? OrderStatusId { get; set; }
+
         public Guid OrderTypeId { get; set; }
 
         public Guid? PackagingTypeId { get; set; }
@@ -26,6 +28,9 @@ namespace Thermory.Domain.Models
 
         [ForeignKey("CustomerId")]
         public Customer Customer { get; set; }
+
+        [ForeignKey("OrderStatusId")]
+        public OrderStatus OrderStatus { get; set; }
 
         [ForeignKey("OrderTypeId")]
         public OrderType OrderType { get; set; }

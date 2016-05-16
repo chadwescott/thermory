@@ -12,13 +12,13 @@
         <tr>
             <td>
                 <label class="lumberSubCategoryView" id="@string.Format("nameView{0}", Model.SubCategory.Id)">@Model.SubCategory.Name</label>
-                <label class="lumberSubCategoryForm" for="lumberSubCategoryName">Sub Category Name</label>
+                <label class="lumberSubCategoryForm" for="lumberSubCategoryName">Sub Category</label>
             </td>
             <td>
                 <div type="button" class="btn btn-primary lumberSubCategoryView" onclick="initiateEditMode('lumberSubCategory')">
                     <span class="glyphicon glyphicon-edit"></span> Edit
                 </div>
-                <input type="text" class="form-control lumberSubCategoryForm" name="lumberSubCategoryName" id="@string.Format("name{0}", Model.SubCategory.Id)" value="@Model.SubCategory.Name" placeholder="Sub Category Name" />
+                <input type="text" class="form-control lumberSubCategoryForm" name="lumberSubCategoryName" id="@string.Format("name{0}", Model.SubCategory.Id)" value="@Model.SubCategory.Name" placeholder="Sub Category" />
             </td>
         </tr>
         <tr>

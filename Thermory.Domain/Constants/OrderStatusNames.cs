@@ -4,6 +4,7 @@ namespace Thermory.Domain.Constants
 {
     public class OrderStatusNames
     {
+        public const string Deleted = "Deleted";
         public const string InTransit = "In transit";
         public const string Loaded = "Loaded";
         public const string PackagingSlipCreated = "Packaging slip created";
@@ -16,20 +17,22 @@ namespace Thermory.Domain.Constants
         {
             switch (orderStatus)
             {
+                case OrderStatuses.Deleted:
+                    return Deleted;
                 case OrderStatuses.InTransit:
                     return InTransit;
                 case OrderStatuses.Loaded:
                     return Loaded;
                 case OrderStatuses.PackagingSlipCreated:
-                    return "";
+                    return PackagingSlipCreated;
                 case OrderStatuses.Pulled:
-                    return "";
+                    return Pulled;
                 case OrderStatuses.Received:
                     return Received;
                 case OrderStatuses.SentToWarehouse:
-                    return "";
+                    return SentToWarehouse;
                 case OrderStatuses.WarehouseReceived:
-                    return "";
+                    return WarehouseReceived;
                 default:
                     return "Unknown";
             }

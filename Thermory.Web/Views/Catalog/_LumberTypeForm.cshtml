@@ -14,13 +14,13 @@
         <tr>
             <td>
                 <label class="lumberTypeView" id="@string.Format("nameView{0}", suffix)">@Model.LumberType.Name</label>
-                <label class="lumberTypeForm" for="lumberTypeName">Lumber Type Name</label>
+                <label class="lumberTypeForm" for="lumberTypeName">Lumber Type</label>
             </td>
             <td>
                 <div type="button" class="btn btn-primary lumberTypeView" onclick="initiateEditMode('lumberType')">
                     <span class="glyphicon glyphicon-edit"></span> Edit
                 </div>
-                <input type="text" class="form-control lumberTypeForm" name="lumberTypeName" id="@string.Format("name{0}", suffix)" value="@Model.LumberType.Name" placeholder="Lumber Type Name" />
+                <input type="text" class="form-control lumberTypeForm" name="lumberTypeName" id="@string.Format("name{0}", suffix)" value="@Model.LumberType.Name" placeholder="Lumber Type" />
             </td>
         </tr>
     </table>

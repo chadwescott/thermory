@@ -2,6 +2,7 @@
 {
     public enum OrderStatuses
     {
+        Deleted,
         InTransit,
         Loaded,
         PackagingSlipCreated,

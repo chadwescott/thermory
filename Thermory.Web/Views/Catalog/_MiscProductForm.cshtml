@@ -13,13 +13,13 @@
         <tr>
             <td>
                 <label id="@string.Format("nameView{0}", suffix)" class=" miscProductView">@Model.MiscProduct.Name</label>
-                <label class="miscProductForm" for="miscProductName">Name</label>
+                <label class="miscProductForm" for="miscProductName">Product Name</label>
             </td>
             <td>
                 <div type="button" class="btn btn-primary miscProductView" onclick="initiateEditMode('miscProduct')">
                     <span class="glyphicon glyphicon-edit"></span> Edit
                 </div>
-                <input type="text" class="form-control miscProductForm" name="miscProductName" id="@string.Format("name{0}", suffix)" value="@Model.MiscProduct.Name" placeholder="Name" />
+                <input type="text" class="form-control miscProductForm" name="miscProductName" id="@string.Format("name{0}", suffix)" value="@Model.MiscProduct.Name" placeholder="Product Name" />
             </td>
         </tr>
     </table>

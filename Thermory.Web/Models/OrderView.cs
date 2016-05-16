@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Thermory.Domain.Constants;
 using Thermory.Domain.Models;
+using Thermory.Web.Models.Status;
 
 namespace Thermory.Web.Models
 {
@@ -10,9 +11,6 @@ namespace Thermory.Web.Models
     {
         [Column("OrderId")]
         public string recid { get; set; }
-
-        [Column("IsDeleted")]
-        public bool IsDeleted { get; set; }
 
         [Column("OrderNumber")]
         public int OrderNumber { get; set; }
@@ -31,5 +29,16 @@ namespace Thermory.Web.Models
 
         [Column("CreatedOn")]
         public DateTime CreatedOn { get; set; }
+
+        [Column("Status")]
+        public string Status { get; set; }
+
+        private StatusGroup _orderStatus;
+
+        [NotMapped]
+        public StatusGroup OrderStatus
+        {
+            get { return _orderStatus ?? (_orderStatus = new OrderStatusGroup(Status)); }
+        }
     }
 }

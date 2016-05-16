@@ -11,7 +11,7 @@ namespace Thermory.Data.Commands
         protected override void OnExecute(ThermoryContext context)
         {
             if (_result == null)
-                _result = context.OrderStatuses.ToList();
+                _result = context.OrderStatus.ToList();
             Result = _result;
         }
     }

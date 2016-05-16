@@ -237,6 +237,15 @@
     <Compile Include="Models\ProductOrderQuantity.cs" />
     <Compile Include="Models\InventoryModel.cs" />
     <Compile Include="Models\OrderForm.cs" />
+    <Compile Include="Models\Status\DangerLabel.cs" />
+    <Compile Include="Models\Status\DefaultLabel.cs" />
+    <Compile Include="Models\Status\InfoLabel.cs" />
+    <Compile Include="Models\Status\PrimaryLabel.cs" />
+    <Compile Include="Models\Status\OrderStatusGroup.cs" />
+    <Compile Include="Models\Status\StatusGroup.cs" />
+    <Compile Include="Models\Status\StatusLabel.cs" />
+    <Compile Include="Models\Status\SuccessLabel.cs" />
+    <Compile Include="Models\Status\WarningLabel.cs" />
     <Compile Include="Models\TransactionDetails.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SessionVariables.cs" />

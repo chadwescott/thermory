@@ -15,11 +15,6 @@ namespace Thermory.Domain.Models
         [ForeignKey("OrderId")]
         public Order Order { get; set; }
 
-        public Guid OrderStatusId { get; set; }
-
-        [ForeignKey("OrderStatusId")]
-        public OrderStatus OrderStatus { get; set; }
-
         public Guid LumberProductId { get; set; }
 
         [ForeignKey("LumberProductId")]

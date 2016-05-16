@@ -23,8 +23,8 @@
     <div type="button" class="btn btn-success" onclick="saveOrder();">
         <span class="glyphicon glyphicon-ok"></span> Save
     </div>
-    <div type="button" class="btn btn-primary" onclick="window.location = ('@Url.Action("Review", "SalesOrder", new RouteValueDictionary { { "id", Model.Order.Id } })');">
-        <span class=" glyphicon glyphicon-arrow-left"></span> Back
+    <div type="button" class="btn btn-danger" onclick="window.location = ('@Url.Action("Review", "SalesOrder", new RouteValueDictionary { { "id", Model.Order.Id } })');">
+        <span class=" glyphicon glyphicon-remove"></span> Cancel
     </div>
     <br />
     <br />
@@ -64,8 +64,8 @@
     <div type="button" class="btn btn-success" onclick="saveOrder();">
         <span class="glyphicon glyphicon-ok"></span> Save
     </div>
-    <div type="button" class="btn btn-primary" onclick="window.location = ('@Url.Action("Review", "SalesOrder", new RouteValueDictionary { { "id", Model.Order.Id } })');">
-        <span class=" glyphicon glyphicon-arrow-left"></span> Back
+    <div type="button" class="btn btn-danger" onclick="window.location = ('@Url.Action("Review", "SalesOrder", new RouteValueDictionary { { "id", Model.Order.Id } })');">
+        <span class=" glyphicon glyphicon-remove"></span> Cancel
     </div>
 </div>
 
