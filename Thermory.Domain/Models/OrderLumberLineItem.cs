@@ -31,7 +31,8 @@ namespace Thermory.Domain.Models
                 var bundleSize = LumberProduct.LumberType.LumberSubCategory.BundleSize;
                 var fullPacks = Quantity / bundleSize;
                 var fraction = Quantity % bundleSize == 0 ? "" : string.Format("<sup>{0}</sup>&frasl;<sub>{1}</sub>", Quantity % bundleSize, bundleSize);
-                return string.Format("{0}{1}", fullPacks, fraction);
+                var fullPackString = fullPacks == 0 && fraction != string.Empty ? "" : fullPacks.ToString();
+                return string.Format("{0}{1}", fullPackString, fraction);
             }
         }
 

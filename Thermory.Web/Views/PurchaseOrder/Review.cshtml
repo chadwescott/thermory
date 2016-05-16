@@ -92,9 +92,6 @@
                 window.location = ('@Url.Action("Index", "PurchaseOrder")');
             },
             error: function (data, status, request) {
-                console.log(data);
-                console.log(status);
-                console.log(request);
                 $('#worksheetPanel').show();
                 $('#deletingPanel').hide();
             }
