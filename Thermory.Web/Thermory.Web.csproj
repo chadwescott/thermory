@@ -397,6 +397,7 @@
     <Content Include="Views\Catalog\_LumberProductForm.cshtml" />
     <Content Include="Views\Catalog\_MiscSubCategoryForm.cshtml" />
     <Content Include="Views\Catalog\_MiscProductForm.cshtml" />
+    <Content Include="Views\Shared\Order\_Form.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

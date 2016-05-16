@@ -1,19 +1,25 @@
 ﻿@model Thermory.Web.Models.OrderForm
 
-<div class="form-inline">
-    <div class="form-group">
-        <label for="packagingTypeId">Packaging Type</label>
-        <select id="packagingTypeId" class="form-control" onchange="packagingTypeChanged();">
-            <option value="@Guid.Empty" selected="selected">Add New</option>
-            @foreach (var packagingType in Model.PackagingTypes)
-            {
-                var selected = packagingType.Id == Model.Order.PackagingTypeId ? " selected=\"selected\"" : "";
-                <option value="@packagingType.Id" @selected>@packagingType.Name</option>
-            }
-        </select>
-        <input type="text" id="packagingTypeName" class="form-control" />
-    </div>
-</div>
+<table>
+    <tr>
+        <td>
+            <label for="packagingTypeId">Packaging Type</label>
+        </td>
+        <td>
+            <select id="packagingTypeId" class="form-control" onchange="packagingTypeChanged();">
+                <option value="@Guid.Empty" selected="selected">Add New</option>
+                @foreach (var packagingType in Model.PackagingTypes)
+                {
+                    var selected = packagingType.Id == Model.Order.PackagingTypeId ? " selected=\"selected\"" : "";
+                    <option value="@packagingType.Id" @selected>@packagingType.Name</option>
+                }
+            </select>
+        </td>
+        <td>
+            <input type="text" id="packagingTypeName" class="form-control" />
+        </td>
+    </tr>
+</table>
 
 <script type="text/javascript">
     $(document).ready(function () {

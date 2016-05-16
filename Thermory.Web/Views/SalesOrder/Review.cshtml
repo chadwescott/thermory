@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h3><strong>Sales Order @Model.Order.OrderNumberString</strong></h3>
+<h3><strong>Sales Order @Model.Order.OrderNumber</strong></h3>
 @if (@Model.Order.Customer != null)
 {
     <h4>@Model.Order.Customer.Name</h4>

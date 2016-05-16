@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Thermory.Domain.Constants;
 using Thermory.Domain.Enums;
 
 namespace Thermory.Domain.Models
@@ -15,8 +14,8 @@ namespace Thermory.Domain.Models
 
         public Guid? CustomerId { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int OrderNumber { get; set; }
+        [Required]
+        public string OrderNumber { get; set; }
 
         public Guid? OrderStatusId { get; set; }
 
@@ -46,9 +45,6 @@ namespace Thermory.Domain.Models
 
         [ForeignKey("OrderId")]
         public List<InventoryTransaction> InventoryTransactions { get; set; }
-
-        [NotMapped]
-        public string OrderNumberString { get { return OrderNumber.ToString(Formats.OrderNumberFormat); } }
 
         [NotMapped]
         public int AdjustmentMultiplier { get { return OrderType.OrderTypeEnum == OrderTypes.PurchaseOrder ? 1 : -1; } }

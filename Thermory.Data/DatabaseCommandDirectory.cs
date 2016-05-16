@@ -21,11 +21,11 @@ namespace Thermory.Data
         private DatabaseCommandDirectory()
         { }
 
-        public Order CreateOrder(int userId, OrderTypes orderType, Customer customer, PackagingType packagingType,
+        public Order CreateOrder(int userId, string orderNumber, OrderTypes orderType, Customer customer, PackagingType packagingType,
             OrderLumberLineItem[] lumberLineItems, OrderMiscellaneousLineItem[] miscLineItems)
         {
-            var builder = new CreateOrderBuilder(userId, orderType, customer, packagingType, lumberLineItems,
-                miscLineItems);
+            var builder = new CreateOrderBuilder(userId, orderNumber, orderType, customer, packagingType,
+                lumberLineItems, miscLineItems);
             var transaction = new TransactionalCommand(builder.Commands);
             transaction.Execute();
             return builder.Order;
@@ -39,10 +39,10 @@ namespace Thermory.Data
             return builder.Order;
         }
 
-        public Order EditOrder(int userId, Guid orderId, Customer customer, PackagingType packagingType,
+        public Order EditOrder(int userId, Guid orderId, string orderNumber, Customer customer, PackagingType packagingType,
             OrderLumberLineItem[] lumberLineItems, OrderMiscellaneousLineItem[] miscLineItems)
         {
-            var builder = new EditOrderBuilder(userId, orderId, customer, packagingType, lumberLineItems, miscLineItems);
+            var builder = new EditOrderBuilder(userId, orderId, orderNumber, customer, packagingType, lumberLineItems, miscLineItems);
             var transaction = new TransactionalCommand(builder.Commands);
             transaction.Execute();
             return builder.Order;

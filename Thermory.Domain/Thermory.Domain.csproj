@@ -60,7 +60,6 @@
     <Compile Include="Models\UserRoleXref.cs" />
     <Compile Include="Models\WebPageRole.cs" />
     <Compile Include="Utils\AdjustmentMultiplier.cs" />
-    <Compile Include="Constants\Formats.cs" />
     <Compile Include="Constants\OrderTypeNames.cs" />
     <Compile Include="Constants\TransactionTypeNames.cs" />
     <Compile Include="Enums\OrderTypes.cs" />

@@ -1,0 +1,223 @@
+﻿@using Thermory.Domain.Constants
+@using Thermory.Domain.Enums
+@model Thermory.Web.Models.OrderForm
+@{
+    var firstCategoryId = Model.LumberOrderForms.First().LumberCategory.Id;
+    var action = Model.Order.Id == Guid.Empty ? "Create" : "Edit";
+    var orderType = OrderTypeNames.GetOrderTypeName(Model.OrderType);
+    var title = string.Format("{0} {1} Order {2}", action, orderType, Model.Order.OrderNumber);
+    var orderId = Model.Order == null ? Guid.Empty : Model.Order.Id;
+    var controller = string.Format("{0}Order", orderType);
+    var cancelUrl = Model.Order.Id == Guid.Empty
+        ? Url.Action("Index", controller)
+        : Url.Action("Review", controller, new RouteValueDictionary {{"id", Model.Order.Id}});
+}
+
+<h3><strong>@title</strong></h3>
+<div id="errorPanel" class="alert alert-danger" role="alert" style="display: none;">
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    <span class="sr-only">Error:</span>
+    <span id="errorMessage"></span>
+</div>
+<div id="worksheetPanel">
+    <table>
+        <tr>
+            <td>
+                <label for="orderNumber">Order Number</label>
+            </td>
+            <td colspan="2">
+                <input type="text" id="orderNumber" class="form-control" value="@Model.Order.OrderNumber" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="customerId">Customer</label>
+            </td>
+            <td>
+                <select id="customerId" class="form-control" onchange="customerChanged();">
+                    <option value="@Guid.Empty" selected="selected">Add New</option>
+                    @foreach (var customer in Model.Customers)
+                    {
+                        var selected = customer.Id == Model.Order.CustomerId ? " selected=\"selected\"" : "";
+                        <option value="@customer.Id" @selected>@customer.Name</option>
+                    }
+                </select>
+            </td>
+            <td>
+                <input type="text" id="customerName" class="form-control" />
+            </td>
+        </tr>
+        @if (Model.OrderType == OrderTypes.SalesOrder)
+        {
+            <tr>
+                <td>
+                    <label for="packagingTypeId">Packaging Type</label>
+                </td>
+                <td>
+                    <select id="packagingTypeId" class="form-control" onchange="packagingTypeChanged();">
+                        <option value="@Guid.Empty" selected="selected">Add New</option>
+                        @foreach (var packagingType in Model.PackagingTypes)
+                        {
+                            var selected = packagingType.Id == Model.Order.PackagingTypeId ? " selected=\"selected\"" : "";
+                            <option value="@packagingType.Id" @selected>@packagingType.Name</option>
+                        }
+                    </select>
+                </td>
+                <td>
+                    <input type="text" id="packagingTypeName" class="form-control" />
+                </td>
+            </tr>
+        }
+    </table>
+    <br />
+    <div type="button" class="btn btn-success" onclick="saveOrder();">
+        <span class="glyphicon glyphicon-ok"></span> Save
+    </div>
+    <div type="button" class="btn btn-danger" onclick="window.location = '@cancelUrl';">
+        <span class=" glyphicon glyphicon-remove"></span> Cancel
+    </div>
+    <br />
+    <br />
+    <ul class="nav nav-tabs" data-tabs="tabs">
+        @{
+            foreach (var orderForm in Model.LumberOrderForms)
+            {
+                var category = orderForm.LumberCategory;
+                var active = category.Id == firstCategoryId ? "class=active" : "";
+                <li @active><a href="#@orderForm.LumberCategory.Id" data-toggle="tab">@category.Name</a></li>
+            }
+            foreach (var category in Model.MiscellaneousOrderForms.Select(orderForm => orderForm.MiscellaneousCategory))
+            {
+                <li><a href="#@category.Id" data-toggle="tab">@category.Name</a></li>
+            }
+        }
+    </ul>
+    <div class="tab-content">
+        @{
+            foreach (var orderForm in Model.LumberOrderForms)
+            {
+                var category = orderForm.LumberCategory;
+                var active = category.Id == firstCategoryId ? "active" : "";
+                <div id="@category.Id" class="tab-pane @active">
+                    @Html.Partial("Order/_LumberLineItemForm", orderForm)
+                </div>
+            }
+            foreach (var orderForm in Model.MiscellaneousOrderForms)
+            {
+                var category = orderForm.MiscellaneousCategory;
+                <div id="@category.Id" class="tab-pane">
+                    @Html.Partial("Order/_MiscellaneousLineItemForm", orderForm)
+                </div>
+            }
+        }
+    </div>
+    <div type="button" class="btn btn-success" onclick="saveOrder();">
+        <span class="glyphicon glyphicon-ok"></span> Save
+    </div>
+    <div type="button" class="btn btn-danger" onclick="window.location = '@cancelUrl';">
+        <span class=" glyphicon glyphicon-remove"></span> Cancel
+    </div>
+</div>
+
+<div id="savingPanel" style="display: none;">Saving...</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        customerChanged();
+        packagingTypeChanged();
+    });
+
+    function saveOrder() {
+        var lumberProducts = getInventory('lumber');
+        var miscProducts = getInventory('misc');
+
+        if (lumberProducts.length == 0 && miscProducts == 0) {
+            return;
+        }
+
+        $('#worksheetPanel').hide();
+        $('#savingPanel').show();
+        $('#errorPanel').hide();
+
+        var orderNumber = $('#orderNumber').val();
+        var customer = getCustomer();
+        var packagingType = getPackagingType();
+        var orderNumberJson = JSON.stringify(orderNumber);
+        var customerJson = JSON.stringify(customer);
+        var packagingTypeJson = JSON.stringify(packagingType);
+        var lumberJson = JSON.stringify(lumberProducts);
+        var miscJson = JSON.stringify(miscProducts);
+
+        var postData = '{"orderType" : "@Model.OrderType", "orderId" : "@orderId", "orderNumber" : ' + orderNumberJson + ', "customer" : ' + customerJson + ', "packagingType" : ' + packagingTypeJson + ', "lumberOrderQuantities" : ' + lumberJson + ', "miscOrderQuantities" : ' + miscJson + '}';
+
+        $('#worksheetPanel').show();
+        $('#savingPanel').hide();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("Save", controller)',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: postData,
+            success: function (data, status, request) {
+                window.location = ('/@controller/Review/' + data);
+            },
+            error: function (data, status, request) {
+                $('#errorMessage').text(data.responseText);
+                $('#errorPanel').show();
+                $('#worksheetPanel').show();
+                $('#savingPanel').hide();
+            }
+        });
+    }
+
+    function getInventory(prefix) {
+        var products = new Array();
+        var query = 'input[name=\'' + prefix + 'Qty\']';
+        $(query).each(function () {
+            var id = $(this).attr('id');
+            var productId = $(this).attr('productId');
+            var qty = $(this).val();
+
+            if (qty > 0) {
+                products.push(createProductLineItem(id, productId, qty));
+            }
+        });
+        return products;
+    }
+
+    function createProductLineItem(id, productId, qty) {
+        return {
+            Id: id,
+            ProductId: productId,
+            Quantity: qty
+        };
+    }
+
+    function customerChanged() {
+        var selectedCustomer = $('#customerId option:selected');
+
+        var customerName = selectedCustomer.val() == '@Guid.Empty' ? '' : selectedCustomer.text();
+        $('#customerName').val(customerName);
+    }
+
+    function getCustomer() {
+        return {
+            Id: $('#customerId').val(),
+            Name: $('#customerName').val()
+        };
+    }
+
+    function packagingTypeChanged() {
+        var selectedPackagingType = $('#packagingTypeId option:selected');
+
+        var packagingTypeName = selectedPackagingType.val() == '@Guid.Empty' ? '' : selectedPackagingType.text();
+        $('#packagingTypeName').val(packagingTypeName);
+    }
+
+    function getPackagingType() {
+        return {
+            Id: $('#packagingTypeId').val(),
+            Name: $('#packagingTypeName').val()
+        };
+    }
+</script>

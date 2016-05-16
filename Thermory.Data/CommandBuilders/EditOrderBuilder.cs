@@ -10,7 +10,7 @@ namespace Thermory.Data.CommandBuilders
 {
     internal class EditOrderBuilder : OrderBuilder
     {
-        public EditOrderBuilder(int userId, Guid orderId, Customer customer, PackagingType packagingType,
+        public EditOrderBuilder(int userId, Guid orderId, string orderNumber, Customer customer, PackagingType packagingType,
             OrderLumberLineItem[] lumberLineItems, OrderMiscellaneousLineItem[] miscLineItems)
         {
             Order = GetOrder(orderId);
@@ -40,6 +40,7 @@ namespace Thermory.Data.CommandBuilders
             else
                 Commands.Add(new SavePackagingType(packagingType));
 
+            Order.OrderNumber = orderNumber;
             Order.Customer = customer;
             Order.PackagingType = packagingType;
             Commands.Add(new SaveOrder(Order));

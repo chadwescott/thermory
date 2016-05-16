@@ -63,7 +63,7 @@ namespace Thermory.Web.Controllers
 
         [Authorize(Roles = Role.InventoryMaster)]
         [HttpPost]
-        public ActionResult Save(Guid orderId, OrderTypes orderType, Customer customer, PackagingType packagingType,
+        public ActionResult Save(Guid orderId, string orderNumber, OrderTypes orderType, Customer customer, PackagingType packagingType,
             ProductOrderQuantity[] lumberOrderQuantities, ProductOrderQuantity[] miscOrderQuantities)
         {
             var lumberLineItems = lumberOrderQuantities == null
@@ -86,9 +86,8 @@ namespace Thermory.Web.Controllers
                     Quantity = m.Quantity
                 }).ToArray();
 
-            var order = CommandDirectory.Instance.SaveOrder(WebSecurity.CurrentUserId, orderId, orderType, customer,
-                packagingType,
-                lumberLineItems, miscLineItems);
+            var order = CommandDirectory.Instance.SaveOrder(WebSecurity.CurrentUserId, orderId, orderNumber, orderType,
+                customer, packagingType, lumberLineItems, miscLineItems);
             return Json(order.Id);
         }
 

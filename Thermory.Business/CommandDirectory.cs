@@ -138,14 +138,14 @@ namespace Thermory.Business
             new TaskFactory().StartNew(LoadMiscellaneousCategories);
         }
 
-        public Order SaveOrder(int userId, Guid orderId, OrderTypes orderType, Customer customer,
+        public Order SaveOrder(int userId, Guid orderId, string orderNumber, OrderTypes orderType, Customer customer,
             PackagingType packagingType, OrderLumberLineItem[] lumberLineItems,
             OrderMiscellaneousLineItem[] miscLineItems)
         {
             return (orderId == Guid.Empty)
-                ? DatabaseCommandDirectory.Instance.CreateOrder(userId, orderType, customer, packagingType,
+                ? DatabaseCommandDirectory.Instance.CreateOrder(userId, orderNumber, orderType, customer, packagingType,
                     lumberLineItems, miscLineItems)
-                : DatabaseCommandDirectory.Instance.EditOrder(userId, orderId, customer, packagingType, lumberLineItems,
+                : DatabaseCommandDirectory.Instance.EditOrder(userId, orderId, orderNumber, customer, packagingType, lumberLineItems,
                     miscLineItems);
         }
 
