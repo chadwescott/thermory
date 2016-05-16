@@ -39,6 +39,15 @@
                 <input type="text" class="form-control lumberSubCategoryForm numeric" id="@string.Format("thickness{0}", Model.SubCategory.Id)" value="@Model.SubCategory.ThicknessInMillimeters" maxlength="6" pattern="[0-9]*" placeholder="Thickness mm" />
             </td>
         </tr>
+        <tr>
+            <td>
+                <label>Bundle size</label>
+            </td>
+            <td>
+                <div class="lumberSubCategoryView" id="@string.Format("bundleView{0}", Model.SubCategory.Id)">@Model.SubCategory.BundleSize</div>
+                <input type="text" class="form-control lumberSubCategoryForm numeric" id="@string.Format("bundle{0}", Model.SubCategory.Id)" value="@Model.SubCategory.BundleSize" maxlength="6" pattern="[0-9]*" placeholder="Bundle size" />
+            </td>
+        </tr>
     </table>
     <div class="lumberSubCategoryForm" style="margin-bottom: 10px;">
         <div type="button" class="btn btn-success lumberSubCategoryForm" onclick="saveLumberSubCategory('@Model.SubCategory.Id');">
@@ -49,7 +58,7 @@
         </div>
     </div>
     <div class="panel panel-danger lumberSubCategoryErrorPanel" style="display: none;">
-        <div class="panel-heading">Error</div>
+        <div class="panel-heading"><span class="glyphicon glyphicon-alert"></span> Error</div>
         <div id="@string.Format("lumberSubCategoryError{0}", @Model.SubCategory.Id)" class="panel-body"></div>
     </div>
     @{

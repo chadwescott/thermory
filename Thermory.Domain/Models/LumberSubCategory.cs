@@ -25,6 +25,8 @@ namespace Thermory.Domain.Models
         [Column("Thickness")]
         public int ThicknessInMillimeters { get; set; }
 
+        public int BundleSize { get; set; }
+
         public int SortOrder { get; set; }
 
         [ForeignKey("LumberSubCategoryId")]
