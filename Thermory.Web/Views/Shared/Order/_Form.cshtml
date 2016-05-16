@@ -132,6 +132,8 @@
         var miscProducts = getInventory('misc');
 
         if (lumberProducts.length == 0 && miscProducts == 0) {
+            $('#errorMessage').text('No quantities were entered so the order will not be saved.');
+            $('#errorPanel').show();
             return;
         }
 
@@ -162,7 +164,7 @@
                 window.location = ('/@controller/Review/' + data);
             },
             error: function (data, status, request) {
-                $('#errorMessage').text(data.responseText);
+                $('#errorMessage').html('<span>' + data.responseText.replace('\n', ' <br/> ') + '</span>');
                 $('#errorPanel').show();
                 $('#worksheetPanel').show();
                 $('#savingPanel').hide();

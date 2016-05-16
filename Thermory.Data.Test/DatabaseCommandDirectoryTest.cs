@@ -19,7 +19,7 @@ namespace Thermory.Data.Test
             var miscLineItem = new OrderMiscellaneousLineItem {MiscellaneousProduct = miscProduct, Quantity = 5};
             var miscLineItems = new[] { miscLineItem };
 
-            DatabaseCommandDirectory.Instance.CreateOrder(1, OrderTypes.PurchaseOrder, null, null, lumberLineItems,
+            DatabaseCommandDirectory.Instance.CreateOrder(1, "Test", OrderTypes.PurchaseOrder, null, null, lumberLineItems,
                 miscLineItems);
         }
     }

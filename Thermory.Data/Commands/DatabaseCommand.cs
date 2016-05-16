@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Data.Entity.Validation;
+using System.Linq;
 using Thermory.Domain.Commands;
 
 namespace Thermory.Data.Commands
@@ -27,6 +29,16 @@ namespace Thermory.Data.Commands
                 OnBeforeExecute(context);
                 OnExecute(context);
                 OnAfterExecute(context);
+            }
+            catch (DbEntityValidationException ex)
+            {
+                var errorMessages = ex.EntityValidationErrors
+                    .SelectMany(x => x.ValidationErrors)
+                    .Select(x => x.ErrorMessage);
+
+                var fullErrorMessage = string.Join("\n", errorMessages);
+                var exceptionMessage = string.Format("{0}\nThe validation errors are: {1}", ex.Message, fullErrorMessage);
+                HandleException(context, new Exception(exceptionMessage));
             }
             catch (Exception ex)
             {
