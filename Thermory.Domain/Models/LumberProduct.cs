@@ -33,6 +33,19 @@ namespace Thermory.Domain.Models
         }
 
         [NotMapped]
+        public string PacksHtml
+        {
+            get
+            {
+                if (Quantity == 0) return "0";
+                var bundleSize = LumberType.LumberSubCategory.BundleSize;
+                var fullPacks = Quantity / bundleSize;
+                var fraction = Quantity % bundleSize == 0 ? "" : string.Format("<sup>{0}</sup>&frasl;<sub>{1}</sub>", Quantity % bundleSize, bundleSize);
+                return string.Format("{0}{1}", fullPacks, fraction);
+            }
+        }
+
+        [NotMapped]
         public double TallyPercentage
         {
             get { return LumberType == null ? 0 : Math.Round(LinearFeet / LumberType.TotalLinearFeet * 100, 0); }

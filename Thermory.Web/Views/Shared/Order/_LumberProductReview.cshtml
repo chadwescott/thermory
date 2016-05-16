@@ -1,10 +1,11 @@
-﻿@model Thermory.Web.Models.OrderReview
+﻿@using Thermory.Domain.Enums
+@model Thermory.Web.Models.OrderReview
 
 @{
     var orderLumberCategories = Model.Order.OrderLumberLineItems.Select(i => i.LumberProduct.LumberType.LumberSubCategory.LumberCategory).Distinct();
     var orderLumberSubCategories = Model.Order.OrderLumberLineItems.Select(i => i.LumberProduct.LumberType.LumberSubCategory).Distinct();
     var orderLumberTypes = Model.Order.OrderLumberLineItems.Select(i => i.LumberProduct.LumberType).Distinct();
-    
+
     foreach (var category in orderLumberCategories.OrderBy(c => c.SortOrder))
     {
         foreach (var subCategory in orderLumberSubCategories.OrderBy(s => s.SortOrder).Where(s => s.LumberCategoryId == category.Id))
@@ -22,6 +23,7 @@
                             <th>Length</th>
                             <th>Width</th>
                             <th>Pieces</th>
+                            <th>Packs</th>
                             <th>Linear Feet</th>
                             <th>Square Feet</th>
                         </tr>
@@ -35,6 +37,7 @@
                             <td>@lineItem.LumberProduct.LengthInFeet FT</td>
                             <td>@lineItem.LumberProduct.LumberType.LumberSubCategory.WidthInInches"</td>
                             <td>@lineItem.Quantity</td>
+                            <td>@Html.Raw(lineItem.PacksHtml)</td>
                             <td>@lineItem.LinearFeet LF</td>
                             <td>@lineItem.SquareFeet SF</td>
                         </tr>
@@ -43,6 +46,10 @@
                         <td><strong>Total</strong></td>
                         <td>&nbsp;</td>
                         <td><strong>@totalPieces</strong></td>
+                        @if (Model.Order.OrderType.OrderTypeEnum == OrderTypes.SalesOrder)
+                        {
+                            <td>&nbsp;</td>
+                        }
                         <td><strong>@totalLinearFeet LF</strong></td>
                         <td><strong>@totalSquareFeet SF</strong></td>
                     </tr>

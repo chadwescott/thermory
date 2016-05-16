@@ -48,3 +48,12 @@ function initiateEditMode(prefix) {
     $('.' + prefix + 'View').hide();
     $('.' + prefix + 'Form').show();
 }
+
+function reduceFraction(numerator, denominator) {
+    var gcd = greatestCommonDivisor(numerator, denominator);
+    return [numerator / gcd, denominator / gcd];
+}
+
+function greatestCommonDivisor(a, b) {
+    return b ? greatestCommonDivisor(b, a % b) : a;
+};

@@ -40,8 +40,17 @@
                     var quantity = @lumberForLength == null ? 0 : lumberForLength.Quantity;
                     <td class="productType subCategoryCellPadding subCategoryLength">@quantity</td>
                 }
-                <td rowspan="2" class="totalLinearFeet">@lumberType.TotalLinearFeet</td>
-                <td rowspan="2" class="totalSquareFeet">@lumberType.TotalSquareFeet</td>
+                <td rowspan="3" class="totalLinearFeet">@lumberType.TotalLinearFeet</td>
+                <td rowspan="3" class="totalSquareFeet">@lumberType.TotalSquareFeet</td>
+            </tr>
+            <tr>
+                <td colspan="2" class="productType productTypeStatistic">Packs</td>
+                @foreach (var length in millimeterLengths)
+                {
+                    var lumberForLength = lumberType.LumberProducts.SingleOrDefault(p => p.LengthInMillimeters == length);
+                    var packs = @lumberForLength == null ? "N/A" : lumberForLength.PacksHtml;
+                    <td class="subCategoryCellPadding subCategoryLength">@Html.Raw(packs)</td>
+                }
             </tr>
             <tr>
                 <td colspan="2" class="productType productTypeStatistic">Tally %</td>

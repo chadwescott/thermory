@@ -53,32 +53,46 @@
             <tr>
                 <td colspan="2" class="productType productTypeStatistic" style="vertical-align: middle;"><div class="headingWidth" title="Order Quantity">Order Quantity</div></td>
                 @{
-            var orderLinearFeet = 0.0;
-                }
-                @foreach (var length in millimeterLengths.OrderBy(l => l))
-                {
-                    <td class="productType subCategoryCellPadding subCategoryLength" style="border-top: none;">
-                        <div class="form-group">
-                            @{
-                    var productForLength = lumberType.LumberProducts.SingleOrDefault(p => p.LengthInMillimeters == length);
-                                if (productForLength != null)
-                                {
-                                    var lineItem = Model.LumberLineItems == null || productForLength == null ? null : Model.LumberLineItems.SingleOrDefault(li => li.LumberProductId == productForLength.Id);
-                                    var orderQuantity = lineItem == null ? 0 : lineItem.Quantity;
-                                    var lineItemId = lineItem == null ? Guid.Empty : lineItem.Id;
-                                    orderLinearFeet += LumberCalculations.GetLinearFeet(orderQuantity, productForLength.LengthInInches);
-                                    <input type="text" name="lumberQty" id="@lineItemId" productid="@productForLength.Id" lumbertypeid="@lumberType.Id" lengthinmillimeters="@length" lengthininches="@productForLength.LengthInInches" class="form-control" maxlength="6" pattern="[0-9]*" value="@orderQuantity" onchange=" lumberProductQuantityChanged('@lumberType.Id', '@subCategory.WidthInInches', '@linearFeetId', '@squareFeetId'); " />
+                    var orderLinearFeet = 0.0;
+                    foreach (var length in millimeterLengths.OrderBy(l => l))
+                    {
+                        <td class="productType subCategoryCellPadding subCategoryLength" style="border-top: none;">
+                            <div class="form-group">
+                                @{
+                                    var productForLength = lumberType.LumberProducts.SingleOrDefault(p => p.LengthInMillimeters == length);
+                                    if (productForLength != null)
+                                    {
+                                        var lineItem = Model.LumberLineItems == null || productForLength == null ? null : Model.LumberLineItems.SingleOrDefault(li => li.LumberProductId == productForLength.Id);
+                                        var orderQuantity = lineItem == null ? 0 : lineItem.Quantity;
+                                        var lineItemId = lineItem == null ? Guid.Empty : lineItem.Id;
+                                        orderLinearFeet += LumberCalculations.GetLinearFeet(orderQuantity, productForLength.LengthInInches);
+                                        <input type="text" name="lumberQty" id="@lineItemId" productid="@productForLength.Id" lumbertypeid="@lumberType.Id" lengthinmillimeters="@length" lengthininches="@productForLength.LengthInInches" class="form-control" maxlength="6" pattern="[0-9]*" value="@orderQuantity" onchange=" lumberProductQuantityChanged('@lumberType.Id', '@subCategory.WidthInInches', '@linearFeetId', '@squareFeetId', @subCategory.BundleSize); " />
+                                    }
+                                    else
+                                    {
+                                        <div class="noLength">N/A</div>
+                                    }
                                 }
-                                else
-                                {
-                                    <div class="noLength">N/A</div>
-                                }
-                            }
-                        </div>
-                    </td>
+                            </div>
+                        </td>
+                    }
                 }
                 <td id="@linearFeetId" class="totalLinearFeet">@orderLinearFeet</td>
                 <td id="@squareFeetId" class="totalSquareFeet">@LumberCalculations.GetSquareFeet(orderLinearFeet, subCategory.WidthInInches)</td>
+            </tr>
+            <tr>
+                <td colspan="2" class="productType productTypeStatistic" style="vertical-align: middle;">Packs</td>
+                @foreach (var length in millimeterLengths.OrderBy(l => l))
+                {
+                    var productForLength = lumberType.LumberProducts.SingleOrDefault(p => p.LengthInMillimeters == length);
+                    var lineItem = Model.LumberLineItems == null || productForLength == null ? null : Model.LumberLineItems.SingleOrDefault(li => li.LumberProductId == productForLength.Id);
+                    var packs = lineItem == null ? "0" : lineItem.PacksHtml;
+                    <td id="@string.Format("packs{0}{1}", lumberType.Id, length)" class="productType subCategoryCellPadding subCategoryLength">
+                        @Html.Raw(packs)
+                    </td>
+                }
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
             </tr>
             <tr>
                 <td colspan="2" class="productType productTypeStatistic">Tally %</td>
@@ -119,7 +133,7 @@
 }
 
 <script>
-    function lumberProductQuantityChanged(lumberTypeId, width, linearFeetId, squareFeetId) {
+    function lumberProductQuantityChanged(lumberTypeId, width, linearFeetId, squareFeetId, bundleSize) {
         var linearFeet = 0;
         $('input[lumberTypeId="' + lumberTypeId + '"]').each(function (key, value) {
             var pieces = parseInt($(this).val());
@@ -135,6 +149,7 @@
                     $(this).parent().closest('div').removeClass('has-error');
                 }
             }
+            $('#packs' + lumberTypeId + lengthInMillimeters).html(getPackHtml(pieces, bundleSize));
         });
         $('#' + linearFeetId).html(linearFeet);
         var squareFeet = calculateSquareFeet(linearFeet, width);
@@ -149,5 +164,24 @@
     function calculateSquareFeet(linearFeet, width) {
         var squareFeet = Math.round(linearFeet * width / 12);
         return squareFeet;
+    }
+
+    function getPackHtml(pieces, bundleSize) {
+        if (bundleSize == 0) { return "N/A"; }
+
+        var wholePacks = Math.floor(pieces / bundleSize);
+        var remainder = pieces % bundleSize;
+        if (wholePacks == 0 && remainder != 0) {
+            wholePacks = '';
+        }
+        
+        if (remainder != 0) {
+            var reducedValues = reduceFraction(remainder, bundleSize);
+            remainder = reducedValues[0];
+            bundleSize = reducedValues[1];
+        }
+
+        var fractionalPacks = remainder == 0 ? '' : '<sup>' + remainder + '</sup>⁄<sub>' + bundleSize + '</sub>';
+        return '<span>' + wholePacks + fractionalPacks + '</span>';
     }
 </script>
