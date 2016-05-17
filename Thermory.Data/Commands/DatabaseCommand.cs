@@ -37,8 +37,7 @@ namespace Thermory.Data.Commands
                     .Select(x => x.ErrorMessage);
 
                 var fullErrorMessage = string.Join("\n", errorMessages);
-                var exceptionMessage = string.Format("{0}\nThe validation errors are: {1}", ex.Message, fullErrorMessage);
-                HandleException(context, new Exception(exceptionMessage));
+                HandleException(context, new Exception(fullErrorMessage));
             }
             catch (Exception ex)
             {

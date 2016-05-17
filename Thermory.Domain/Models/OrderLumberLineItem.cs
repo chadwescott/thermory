@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Thermory.Domain.Utils;
 
 namespace Thermory.Domain.Models
 {
@@ -25,15 +26,7 @@ namespace Thermory.Domain.Models
         [NotMapped]
         public string PacksHtml
         {
-            get
-            {
-                if (Quantity == 0) return "0";
-                var bundleSize = LumberProduct.LumberType.LumberSubCategory.BundleSize;
-                var fullPacks = Quantity / bundleSize;
-                var fraction = Quantity % bundleSize == 0 ? "" : string.Format("<sup>{0}</sup>&frasl;<sub>{1}</sub>", Quantity % bundleSize, bundleSize);
-                var fullPackString = fullPacks == 0 && fraction != string.Empty ? "" : fullPacks.ToString();
-                return string.Format("{0}{1}", fullPackString, fraction);
-            }
+            get { return HtmlHelpers.GetPacksHtml(Quantity, LumberProduct.LumberType.LumberSubCategory.BundleSize); }
         }
 
         [NotMapped]

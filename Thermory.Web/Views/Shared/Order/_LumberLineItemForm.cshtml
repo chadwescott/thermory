@@ -77,8 +77,8 @@
                         </td>
                     }
                 }
-                <td id="@linearFeetId" class="totalLinearFeet">@orderLinearFeet</td>
-                <td id="@squareFeetId" class="totalSquareFeet">@LumberCalculations.GetSquareFeet(orderLinearFeet, subCategory.WidthInInches)</td>
+                <td id="@linearFeetId" class="totalLinearFeet" style="padding-top: 16px; border-top: none;">@orderLinearFeet</td>
+                <td id="@squareFeetId" class="totalSquareFeet" style="padding-top: 16px; border-top: none;">@LumberCalculations.GetSquareFeet(orderLinearFeet, subCategory.WidthInInches)</td>
             </tr>
             <tr>
                 <td colspan="2" class="productType productTypeStatistic" style="vertical-align: middle;">Packs</td>
@@ -91,8 +91,8 @@
                         @Html.Raw(packs)
                     </td>
                 }
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
+                <td class="totalLinearFeet" style="border-top: none;">&nbsp;</td>
+                <td class="totalSquareFeet" style="border-top: none;">&nbsp;</td>
             </tr>
             <tr>
                 <td colspan="2" class="productType productTypeStatistic">Tally %</td>
@@ -102,8 +102,8 @@
                     var tally = @lumberForLength == null ? 0 : lumberForLength.TallyPercentage;
                     <td class="productType subCategoryCellPadding subCategoryLength productTypeTally">@tally%</td>
                 }
-                <td class="totalLinearFeet">&nbsp;</td>
-                <td class="totalSquareFeet">&nbsp;</td>
+                <td class="totalLinearFeet" style="border-top: none;">&nbsp;</td>
+                <td class="totalSquareFeet" style="border-top: none;">&nbsp;</td>
             </tr>
             @Html.Raw(blankRow)
             <tr>
