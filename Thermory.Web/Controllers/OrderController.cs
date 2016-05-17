@@ -34,7 +34,7 @@ namespace Thermory.Web.Controllers
         public ActionResult Create()
         {
             var model = CreateOrderFormViewModel(OrderType);
-            return View("Form", model);
+            return View("Order/Form", model);
         }
 
         [Authorize(Roles = Role.InventoryMaster)]
@@ -50,7 +50,7 @@ namespace Thermory.Web.Controllers
             var model = CreateOrderFormViewModel(order);
             if (order.IsDeleted)
                 return RedirectToAction("Review", new RouteValueDictionary { { "id", id } });
-            return View("Form", model);
+            return View("Order/Form", model);
         }
 
         [Authorize(Roles = Role.InventoryMaster)]
