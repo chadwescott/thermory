@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Thermory.Data.Commands;
 using Thermory.Domain.Enums;
@@ -10,40 +9,40 @@ namespace Thermory.Data.CommandBuilders
 {
     internal class EditOrderBuilder : OrderBuilder
     {
-        public EditOrderBuilder(int userId, Guid orderId, string orderNumber, Customer customer, PackagingType packagingType,
-            OrderLumberLineItem[] lumberLineItems, OrderMiscellaneousLineItem[] miscLineItems)
+        public EditOrderBuilder(int userId, Order order, OrderLumberLineItem[] lumberLineItems, OrderMiscellaneousLineItem[] miscLineItems)
         {
-            Order = GetOrder(orderId);
-            if (Order.IsDeleted) return;
-
-            var orderLumberLineItems = Order.OrderLumberLineItems;
-            var orderMiscLineItems = Order.OrderMiscellaneousLineItems;
+            var dbOrder = GetOrder(order.Id);
+            if (dbOrder == null || dbOrder.IsDeleted) return;
             
-            ClearOrderLineItems(Order);
+            ClearOrderLineItems(dbOrder);
 
-            var transaction = CreateInventoryTransaction(userId, Order.Id);
-            var adjustmentMultiplier = AdjustmentMultiplier.GetByOrderType(Order.OrderType.OrderTypeEnum);
+            var transaction = CreateInventoryTransaction(userId, order.Id);
+            var adjustmentMultiplier = AdjustmentMultiplier.GetByOrderType(order.OrderType.OrderTypeEnum);
 
-            AddLumberProductQuantityAdjustmentCommands(transaction, orderLumberLineItems, lumberLineItems.ToList(), adjustmentMultiplier);
-            AddMiscellaneousProductQuantityAdjustmentCommands(transaction, orderMiscLineItems, miscLineItems.ToList(), adjustmentMultiplier);
+            AddLumberProductQuantityAdjustmentCommands(transaction, dbOrder.OrderLumberLineItems, lumberLineItems.ToList(), adjustmentMultiplier);
+            AddMiscellaneousProductQuantityAdjustmentCommands(transaction, dbOrder.OrderMiscellaneousLineItems, miscLineItems.ToList(), adjustmentMultiplier);
 
-            AddCreatedLumberLineItemCommands(Order, lumberLineItems);
-            AddCreateMiscellaneousLineItemCommands(Order, miscLineItems);
+            AddCreatedLumberLineItemCommands(dbOrder, lumberLineItems);
+            AddCreateMiscellaneousLineItemCommands(dbOrder, miscLineItems);
 
-            if (customer.Name == null)
-                customer = null;
+            if (order.Customer.Name == null)
+                dbOrder.Customer = null;
             else
-                Commands.Add(new SaveCustomer(customer));
+            {
+                dbOrder.Customer = order.Customer;
+                Commands.Add(new SaveCustomer(order.Customer));
+            }
 
-            if (packagingType.Name == null)
-                packagingType = null;
+            if (order.PackagingType == null || order.PackagingType.Name == null)
+                dbOrder.PackagingType = null;
             else
-                Commands.Add(new SavePackagingType(packagingType));
+            {
+                dbOrder.PackagingType = order.PackagingType;
+                Commands.Add(new SavePackagingType(dbOrder.PackagingType));
+            }
 
-            Order.OrderNumber = orderNumber;
-            Order.Customer = customer;
-            Order.PackagingType = packagingType;
-            Commands.Add(new SaveOrder(Order));
+            dbOrder.OrderNumber = order.OrderNumber;
+            Commands.Add(new SaveOrder(dbOrder));
         }
 
         private void ClearOrderLineItems(Order order)

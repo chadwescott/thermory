@@ -1,16 +1,15 @@
-﻿@using Thermory.Domain.Constants
-@using Thermory.Domain.Enums
+﻿@using Thermory.Domain.Enums
 @model Thermory.Web.Models.OrderForm
 @{
     var firstCategoryId = Model.LumberOrderForms.First().LumberCategory.Id;
     var action = Model.Order.Id == Guid.Empty ? "Create" : "Edit";
-    var orderType = OrderTypeNames.GetOrderTypeName(Model.OrderType);
+    var orderType = Model.Order.OrderType.OrderTypeEnum;
     var title = string.Format("{0} {1} Order {2}", action, orderType, Model.Order.OrderNumber);
     var orderId = Model.Order == null ? Guid.Empty : Model.Order.Id;
-    var controller = string.Format("{0}Order", orderType);
+    var controller = string.Format("{0}Order", Model.Order.OrderType.Name);
     var cancelUrl = Model.Order.Id == Guid.Empty
         ? Url.Action("Index", controller)
-        : Url.Action("Review", controller, new RouteValueDictionary {{"id", Model.Order.Id}});
+        : Url.Action("Review", controller, new RouteValueDictionary { { "id", Model.Order.Id } });
 }
 
 <h3><strong>@title</strong></h3>
@@ -47,7 +46,7 @@
                 <input type="text" id="customerName" class="form-control" />
             </td>
         </tr>
-        @if (Model.OrderType == OrderTypes.SalesOrder)
+        @if (orderType == OrderTypes.SalesOrder)
         {
             <tr>
                 <td>
@@ -142,15 +141,21 @@
         $('#errorPanel').hide();
 
         var orderNumber = $('#orderNumber').val();
-        var customer = getCustomer();
-        var packagingType = getPackagingType();
-        var orderNumberJson = JSON.stringify(orderNumber);
-        var customerJson = JSON.stringify(customer);
-        var packagingTypeJson = JSON.stringify(packagingType);
+
+        var order = {
+            Id: '@orderId',
+            OrderNumber: orderNumber,
+            OrderTypeId: '@Model.Order.OrderType.Id',
+            OrderType: getOrderType(),
+            Customer: getCustomer(),
+            PackagingType: getPackagingType()
+        };
+
+        var orderJson = JSON.stringify(order);
         var lumberJson = JSON.stringify(lumberProducts);
         var miscJson = JSON.stringify(miscProducts);
 
-        var postData = '{"orderType" : "@Model.OrderType", "orderId" : "@orderId", "orderNumber" : ' + orderNumberJson + ', "customer" : ' + customerJson + ', "packagingType" : ' + packagingTypeJson + ', "lumberOrderQuantities" : ' + lumberJson + ', "miscOrderQuantities" : ' + miscJson + '}';
+        var postData = '{"order" : ' + orderJson + ', "lumberOrderQuantities" : ' + lumberJson + ', "miscOrderQuantities" : ' + miscJson + '}';
 
         $('#worksheetPanel').show();
         $('#savingPanel').hide();
@@ -203,10 +208,13 @@
     }
 
     function getCustomer() {
-        return {
-            Id: $('#customerId').val(),
-            Name: $('#customerName').val()
-        };
+        var name = $('#customerName').val();
+        return name == ''
+            ? null
+            : {
+                Id: $('#customerId').val(),
+                Name: name
+            };
     }
 
     function packagingTypeChanged() {
@@ -217,9 +225,19 @@
     }
 
     function getPackagingType() {
+        var name = $('#packagingTypeName').val();
+        return name == ''
+            ? null
+            : {
+                Id: $('#packagingTypeId').val(),
+                Name: name
+            };
+    }
+
+    function getOrderType() {
         return {
-            Id: $('#packagingTypeId').val(),
-            Name: $('#packagingTypeName').val()
+            Id: '@Model.Order.OrderType.Id',
+            Name: '@Model.Order.OrderType.Name'
         };
     }
 </script>

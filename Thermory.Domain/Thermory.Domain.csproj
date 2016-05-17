@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\BaseCommand.cs" />
+    <Compile Include="Commands\GetCommand.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\IGetCommand.cs" />
     <Compile Include="Constants\OrderStatusNames.cs" />

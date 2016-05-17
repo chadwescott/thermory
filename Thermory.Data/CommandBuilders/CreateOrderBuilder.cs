@@ -8,31 +8,30 @@ namespace Thermory.Data.CommandBuilders
 {
     internal class CreateOrderBuilder : OrderBuilder
     {
-        public CreateOrderBuilder(int userId, string orderNumber, OrderTypes orderType, Customer customer, PackagingType packagingType,
+        public CreateOrderBuilder(int userId, Order order,
             OrderLumberLineItem[] lumberLineItems, OrderMiscellaneousLineItem[] miscLineItems)
         {
-            var orderTypeId = DatabaseCommandDirectory.Instance.GetOrderTypeIdByEnum(orderType);
-
-            if (customer.Name == null)
-                customer = null;
+            if (order.Customer.Name == null)
+                order.Customer = null;
             else
-                Commands.Add(new SaveCustomer(customer));
+                Commands.Add(new SaveCustomer(order.Customer));
 
-            if (packagingType.Name == null)
-                packagingType = null;
+            if (order.PackagingType == null || order.PackagingType.Name == null)
+                order.PackagingType = null;
             else
-                Commands.Add(new SavePackagingType(packagingType));
+                Commands.Add(new SavePackagingType(order.PackagingType));
 
-            Order = new Order { OrderTypeId = orderTypeId, OrderNumber = orderNumber, Customer = customer, PackagingType = packagingType};
+            order.OrderStatusId = order.OrderType.OrderTypeEnum == OrderTypes.PurchaseOrder
+                ? OrderStatusCache.GetByOrderStatusEnum(OrderStatuses.InTransit).Id
+                : OrderStatusCache.GetByOrderStatusEnum(OrderStatuses.SentToWarehouse).Id;
+            Commands.Add(new SaveOrder(order));
 
-            Commands.Add(new SaveOrder(Order));
+            AddCreatedLumberLineItemCommands(order, lumberLineItems);
+            AddCreateMiscellaneousLineItemCommands(order, miscLineItems);
 
-            AddCreatedLumberLineItemCommands(Order, lumberLineItems);
-            AddCreateMiscellaneousLineItemCommands(Order, miscLineItems);
+            var transaction = CreateInventoryTransaction(userId, order);
 
-            var transaction = CreateInventoryTransaction(userId, Order);
-
-            var adjustmentMultiplier = AdjustmentMultiplier.GetByOrderType(orderType);
+            var adjustmentMultiplier = AdjustmentMultiplier.GetByOrderType(order.OrderType.OrderTypeEnum);
 
             var adjustLumberProductQuantityCommands =
                 lumberLineItems.Select(i => new AdjustLumberProductQuantity(transaction, i.LumberProductId, i.Quantity * adjustmentMultiplier));

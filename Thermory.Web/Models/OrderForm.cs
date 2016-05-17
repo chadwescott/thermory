@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Thermory.Domain.Enums;
 using Thermory.Domain.Models;
 
 namespace Thermory.Web.Models
@@ -11,8 +10,6 @@ namespace Thermory.Web.Models
         public IList<PackagingType> PackagingTypes { get; set; } 
 
         public Order Order { get; set; }
-
-        public OrderTypes OrderType { get; set; }
 
         public IList<LumberOrderForm> LumberOrderForms { get; set; }
 

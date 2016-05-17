@@ -14,7 +14,6 @@ namespace Thermory.Domain.Models
 
         public Guid? CustomerId { get; set; }
 
-        [Required]
         public string OrderNumber { get; set; }
 
         public Guid? OrderStatusId { get; set; }

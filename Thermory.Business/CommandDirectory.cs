@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Thermory.Business.Commands;
 using Thermory.Data;
@@ -52,9 +53,9 @@ namespace Thermory.Business
             }
         }
 
-        public void DeleteOrder(int userId, Guid orderId)
+        public void DeleteOrder(int userId, Order order)
         {
-            DatabaseCommandDirectory.Instance.DeleteOrder(userId, orderId);
+            DatabaseCommandDirectory.Instance.DeleteOrder(userId, order);
         }
 
         public IList<Customer> GetAllCustomers()
@@ -89,6 +90,11 @@ namespace Thermory.Business
         public Order GetOrderById(Guid id)
         {
             return DatabaseCommandDirectory.Instance.GetOrderById(id);
+        }
+
+        public OrderType GetOrderTypeByOrderTypeEnum(OrderTypes orderType)
+        {
+            return DatabaseCommandDirectory.Instance.GetAllOrderTypes().SingleOrDefault(t => t.OrderTypeEnum == orderType);
         }
 
         public IList<UserRoleXref> GetUserRolesByUserId(int userId)
@@ -138,15 +144,13 @@ namespace Thermory.Business
             new TaskFactory().StartNew(LoadMiscellaneousCategories);
         }
 
-        public Order SaveOrder(int userId, Guid orderId, string orderNumber, OrderTypes orderType, Customer customer,
-            PackagingType packagingType, OrderLumberLineItem[] lumberLineItems,
+        public void SaveOrder(int userId, Order order, OrderLumberLineItem[] lumberLineItems,
             OrderMiscellaneousLineItem[] miscLineItems)
         {
-            return (orderId == Guid.Empty)
-                ? DatabaseCommandDirectory.Instance.CreateOrder(userId, orderNumber, orderType, customer, packagingType,
-                    lumberLineItems, miscLineItems)
-                : DatabaseCommandDirectory.Instance.EditOrder(userId, orderId, orderNumber, customer, packagingType, lumberLineItems,
-                    miscLineItems);
+            if (order.Id == Guid.Empty)
+                DatabaseCommandDirectory.Instance.CreateOrder(userId, order, lumberLineItems, miscLineItems);
+            else
+                DatabaseCommandDirectory.Instance.EditOrder(userId, order, lumberLineItems, miscLineItems);
         }
 
         public void UpdateProductInventory(int userId, TransactionTypes transactionType, LumberProduct[] lumberProducts,

@@ -1,11 +1,9 @@
-﻿@using Thermory.Domain.Constants
-@using Thermory.Web.Models
+﻿@using Thermory.Web.Models
 @model OrderReview
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     
-    
-    var orderType = OrderTypeNames.GetOrderTypeName(Model.Order.OrderType.OrderTypeEnum);
+    var orderType = Model.Order.OrderType.Name;
     var controller = string.Format("{0}Order", orderType);
 }
 
@@ -84,8 +82,14 @@
     function deleteOrder() {
         $('#worksheetPanel').hide();
         $('#deletingPanel').show();
-        var postData = '{"orderId" : "@Model.Order.Id"}';
-        console.log(postData);
+
+        var order = {
+            Id: '@Model.Order.Id',
+            OrderNumber: '@Model.Order.OrderNumber',
+            OrderType: { Name: '@Model.Order.OrderType.Name' }
+        };
+        var orderJson = JSON.stringify(order);
+        var postData = '{"order": ' + orderJson + '}';
 
         $.ajax({
             type: 'POST',

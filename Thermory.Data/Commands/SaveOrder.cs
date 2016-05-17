@@ -16,6 +16,12 @@ namespace Thermory.Data.Commands
         protected override void OnBeforeExecute(ThermoryContext context)
         {
             _order.CustomerId = _order.Customer == null ? null : (Guid?)_order.Customer.Id;
+            _order.PackagingTypeId = _order.PackagingType == null ? null : (Guid?)_order.PackagingType.Id;
+            _order.OrderTypeId = _order.OrderType.Id;
+            
+            _order.Customer = null;
+            _order.OrderStatus = null;
+            _order.OrderType = null;
         }
 
         protected override void OnExecute(ThermoryContext context)

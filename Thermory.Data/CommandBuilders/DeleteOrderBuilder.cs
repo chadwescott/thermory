@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Thermory.Data.Commands;
 using Thermory.Domain.Enums;
@@ -10,19 +9,18 @@ namespace Thermory.Data.CommandBuilders
 {
     internal class DeleteOrderBuilder : OrderBuilder
     {
-        public DeleteOrderBuilder(int userId, Guid orderId)
+        public DeleteOrderBuilder(int userId, Order order)
         {
-            Order = GetOrder(orderId);
-            if (Order.IsDeleted) return;
+            if (order.IsDeleted) return;
 
-            Order.IsDeleted = true;
-            Commands.Add(new SaveOrder(Order));
+            order.IsDeleted = true;
+            Commands.Add(new SaveOrder(order));
 
-            var orderLumberLineItems = Order.OrderLumberLineItems;
-            var orderMiscLineItems = Order.OrderMiscellaneousLineItems;
+            var orderLumberLineItems = order.OrderLumberLineItems;
+            var orderMiscLineItems = order.OrderMiscellaneousLineItems;
 
-            var transaction = CreateInventoryTransaction(userId, Order.Id);
-            var adjustmentMultiplier = AdjustmentMultiplier.GetByOrderType(Order.OrderType.OrderTypeEnum);
+            var transaction = CreateInventoryTransaction(userId, order.Id);
+            var adjustmentMultiplier = AdjustmentMultiplier.GetByOrderType(order.OrderType.OrderTypeEnum);
 
             AddLumberProductQuantityAdjustmentCommands(transaction, orderLumberLineItems, adjustmentMultiplier);
             AddMiscellaneousProductQuantityAdjustmentCommands(transaction, orderMiscLineItems, adjustmentMultiplier);

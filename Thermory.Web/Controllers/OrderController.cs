@@ -55,23 +55,22 @@ namespace Thermory.Web.Controllers
 
         [Authorize(Roles = Role.InventoryMaster)]
         [HttpPost]
-        public ActionResult Delete(Guid orderId)
+        public ActionResult Delete(Order order)
         {
-            CommandDirectory.Instance.DeleteOrder(WebSecurity.CurrentUserId, orderId);
+            CommandDirectory.Instance.DeleteOrder(WebSecurity.CurrentUserId, order);
             return Json(new { status = "success" });
         }
 
         [Authorize(Roles = Role.InventoryMaster)]
         [HttpPost]
-        public ActionResult Save(Guid orderId, string orderNumber, OrderTypes orderType, Customer customer, PackagingType packagingType,
-            ProductOrderQuantity[] lumberOrderQuantities, ProductOrderQuantity[] miscOrderQuantities)
+        public ActionResult Save(Order order, ProductOrderQuantity[] lumberOrderQuantities, ProductOrderQuantity[] miscOrderQuantities)
         {
             var lumberLineItems = lumberOrderQuantities == null
                 ? new OrderLumberLineItem[0]
                 : lumberOrderQuantities.Select(l => new OrderLumberLineItem
                 {
                     Id = l.Id,
-                    OrderId = orderId,
+                    OrderId = order.Id,
                     LumberProductId = l.ProductId,
                     Quantity = l.Quantity
                 }).ToArray();
@@ -81,13 +80,12 @@ namespace Thermory.Web.Controllers
                 : miscOrderQuantities.Select(m => new OrderMiscellaneousLineItem
                 {
                     Id = m.Id,
-                    OrderId = orderId,
+                    OrderId = order.Id,
                     MiscellaneousProductId = m.ProductId,
                     Quantity = m.Quantity
                 }).ToArray();
 
-            var order = CommandDirectory.Instance.SaveOrder(WebSecurity.CurrentUserId, orderId, orderNumber, orderType,
-                customer, packagingType, lumberLineItems, miscLineItems);
+            CommandDirectory.Instance.SaveOrder(WebSecurity.CurrentUserId, order, lumberLineItems, miscLineItems);
             return Json(order.Id);
         }
 
@@ -97,7 +95,6 @@ namespace Thermory.Web.Controllers
             {
                 Customers = CommandDirectory.Instance.GetAllCustomers(),
                 Order = order,
-                OrderType = order.OrderType.OrderTypeEnum,
                 LumberOrderForms = GetLumberOrderForms(order.OrderType.OrderTypeEnum),
                 MiscellaneousOrderForms = GetMiscellaneousOrderForms(),
                 PackagingTypes = CommandDirectory.Instance.GetAllPackagingTypes()
@@ -123,8 +120,7 @@ namespace Thermory.Web.Controllers
             return new OrderForm
             {
                 Customers = CommandDirectory.Instance.GetAllCustomers(),
-                Order = new Order(),
-                OrderType = orderType,
+                Order = new Order { OrderType = CommandDirectory.Instance.GetOrderTypeByOrderTypeEnum(orderType) },
                 LumberOrderForms = GetLumberOrderForms(orderType),
                 MiscellaneousOrderForms = GetMiscellaneousOrderForms(),
                 PackagingTypes = CommandDirectory.Instance.GetAllPackagingTypes()

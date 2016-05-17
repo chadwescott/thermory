@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Thermory.Domain.Enums;
+using Thermory.Domain.Constants;
 using Thermory.Domain.Models;
 
 namespace Thermory.Data.Test
@@ -19,7 +19,13 @@ namespace Thermory.Data.Test
             var miscLineItem = new OrderMiscellaneousLineItem {MiscellaneousProduct = miscProduct, Quantity = 5};
             var miscLineItems = new[] { miscLineItem };
 
-            DatabaseCommandDirectory.Instance.CreateOrder(1, "Test", OrderTypes.PurchaseOrder, null, null, lumberLineItems,
+            var order = new Order
+            {
+                OrderNumber = "Test",
+                OrderType = new OrderType {Name = OrderTypeNames.PurchaseOrder}
+            };
+
+            DatabaseCommandDirectory.Instance.CreateOrder(1, order, lumberLineItems,
                 miscLineItems);
         }
     }

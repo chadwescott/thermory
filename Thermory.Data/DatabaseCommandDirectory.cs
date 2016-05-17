@@ -21,31 +21,26 @@ namespace Thermory.Data
         private DatabaseCommandDirectory()
         { }
 
-        public Order CreateOrder(int userId, string orderNumber, OrderTypes orderType, Customer customer, PackagingType packagingType,
-            OrderLumberLineItem[] lumberLineItems, OrderMiscellaneousLineItem[] miscLineItems)
+        public void CreateOrder(int userId, Order order, OrderLumberLineItem[] lumberLineItems, OrderMiscellaneousLineItem[] miscLineItems)
         {
-            var builder = new CreateOrderBuilder(userId, orderNumber, orderType, customer, packagingType,
+            var builder = new CreateOrderBuilder(userId, order,
                 lumberLineItems, miscLineItems);
             var transaction = new TransactionalCommand(builder.Commands);
             transaction.Execute();
-            return builder.Order;
         }
 
-        public Order DeleteOrder(int userId, Guid orderId)
+        public void DeleteOrder(int userId, Order order)
         {
-            var builder = new DeleteOrderBuilder(userId, orderId);
+            var builder = new DeleteOrderBuilder(userId, order);
             var transaction = new TransactionalCommand(builder.Commands);
             transaction.Execute();
-            return builder.Order;
         }
 
-        public Order EditOrder(int userId, Guid orderId, string orderNumber, Customer customer, PackagingType packagingType,
-            OrderLumberLineItem[] lumberLineItems, OrderMiscellaneousLineItem[] miscLineItems)
+        public void EditOrder(int userId, Order order, OrderLumberLineItem[] lumberLineItems, OrderMiscellaneousLineItem[] miscLineItems)
         {
-            var builder = new EditOrderBuilder(userId, orderId, orderNumber, customer, packagingType, lumberLineItems, miscLineItems);
+            var builder = new EditOrderBuilder(userId, order, lumberLineItems, miscLineItems);
             var transaction = new TransactionalCommand(builder.Commands);
             transaction.Execute();
-            return builder.Order;
         }
 
         public IList<Customer> GetAllCustomers()
@@ -88,7 +83,14 @@ namespace Thermory.Data
             var command = new GetAllOrderStatuses();
             command.Execute();
             return command.Result;
-        } 
+        }
+
+        public IList<OrderType> GetAllOrderTypes()
+        {
+            var command = new GetAllOrderTypes();
+            command.Execute();
+            return command.Result;
+        }
 
         public IList<PackagingType> GetAllPackagingTypes()
         {
@@ -109,15 +111,6 @@ namespace Thermory.Data
             var command = new GetOrderById(id);
             command.Execute();
             return command.Result;
-        }
-
-        private IList<OrderType> _orderTypes;
-
-        internal Guid GetOrderTypeIdByEnum(OrderTypes orderType)
-        {
-            if (_orderTypes == null)
-                _orderTypes = ExecuteCommand(new GetAllOrderTypes());
-            return _orderTypes.Single(t => t.OrderTypeEnum == orderType).Id;
         }
 
         private IList<TransactionType> _transactionTypes;
