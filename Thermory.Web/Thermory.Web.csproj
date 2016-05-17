@@ -376,14 +376,12 @@
     <Content Include="Views\Shared\Order\_LumberLineItemForm.cshtml" />
     <Content Include="Views\Shared\Order\_MiscellaneousLineItemForm.cshtml" />
     <Content Include="Views\SalesOrder\Index.cshtml" />
-    <Content Include="Views\SalesOrder\Review.cshtml" />
     <Content Include="Views\Shared\Order\_LumberProductReview.cshtml" />
     <Content Include="Views\Shared\Order\_MiscellaneousProductReview.cshtml" />
     <Content Include="Views\Shared\Order\_LumberTransactionDetails.cshtml" />
     <Content Include="Views\Shared\Order\_MiscellaneousTransactionDetails.cshtml" />
     <Content Include="Views\Shared\Exception.cshtml" />
     <Content Include="Views\PurchaseOrder\Index.cshtml" />
-    <Content Include="Views\PurchaseOrder\Review.cshtml" />
     <Content Include="Views\Shared\Order\_CustomerSelector.cshtml" />
     <Content Include="Views\Shared\Order\_PackagingTypeSelector.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
@@ -396,9 +394,11 @@
     <Content Include="Views\Catalog\_MiscSubCategoryForm.cshtml" />
     <Content Include="Views\Catalog\_MiscProductForm.cshtml" />
     <Content Include="Views\Shared\Order\Form.cshtml" />
+    <Content Include="Views\Shared\Order\Review.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Order\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

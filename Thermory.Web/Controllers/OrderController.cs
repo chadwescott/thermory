@@ -27,7 +27,7 @@ namespace Thermory.Web.Controllers
 
             var inventoryTransactions = CommandDirectory.Instance.GetInventoryTransactionsByOrderId(order.Id);
             var model = new OrderReview { Order = order, InventoryTransactions = inventoryTransactions };
-            return View(model);
+            return View("Order/Review", model);
         }
 
         [Authorize(Roles = Role.InventoryMaster)]

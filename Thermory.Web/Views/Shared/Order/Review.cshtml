@@ -1,10 +1,15 @@
-﻿@using Thermory.Web.Models
+﻿@using Thermory.Domain.Constants
+@using Thermory.Web.Models
 @model OrderReview
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    
+    
+    var orderType = OrderTypeNames.GetOrderTypeName(Model.Order.OrderType.OrderTypeEnum);
+    var controller = string.Format("{0}Order", orderType);
 }
 
-<h3><strong>Purchase Order @Model.Order.OrderNumber</strong></h3>
+<h3><strong>@orderType Order @Model.Order.OrderNumber</strong></h3>
 @if (@Model.Order.Customer != null)
 {
     <h4>@Model.Order.Customer.Name</h4>
@@ -13,13 +18,13 @@
 {
     <div>
         <br>
-        <div type="button" class="btn btn-primary" onclick="window.location = ('@Url.Action("Edit", "PurchaseOrder", new RouteValueDictionary{{"id", Model.Order.Id}})');">
+        <div type="button" class="btn btn-primary" onclick="window.location = ('@Url.Action("Edit", controller, new RouteValueDictionary{{"id", Model.Order.Id}})');">
             <span class="glyphicon glyphicon-edit"></span> Edit
         </div>
         <div type="button" class="btn btn-danger" id="deleteButton" data-toggle="confirmation">
             <span class="glyphicon glyphicon-trash"></span> Delete
         </div>
-        <div type="button" class="btn btn-info" onclick="window.location = ('@Url.Action("Index", "PurchaseOrder")');">
+        <div type="button" class="btn btn-info" onclick="window.location = ('@Url.Action("Index", controller)');">
             <span class=" glyphicon glyphicon-arrow-left"></span> Back
         </div>
         <br><br>
@@ -84,12 +89,12 @@
 
         $.ajax({
             type: 'POST',
-            url: '@Url.Action("Delete", "PurchaseOrder")',
+            url: '@Url.Action("Delete", controller)',
             contentType: 'application/json',
             dataType: 'json',
             data: postData,
             success: function (data, status, request) {
-                window.location = ('@Url.Action("Index", "PurchaseOrder")');
+                window.location = ('@Url.Action("Index", controller)');
             },
             error: function (data, status, request) {
                 $('#worksheetPanel').show();
@@ -98,3 +103,4 @@
         });
     }
 </script>
+
