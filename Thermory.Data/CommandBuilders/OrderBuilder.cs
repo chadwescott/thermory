@@ -43,20 +43,6 @@ namespace Thermory.Data.CommandBuilders
             return transaction;
         }
 
-        protected InventoryTransaction CreateInventoryTransaction(int userId, Guid orderId)
-        {
-            var transactionTypeId =
-                DatabaseCommandDirectory.Instance.GetTransactionTypeIdByEnum(TransactionType);
-            var transaction = new InventoryTransaction
-            {
-                UserId = userId,
-                OrderId = orderId,
-                TransactionTypeId = transactionTypeId
-            };
-            CreateInventoryTransaction(transaction);
-            return transaction;
-        }
-
         private void CreateInventoryTransaction(InventoryTransaction transaction)
         {
             var createInventoryTransactionCommand = new CreateInventoryTransaction(transaction);

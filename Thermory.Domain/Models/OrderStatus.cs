@@ -20,6 +20,8 @@ namespace Thermory.Domain.Models
             {
                 switch (Name)
                 {
+                    case OrderStatusNames.Deleted:
+                        return OrderStatuses.Deleted;
                     case OrderStatusNames.InTransit:
                         return OrderStatuses.InTransit;
                     case OrderStatusNames.Loaded:

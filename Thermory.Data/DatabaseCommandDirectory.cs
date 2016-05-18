@@ -85,6 +85,11 @@ namespace Thermory.Data
             return command.Result;
         }
 
+        public OrderStatus GetOrderStatusByEnum(OrderStatuses status)
+        {
+            return GetAllOrderStatuses().Single(s => s.OrderStatusEnum == status);
+        }
+
         public IList<OrderType> GetAllOrderTypes()
         {
             var command = new GetAllOrderTypes();

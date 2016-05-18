@@ -147,6 +147,8 @@
             OrderNumber: orderNumber,
             OrderTypeId: '@Model.Order.OrderType.Id',
             OrderType: getOrderType(),
+            OrderStatusId: '@Model.Order.OrderStatusId',
+            OrderStatus: getOrderStatus(),
             Customer: getCustomer(),
             PackagingType: getPackagingType()
         };
@@ -232,6 +234,13 @@
                 Id: $('#packagingTypeId').val(),
                 Name: name
             };
+    }
+
+    function getOrderStatus() {
+        return {
+            Id: '@Model.Order.OrderStatus.Id',
+            Name: '@Model.Order.OrderStatus.Name'
+        };
     }
 
     function getOrderType() {

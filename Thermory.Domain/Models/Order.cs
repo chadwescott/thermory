@@ -22,8 +22,6 @@ namespace Thermory.Domain.Models
 
         public Guid? PackagingTypeId { get; set; }
 
-        public bool IsDeleted { get; set; }
-
         [ForeignKey("CustomerId")]
         public Customer Customer { get; set; }
 
@@ -47,5 +45,15 @@ namespace Thermory.Domain.Models
 
         [NotMapped]
         public int AdjustmentMultiplier { get { return OrderType.OrderTypeEnum == OrderTypes.PurchaseOrder ? 1 : -1; } }
+
+        [NotMapped]
+        public bool ApplyInventoryQuantityChanges
+        {
+            get
+            {
+                return OrderType.OrderTypeEnum == OrderTypes.SalesOrder ||
+                       OrderStatus.OrderStatusEnum == OrderStatuses.Received;
+            }
+        }
     }
 }

@@ -11,6 +11,13 @@ namespace Thermory.Data.Commands
             _transaction = transaction;
         }
 
+        protected override void OnBeforeExecute(ThermoryContext context)
+        {
+            _transaction.OrderId = _transaction.Order.Id;
+            _transaction.Order = null;
+            base.OnBeforeExecute(context);
+        }
+
         protected override void OnExecute(ThermoryContext context)
         {
             context.InventoryTransactions.Add(_transaction);

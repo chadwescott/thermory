@@ -15,6 +15,7 @@ namespace Thermory.Web.Controllers
     public abstract class OrderController : Controller
     {
         protected abstract OrderTypes OrderType { get; }
+        protected abstract OrderStatuses InitialOrderStatus { get; }
 
         public ActionResult Review(Guid? id)
         {
@@ -33,7 +34,7 @@ namespace Thermory.Web.Controllers
         [Authorize(Roles = Role.InventoryMaster)]
         public ActionResult Create()
         {
-            var model = CreateOrderFormViewModel(OrderType);
+            var model = CreateOrderFormViewModel();
             return View("Order/Form", model);
         }
 
@@ -48,7 +49,7 @@ namespace Thermory.Web.Controllers
                 return RedirectToAction("Index");
 
             var model = CreateOrderFormViewModel(order);
-            if (order.IsDeleted)
+            if (order.OrderStatus.OrderStatusEnum == OrderStatuses.Deleted)
                 return RedirectToAction("Review", new RouteValueDictionary { { "id", id } });
             return View("Order/Form", model);
         }
@@ -115,13 +116,18 @@ namespace Thermory.Web.Controllers
             return model;
         }
 
-        private OrderForm CreateOrderFormViewModel(OrderTypes orderType)
+        private OrderForm CreateOrderFormViewModel()
         {
             return new OrderForm
             {
                 Customers = CommandDirectory.Instance.GetAllCustomers(),
-                Order = new Order { OrderType = CommandDirectory.Instance.GetOrderTypeByOrderTypeEnum(orderType) },
-                LumberOrderForms = GetLumberOrderForms(orderType),
+                Order =
+                    new Order
+                    {
+                        OrderType = CommandDirectory.Instance.GetOrderTypeByOrderTypeEnum(OrderType),
+                        OrderStatus = CommandDirectory.Instance.GetOrderStatusByOrderStatusEnum(InitialOrderStatus)
+                    },
+                LumberOrderForms = GetLumberOrderForms(OrderType),
                 MiscellaneousOrderForms = GetMiscellaneousOrderForms(),
                 PackagingTypes = CommandDirectory.Instance.GetAllPackagingTypes()
             };

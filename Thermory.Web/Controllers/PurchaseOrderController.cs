@@ -10,6 +10,11 @@ namespace Thermory.Web.Controllers
             get { return OrderTypes.PurchaseOrder; }
         }
 
+        protected override OrderStatuses InitialOrderStatus
+        {
+            get { return OrderStatuses.InTransit; }
+        }
+
         public ActionResult Index()
         {
             return View();

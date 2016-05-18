@@ -1,8 +1,9 @@
-﻿@using Thermory.Web.Models
+﻿@using Thermory.Domain.Enums
+@using Thermory.Web.Models
 @model OrderReview
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    
+
     var orderType = Model.Order.OrderType.Name;
     var controller = string.Format("{0}Order", orderType);
 }
@@ -12,22 +13,22 @@
 {
     <h4>@Model.Order.Customer.Name</h4>
 }
-@if (!Model.Order.IsDeleted)
-{
-    <div>
-        <br>
+<div>
+    <br>
+    @if (Model.Order.OrderStatus.OrderStatusEnum != OrderStatuses.Deleted)
+    {
         <div type="button" class="btn btn-primary" onclick="window.location = ('@Url.Action("Edit", controller, new RouteValueDictionary{{"id", Model.Order.Id}})');">
             <span class="glyphicon glyphicon-edit"></span> Edit
         </div>
         <div type="button" class="btn btn-danger" id="deleteButton" data-toggle="confirmation">
             <span class="glyphicon glyphicon-trash"></span> Delete
         </div>
-        <div type="button" class="btn btn-info" onclick="window.location = ('@Url.Action("Index", controller)');">
-            <span class=" glyphicon glyphicon-arrow-left"></span> Back
-        </div>
-        <br><br>
-    </div>
-}
+    }
+<div type="button" class="btn btn-info" onclick="window.location = ('@Url.Action("Index", controller)');">
+    <span class=" glyphicon glyphicon-arrow-left"></span> Back
+</div>
+<br><br>
+</div>
 <div id="worksheetPanel">
     <ul class="nav nav-tabs" data-tabs="tabs">
         <li class="active"><a href="#orderSummary" data-toggle="tab">Summary</a></li>
@@ -86,7 +87,8 @@
         var order = {
             Id: '@Model.Order.Id',
             OrderNumber: '@Model.Order.OrderNumber',
-            OrderType: { Name: '@Model.Order.OrderType.Name' }
+            OrderType: { Name: '@Model.Order.OrderType.Name' },
+            OrderStatus: { Name: '@Model.Order.OrderStatus.Name' }
         };
         var orderJson = JSON.stringify(order);
         var postData = '{"order": ' + orderJson + '}';
