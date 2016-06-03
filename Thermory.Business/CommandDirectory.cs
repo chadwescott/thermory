@@ -94,7 +94,12 @@ namespace Thermory.Business
 
         public OrderStatus GetOrderStatusByOrderStatusEnum(OrderStatuses orderStatus)
         {
-            return DatabaseCommandDirectory.Instance.GetAllOrderStatuses().SingleOrDefault(t => t.OrderStatusEnum == orderStatus);
+            return DatabaseCommandDirectory.Instance.GetAllOrderStatuses().SingleOrDefault(s => s.OrderStatusEnum == orderStatus);
+        }
+
+        public IList<OrderStatus> GetOrderStatusesByOrderTypeId(Guid orderTypeId)
+        {
+            return DatabaseCommandDirectory.Instance.GetAllOrderStatuses().Where(s => s.OrderTypeId == orderTypeId).OrderBy(s => s.SortOrder).ToList();
         }
 
         public OrderType GetOrderTypeByOrderTypeEnum(OrderTypes orderType)

@@ -26,8 +26,9 @@ namespace Thermory.Web.Controllers
             if (order == null)
                 return RedirectToAction("Index");
 
+            var orderStatuses = CommandDirectory.Instance.GetOrderStatusesByOrderTypeId(order.OrderTypeId);
             var inventoryTransactions = CommandDirectory.Instance.GetInventoryTransactionsByOrderId(order.Id);
-            var model = new OrderReview { Order = order, InventoryTransactions = inventoryTransactions };
+            var model = new OrderReview { Order = order, OrderStatuses = orderStatuses, InventoryTransactions = inventoryTransactions };
             return View("Order/Review", model);
         }
 

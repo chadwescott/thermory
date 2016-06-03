@@ -7,6 +7,8 @@ namespace Thermory.Web.Models
     {
         public Order Order { get; set; }
 
+        public IList<OrderStatus> OrderStatuses { get; set; } 
+
         public IList<InventoryTransaction> InventoryTransactions { get; set; } 
     }
 }

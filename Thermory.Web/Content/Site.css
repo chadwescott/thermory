@@ -942,3 +942,27 @@ td.totalPieceHeading {
         background-color: #d2691e;
         border-color: #a0522d;
     }
+    
+.glyphicon-default {
+    color: #777;
+}
+
+.glyphicon-primary {
+    color: #a0522d;
+}
+
+.glyphicon-success {
+    color: #5cb85c;
+}
+
+.glyphicon-info {
+    color: #5bc0de;
+}
+
+.glyphicon-warning {
+    color: #f0ad4e;
+}
+
+.glyphicon-danger {
+    color: #d9534f;
+}

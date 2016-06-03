@@ -12,10 +12,15 @@ namespace Thermory.Domain.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
+        public Guid OrderTypeId { get; set; }
+
         public string Name { get; set; }
 
+        public int SortOrder { get; set; }
+
         [NotMapped]
-        public OrderStatuses OrderStatusEnum {
+        public OrderStatuses OrderStatusEnum
+        {
             get
             {
                 switch (Name)
@@ -39,6 +44,36 @@ namespace Thermory.Domain.Models
                     default:
                         return OrderStatuses.Unknown;
                 }
-            } }
+            }
+        }
+
+        [NotMapped]
+        public string GlyphiconClass
+        {
+            get
+            {
+                switch (Name)
+                {
+                    case OrderStatusNames.Deleted:
+                        return "glyphicon-trash";
+                    case OrderStatusNames.InTransit:
+                        return "glyphicon-plane";
+                    case OrderStatusNames.Loaded:
+                        return "glyphicon-gift";
+                    case OrderStatusNames.PackagingSlipCreated:
+                        return "glyphicon-list-alt";
+                    case OrderStatusNames.Pulled:
+                        return "glyphicon-share-alt";
+                    case OrderStatusNames.Received:
+                        return "glyphicon-log-in";
+                    case OrderStatusNames.SentToWarehouse:
+                        return "glyphicon-send";
+                    case OrderStatusNames.WarehouseReceived:
+                        return "glyphicon-log-in";
+                    default:
+                        return "glyphicon-question-sign";
+                }
+            }
+        }
     }
 }
