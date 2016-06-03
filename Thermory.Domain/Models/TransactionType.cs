@@ -15,7 +15,8 @@ namespace Thermory.Domain.Models
             {TransactionTypeNames.Audit, TransactionTypes.Audit},
             {TransactionTypeNames.OrderCreate, TransactionTypes.Audit},
             {TransactionTypeNames.OrderDelete, TransactionTypes.OrderCreate},
-            {TransactionTypeNames.OrderEdit, TransactionTypes.OrderEdit}
+            {TransactionTypeNames.OrderEdit, TransactionTypes.OrderEdit},
+            {TransactionTypeNames.OrderReceived, TransactionTypes.OrderReceived}
         };
 
         [Key]

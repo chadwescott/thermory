@@ -59,7 +59,7 @@
                 </td>
             }
         }
-</tr>
+    </tr>
 </table>
 <div>
     <br>
@@ -68,11 +68,17 @@
         <div type="button" class="btn btn-primary" onclick="window.location = ('@Url.Action("Edit", controller, new RouteValueDictionary{{"id", Model.Order.Id}})');">
             <span class="glyphicon glyphicon-edit"></span> Edit
         </div>
+        if (Model.Order.OrderStatus.OrderStatusEnum == OrderStatuses.InTransit)
+        {
+            <div type="button" class="btn btn-success" onclick="receiveOrder();">
+                <span class="glyphicon glyphicon-log-in"></span> Received
+            </div>
+        }
         <div type="button" class="btn btn-danger" id="deleteButton" data-toggle="confirmation">
             <span class="glyphicon glyphicon-trash"></span> Delete
         </div>
     }
-    <div type="button" class="btn btn-info" onclick="window.location = ('@Url.Action("Index", controller)');">
+    <div type="button" class="btn btn-info" onclick="window.location = ('@Url.Action("index", controller)');">
         <span class=" glyphicon glyphicon-arrow-left"></span> Back
     </div>
     <br><br>
@@ -98,27 +104,31 @@
                         <em>@transaction.CreatedOn</em>
                     </div>
                     <div class="panel-body">
-                        <a style="cursor: pointer" data-toggle="collapse" data-target="#@transaction.Id">Details</a>
-                        <div id="@transaction.Id" class="collapse">
-                            @if (transaction.LumberTransactionDetails.Any())
-                            {
-                                var model = new LumberTransactionDetails { AdjustmentMultiplier = Model.Order.AdjustmentMultiplier, Details = transaction.LumberTransactionDetails };
-                                @Html.Partial("Order/_LumberTransactionDetails", model)
-                            }
-                            @if (transaction.MiscellaneousTransactionDetails.Any())
-                            {
-                                var model = new MiscellaneousTransactionDetails { AdjustmentMultiplier = Model.Order.AdjustmentMultiplier, Details = transaction.MiscellaneousTransactionDetails };
-                                @Html.Partial("Order/_MiscellaneousTransactionDetails", model)
-                            }
-                        </div>
-                    </div>
+                        @if (transaction.LumberTransactionDetails.Any() || transaction.MiscellaneousTransactionDetails.Any())
+                        {
+                            <a style="cursor: pointer" data-toggle="collapse" data-target="#@transaction.Id">Details</a>
+                            <div id="@transaction.Id" class="collapse">
+                                @if (transaction.LumberTransactionDetails.Any())
+                                {
+                                    var model = new LumberTransactionDetails { AdjustmentMultiplier = Model.Order.AdjustmentMultiplier, Details = transaction.LumberTransactionDetails };
+                                    @Html.Partial("Order/_LumberTransactionDetails", model)
+                                }
+                                @if (transaction.MiscellaneousTransactionDetails.Any())
+                                {
+                                    var model = new MiscellaneousTransactionDetails { AdjustmentMultiplier = Model.Order.AdjustmentMultiplier, Details = transaction.MiscellaneousTransactionDetails };
+                                    @Html.Partial("Order/_MiscellaneousTransactionDetails", model)
+                                }
+                            </div>
+                        }
                 </div>
+            </div>
             }
         </div>
     </div>
 </div>
 
 <div id="deletingPanel" style="display: none;">Deleting...</div>
+<div id="orderTransitioningPanel" style="display: none;">Transitioning order status...</div>
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -153,6 +163,35 @@
             error: function (data, status, request) {
                 $('#worksheetPanel').show();
                 $('#deletingPanel').hide();
+            }
+        });
+    }
+
+    function receiveOrder() {
+        $('#worksheetPanel').hide();
+        $('#orderTransitioningPanel').show();
+
+        var order = {
+            Id: '@Model.Order.Id',
+            OrderNumber: '@Model.Order.OrderNumber',
+            OrderType: { Name: '@Model.Order.OrderType.Name' },
+            OrderStatus: { Name: '@Model.Order.OrderStatus.Name' }
+        };
+        var orderJson = JSON.stringify(order);
+        var postData = '{"order": ' + orderJson + '}';
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("Receive", controller)',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: postData,
+            success: function (data, status, request) {
+                location.reload();
+            },
+            error: function (data, status, request) {
+                $('#worksheetPanel').show();
+                $('#orderTransitioningPanel').hide();
             }
         });
     }

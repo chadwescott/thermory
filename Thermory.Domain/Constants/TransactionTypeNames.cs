@@ -9,5 +9,7 @@
         public const string OrderEdit = "OrderEdit";
 
         public const string OrderDelete = "OrderDelete";
+
+        public const string OrderReceived = "OrderReceived";
     }
 }

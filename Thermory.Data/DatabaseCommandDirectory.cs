@@ -143,6 +143,13 @@ namespace Thermory.Data
             transaction.Execute();
         }
 
+        public void ReceiveOrder(int userId, Order order)
+        {
+            var builder = new ReceiveOrderBuilder(userId, order);
+            var transaction = new TransactionalCommand(builder.Commands);
+            transaction.Execute();
+        }
+
         public void SaveLumberCategory(LumberCategory model)
         {
             var command = new SaveLumberCategory(model);

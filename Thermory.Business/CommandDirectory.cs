@@ -112,6 +112,11 @@ namespace Thermory.Business
             return DatabaseCommandDirectory.Instance.GetUserRolesByUserId(userId);
         }
 
+        public void ReceiveOrder(int userId, Order order)
+        {
+            DatabaseCommandDirectory.Instance.ReceiveOrder(userId, order);
+        }
+
         public void SaveLumberCategory(LumberCategory model)
         {
             DatabaseCommandDirectory.Instance.SaveLumberCategory(model);

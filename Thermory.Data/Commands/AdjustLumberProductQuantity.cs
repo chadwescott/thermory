@@ -27,8 +27,11 @@ namespace Thermory.Data.Commands
             var lumberProduct = context.LumberProducts.Single(p => p.Id == _lumberProductId);
             var newQuantity = lumberProduct.Quantity + _delta;
 
-            var command = new CreateLumberTransactionDetails(_transaction, _lumberProductId, newQuantity);
-            command.Execute(context);
+            if (_transaction != null)
+            {
+                var command = new CreateLumberTransactionDetails(_transaction, _lumberProductId, newQuantity);
+                command.Execute(context);
+            }
 
             if (!_applyQuantityChanges) return;
 

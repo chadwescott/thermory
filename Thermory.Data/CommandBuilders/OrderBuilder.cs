@@ -9,6 +9,8 @@ namespace Thermory.Data.CommandBuilders
 {
     internal abstract class OrderBuilder : CommandBuilder
     {
+        protected abstract TransactionTypes TransactionType { get; }
+
         protected Order GetOrder(Guid orderId)
         {
             var getOrderCommand = new GetOrderById(orderId);
@@ -48,7 +50,5 @@ namespace Thermory.Data.CommandBuilders
             var createInventoryTransactionCommand = new CreateInventoryTransaction(transaction);
             Commands.Add(createInventoryTransactionCommand);
         }
-
-        protected abstract TransactionTypes TransactionType { get; }
     }
 }

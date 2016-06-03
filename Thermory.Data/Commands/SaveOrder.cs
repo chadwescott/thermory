@@ -22,6 +22,8 @@ namespace Thermory.Data.Commands
             _order.Customer = null;
             _order.OrderStatus = null;
             _order.OrderType = null;
+            _order.OrderLumberLineItems = null;
+            _order.OrderMiscellaneousLineItems = null;
         }
 
         protected override void OnExecute(ThermoryContext context)

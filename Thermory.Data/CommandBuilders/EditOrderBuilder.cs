@@ -9,6 +9,11 @@ namespace Thermory.Data.CommandBuilders
 {
     internal class EditOrderBuilder : OrderBuilder
     {
+        protected override TransactionTypes TransactionType
+        {
+            get { return TransactionTypes.OrderEdit; }
+        }
+
         public EditOrderBuilder(int userId, Order order, OrderLumberLineItem[] lumberLineItems, OrderMiscellaneousLineItem[] miscLineItems)
         {
             var dbOrder = GetOrder(order.Id);
@@ -97,7 +102,7 @@ namespace Thermory.Data.CommandBuilders
         }
 
         private void AddEditedLumberProductAddjustmentCommands(InventoryTransaction transaction,
-            IEnumerable<OrderLumberLineItem> previousLineItems, List<OrderLumberLineItem> currentLineItems,
+            IEnumerable<OrderLumberLineItem> previousLineItems, IEnumerable<OrderLumberLineItem> currentLineItems,
             int adjustmentMultiplier, bool applyInventoryQuantityChanges)
         {
             if (currentLineItems == null) return;
@@ -195,11 +200,6 @@ namespace Thermory.Data.CommandBuilders
                             new AdjustMiscellaneousProductQuantity(transaction, i.MiscellaneousProductId,
                                 -i.Quantity * adjustmentMultiplier, applyInventoryQuantityChanges));
             Commands.AddRange(adjustMiscellaneousProductQuantityCommands);
-        }
-
-        protected override TransactionTypes TransactionType
-        {
-            get { return TransactionTypes.OrderEdit; }
         }
     }
 }

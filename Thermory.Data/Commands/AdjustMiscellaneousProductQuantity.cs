@@ -27,8 +27,11 @@ namespace Thermory.Data.Commands
             var miscellaneousProduct = context.MiscellaneousProducts.Single(p => p.Id == _miscellaneousProductId);
             var newQuantity = miscellaneousProduct.Quantity + _delta;
 
-            var command = new CreateMiscellaneousTransactionDetails(_transaction, _miscellaneousProductId, newQuantity);
-            command.Execute(context);
+            if (_transaction != null)
+            {
+                var command = new CreateMiscellaneousTransactionDetails(_transaction, _miscellaneousProductId, newQuantity);
+                command.Execute(context);
+            }
             
             if (!_applyQuantityChanges) return;
 

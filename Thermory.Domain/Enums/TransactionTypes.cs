@@ -5,6 +5,7 @@
         Audit,
         OrderCreate,
         OrderEdit,
-        OrderDelete
+        OrderDelete,
+        OrderReceived
     }
 }
