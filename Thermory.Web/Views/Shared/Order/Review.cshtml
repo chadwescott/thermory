@@ -102,26 +102,27 @@
                     <div class="panel-heading">
                         <strong>@transaction.TransactionType.Description by @transaction.CreatedBy.FullName</strong>
                         <em>@transaction.CreatedOn</em>
-                    </div>
-                    <div class="panel-body">
                         @if (transaction.LumberTransactionDetails.Any() || transaction.MiscellaneousTransactionDetails.Any())
                         {
                             <a style="cursor: pointer" data-toggle="collapse" data-target="#@transaction.Id">Details</a>
-                            <div id="@transaction.Id" class="collapse">
-                                @if (transaction.LumberTransactionDetails.Any())
-                                {
-                                    var model = new LumberTransactionDetails { AdjustmentMultiplier = Model.Order.AdjustmentMultiplier, Details = transaction.LumberTransactionDetails };
-                                    @Html.Partial("Order/_LumberTransactionDetails", model)
-                                }
-                                @if (transaction.MiscellaneousTransactionDetails.Any())
-                                {
-                                    var model = new MiscellaneousTransactionDetails { AdjustmentMultiplier = Model.Order.AdjustmentMultiplier, Details = transaction.MiscellaneousTransactionDetails };
-                                    @Html.Partial("Order/_MiscellaneousTransactionDetails", model)
-                                }
-                            </div>
                         }
+                    </div>
+                    @if (transaction.LumberTransactionDetails.Any() || transaction.MiscellaneousTransactionDetails.Any())
+                    {
+                        <div id="@transaction.Id" class="panel-body collapse" style="padding-top: 0; padding-bottom: 0;">
+                            @if (transaction.LumberTransactionDetails.Any())
+                            {
+                                var model = new LumberTransactionDetails { AdjustmentMultiplier = Model.Order.AdjustmentMultiplier, Details = transaction.LumberTransactionDetails };
+                                @Html.Partial("Order/_LumberTransactionDetails", model)
+                            }
+                            @if (transaction.MiscellaneousTransactionDetails.Any())
+                            {
+                                var model = new MiscellaneousTransactionDetails { AdjustmentMultiplier = Model.Order.AdjustmentMultiplier, Details = transaction.MiscellaneousTransactionDetails };
+                                @Html.Partial("Order/_MiscellaneousTransactionDetails", model)
+                            }
+                        </div>
+                    }
                 </div>
-            </div>
             }
         </div>
     </div>
