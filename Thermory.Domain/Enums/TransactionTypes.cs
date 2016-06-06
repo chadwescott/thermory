@@ -6,6 +6,10 @@
         OrderCreate,
         OrderEdit,
         OrderDelete,
-        OrderReceived
+        OrderLoaded,
+        OrderPackagingSlipCreated,
+        OrderPulled,
+        OrderReceived,
+        OrderWarehouseReceived
     }
 }

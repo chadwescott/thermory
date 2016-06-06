@@ -62,7 +62,7 @@
                                     var productForLength = lumberType.LumberProducts.SingleOrDefault(p => p.LengthInMillimeters == length);
                                     if (productForLength != null)
                                     {
-                                        var lineItem = Model.LumberLineItems == null || productForLength == null ? null : Model.LumberLineItems.SingleOrDefault(li => li.LumberProductId == productForLength.Id);
+                                        var lineItem = Model.LumberLineItems == null ? null : Model.LumberLineItems.SingleOrDefault(li => li.LumberProductId == productForLength.Id);
                                         var orderQuantity = lineItem == null ? 0 : lineItem.Quantity;
                                         var lineItemId = lineItem == null ? Guid.Empty : lineItem.Id;
                                         orderLinearFeet += LumberCalculations.GetLinearFeet(orderQuantity, productForLength.LengthInInches);

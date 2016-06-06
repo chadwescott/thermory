@@ -13,10 +13,14 @@ namespace Thermory.Domain.Models
             <string, TransactionTypes>
         {
             {TransactionTypeNames.Audit, TransactionTypes.Audit},
-            {TransactionTypeNames.OrderCreate, TransactionTypes.Audit},
-            {TransactionTypeNames.OrderDelete, TransactionTypes.OrderCreate},
+            {TransactionTypeNames.OrderCreate, TransactionTypes.OrderCreate},
+            {TransactionTypeNames.OrderDelete, TransactionTypes.OrderDelete},
             {TransactionTypeNames.OrderEdit, TransactionTypes.OrderEdit},
-            {TransactionTypeNames.OrderReceived, TransactionTypes.OrderReceived}
+            {TransactionTypeNames.OrderLoaded, TransactionTypes.OrderLoaded},
+            {TransactionTypeNames.OrderPackagingSlipCreated, TransactionTypes.OrderPackagingSlipCreated},
+            {TransactionTypeNames.OrderPulled, TransactionTypes.OrderPulled},
+            {TransactionTypeNames.OrderReceived, TransactionTypes.OrderReceived},
+            {TransactionTypeNames.OrderWarehouseReceived, TransactionTypes.OrderWarehouseReceived}
         };
 
         [Key]

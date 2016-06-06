@@ -28,6 +28,22 @@ namespace Thermory.Domain.Models
         [ForeignKey("OrderStatusId")]
         public OrderStatus OrderStatus { get; set; }
 
+        [NotMapped]
+        public int HoursToLoad { get { return MinutesToLoad == null ? 0 : MinutesToLoad.Value / 60; } }
+
+        public int? MinutesToLoad { get; set; }
+
+        [NotMapped]
+        public int MinutesToLoadRemainder { get { return MinutesToLoad == null ? 0 : MinutesToLoad.Value % 60; } }
+
+        [NotMapped]
+        public int HoursToPull { get { return MinutesToPull == null ? 0 : MinutesToPull.Value / 60; } }
+
+        public int? MinutesToPull { get; set; }
+
+        [NotMapped]
+        public int MinutesToPullRemainder { get { return MinutesToPull == null ? 0 : MinutesToPull.Value % 60; } }
+
         [ForeignKey("OrderTypeId")]
         public OrderType OrderType { get; set; }
 

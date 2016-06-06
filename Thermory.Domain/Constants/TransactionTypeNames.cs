@@ -10,6 +10,14 @@
 
         public const string OrderDelete = "OrderDelete";
 
+        public const string OrderLoaded = "OrderLoaded";
+
+        public const string OrderPackagingSlipCreated = "OrderPackagingSlipCreated";
+
+        public const string OrderPulled = "OrderPulled";
+
         public const string OrderReceived = "OrderReceived";
+
+        public const string OrderWarehouseReceived = "OrderWarehouseReceived";
     }
 }

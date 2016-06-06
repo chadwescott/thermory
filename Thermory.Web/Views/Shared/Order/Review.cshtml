@@ -1,4 +1,5 @@
-﻿@using Thermory.Domain.Enums
+﻿@using Thermory.Domain.Constants
+@using Thermory.Domain.Enums
 @using Thermory.Web.Models
 @model OrderReview
 @{
@@ -61,22 +62,75 @@
         }
     </tr>
 </table>
+@if (Model.Order.OrderStatus.OrderStatusEnum == OrderStatuses.WarehouseReceived)
+{
+    <br />
+    <div class="panel panel-default">
+        <div class="panel-heading">Time to pull</div>
+        <div class="panel-body" style="padding-top: 0;">
+            @if (Model.Order.OrderStatus.OrderStatusEnum == OrderStatuses.WarehouseReceived)
+            {
+                <table>
+                    <tr>
+                        <td>
+                            <input type="text" id="hoursToPull" class="form-control numeric" maxlength="2" value="@Model.Order.HoursToPull" style="width: 50px;" />
+                        </td>
+                        <td>hours</td>
+                        <td>
+                            <select id="minutesToPull" class="form-control">
+                                <option value="0">0</option>
+                                <option value="15">15</option>
+                                <option value="30">30</option>
+                                <option value="45">45</option>
+                            </select>
+                        </td>
+                        <td>minutes</td>
+                    </tr>
+                </table>
+            }
+            @if (Model.Order.OrderType.OrderTypeEnum == OrderTypes.SalesOrder && Model.Order.OrderStatus.SortOrder >= Model.OrderStatuses.Single(s => s.OrderStatusEnum == OrderStatuses.Pulled).SortOrder)
+            {
+                <div>Time taken to pull: @Model.Order.HoursToPull hours @Model.Order.MinutesToPullRemainder minutes</div>
+            }
+            <div type="button" class="btn btn-success" onclick="pullOrder();">
+                <span class="glyphicon glyphicon-share-alt"></span> Pulled
+            </div>
+            <div id="pullOrderErrorPanel" class="alert alert-danger" role="alert" style="display: none; margin-top: 14px;">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <span class="sr-only">Error:</span>
+                <span id="pullOrderErrorMessage"></span>
+            </div>
+        </div>
+    </div>
+}
 <div>
     <br>
     @if (Model.Order.OrderStatus.OrderStatusEnum != OrderStatuses.Deleted)
     {
-        <div type="button" class="btn btn-primary" onclick="window.location = ('@Url.Action("Edit", controller, new RouteValueDictionary{{"id", Model.Order.Id}})');">
-            <span class="glyphicon glyphicon-edit"></span> Edit
-        </div>
-        if (Model.Order.OrderStatus.OrderStatusEnum == OrderStatuses.InTransit)
+        if (User.IsInRole(Role.InventoryMaster))
+        {
+            <div type="button" class="btn btn-primary" onclick="window.location = ('@Url.Action("Edit", controller, new RouteValueDictionary {{"id", Model.Order.Id}})'); ">
+                <span class="glyphicon glyphicon-edit"></span> Edit
+            </div>
+        }
+        if (Model.Order.OrderStatus.OrderStatusEnum == OrderStatuses.InTransit && User.IsInRole(Role.InventoryMaster))
         {
             <div type="button" class="btn btn-success" onclick="receiveOrder();">
                 <span class="glyphicon glyphicon-log-in"></span> Received
             </div>
         }
-        <div type="button" class="btn btn-danger" id="deleteButton" data-toggle="confirmation">
-            <span class="glyphicon glyphicon-trash"></span> Delete
-        </div>
+        if (Model.Order.OrderStatus.OrderStatusEnum == OrderStatuses.SentToWarehouse)
+        {
+            <div type="button" class="btn btn-success" onclick="warehouseReceivedOrder();">
+                <span class="glyphicon glyphicon-log-in"></span> Warehouse Received
+            </div>
+        }
+        if (User.IsInRole(Role.InventoryMaster))
+        {
+            <div type="button" class="btn btn-danger" id="deleteButton" data-toggle="confirmation">
+                <span class="glyphicon glyphicon-trash"></span> Delete
+            </div>
+        }
     }
     <div type="button" class="btn btn-info" onclick="window.location = ('@Url.Action("index", controller)');">
         <span class=" glyphicon glyphicon-arrow-left"></span> Back
@@ -133,6 +187,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+        $('.numeric').keydown(rejectNonNumericText);
         $('#deleteButton').confirmation({
             onConfirm: deleteOrder,
             title: "If you delete an order by mistake you will have to create a new order. Are you sure you want to delete this order?"
@@ -169,21 +224,49 @@
     }
 
     function receiveOrder() {
-        $('#worksheetPanel').hide();
-        $('#orderTransitioningPanel').show();
+        transitionOrder('@Url.Action("Receive", controller)', getOrder());
+    }
 
-        var order = {
+    function warehouseReceivedOrder() {
+        transitionOrder('@Url.Action("WarehouseReceived", controller)', getOrder());
+    }
+
+    function pullOrder() {
+        $('#pullOrderErrorPanel').hide();
+        var hoursTaken = parseInt($('#hoursToPull').val());
+        var minutesTaken = parseInt($('#minutesToPull').val());
+        var totalMinutes = hoursTaken * 60 + minutesTaken;
+
+        if (totalMinutes == 0) {
+            $('#pullOrderErrorMessage').text('You must enter the time taken to pull the order.');
+            $('#pullOrderErrorPanel').show();
+            return;
+        }
+
+        var order = getOrder();
+        order.MinutesToPull = totalMinutes;
+        transitionOrder('@Url.Action("Pulled", controller)', order);
+    }
+
+    function getOrder() {
+        return {
             Id: '@Model.Order.Id',
             OrderNumber: '@Model.Order.OrderNumber',
             OrderType: { Name: '@Model.Order.OrderType.Name' },
             OrderStatus: { Name: '@Model.Order.OrderStatus.Name' }
         };
+    }
+
+    function transitionOrder(url, order) {
+        $('#worksheetPanel').hide();
+        $('#orderTransitioningPanel').show();
+
         var orderJson = JSON.stringify(order);
         var postData = '{"order": ' + orderJson + '}';
 
         $.ajax({
             type: 'POST',
-            url: '@Url.Action("Receive", controller)',
+            url: url,
             contentType: 'application/json',
             dataType: 'json',
             data: postData,
@@ -197,4 +280,3 @@
         });
     }
 </script>
-

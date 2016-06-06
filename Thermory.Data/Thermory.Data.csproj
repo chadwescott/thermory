@@ -60,8 +60,10 @@
     <Compile Include="CommandBuilders\EditOrderBuilder.cs" />
     <Compile Include="CommandBuilders\InventoryAuditBuilder.cs" />
     <Compile Include="CommandBuilders\OrderBuilder.cs" />
+    <Compile Include="CommandBuilders\PullOrderBuilder.cs" />
     <Compile Include="CommandBuilders\ReceiveOrderBuilder.cs" />
     <Compile Include="CommandBuilders\UpdateUserRolesBuilder.cs" />
+    <Compile Include="CommandBuilders\WarehouseReceviedOrderBuilder.cs" />
     <Compile Include="Commands\AdjustLumberProductQuantity.cs" />
     <Compile Include="Commands\AdjustMiscellaneousProductQuantity.cs" />
     <Compile Include="Commands\CreateInventoryTransaction.cs" />

@@ -1,5 +1,9 @@
 ﻿using System.Web.Mvc;
+using Thermory.Business;
+using Thermory.Domain.Constants;
 using Thermory.Domain.Enums;
+using Thermory.Domain.Models;
+using WebMatrix.WebData;
 
 namespace Thermory.Web.Controllers
 {
@@ -18,6 +22,22 @@ namespace Thermory.Web.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+        [Authorize(Roles = Role.WarehouseCrew)]
+        [HttpPost]
+        public ActionResult WarehouseReceived(Order order)
+        {
+            CommandDirectory.Instance.WarehouseReceivedOrder(WebSecurity.CurrentUserId, order);
+            return Json(new { status = "success" });
+        }
+
+        [Authorize(Roles = Role.WarehouseCrew)]
+        [HttpPost]
+        public ActionResult Pulled(Order order)
+        {
+            CommandDirectory.Instance.PullOrder(WebSecurity.CurrentUserId, order);
+            return Json(new { status = "success" });
         }
     }
 }
