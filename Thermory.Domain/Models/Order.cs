@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using Thermory.Domain.Enums;
 
 namespace Thermory.Domain.Models
@@ -70,6 +71,60 @@ namespace Thermory.Domain.Models
                 return OrderType.OrderTypeEnum == OrderTypes.SalesOrder ||
                        OrderStatus.OrderStatusEnum == OrderStatuses.Received;
             }
+        }
+
+        [NotMapped]
+        public int TotalPieces
+        {
+            get { return OrderLumberLineItems.Any() ? OrderLumberLineItems.Sum(oli => oli.Quantity) : 0; }
+        }
+
+        [NotMapped]
+        public double TotalLinearFeet
+        {
+            get { return OrderLumberLineItems.Any() ? OrderLumberLineItems.Sum(oli => oli.LinearFeet) : 0; }
+        }
+
+        [NotMapped]
+        public double TotalSquareFeet
+        {
+            get { return OrderLumberLineItems.Any() ? OrderLumberLineItems.Sum(oli => oli.SquareFeet) : 0; }
+        }
+
+        [NotMapped]
+        public double PiecesLoadedPerHour
+        {
+            get { return MinutesToLoad == null || MinutesToLoad == 0 || TotalPieces == 0 ? 0 : TotalPieces / ((double)MinutesToLoad.Value / 60); }
+        }
+
+        [NotMapped]
+        public double SquareFeetLoadedPerHour
+        {
+            get { return MinutesToLoad == null || MinutesToLoad == 0 || TotalSquareFeet == 0 ? 0 : TotalSquareFeet / ((double)MinutesToLoad.Value / 60); }
+        }
+
+        [NotMapped]
+        public double LinearFeetLoadedPerHour
+        {
+            get { return MinutesToLoad == null || MinutesToLoad == 0 || TotalLinearFeet == 0 ? 0 : TotalLinearFeet / ((double)MinutesToLoad.Value / 60); }
+        }
+
+        [NotMapped]
+        public double PiecesPulledPerHour
+        {
+            get {  return MinutesToPull == null || MinutesToPull == 0 || TotalPieces == 0 ? 0 : TotalPieces / ((double)MinutesToPull.Value / 60);}
+        }
+
+        [NotMapped]
+        public double SquareFeetPulledPerHour
+        {
+            get { return MinutesToPull == null || MinutesToPull == 0 || TotalSquareFeet == 0 ? 0 : TotalSquareFeet / ((double)MinutesToPull.Value / 60); }
+        }
+
+        [NotMapped]
+        public double LinearFeetPulledPerHour
+        {
+            get { return MinutesToPull == null || MinutesToPull == 0 || TotalLinearFeet == 0 ? 0 : TotalLinearFeet / ((double)MinutesToPull.Value / 60); }
         }
     }
 }

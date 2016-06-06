@@ -15,10 +15,10 @@ namespace Thermory.Web.Models.Status
             {OrderStatusNames.InTransit, new WarningLabel()},
             {OrderStatusNames.Loaded, new SuccessLabel()},
             {OrderStatusNames.PackagingSlipCreated, new InfoLabel()},
-            {OrderStatusNames.Pulled, new InfoLabel()},
+            {OrderStatusNames.Pulled, new WarningLabel()},
             {OrderStatusNames.Received, new SuccessLabel()},
             {OrderStatusNames.SentToWarehouse, new InfoLabel()},
-            {OrderStatusNames.WarehouseReceived, new WarningLabel()}
+            {OrderStatusNames.WarehouseReceived, new InfoLabel()}
         };
 
         protected override Dictionary<string, StatusLabel> StatusLookup

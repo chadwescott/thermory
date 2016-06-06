@@ -1,5 +1,4 @@
-﻿@using Thermory.Domain.Enums
-@model Thermory.Web.Models.OrderReview
+﻿@model Thermory.Web.Models.OrderReview
 
 @{
     var orderLumberCategories = Model.Order.OrderLumberLineItems.Select(i => i.LumberProduct.LumberType.LumberSubCategory.LumberCategory).Distinct();

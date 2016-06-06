@@ -140,6 +140,7 @@
 <div id="worksheetPanel">
     <ul class="nav nav-tabs" data-tabs="tabs">
         <li class="active"><a href="#orderSummary" data-toggle="tab">Summary</a></li>
+        <li><a href="#orderRatings" data-toggle="tab">Ratings</a></li>
         <li><a href="#orderTransactions" data-toggle="tab">Transactions</a></li>
     </ul>
     <div class="tab-content">
@@ -149,7 +150,60 @@
                 @Html.Partial("Order/_MiscellaneousProductReview", Model)
             }
         </div>
+        <div id="orderRatings" class="tab-pane">
+            <table class="table table-condensed table-striped" style="margin-top: 0;">
+                <colgroup>
+                    <col style="width: 30%;" />
+                    <col style="width: 70%;" />
+                </colgroup>
+                <tr>
+                    <td>Total Pieces</td>
+                    <td>@Model.Order.TotalPieces</td>
+                </tr>
+                <tr>
+                    <td>Total Linear Feet</td>
+                    <td>@Model.Order.TotalLinearFeet</td>
+                </tr>
+                <tr>
+                    <td>Total Square Feet</td>
+                    <td>@Model.Order.TotalSquareFeet</td>
+                </tr>
+                <tr>
+                    <td>Time To Pull</td>
+                    <td>@Model.Order.HoursToPull hours @Model.Order.MinutesToPullRemainder minutes</td>
+                </tr>
+                <tr>
+                    <td>Pieces Pulled Per Hour</td>
+                    <td>@Model.Order.PiecesPulledPerHour</td>
+                </tr>
+                <tr>
+                    <td>Linear Feet Pulled Per Hour</td>
+                    <td>@Model.Order.LinearFeetPulledPerHour</td>
+                </tr>
+                <tr>
+                    <td>Square Feet Pulled Per Hour</td>
+                    <td>@Model.Order.SquareFeetPulledPerHour</td>
+                </tr>
+                <tr>
+                    <td>Time To Load</td>
+                    <td>@Model.Order.HoursToLoad hours @Model.Order.MinutesToPullRemainder minutes</td>
+                </tr>
+                <tr>
+                    <td>Pieces Loaded Per Hour</td>
+                    <td>@Model.Order.PiecesLoadedPerHour</td>
+                </tr>
+                <tr>
+                    <td>Linear Feet Loaded Per Hour</td>
+                    <td>@Model.Order.LinearFeetLoadedPerHour</td>
+                </tr>
+                <tr>
+                    <td>Square Feet Loaded Per Hour</td>
+                    <td>@Model.Order.SquareFeetLoadedPerHour</td>
+                </tr>
+            </table>
+        </div>
         <div id="orderTransactions" class="tab-pane">
+            <br/>
             @foreach (var transaction in Model.InventoryTransactions)
             {
                 <div class="panel panel-default">
