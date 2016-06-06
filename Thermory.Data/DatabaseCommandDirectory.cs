@@ -143,6 +143,13 @@ namespace Thermory.Data
             transaction.Execute();
         }
 
+        public void LoadOrder(int userId, Guid orderId, int minutesTaken)
+        {
+            var builder = new LoadOrderBuilder(userId, orderId, minutesTaken);
+            var transaction = new TransactionalCommand(builder.Commands);
+            transaction.Execute();
+        }
+
         public void PullOrder(int userId, Guid orderId, int minutesTaken)
         {
             var builder = new PullOrderBuilder(userId, orderId, minutesTaken);

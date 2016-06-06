@@ -59,6 +59,7 @@
     <Compile Include="CommandBuilders\DeleteOrderBuilder.cs" />
     <Compile Include="CommandBuilders\EditOrderBuilder.cs" />
     <Compile Include="CommandBuilders\InventoryAuditBuilder.cs" />
+    <Compile Include="CommandBuilders\LoadOrderBuilder.cs" />
     <Compile Include="CommandBuilders\OrderBuilder.cs" />
     <Compile Include="CommandBuilders\PullOrderBuilder.cs" />
     <Compile Include="CommandBuilders\ReceiveOrderBuilder.cs" />

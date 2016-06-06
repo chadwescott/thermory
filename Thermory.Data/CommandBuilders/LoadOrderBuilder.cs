@@ -4,22 +4,22 @@ using Thermory.Domain.Enums;
 
 namespace Thermory.Data.CommandBuilders
 {
-    internal class PullOrderBuilder : OrderBuilder
+    internal class LoadOrderBuilder : OrderBuilder
     {
         protected override TransactionTypes TransactionType
         {
-            get { return TransactionTypes.OrderPulled; }
+            get { return TransactionTypes.OrderLoaded; }
         }
 
-        public PullOrderBuilder(int userId, Guid orderId, int minutesTaken)
+        public LoadOrderBuilder(int userId, Guid orderId, int minutesTaken)
         {
             var order = GetOrder(orderId);
             if (order == null || order.OrderStatus.OrderStatusEnum == OrderStatuses.Deleted) return;
 
             CreateInventoryTransaction(userId, order);
 
-            order.OrderStatusId = DatabaseCommandDirectory.Instance.GetOrderStatusByEnum(OrderStatuses.Pulled).Id;
-            order.MinutesToPull = minutesTaken;
+            order.OrderStatusId = DatabaseCommandDirectory.Instance.GetOrderStatusByEnum(OrderStatuses.Loaded).Id;
+            order.MinutesToLoad = minutesTaken;
             Commands.Add(new SaveOrder(order));
         }
     }

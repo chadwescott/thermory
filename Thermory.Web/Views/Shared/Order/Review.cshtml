@@ -68,30 +68,23 @@
     <div class="panel panel-default">
         <div class="panel-heading">Time to pull</div>
         <div class="panel-body" style="padding-top: 0;">
-            @if (Model.Order.OrderStatus.OrderStatusEnum == OrderStatuses.WarehouseReceived)
-            {
-                <table>
-                    <tr>
-                        <td>
-                            <input type="text" id="hoursToPull" class="form-control numeric" maxlength="2" value="@Model.Order.HoursToPull" style="width: 50px;" />
-                        </td>
-                        <td>hours</td>
-                        <td>
-                            <select id="minutesToPull" class="form-control">
-                                <option value="0">0</option>
-                                <option value="15">15</option>
-                                <option value="30">30</option>
-                                <option value="45">45</option>
-                            </select>
-                        </td>
-                        <td>minutes</td>
-                    </tr>
-                </table>
-            }
-            @if (Model.Order.OrderType.OrderTypeEnum == OrderTypes.SalesOrder && Model.Order.OrderStatus.SortOrder >= Model.OrderStatuses.Single(s => s.OrderStatusEnum == OrderStatuses.Pulled).SortOrder)
-            {
-                <div>Time taken to pull: @Model.Order.HoursToPull hours @Model.Order.MinutesToPullRemainder minutes</div>
-            }
+            <table>
+                <tr>
+                    <td>
+                        <input type="text" id="hoursToPull" class="form-control numeric" maxlength="2" value="@Model.Order.HoursToPull" style="width: 50px;" />
+                    </td>
+                    <td>hours</td>
+                    <td>
+                        <select id="minutesToPull" class="form-control">
+                            <option value="0">0</option>
+                            <option value="15">15</option>
+                            <option value="30">30</option>
+                            <option value="45">45</option>
+                        </select>
+                    </td>
+                    <td>minutes</td>
+                </tr>
+            </table>
             <div type="button" class="btn btn-success" onclick="pullOrder();">
                 <span class="glyphicon glyphicon-share-alt"></span> Pulled
             </div>
@@ -99,6 +92,40 @@
                 <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                 <span class="sr-only">Error:</span>
                 <span id="pullOrderErrorMessage"></span>
+            </div>
+        </div>
+    </div>
+}
+@if (Model.Order.OrderStatus.OrderStatusEnum == OrderStatuses.PackagingSlipCreated)
+{
+    <br />
+    <div class="panel panel-default">
+        <div class="panel-heading">Time to load</div>
+        <div class="panel-body" style="padding-top: 0;">
+            <table>
+                <tr>
+                    <td>
+                        <input type="text" id="hoursToLoad" class="form-control numeric" maxlength="2" value="@Model.Order.HoursToLoad" style="width: 50px;" />
+                    </td>
+                    <td>hours</td>
+                    <td>
+                        <select id="minutesToLoad" class="form-control">
+                            <option value="0">0</option>
+                            <option value="15">15</option>
+                            <option value="30">30</option>
+                            <option value="45">45</option>
+                        </select>
+                    </td>
+                    <td>minutes</td>
+                </tr>
+            </table>
+            <div type="button" class="btn btn-success" onclick="loadOrder();">
+                <span class="glyphicon glyphicon-share-alt"></span> Loaded
+            </div>
+            <div id="loadOrderErrorPanel" class="alert alert-danger" role="alert" style="display: none; margin-top: 14px;">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <span class="sr-only">Error:</span>
+                <span id="loadOrderErrorMessage"></span>
             </div>
         </div>
     </div>
@@ -123,6 +150,12 @@
         {
             <div type="button" class="btn btn-success" onclick="warehouseReceivedOrder();">
                 <span class="glyphicon glyphicon-log-in"></span> Warehouse Received
+            </div>
+        }
+        if (Model.Order.OrderStatus.OrderStatusEnum == OrderStatuses.Pulled && User.IsInRole(Role.InventoryMaster))
+        {
+            <div type="button" class="btn btn-success" onclick="alert('TODO');">
+                <span class="glyphicon glyphicon-list-alt"></span> Create packaging slip
             </div>
         }
         if (User.IsInRole(Role.InventoryMaster))
@@ -203,7 +236,7 @@
             </table>
         </div>
         <div id="orderTransactions" class="tab-pane">
-            <br/>
+            <br />
             @foreach (var transaction in Model.InventoryTransactions)
             {
                 <div class="panel panel-default">
@@ -300,6 +333,23 @@
         var order = getOrder();
         order.MinutesToPull = totalMinutes;
         transitionOrder('@Url.Action("Pulled", controller)', order);
+    }
+
+    function loadOrder() {
+        $('#loadOrderErrorPanel').hide();
+        var hoursTaken = parseInt($('#hoursToLoad').val());
+        var minutesTaken = parseInt($('#minutesToLoad').val());
+        var totalMinutes = hoursTaken * 60 + minutesTaken;
+
+        if (totalMinutes == 0) {
+            $('#loadOrderErrorMessage').text('You must enter the time taken to load the order.');
+            $('#loadOrderErrorPanel').show();
+            return;
+        }
+
+        var order = getOrder();
+        order.MinutesToLoad = totalMinutes;
+        transitionOrder('@Url.Action("Loaded", controller)', order);
     }
 
     function getOrder() {

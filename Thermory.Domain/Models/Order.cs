@@ -76,19 +76,19 @@ namespace Thermory.Domain.Models
         [NotMapped]
         public int TotalPieces
         {
-            get { return OrderLumberLineItems.Any() ? OrderLumberLineItems.Sum(oli => oli.Quantity) : 0; }
+            get { return OrderLumberLineItems == null ? 0 : OrderLumberLineItems.Sum(oli => oli.Quantity); }
         }
 
         [NotMapped]
         public double TotalLinearFeet
         {
-            get { return OrderLumberLineItems.Any() ? OrderLumberLineItems.Sum(oli => oli.LinearFeet) : 0; }
+            get { return OrderLumberLineItems == null ? 0 : OrderLumberLineItems.Sum(oli => oli.LinearFeet); }
         }
 
         [NotMapped]
         public double TotalSquareFeet
         {
-            get { return OrderLumberLineItems.Any() ? OrderLumberLineItems.Sum(oli => oli.SquareFeet) : 0; }
+            get { return OrderLumberLineItems == null ? 0 : OrderLumberLineItems.Sum(oli => oli.SquareFeet); }
         }
 
         [NotMapped]

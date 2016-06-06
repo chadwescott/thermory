@@ -112,6 +112,12 @@ namespace Thermory.Business
             return DatabaseCommandDirectory.Instance.GetUserRolesByUserId(userId);
         }
 
+        public void LoadOrder(int userId, Order order)
+        {
+            var minutesTaken = order.MinutesToLoad == null ? 0 : order.MinutesToLoad.Value;
+            DatabaseCommandDirectory.Instance.LoadOrder(userId, order.Id, minutesTaken);
+        }
+
         public void PullOrder(int userId, Order order)
         {
             var minutesTaken = order.MinutesToPull == null ? 0 : order.MinutesToPull.Value;

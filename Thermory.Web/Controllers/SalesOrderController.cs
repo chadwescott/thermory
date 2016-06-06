@@ -39,5 +39,14 @@ namespace Thermory.Web.Controllers
             CommandDirectory.Instance.PullOrder(WebSecurity.CurrentUserId, order);
             return Json(new { status = "success" });
         }
+
+
+        [Authorize(Roles = Role.WarehouseCrew)]
+        [HttpPost]
+        public ActionResult Loaded(Order order)
+        {
+            CommandDirectory.Instance.LoadOrder(WebSecurity.CurrentUserId, order);
+            return Json(new { status = "success" });
+        }
     }
 }
