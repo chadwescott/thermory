@@ -96,10 +96,14 @@
             success: function (data) {
                 if (data.toLowerCase() != 'true') {
                     w2alert(data, 'Error');
+                    return;
                 }
 
                 $('#userDetails').hide();
                 w2ui['userGrid'].reload();
+            },
+            error: function () {
+                w2alert('There was an error saving the user.', 'Error');
             }
         });
     }

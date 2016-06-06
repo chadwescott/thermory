@@ -33,11 +33,11 @@
                             <!-- Collect the nav links, forms, and other content for toggling -->
                             <div>
                                 <ul class="nav navbar-nav">
+                                    <li role="presentation">@Html.ActionLink("Inventory", "Index", "Inventory")</li>
+                                    <li role="presentation">@Html.ActionLink("Incoming ", "Index", "PurchaseOrder")</li>
+                                    <li role="presentation">@Html.ActionLink("Sales Orders", "Index", "SalesOrder")</li>
                                     @if (User.IsInRole(Role.InventoryMaster))
                                     {
-                                        <li role="presentation">@Html.ActionLink("Inventory", "Index", "Inventory")</li>
-                                        <li role="presentation">@Html.ActionLink("Incoming ", "Index", "PurchaseOrder")</li>
-                                        <li role="presentation">@Html.ActionLink("Sales Orders", "Index", "SalesOrder")</li>
                                         <li role="presentation">@Html.ActionLink("Inventory Audit", "Audit", "Inventory")</li>
                                         <li role="presentation">@Html.ActionLink("Catalog", "Index", "Catalog")</li>
                                         <li role="presentation">@Html.ActionLink("Users", "Index", "User")</li>

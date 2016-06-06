@@ -17,6 +17,7 @@ namespace Thermory.Web.Controllers
         protected abstract OrderTypes OrderType { get; }
         protected abstract OrderStatuses InitialOrderStatus { get; }
 
+        [Authorize]
         public ActionResult Review(Guid? id)
         {
             if (id == null)
@@ -55,16 +56,16 @@ namespace Thermory.Web.Controllers
             return View("Order/Form", model);
         }
 
-        [Authorize(Roles = Role.InventoryMaster)]
         [HttpPost]
+        [Authorize(Roles = Role.InventoryMaster)]
         public ActionResult Delete(Order order)
         {
             CommandDirectory.Instance.DeleteOrder(WebSecurity.CurrentUserId, order);
             return Json(new { status = "success" });
         }
 
-        [Authorize(Roles = Role.InventoryMaster)]
         [HttpPost]
+        [Authorize(Roles = Role.InventoryMaster)]
         public ActionResult Save(Order order, ProductOrderQuantity[] lumberOrderQuantities, ProductOrderQuantity[] miscOrderQuantities)
         {
             var lumberLineItems = lumberOrderQuantities == null

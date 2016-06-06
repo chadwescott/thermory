@@ -1,11 +1,15 @@
-﻿@{
+﻿@using Thermory.Domain.Constants
+@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div type="button" class="btn btn-primary" onclick="window.location = ('@Url.Action("Create", "SalesOrder")');">
-    <span class="glyphicon glyphicon-plus"></span> Create Sales Order
-</div>
+@if (User.IsInRole(Role.InventoryMaster))
+{
+    <div type="button" class="btn btn-primary" onclick="window.location=('@Url.Action("Create", "SalesOrder")');">
+        <span class="glyphicon glyphicon-plus"></span> Create Sales Order
+    </div>
+}
 <h3><strong>Sales Orders</strong></h3>
 <div id="orderDiv" style="height: 450px"></div>
 

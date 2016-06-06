@@ -19,6 +19,7 @@ namespace Thermory.Web.Controllers
             get { return OrderStatuses.InTransit; }
         }
 
+        [Authorize]
         public ActionResult Index()
         {
             return View();
