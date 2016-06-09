@@ -154,9 +154,18 @@
         }
         if (Model.Order.OrderStatus.OrderStatusEnum == OrderStatuses.Pulled && User.IsInRole(Role.InventoryMaster))
         {
-            <div type="button" class="btn btn-success" onclick="alert('TODO');">
-                <span class="glyphicon glyphicon-list-alt"></span> Create packaging slip
-            </div>
+            if (Model.Order.PackagingType == null)
+            {
+                <div type="button" class="btn btn-success disabled">
+                    <span class="glyphicon glyphicon-list-alt"></span> Create packaging slip(s)
+                </div>
+            }
+            else
+            {
+                <div type="button" class="btn btn-success" onclick="window.location = ('@Url.Action("CreatePackagingSlips", "SalesOrder")/@Model.Order.Id');">
+                    <span class="glyphicon glyphicon-list-alt"></span> Create packaging slip(s)
+                </div>
+            }
         }
         if (User.IsInRole(Role.InventoryMaster))
         {
@@ -168,6 +177,13 @@
     <div type="button" class="btn btn-info" onclick="window.location = ('@Url.Action("index", controller)');">
         <span class=" glyphicon glyphicon-arrow-left"></span> Back
     </div>
+    @if (Model.Order.OrderStatus.OrderStatusEnum == OrderStatuses.Pulled && User.IsInRole(Role.InventoryMaster) && Model.Order.PackagingType == null)
+    {
+        <div id="errorPanel" class="alert alert-danger" role="alert" style="margin-top: 14px;">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span>You must edit the order and choose the packaging type before creating packaging slips.</span>
+        </div>
+    }
     <br><br>
 </div>
 <div id="worksheetPanel">
@@ -182,8 +198,8 @@
     <div class="tab-content">
         <div id="orderSummary" class="tab-pane active">
             @{
-                @Html.Partial("Order/_LumberProductReview", Model)
-                @Html.Partial("Order/_MiscellaneousProductReview", Model)
+                @Html.Partial("Order/_LumberProductReview", Model.Order)
+                @Html.Partial("Order/_MiscellaneousProductReview", Model.Order)
             }
         </div>
         @if (Model.Order.OrderType.OrderTypeEnum == OrderTypes.SalesOrder)

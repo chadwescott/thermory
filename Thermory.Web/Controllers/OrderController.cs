@@ -118,7 +118,7 @@ namespace Thermory.Web.Controllers
             return model;
         }
 
-        private OrderForm CreateOrderFormViewModel()
+        protected OrderForm CreateOrderFormViewModel()
         {
             return new OrderForm
             {

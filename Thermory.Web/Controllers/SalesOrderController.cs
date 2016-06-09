@@ -1,8 +1,10 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using Thermory.Business;
 using Thermory.Domain.Constants;
 using Thermory.Domain.Enums;
 using Thermory.Domain.Models;
+using Thermory.Web.Models;
 using WebMatrix.WebData;
 
 namespace Thermory.Web.Controllers
@@ -41,13 +43,26 @@ namespace Thermory.Web.Controllers
             return Json(new { status = "success" });
         }
 
-
         [Authorize(Roles = Role.WarehouseCrew)]
         [HttpPost]
         public ActionResult Loaded(Order order)
         {
             CommandDirectory.Instance.LoadOrder(WebSecurity.CurrentUserId, order);
             return Json(new { status = "success" });
+        }
+
+        [Authorize(Roles = Role.InventoryMaster)]
+        public ActionResult CreatePackagingSlips(Guid? id)
+        {
+            if (id == null)
+                return RedirectToAction("Index");
+
+            var order = CommandDirectory.Instance.GetOrderById(id.Value);
+            
+            if(order == null )
+                return RedirectToAction("Index");
+            
+            return order.PackagingType == null ? Review(id) : View(order);
         }
     }
 }

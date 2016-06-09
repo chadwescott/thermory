@@ -1,9 +1,9 @@
-﻿@model Thermory.Web.Models.OrderReview
+﻿@model Thermory.Domain.Models.Order
 
 @{
-    var orderLumberCategories = Model.Order.OrderLumberLineItems.Select(i => i.LumberProduct.LumberType.LumberSubCategory.LumberCategory).Distinct();
-    var orderLumberSubCategories = Model.Order.OrderLumberLineItems.Select(i => i.LumberProduct.LumberType.LumberSubCategory).Distinct();
-    var orderLumberTypes = Model.Order.OrderLumberLineItems.Select(i => i.LumberProduct.LumberType).Distinct();
+    var orderLumberCategories = Model.OrderLumberLineItems.Select(i => i.LumberProduct.LumberType.LumberSubCategory.LumberCategory).Distinct();
+    var orderLumberSubCategories = Model.OrderLumberLineItems.Select(i => i.LumberProduct.LumberType.LumberSubCategory).Distinct();
+    var orderLumberTypes = Model.OrderLumberLineItems.Select(i => i.LumberProduct.LumberType).Distinct();
 
     foreach (var category in orderLumberCategories.OrderBy(c => c.SortOrder))
     {
@@ -27,7 +27,7 @@
                             <th>Square Feet</th>
                         </tr>
                     </thead>
-                    @foreach (var lineItem in Model.Order.OrderLumberLineItems.Where(li => li.LumberProduct.LumberType.Id == lumberType.Id))
+                    @foreach (var lineItem in Model.OrderLumberLineItems.Where(li => li.LumberProduct.LumberType.Id == lumberType.Id))
                     {
                         totalLinearFeet += lineItem.LinearFeet;
                         totalSquareFeet += lineItem.SquareFeet;
@@ -53,5 +53,4 @@
             }
         }
     }
-
 }

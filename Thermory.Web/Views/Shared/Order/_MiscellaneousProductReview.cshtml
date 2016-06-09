@@ -1,8 +1,8 @@
-﻿@model Thermory.Web.Models.OrderReview
+﻿@model Thermory.Domain.Models.Order
 
 @{
-    var orderMiscSubCategories = Model.Order.OrderMiscellaneousLineItems.Select(i => i.MiscellaneousProduct.MiscellaneousSubCategory).Distinct();
-    var orderMiscCategories = Model.Order.OrderMiscellaneousLineItems.Select(i => i.MiscellaneousProduct.MiscellaneousSubCategory.MiscellaneousCategory).Distinct();
+    var orderMiscSubCategories = Model.OrderMiscellaneousLineItems.Select(i => i.MiscellaneousProduct.MiscellaneousSubCategory).Distinct();
+    var orderMiscCategories = Model.OrderMiscellaneousLineItems.Select(i => i.MiscellaneousProduct.MiscellaneousSubCategory.MiscellaneousCategory).Distinct();
     foreach (var category in orderMiscCategories)
     {
         <h3><strong>@category.Name</strong></h3>
@@ -18,7 +18,7 @@
             @foreach (var subCategory in orderMiscSubCategories.OrderBy(s => s.SortOrder).Where(s => s.MiscellaneousCategoryId == category.Id))
             {
                 <tr>
-                    @foreach (var lineItem in Model.Order.OrderMiscellaneousLineItems.Where(li => li.MiscellaneousProduct.MiscellaneousSubCategory.Id == subCategory.Id))
+                    @foreach (var lineItem in Model.OrderMiscellaneousLineItems.Where(li => li.MiscellaneousProduct.MiscellaneousSubCategory.Id == subCategory.Id))
                     {
                         <td>@subCategory.Name</td>
                         <td>@lineItem.MiscellaneousProduct.Name</td>

@@ -21,6 +21,7 @@ namespace Thermory.Data.Commands
                     .Include(o => o.Customer)
                     .Include(o => o.OrderType)
                     .Include(o => o.OrderStatus)
+                    .Include(o => o.PackagingType)
                     .Include(
                         o =>
                             o.OrderLumberLineItems.Select(
