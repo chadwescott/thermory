@@ -3,7 +3,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
+<h3><strong>Create Packaging Slips</strong></h3>
+<br/>
+<div type="button" class="btn btn-info" onclick="window.location = ('@Url.Action("Review", "SalesOrder")/@Model.Id');">
+    <span class=" glyphicon glyphicon-arrow-left"></span> Back
+</div>
 <table id="packageCountEntry">
     <tr>
         <td>
@@ -25,7 +29,7 @@
     <span id="errorMessage"></span>
 </div>
 <div id="resetButton" type="button" class="btn btn-danger" style="display: none;" onclick="resetPackages();">
-    <span class="glyphicon glyphicon-remove"></span> Reset <span>@Model.PackagingType.Name</span>s
+    <span class="glyphicon glyphicon-remove"></span> Reset <span>@Model.PackagingType.Name</span>
 </div>
 @{
     var orderLumberCategories = Model.OrderLumberLineItems.Select(i => i.LumberProduct.LumberType.LumberSubCategory.LumberCategory).Distinct();
@@ -52,9 +56,12 @@
                         @foreach (var lineItem in Model.OrderLumberLineItems.Where(li => li.LumberProduct.LumberType.Id == lumberType.Id))
                         {
                             <tr id="@lineItem.LumberProduct.Id">
-                                <td>@lineItem.LumberProduct.LengthInFeet FT</td>
-                                <td>@lineItem.LumberProduct.LumberType.LumberSubCategory.WidthInInches"</td>
-                                <td>@lineItem.Quantity</td>
+                                <td style ="vertical-align: middle;">@lineItem.LumberProduct.LengthInFeet FT</td>
+                                <td style="vertical-align: middle;">@lineItem.LumberProduct.LumberType.LumberSubCategory.WidthInInches"</td>
+                                <td style="vertical-align: middle;">
+                                    <input type="hidden" id="qty-@lineItem.LumberProductId" value="@lineItem.Quantity" />
+                                    @lineItem.Quantity
+                                </td>
                             </tr>
                         }
                     </tbody>
@@ -63,7 +70,7 @@
         }
     }
 }
-<div id="savePackagesButton" type="button" class="btn btn-success" style="display: none;" onclick="savePackagingSlips();">
+<div id="savePackagesButton" type="button" class="btn btn-success disabled" style="display: none;" onclick="savePackagingSlips();">
     <span class="glyphicon glyphicon-ok"></span> Save
 </div>
 
@@ -82,25 +89,65 @@
         }
 
         for (var i = 1; i <= packageCount; i++) {
-            $('.packagingSummary').find('thead').find('tr').append('<th>' + packageType + ' ' + i + '</th>');
+            $('.packagingSummary').find('thead').find('tr').append('<th class="packagingColumn">' + packageType + ' ' + i + '</th>');
 
-            $('.packagingSummary').find('tbody').find('tr').each(function (index, value) {
+            $('.packagingSummary').find('tbody').find('tr').each(function () {
                 var id = $(this).attr('id');
-                $(this).append('<td class="' + id + '"><input id="' + id + ':' + i + '" class="form-control numeric" type="text" style="width: 100px;" maxlength="6" value="0" /></td>');
+                $(this).append('<td class="packagingColumn"><input id="' + id + ':' + i + '" lumberProductId="' + id + '" packageNumber="' + i + '" class="form-control numeric" type="text" style="width: 100px;" maxlength="6" value="0" onchange="packagingQuantityChanged(\'' + id + '\');" /></td>');
             });
-            
-            $('.numeric').keydown(rejectNonNumericText);
+
+            $('.numeric').keydown(rejectNonNumericText);    
         }
+        $('.packagingSummary').find('thead').find('tr').append('<th class="packagingColumn">Status</th>');
+
+        $('.packagingSummary').find('tbody').find('tr').each(function () {
+            var id = $(this).attr('id');
+            $(this).append('<td class="packagingColumn"><h3 style="margin-top: 15px;"><span id="statusIcon-' + id + '" class="glyphicon glyphicon-warning-sign glyphicon-warning"></span></h3><input type="hidden" id="status-' + id + '" name="packageStatus" value="false" /></td>');
+        });
+
         $('#packageCountEntry').hide();
         $('#resetButton').show();
         $('#savePackagesButton').show();
     }
 
+    function packagingQuantityChanged(lumberProductId) {
+        var packagedQty = 0;
+        var query = 'input[lumberProductId=\'' + lumberProductId + '\']';
+        $(query).each(function() {
+                var packageQty = $(this).val() ? parseInt($(this).val()) : 0;
+                packagedQty += packageQty;
+            }
+        );
+        var orderQty = $('#qty-' + lumberProductId).val();
+        var statusIcon = $('#statusIcon-' + lumberProductId);
+        var status = $('#status-' + lumberProductId);
+        statusIcon.removeClass();
+        if (packagedQty == orderQty) {
+            statusIcon.addClass("glyphicon glyphicon-ok glyphicon-success");
+            status.val(true);
+        } else {
+            statusIcon.addClass("glyphicon glyphicon-warning-sign glyphicon-warning");
+            status.val(false);
+        }
+        setSaveButtonState();
+    }
+
+    function setSaveButtonState() {
+        var enabled = true;
+        $('[name=packageStatus]').each(function () {
+            enabled &= $(this).val() == 'true';
+        });
+        var saveButton = $('#savePackagesButton');
+        if (enabled) {
+            saveButton.removeClass('disabled');
+        } else {
+            saveButton.addClass('disabled');
+        }
+    }
+
     function resetPackages() {
         packageCount = parseInt($('#numberOfPackages').val());
-        for (var i = 1; i <= packageCount; i++) {
-            $('.packagingColumn' + i).remove();
-        }
+        $('.packagingColumn').remove();
         $('#numberOfPackages').val(null);
         $('#packageCountEntry').show();
         $('#resetButton').hide();
@@ -109,7 +156,7 @@
 
     function savePackagingSlips() {
         packageCount = parseInt($('#numberOfPackages').val());
-        $('.packagingSummary').find('tbody').find('tr').each(function (index, value) {
+        $('.packagingSummary').find('tbody').find('tr').each(function () {
             var id = $(this).attr('id');
             //for (var i = 1; i <= packageCount; i++) {
             //    $('#' + id + ':' + i);

@@ -18,50 +18,56 @@
 </h3>
 @if (@Model.Order.Customer != null)
 {
-    <h4>@Model.Order.Customer.Name</h4>
+    <h5>Customer: @Model.Order.Customer.Name</h5>
 }
-<table>
-    <tr>
-        @foreach (var status in Model.OrderStatuses.Where(s => s.SortOrder > 0))
-        {
-            if (status.SortOrder <= Model.Order.OrderStatus.SortOrder)
+@if (@Model.Order.PackagingType != null)
+{
+    <h5>Packaging Type: @Model.Order.PackagingType.Name</h5>
+}
+<nav class="navbar navbar-default" style="padding: 0px 10px 10px 10px; margin-top: 10px;">
+    <table>
+        <tr>
+            @foreach (var status in Model.OrderStatuses.Where(s => s.SortOrder > 0))
             {
-                <td style="text-align: center;"><span class="glyphicon glyphicon-ok-circle glyphicon-success"></span></td>
+                if (status.SortOrder <= Model.Order.OrderStatus.SortOrder)
+                {
+                    <td style="text-align: center;"><span class="glyphicon glyphicon-ok-circle glyphicon-success"></span></td>
+                }
+                else if (status.SortOrder == Model.Order.OrderStatus.SortOrder + 1)
+                {
+                    <td style="text-align: center;"><span class="glyphicon glyphicon-download glyphicon-warning"></span></td>
+                }
+                else
+                {
+                    <td style="text-align: center;"><span class="glyphicon glyphicon-ban-circle glyphicon-default"></span></td>
+                }
             }
-            else if (status.SortOrder == Model.Order.OrderStatus.SortOrder + 1)
+        </tr>
+        <tr>
+            @foreach (var status in Model.OrderStatuses.Where(s => s.SortOrder > 0))
             {
-                <td style="text-align: center;"><span class="glyphicon glyphicon-download glyphicon-warning"></span></td>
+                if (status.SortOrder <= Model.Order.OrderStatus.SortOrder)
+                {
+                    <td>
+                        <span class="label label-success"><span class="glyphicon @status.GlyphiconClass"></span> @status.Name</span>
+                    </td>
+                }
+                else if (status.SortOrder == Model.Order.OrderStatus.SortOrder + 1)
+                {
+                    <td>
+                        <span class="label label-warning"><span class="glyphicon @status.GlyphiconClass"></span> @status.Name</span>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <span class="label label-default"><span class="glyphicon @status.GlyphiconClass"></span> @status.Name</span>
+                    </td>
+                }
             }
-            else
-            {
-                <td style="text-align: center;"><span class="glyphicon glyphicon-ban-circle glyphicon-default"></span></td>
-            }
-        }
-    </tr>
-    <tr>
-        @foreach (var status in Model.OrderStatuses.Where(s => s.SortOrder > 0))
-        {
-            if (status.SortOrder <= Model.Order.OrderStatus.SortOrder)
-            {
-                <td>
-                    <span class="label label-success"><span class="glyphicon @status.GlyphiconClass"></span> @status.Name</span>
-                </td>
-            }
-            else if (status.SortOrder == Model.Order.OrderStatus.SortOrder + 1)
-            {
-                <td>
-                    <span class="label label-warning"><span class="glyphicon @status.GlyphiconClass"></span> @status.Name</span>
-                </td>
-            }
-            else
-            {
-                <td>
-                    <span class="label label-default"><span class="glyphicon @status.GlyphiconClass"></span> @status.Name</span>
-                </td>
-            }
-        }
-    </tr>
-</table>
+        </tr>
+    </table>
+</nav>
 @if (Model.Order.OrderStatus.OrderStatusEnum == OrderStatuses.WarehouseReceived)
 {
     <br />
@@ -131,7 +137,6 @@
     </div>
 }
 <div>
-    <br>
     @if (Model.Order.OrderStatus.OrderStatusEnum != OrderStatuses.Deleted)
     {
         if (User.IsInRole(Role.InventoryMaster))
