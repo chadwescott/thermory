@@ -206,6 +206,13 @@ namespace Thermory.Data
             command.Execute();
         }
 
+        public void SavePackages(int userId, Guid orderId, PackageLumberLineItem[] lineItems)
+        {
+            var builder = new SavePackagesBuilder(userId, orderId, lineItems);
+            var transaction = new TransactionalCommand(builder.Commands);
+            transaction.Execute();
+        }
+
         public void UpdateUserRoles(UserProfile user)
         {
             var builder = new UpdateUserRolesBuilder(user);

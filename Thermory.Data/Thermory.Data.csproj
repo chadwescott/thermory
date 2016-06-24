@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="CommandBuilders\CommandBuilder.cs" />
     <Compile Include="CommandBuilders\CreateOrderBuilder.cs" />
+    <Compile Include="CommandBuilders\SavePackagesBuilder.cs" />
     <Compile Include="CommandBuilders\DeleteLumberLineItemBuilder.cs" />
     <Compile Include="CommandBuilders\DeleteMiscellaneousLineItemBuilder.cs" />
     <Compile Include="CommandBuilders\DeleteOrderBuilder.cs" />
@@ -72,8 +73,12 @@
     <Compile Include="Commands\CreateMiscellaneousTransactionDetails.cs" />
     <Compile Include="Commands\CreateOrderLumberLineItem.cs" />
     <Compile Include="Commands\CreateOrderMiscellaneousLineItem.cs" />
+    <Compile Include="Commands\CreateOrderPackage.cs" />
+    <Compile Include="Commands\CreateOrderPackageLumberLineItem.cs" />
     <Compile Include="Commands\DeleteOrderLumberLineItem.cs" />
     <Compile Include="Commands\DeleteOrderMiscellaneousLineItem.cs" />
+    <Compile Include="Commands\DeleteOrderPackage.cs" />
+    <Compile Include="Commands\DeleteOrderPackageLumberLineItem.cs" />
     <Compile Include="Commands\DeleteUserRole.cs" />
     <Compile Include="Commands\EditOrderLumberLineItem.cs" />
     <Compile Include="Commands\EditOrderMiscellaneousLineItem.cs" />

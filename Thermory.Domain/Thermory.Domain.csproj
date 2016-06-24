@@ -56,8 +56,8 @@
     <Compile Include="Constants\Role.cs" />
     <Compile Include="Enums\OrderStatuses.cs" />
     <Compile Include="Models\IViewModel.cs" />
-    <Compile Include="Models\OrderPackage.cs" />
-    <Compile Include="Models\OrderPackageLumberLineItem.cs" />
+    <Compile Include="Models\Package.cs" />
+    <Compile Include="Models\PackageLumberLineItem.cs" />
     <Compile Include="Models\OrderStatus.cs" />
     <Compile Include="Models\PackagingType.cs" />
     <Compile Include="Models\UserRoleXref.cs" />

@@ -395,7 +395,7 @@
     <Content Include="Views\Catalog\_MiscProductForm.cshtml" />
     <Content Include="Views\Shared\Order\Form.cshtml" />
     <Content Include="Views\Shared\Order\Review.cshtml" />
-    <Content Include="Views\SalesOrder\CreatePackagingSlips.cshtml" />
+    <Content Include="Views\SalesOrder\Package.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

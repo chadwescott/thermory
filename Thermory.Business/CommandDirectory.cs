@@ -180,6 +180,11 @@ namespace Thermory.Business
                 DatabaseCommandDirectory.Instance.EditOrder(userId, order, lumberLineItems, miscLineItems);
         }
 
+        public void SavePackages(int userId, Guid orderId, PackageLumberLineItem[] lineItems)
+        {
+            DatabaseCommandDirectory.Instance.SavePackages(userId, orderId, lineItems);
+        }
+
         public void UpdateProductInventory(int userId, TransactionTypes transactionType, LumberProduct[] lumberProducts,
             MiscellaneousProduct[] miscProducts)
         {

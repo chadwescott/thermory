@@ -4,7 +4,6 @@ using Thermory.Business;
 using Thermory.Domain.Constants;
 using Thermory.Domain.Enums;
 using Thermory.Domain.Models;
-using Thermory.Web.Models;
 using WebMatrix.WebData;
 
 namespace Thermory.Web.Controllers
@@ -52,17 +51,25 @@ namespace Thermory.Web.Controllers
         }
 
         [Authorize(Roles = Role.InventoryMaster)]
-        public ActionResult CreatePackagingSlips(Guid? id)
+        public ActionResult Package(Guid? id)
         {
             if (id == null)
                 return RedirectToAction("Index");
 
             var order = CommandDirectory.Instance.GetOrderById(id.Value);
-            
-            if(order == null )
+
+            if (order == null)
                 return RedirectToAction("Index");
-            
+
             return order.PackagingType == null ? Review(id) : View(order);
+        }
+
+        [Authorize(Roles = Role.InventoryMaster)]
+        [HttpPost]
+        public JsonResult SavePackages(Guid orderId, PackageLumberLineItem[] lineItems)
+        {
+            CommandDirectory.Instance.SavePackages(WebSecurity.CurrentUserId, orderId, lineItems);
+            return Json(new { status = "success" });
         }
     }
 }

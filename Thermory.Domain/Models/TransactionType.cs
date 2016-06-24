@@ -17,10 +17,11 @@ namespace Thermory.Domain.Models
             {TransactionTypeNames.OrderDelete, TransactionTypes.OrderDelete},
             {TransactionTypeNames.OrderEdit, TransactionTypes.OrderEdit},
             {TransactionTypeNames.OrderLoaded, TransactionTypes.OrderLoaded},
-            {TransactionTypeNames.OrderPackagingSlipCreated, TransactionTypes.OrderPackagingSlipCreated},
             {TransactionTypeNames.OrderPulled, TransactionTypes.OrderPulled},
             {TransactionTypeNames.OrderReceived, TransactionTypes.OrderReceived},
-            {TransactionTypeNames.OrderWarehouseReceived, TransactionTypes.OrderWarehouseReceived}
+            {TransactionTypeNames.OrderWarehouseReceived, TransactionTypes.OrderWarehouseReceived},
+            {TransactionTypeNames.PackagingSlipsCreated, TransactionTypes.PackagingSlipsCreated},
+            {TransactionTypeNames.PackagingSlipsEdited, TransactionTypes.PackagingSlipsEdited}
         };
 
         [Key]

@@ -7,9 +7,10 @@
         OrderEdit,
         OrderDelete,
         OrderLoaded,
-        OrderPackagingSlipCreated,
         OrderPulled,
         OrderReceived,
-        OrderWarehouseReceived
+        OrderWarehouseReceived,
+        PackagingSlipsCreated,
+        PackagingSlipsEdited
     }
 }

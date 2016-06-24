@@ -93,7 +93,7 @@
 
             $('.packagingSummary').find('tbody').find('tr').each(function () {
                 var id = $(this).attr('id');
-                $(this).append('<td class="packagingColumn"><input id="' + id + ':' + i + '" lumberProductId="' + id + '" packageNumber="' + i + '" class="form-control numeric" type="text" style="width: 100px;" maxlength="6" value="0" onchange="packagingQuantityChanged(\'' + id + '\');" /></td>');
+                $(this).append('<td class="packagingColumn"><input name="packageQty" lumberProductId="' + id + '" packageNumber="' + i + '" class="form-control numeric" type="text" style="width: 100px;" maxlength="6" value="0" onchange="packagingQuantityChanged(\'' + id + '\');" /></td>');
             });
 
             $('.numeric').keydown(rejectNonNumericText);    
@@ -155,12 +155,42 @@
     }
 
     function savePackagingSlips() {
-        packageCount = parseInt($('#numberOfPackages').val());
-        $('.packagingSummary').find('tbody').find('tr').each(function () {
-            var id = $(this).attr('id');
-            //for (var i = 1; i <= packageCount; i++) {
-            //    $('#' + id + ':' + i);
-            //}
+        var packageLineItems = new Array();
+        var query = 'input[name="packageQty"]';
+        $(query).each(function () {
+            var lumberProductId = $(this).attr('lumberProductId');
+            var packageNumber = parseInt($(this).attr('packageNumber'));
+            var qty = $(this).valueOf() == '' ? 0 : parseInt($(this).val());
+
+            if (qty != 0) {
+                packageLineItems.push({
+                    LumberProductId: lumberProductId,
+                    Quantity: qty,
+                    OrderPackage: {
+                        PackageNumber: packageNumber
+                    }
+                });
+            }
+        });
+
+        var packageDetailsJson = JSON.stringify(packageLineItems);
+        var postData = '{"orderId" : "@Model.Id", "lineItems" : ' + packageDetailsJson + '}';
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("SavePackages", "SalesOrder")',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: postData,
+            success: function (data, status, request) {
+                alert('ok');
+            },
+            error: function (data, status, request) {
+                console.log(data);
+                console.log(status);
+                console.log(request);
+                alert('error');
+            }
         });
     }
 </script>

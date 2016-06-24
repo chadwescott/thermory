@@ -58,6 +58,9 @@ namespace Thermory.Domain.Models
         public List<OrderMiscellaneousLineItem> OrderMiscellaneousLineItems { get; set; }
 
         [ForeignKey("OrderId")]
+        public List<Package> Packages { get; set; }
+
+        [ForeignKey("OrderId")]
         public List<InventoryTransaction> InventoryTransactions { get; set; }
 
         [NotMapped]

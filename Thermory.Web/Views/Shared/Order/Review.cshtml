@@ -24,7 +24,7 @@
 {
     <h5>Packaging Type: @Model.Order.PackagingType.Name</h5>
 }
-<nav class="navbar navbar-default" style="padding: 0px 10px 10px 10px; margin-top: 10px;">
+<nav class="navbar navbar-default" style="padding: 0 10px 10px 10px; margin-top: 10px;">
     <table>
         <tr>
             @foreach (var status in Model.OrderStatuses.Where(s => s.SortOrder > 0))
@@ -167,7 +167,7 @@
             }
             else
             {
-                <div type="button" class="btn btn-success" onclick="window.location = ('@Url.Action("CreatePackagingSlips", "SalesOrder")/@Model.Order.Id');">
+                <div type="button" class="btn btn-success" onclick="window.location=('@Url.Action("Package", "SalesOrder")/@Model.Order.Id');">
                     <span class="glyphicon glyphicon-list-alt"></span> Create packaging slip(s)
                 </div>
             }

@@ -12,12 +12,14 @@
 
         public const string OrderLoaded = "OrderLoaded";
 
-        public const string OrderPackagingSlipCreated = "OrderPackagingSlipCreated";
-
         public const string OrderPulled = "OrderPulled";
 
         public const string OrderReceived = "OrderReceived";
 
         public const string OrderWarehouseReceived = "OrderWarehouseReceived";
+
+        public const string PackagingSlipsCreated = "PackagingSlipsCreated";
+
+        public const string PackagingSlipsEdited = "PackagingSlipsEdited";
     }
 }
