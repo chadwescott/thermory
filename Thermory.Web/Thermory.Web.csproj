@@ -211,6 +211,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
+    <Compile Include="Controllers\PackingSlipController.cs" />
     <Compile Include="Controllers\PurchaseOrderController.cs" />
     <Compile Include="Controllers\SalesOrderController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -396,10 +397,10 @@
     <Content Include="Views\Shared\Order\Form.cshtml" />
     <Content Include="Views\Shared\Order\Review.cshtml" />
     <Content Include="Views\SalesOrder\Package.cshtml" />
+    <Content Include="Views\PackingSlip\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Order\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

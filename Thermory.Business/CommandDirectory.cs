@@ -107,6 +107,11 @@ namespace Thermory.Business
             return DatabaseCommandDirectory.Instance.GetAllOrderTypes().SingleOrDefault(t => t.OrderTypeEnum == orderType);
         }
 
+        public Package GetPackageById(Guid id)
+        {
+            return DatabaseCommandDirectory.Instance.GetPackageById(id);
+        }
+
         public IList<UserRoleXref> GetUserRolesByUserId(int userId)
         {
             return DatabaseCommandDirectory.Instance.GetUserRolesByUserId(userId);

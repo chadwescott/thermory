@@ -197,6 +197,10 @@
         @if (Model.Order.OrderType.OrderTypeEnum == OrderTypes.SalesOrder)
         {
             <li><a href="#orderRatings" data-toggle="tab">Ratings</a></li>
+            if (Model.Order.Packages.Any())
+            {
+                <li><a href="#packingSlips" data-toggle="tab">Packing Slips</a></li>
+            }
         }
         <li><a href="#orderTransactions" data-toggle="tab">Transactions</a></li>
     </ul>
@@ -261,6 +265,15 @@
                     </tr>
                 </table>
             </div>
+            if (Model.Order.Packages.Any())
+            {
+                <div id="packingSlips" class="tab-pane">
+                    @foreach (var package in Model.Order.Packages)
+                    {
+                        <div><a href="/PackingSlip/Index/@package.Id" target="_blank">@Model.Order.PackagingType.Name @package.PackageNumber</a></div>
+                    }
+                </div>
+            }
         }
         <div id="orderTransactions" class="tab-pane">
             <br />

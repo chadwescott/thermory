@@ -85,11 +85,6 @@ namespace Thermory.Data
             return command.Result;
         }
 
-        public OrderStatus GetOrderStatusByEnum(OrderStatuses status)
-        {
-            return GetAllOrderStatuses().Single(s => s.OrderStatusEnum == status);
-        }
-
         public IList<OrderType> GetAllOrderTypes()
         {
             var command = new GetAllOrderTypes();
@@ -109,11 +104,23 @@ namespace Thermory.Data
             var command = new GetInventoryTransactionsByOrderId(orderId);
             command.Execute();
             return command.Result;
-        } 
+        }
 
         public Order GetOrderById(Guid id)
         {
             var command = new GetOrderById(id);
+            command.Execute();
+            return command.Result;
+        }
+
+        public OrderStatus GetOrderStatusByEnum(OrderStatuses status)
+        {
+            return GetAllOrderStatuses().Single(s => s.OrderStatusEnum == status);
+        }
+
+        public Package GetPackageById(Guid id)
+        {
+            var command = new GetPackageById(id);
             command.Execute();
             return command.Result;
         }
