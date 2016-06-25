@@ -6,11 +6,11 @@ namespace Thermory.Data.CommandBuilders
 {
     internal class EditPackagesBuilder : OrderBuilder
     {
-        public EditPackagesBuilder(int userId, Order order, PackageLumberLineItem[] lineItems)
+        public EditPackagesBuilder(int userId, Order order, PackageLumberLineItem[] lumberLineItems, PackageMiscellaneousLineItem[] miscLineItems)
         {
             CreateInventoryTransaction(userId, order);
             DeletePackages(order);
-            CreatePackages(order, lineItems);
+            CreatePackages(order, lumberLineItems, miscLineItems);
         }
 
         protected override TransactionTypes TransactionType
@@ -24,6 +24,8 @@ namespace Thermory.Data.CommandBuilders
             {
                 foreach (var lineItem in package.PackageLumberLineItems)
                     Commands.Add(new DeletePackageLumberLineItem(lineItem));
+                foreach (var lineItem in package.PackageMiscellaneousLineItems)
+                    Commands.Add(new DeletePackageMiscellaneousLineItem(lineItem));
                 Commands.Add(new DeletePackage(package));
             }
         }

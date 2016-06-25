@@ -6,10 +6,10 @@ namespace Thermory.Data.CommandBuilders
 {
     internal class CreatePackagesBuilder : OrderBuilder
     {
-        public CreatePackagesBuilder(int userId, Order order, PackageLumberLineItem[] lineItems)
+        public CreatePackagesBuilder(int userId, Order order, PackageLumberLineItem[] lumberLineItems, PackageMiscellaneousLineItem[] miscLineItems)
         {
             CreateInventoryTransaction(userId, order);
-            CreatePackages(order, lineItems);
+            CreatePackages(order, lumberLineItems, miscLineItems);
             order.OrderStatusId = DatabaseCommandDirectory.Instance.GetOrderStatusByEnum(OrderStatuses.PackagingSlipCreated).Id;
             Commands.Add(new SaveOrder(order));
         }

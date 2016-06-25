@@ -38,15 +38,15 @@
         <span class="glyphicon glyphicon-remove"></span> Reset <span>@Model.PackagingType.Name</span>
     </div>
     @{
-        var orderLumberCategories = Model.OrderLumberLineItems.Select(i => i.LumberProduct.LumberType.LumberSubCategory.LumberCategory).Distinct();
-        var orderLumberSubCategories = Model.OrderLumberLineItems.Select(i => i.LumberProduct.LumberType.LumberSubCategory).Distinct();
-        var orderLumberTypes = Model.OrderLumberLineItems.Select(i => i.LumberProduct.LumberType).Distinct();
+        var lumberCategories = Model.OrderLumberLineItems.Select(i => i.LumberProduct.LumberType.LumberSubCategory.LumberCategory).Distinct();
+        var lumberSubCategories = Model.OrderLumberLineItems.Select(i => i.LumberProduct.LumberType.LumberSubCategory).Distinct();
+        var lumberTypes = Model.OrderLumberLineItems.Select(i => i.LumberProduct.LumberType).Distinct();
 
-        foreach (var category in orderLumberCategories.OrderBy(c => c.SortOrder))
+        foreach (var category in lumberCategories.OrderBy(c => c.SortOrder))
         {
-            foreach (var subCategory in orderLumberSubCategories.OrderBy(s => s.SortOrder).Where(s => s.LumberCategoryId == category.Id))
+            foreach (var subCategory in lumberSubCategories.OrderBy(s => s.SortOrder).Where(s => s.LumberCategoryId == category.Id))
             {
-                foreach (var lumberType in orderLumberTypes.OrderBy(s => s.SortOrder).Where(s => s.LumberSubCategoryId == subCategory.Id))
+                foreach (var lumberType in lumberTypes.OrderBy(s => s.SortOrder).Where(s => s.LumberSubCategoryId == subCategory.Id))
                 {
                     <h3><strong>@category.Name:</strong> @subCategory.Name</h3>
                     <h5><em>@lumberType.Name</em></h5>
@@ -61,7 +61,7 @@
                         <tbody>
                             @foreach (var lineItem in Model.OrderLumberLineItems.Where(li => li.LumberProduct.LumberType.Id == lumberType.Id))
                             {
-                                <tr id="@lineItem.LumberProduct.Id">
+                                <tr id="@lineItem.LumberProduct.Id" producttype="lumber">
                                     <td style="vertical-align: middle;">@lineItem.LumberProduct.LengthInFeet FT</td>
                                     <td style="vertical-align: middle;">@lineItem.LumberProduct.LumberType.LumberSubCategory.WidthInInches"</td>
                                     <td style="vertical-align: middle;">
@@ -74,6 +74,39 @@
                     </table>
                 }
             }
+        }
+
+        var miscCategories = Model.OrderMiscellaneousLineItems.Select(i => i.MiscellaneousProduct.MiscellaneousSubCategory.MiscellaneousCategory).Distinct();
+        var miscSubCategories = Model.OrderMiscellaneousLineItems.Select(i => i.MiscellaneousProduct.MiscellaneousSubCategory).Distinct();
+
+        foreach (var category in miscCategories.OrderBy(c => c.SortOrder))
+        {
+            <h3><strong>@category.Name:</strong></h3>
+            <table class="table table-striped table-condensed packagingSummary">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Item</th>
+                        <th>Pieces</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var subCategory in miscSubCategories.OrderBy(s => s.SortOrder).Where(s => s.MiscellaneousCategoryId == category.Id))
+                    {
+                        foreach (var lineItem in Model.OrderMiscellaneousLineItems.Where(li => li.MiscellaneousProduct.MiscellaneousSubCategory.Id == subCategory.Id))
+                        {
+                            <tr id="@lineItem.MiscellaneousProduct.Id" producttype="misc">
+                                <td style="vertical-align: middle;">@lineItem.MiscellaneousProduct.MiscellaneousSubCategory.Name</td>
+                                <td style="vertical-align: middle;">@lineItem.MiscellaneousProduct.Name (@lineItem.MiscellaneousProduct.Description)</td>
+                                <td style="vertical-align: middle;">
+                                    <input type="hidden" id="qty-@lineItem.MiscellaneousProductId" value="@lineItem.Quantity" />
+                                    @lineItem.Quantity
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
         }
     }
     <div id="savePackagesButton" type="button" class="btn btn-success disabled" style="display: none;" onclick="savePackagingSlips();">
@@ -101,7 +134,8 @@
 
             $('.packagingSummary').find('tbody').find('tr').each(function () {
                 var id = $(this).attr('id');
-                $(this).append('<td class="packagingColumn"><input name="packageQty" lumberProductId="' + id + '" packageNumber="' + i + '" class="form-control numeric" type="text" style="width: 100px;" maxlength="6" value="0" onchange="packagingQuantityChanged(\'' + id + '\');" /></td>');
+                var productType = $(this).attr('productType');
+                $(this).append('<td class="packagingColumn"><input name="packageQty" productId="' + id + '" productType="' + productType + '" packageNumber="' + i + '" class="form-control numeric" type="text" style="width: 100px;" maxlength="6" value="0" onchange="packagingQuantityChanged(\'' + id + '\');" /></td>');
             });
 
             $('.numeric').keydown(rejectNonNumericText);
@@ -118,17 +152,17 @@
         $('#savePackagesButton').show();
     }
 
-    function packagingQuantityChanged(lumberProductId) {
+    function packagingQuantityChanged(productId) {
         var packagedQty = 0;
-        var query = 'input[lumberProductId=\'' + lumberProductId + '\']';
+        var query = 'input[productId=\'' + productId + '\']';
         $(query).each(function () {
             var packageQty = $(this).val() ? parseInt($(this).val()) : 0;
             packagedQty += packageQty;
         }
         );
-        var orderQty = $('#qty-' + lumberProductId).val();
-        var statusIcon = $('#statusIcon-' + lumberProductId);
-        var status = $('#status-' + lumberProductId);
+        var orderQty = $('#qty-' + productId).val();
+        var statusIcon = $('#statusIcon-' + productId);
+        var status = $('#status-' + productId);
         statusIcon.removeClass();
         if (packagedQty == orderQty) {
             statusIcon.addClass("glyphicon glyphicon-ok glyphicon-success");
@@ -167,26 +201,12 @@
         $('#savingPanel').show();
         $('#errorPanel').hide();
 
-        var packageLineItems = new Array();
-        var query = 'input[name="packageQty"]';
-        $(query).each(function () {
-            var lumberProductId = $(this).attr('lumberProductId');
-            var packageNumber = parseInt($(this).attr('packageNumber'));
-            var qty = $(this).valueOf() == '' ? 0 : parseInt($(this).val());
+        var packageLumberLineItems = getPackageLumberLineItems();
+        var packageMiscLineItems = getPackageMiscLineItems();
 
-            if (qty != 0) {
-                packageLineItems.push({
-                    LumberProductId: lumberProductId,
-                    Quantity: qty,
-                    Package: {
-                        PackageNumber: packageNumber
-                    }
-                });
-            }
-        });
-
-        var packageDetailsJson = JSON.stringify(packageLineItems);
-        var postData = '{"orderId" : "@Model.Id", "lineItems" : ' + packageDetailsJson + '}';
+        var packageLumberDetailsJson = JSON.stringify(packageLumberLineItems);
+        var packageMiscDetailsJson = JSON.stringify(packageMiscLineItems);
+        var postData = '{"orderId" : "@Model.Id", "lumberLineItems" : ' + packageLumberDetailsJson + ', "miscLineItems" : ' + packageMiscDetailsJson + '}';
 
         $.ajax({
             type: 'POST',
@@ -204,5 +224,47 @@
                 $('#savingPanel').hide();
             }
         });
+    }
+
+    function getPackageLumberLineItems() {
+        var packageLineItems = new Array();
+        var query = 'input[name="packageQty"][productType="lumber"]';
+        $(query).each(function () {
+            var productId = $(this).attr('productId');
+            var packageNumber = parseInt($(this).attr('packageNumber'));
+            var qty = $(this).valueOf() == '' ? 0 : parseInt($(this).val());
+
+            if (qty != 0) {
+                packageLineItems.push({
+                    LumberProductId: productId,
+                    Quantity: qty,
+                    Package: {
+                        PackageNumber: packageNumber
+                    }
+                });
+            }
+        });
+        return packageLineItems;
+    }
+
+    function getPackageMiscLineItems() {
+        var packageLineItems = new Array();
+        var query = 'input[name="packageQty"][productType="misc"]';
+        $(query).each(function () {
+            var productId = $(this).attr('productId');
+            var packageNumber = parseInt($(this).attr('packageNumber'));
+            var qty = $(this).valueOf() == '' ? 0 : parseInt($(this).val());
+
+            if (qty != 0) {
+                packageLineItems.push({
+                    MiscellaneousProductId: productId,
+                    Quantity: qty,
+                    Package: {
+                        PackageNumber: packageNumber
+                    }
+                });
+            }
+        });
+        return packageLineItems;
     }
 </script>

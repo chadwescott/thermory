@@ -55,24 +55,33 @@ namespace Thermory.Data.CommandBuilders
             Commands.Add(createInventoryTransactionCommand);
         }
 
-        protected void CreatePackages(Order order, PackageLumberLineItem[] lineItems)
+        protected void CreatePackages(Order order, PackageLumberLineItem[] lumberLineItems,
+            PackageMiscellaneousLineItem[] miscLineItems)
         {
             var packages = new List<Package>();
 
+            var packageNumbers = lumberLineItems.Select(li => li.Package.PackageNumber).ToList();
+            packageNumbers.AddRange(miscLineItems.Select(li => li.Package.PackageNumber));
+
             foreach (
                 var package in
-                    lineItems.Select(li => li.Package.PackageNumber)
-                        .Distinct()
+                    packageNumbers.Distinct()
                         .Select(packageNumber => new Package {OrderId = order.Id, PackageNumber = packageNumber}))
             {
                 packages.Add(package);
                 Commands.Add(new CreatePackage(package));
             }
 
-            foreach (var lineItem in lineItems)
+            foreach (var lineItem in lumberLineItems)
             {
                 lineItem.Package = packages.Single(p => p.PackageNumber == lineItem.Package.PackageNumber);
                 Commands.Add(new CreatePackageLumberLineItem(lineItem));
+            }
+
+            foreach (var lineItem in miscLineItems)
+            {
+                lineItem.Package = packages.Single(p => p.PackageNumber == lineItem.Package.PackageNumber);
+                Commands.Add(new CreatePackageMiscellaneousLineItem(lineItem));
             }
         }
     }

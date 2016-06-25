@@ -20,5 +20,8 @@ namespace Thermory.Domain.Models
         
         [ForeignKey("PackageId")]
         public List<PackageLumberLineItem> PackageLumberLineItems { get; set; }
+
+        [ForeignKey("PackageId")]
+        public List<PackageMiscellaneousLineItem> PackageMiscellaneousLineItems { get; set; }
     }
 }

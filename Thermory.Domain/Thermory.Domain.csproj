@@ -59,6 +59,7 @@
     <Compile Include="Models\Package.cs" />
     <Compile Include="Models\PackageLumberLineItem.cs" />
     <Compile Include="Models\OrderStatus.cs" />
+    <Compile Include="Models\PackageMiscellaneousLineItem.cs" />
     <Compile Include="Models\PackagingType.cs" />
     <Compile Include="Models\UserRoleXref.cs" />
     <Compile Include="Models\WebPageRole.cs" />

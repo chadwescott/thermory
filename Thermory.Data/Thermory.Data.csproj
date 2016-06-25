@@ -77,10 +77,12 @@
     <Compile Include="Commands\CreateOrderMiscellaneousLineItem.cs" />
     <Compile Include="Commands\CreatePackage.cs" />
     <Compile Include="Commands\CreatePackageLumberLineItem.cs" />
+    <Compile Include="Commands\CreatePackageMiscellaneousLineItem.cs" />
     <Compile Include="Commands\DeleteOrderLumberLineItem.cs" />
     <Compile Include="Commands\DeleteOrderMiscellaneousLineItem.cs" />
     <Compile Include="Commands\DeletePackage.cs" />
     <Compile Include="Commands\DeletePackageLumberLineItem.cs" />
+    <Compile Include="Commands\DeletePackageMiscellaneousLineItem.cs" />
     <Compile Include="Commands\DeleteUserRole.cs" />
     <Compile Include="Commands\EditOrderLumberLineItem.cs" />
     <Compile Include="Commands\EditOrderMiscellaneousLineItem.cs" />
