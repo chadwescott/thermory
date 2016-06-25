@@ -2,18 +2,18 @@
 
 namespace Thermory.Data.Commands
 {
-    internal class CreateOrderPackage : DatabaseCommand
+    internal class CreatePackage : DatabaseCommand
     {
         private readonly Package _package;
 
-        public CreateOrderPackage(Package package)
+        public CreatePackage(Package package)
         {
             _package = package;
         }
 
         protected override void OnExecute(ThermoryContext context)
         {
-            context.OrderPackages.Add(_package);
+            context.Packages.Add(_package);
             context.SaveChanges();
         }
     }

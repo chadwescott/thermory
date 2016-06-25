@@ -4,75 +4,83 @@
 }
 
 <h3><strong>Create Packaging Slips</strong></h3>
-<br/>
-<div type="button" class="btn btn-info" onclick="window.location = ('@Url.Action("Review", "SalesOrder")/@Model.Id');">
-    <span class=" glyphicon glyphicon-arrow-left"></span> Back
-</div>
-<table id="packageCountEntry">
-    <tr>
-        <td>
-            <label for="numberOfPackages">Number of <span>@Model.PackagingType.Name</span>s</label>
-        </td>
-        <td colspan="2">
-            <input type="text" id="numberOfPackages" class="form-control numeric" />
-        </td>
-        <td>
-            <div type="button" class="btn btn-success" onclick="addPackages();">
-                <span class="glyphicon glyphicon-plus"></span> Add @Model.PackagingType.Name
-            </div>
-        </td>
-    </tr>
-</table>
 <div id="errorPanel" class="alert alert-danger" role="alert" style="display: none; margin-top: 14px;">
     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
     <span class="sr-only">Error:</span>
     <span id="errorMessage"></span>
 </div>
-<div id="resetButton" type="button" class="btn btn-danger" style="display: none;" onclick="resetPackages();">
-    <span class="glyphicon glyphicon-remove"></span> Reset <span>@Model.PackagingType.Name</span>
-</div>
-@{
-    var orderLumberCategories = Model.OrderLumberLineItems.Select(i => i.LumberProduct.LumberType.LumberSubCategory.LumberCategory).Distinct();
-    var orderLumberSubCategories = Model.OrderLumberLineItems.Select(i => i.LumberProduct.LumberType.LumberSubCategory).Distinct();
-    var orderLumberTypes = Model.OrderLumberLineItems.Select(i => i.LumberProduct.LumberType).Distinct();
+<div id="worksheetPanel">
+    <br />
+    <div type="button" class="btn btn-info" onclick="window.location = ('@Url.Action("Review", "SalesOrder")/@Model.Id');">
+        <span class=" glyphicon glyphicon-arrow-left"></span> Back
+    </div>
+    <table id="packageCountEntry">
+        <tr>
+            <td>
+                <label for="numberOfPackages">Number of <span>@Model.PackagingType.Name</span>s</label>
+            </td>
+            <td colspan="2">
+                <input type="text" id="numberOfPackages" class="form-control numeric" />
+            </td>
+            <td>
+                <div type="button" class="btn btn-success" onclick="addPackages();">
+                    <span class="glyphicon glyphicon-plus"></span> Add @Model.PackagingType.Name
+                </div>
+            </td>
+        </tr>
+    </table>
+    <div id="errorPanel" class="alert alert-danger" role="alert" style="display: none; margin-top: 14px;">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>
+        <span id="errorMessage"></span>
+    </div>
+    <div id="resetButton" type="button" class="btn btn-danger" style="display: none;" onclick="resetPackages();">
+        <span class="glyphicon glyphicon-remove"></span> Reset <span>@Model.PackagingType.Name</span>
+    </div>
+    @{
+        var orderLumberCategories = Model.OrderLumberLineItems.Select(i => i.LumberProduct.LumberType.LumberSubCategory.LumberCategory).Distinct();
+        var orderLumberSubCategories = Model.OrderLumberLineItems.Select(i => i.LumberProduct.LumberType.LumberSubCategory).Distinct();
+        var orderLumberTypes = Model.OrderLumberLineItems.Select(i => i.LumberProduct.LumberType).Distinct();
 
-    foreach (var category in orderLumberCategories.OrderBy(c => c.SortOrder))
-    {
-        foreach (var subCategory in orderLumberSubCategories.OrderBy(s => s.SortOrder).Where(s => s.LumberCategoryId == category.Id))
+        foreach (var category in orderLumberCategories.OrderBy(c => c.SortOrder))
         {
-            foreach (var lumberType in orderLumberTypes.OrderBy(s => s.SortOrder).Where(s => s.LumberSubCategoryId == subCategory.Id))
+            foreach (var subCategory in orderLumberSubCategories.OrderBy(s => s.SortOrder).Where(s => s.LumberCategoryId == category.Id))
             {
-                <h3><strong>@category.Name:</strong> @subCategory.Name</h3>
-                <h5><em>@lumberType.Name</em></h5>
-                <table class="table table-striped table-condensed packagingSummary">
-                    <thead>
-                        <tr>
-                            <th>Length</th>
-                            <th>Width</th>
-                            <th>Pieces</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var lineItem in Model.OrderLumberLineItems.Where(li => li.LumberProduct.LumberType.Id == lumberType.Id))
-                        {
-                            <tr id="@lineItem.LumberProduct.Id">
-                                <td style ="vertical-align: middle;">@lineItem.LumberProduct.LengthInFeet FT</td>
-                                <td style="vertical-align: middle;">@lineItem.LumberProduct.LumberType.LumberSubCategory.WidthInInches"</td>
-                                <td style="vertical-align: middle;">
-                                    <input type="hidden" id="qty-@lineItem.LumberProductId" value="@lineItem.Quantity" />
-                                    @lineItem.Quantity
-                                </td>
+                foreach (var lumberType in orderLumberTypes.OrderBy(s => s.SortOrder).Where(s => s.LumberSubCategoryId == subCategory.Id))
+                {
+                    <h3><strong>@category.Name:</strong> @subCategory.Name</h3>
+                    <h5><em>@lumberType.Name</em></h5>
+                    <table class="table table-striped table-condensed packagingSummary">
+                        <thead>
+                            <tr>
+                                <th>Length</th>
+                                <th>Width</th>
+                                <th>Pieces</th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach (var lineItem in Model.OrderLumberLineItems.Where(li => li.LumberProduct.LumberType.Id == lumberType.Id))
+                            {
+                                <tr id="@lineItem.LumberProduct.Id">
+                                    <td style="vertical-align: middle;">@lineItem.LumberProduct.LengthInFeet FT</td>
+                                    <td style="vertical-align: middle;">@lineItem.LumberProduct.LumberType.LumberSubCategory.WidthInInches"</td>
+                                    <td style="vertical-align: middle;">
+                                        <input type="hidden" id="qty-@lineItem.LumberProductId" value="@lineItem.Quantity" />
+                                        @lineItem.Quantity
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
             }
         }
     }
-}
-<div id="savePackagesButton" type="button" class="btn btn-success disabled" style="display: none;" onclick="savePackagingSlips();">
-    <span class="glyphicon glyphicon-ok"></span> Save
+    <div id="savePackagesButton" type="button" class="btn btn-success disabled" style="display: none;" onclick="savePackagingSlips();">
+        <span class="glyphicon glyphicon-ok"></span> Save
+    </div>
 </div>
+<div id="savingPanel" style="display: none;">Saving...</div>
 
 <script language="javascript">
     var packageCount = 0;
@@ -96,7 +104,7 @@
                 $(this).append('<td class="packagingColumn"><input name="packageQty" lumberProductId="' + id + '" packageNumber="' + i + '" class="form-control numeric" type="text" style="width: 100px;" maxlength="6" value="0" onchange="packagingQuantityChanged(\'' + id + '\');" /></td>');
             });
 
-            $('.numeric').keydown(rejectNonNumericText);    
+            $('.numeric').keydown(rejectNonNumericText);
         }
         $('.packagingSummary').find('thead').find('tr').append('<th class="packagingColumn">Status</th>');
 
@@ -113,10 +121,10 @@
     function packagingQuantityChanged(lumberProductId) {
         var packagedQty = 0;
         var query = 'input[lumberProductId=\'' + lumberProductId + '\']';
-        $(query).each(function() {
-                var packageQty = $(this).val() ? parseInt($(this).val()) : 0;
-                packagedQty += packageQty;
-            }
+        $(query).each(function () {
+            var packageQty = $(this).val() ? parseInt($(this).val()) : 0;
+            packagedQty += packageQty;
+        }
         );
         var orderQty = $('#qty-' + lumberProductId).val();
         var statusIcon = $('#statusIcon-' + lumberProductId);
@@ -155,6 +163,10 @@
     }
 
     function savePackagingSlips() {
+        $('#worksheetPanel').hide();
+        $('#savingPanel').show();
+        $('#errorPanel').hide();
+
         var packageLineItems = new Array();
         var query = 'input[name="packageQty"]';
         $(query).each(function () {
@@ -166,7 +178,7 @@
                 packageLineItems.push({
                     LumberProductId: lumberProductId,
                     Quantity: qty,
-                    OrderPackage: {
+                    Package: {
                         PackageNumber: packageNumber
                     }
                 });
@@ -183,13 +195,13 @@
             dataType: 'json',
             data: postData,
             success: function (data, status, request) {
-                alert('ok');
+                window.location = ('/SalesOrder/Review/@Model.Id');
             },
             error: function (data, status, request) {
-                console.log(data);
-                console.log(status);
-                console.log(request);
-                alert('error');
+                $('#errorMessage').html('<span>' + data.responseText.replace('\n', ' <br/> ') + '</span>');
+                $('#errorPanel').show();
+                $('#worksheetPanel').show();
+                $('#savingPanel').hide();
             }
         });
     }

@@ -2,19 +2,19 @@
 
 namespace Thermory.Data.Commands
 {
-    internal class DeleteOrderPackage : DatabaseCommand
+    internal class DeletePackage : DatabaseCommand
     {
         private readonly Package _package;
 
-        public DeleteOrderPackage(Package package)
+        public DeletePackage(Package package)
         {
             _package = package;
         }
 
         protected override void OnExecute(ThermoryContext context)
         {
-            context.OrderPackages.Attach(_package);
-            context.OrderPackages.Remove(_package);
+            context.Packages.Attach(_package);
+            context.Packages.Remove(_package);
             context.SaveChanges();
         }
     }

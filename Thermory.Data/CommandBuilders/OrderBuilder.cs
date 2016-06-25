@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Thermory.Data.Commands;
 using Thermory.Data.Extensions;
 using Thermory.Domain.Enums;
@@ -18,15 +19,18 @@ namespace Thermory.Data.CommandBuilders
             return getOrderCommand.Result;
         }
 
-        protected void AddCreatedLumberLineItemCommands(Order order, IEnumerable<OrderLumberLineItem> updatedLumberLineItems)
+        protected void AddCreatedLumberLineItemCommands(Order order,
+            IEnumerable<OrderLumberLineItem> updatedLumberLineItems)
         {
             var createOrderLumberLinesCommands = updatedLumberLineItems.MakeCreateOrderLumberLineItemCommands(order);
             Commands.AddRange(createOrderLumberLinesCommands);
         }
 
-        protected void AddCreateMiscellaneousLineItemCommands(Order order, IEnumerable<OrderMiscellaneousLineItem> updatedMiscellaneousLineItems)
+        protected void AddCreateMiscellaneousLineItemCommands(Order order,
+            IEnumerable<OrderMiscellaneousLineItem> updatedMiscellaneousLineItems)
         {
-            var createOrderMiscellaneousLinesCommands = updatedMiscellaneousLineItems.MakeCreateOrderMiscellaneousLineItemCommands(order);
+            var createOrderMiscellaneousLinesCommands =
+                updatedMiscellaneousLineItems.MakeCreateOrderMiscellaneousLineItemCommands(order);
             Commands.AddRange(createOrderMiscellaneousLinesCommands);
         }
 
@@ -49,6 +53,27 @@ namespace Thermory.Data.CommandBuilders
         {
             var createInventoryTransactionCommand = new CreateInventoryTransaction(transaction);
             Commands.Add(createInventoryTransactionCommand);
+        }
+
+        protected void CreatePackages(Order order, PackageLumberLineItem[] lineItems)
+        {
+            var packages = new List<Package>();
+
+            foreach (
+                var package in
+                    lineItems.Select(li => li.Package.PackageNumber)
+                        .Distinct()
+                        .Select(packageNumber => new Package {OrderId = order.Id, PackageNumber = packageNumber}))
+            {
+                packages.Add(package);
+                Commands.Add(new CreatePackage(package));
+            }
+
+            foreach (var lineItem in lineItems)
+            {
+                lineItem.Package = packages.Single(p => p.PackageNumber == lineItem.Package.PackageNumber);
+                Commands.Add(new CreatePackageLumberLineItem(lineItem));
+            }
         }
     }
 }

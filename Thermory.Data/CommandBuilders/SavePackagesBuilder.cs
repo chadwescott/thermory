@@ -1,30 +1,17 @@
 ﻿using System;
-using Thermory.Data.Commands;
-using Thermory.Domain.Enums;
+using System.Linq;
 using Thermory.Domain.Models;
 
 namespace Thermory.Data.CommandBuilders
 {
-    internal class SavePackagesBuilder : OrderBuilder
+    internal class SavePackagesBuilder : CommandBuilder
     {
-        private readonly TransactionTypes _transactionType;
-
         public SavePackagesBuilder(int userId, Guid orderId, PackageLumberLineItem[] lineItems)
         {
-            var order = GetOrder(orderId);
-            _transactionType = order.Packages == null
-                ? TransactionTypes.PackagingSlipsCreated
-                : TransactionTypes.PackagingSlipsEdited;
-
-            CreateInventoryTransaction(userId, order);
-
-            order.OrderStatusId = DatabaseCommandDirectory.Instance.GetOrderStatusByEnum(OrderStatuses.PackagingSlipCreated).Id;
-            Commands.Add(new SaveOrder(order));
-        }
-
-        protected override TransactionTypes TransactionType
-        {
-            get { return _transactionType; }
+            var order = DatabaseCommandDirectory.Instance.GetOrderById(orderId);
+            Commands = !order.Packages.Any()
+                ? new CreatePackagesBuilder(userId, order, lineItems).Commands
+                : new EditPackagesBuilder(userId, order, lineItems).Commands;
         }
     }
 }

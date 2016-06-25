@@ -159,8 +159,6 @@
 
         var postData = '{"order" : ' + orderJson + ', "lumberOrderQuantities" : ' + lumberJson + ', "miscOrderQuantities" : ' + miscJson + '}';
 
-        $('#worksheetPanel').show();
-        $('#savingPanel').hide();
         $.ajax({
             type: 'POST',
             url: '@Url.Action("Save", controller)',
