@@ -26,13 +26,29 @@ namespace Thermory.Domain.Models
         [NotMapped]
         public string PacksHtml
         {
-            get { return HtmlHelpers.GetPacksHtml(Quantity, LumberProduct.LumberType.LumberSubCategory.BundleSize); }
+            get
+            {
+                return LumberProduct == null
+                    ? ""
+                    : HtmlHelpers.GetPacksHtml(Quantity, LumberProduct.LumberType.LumberSubCategory.BundleSize);
+            }
         }
 
         [NotMapped]
-        public double LinearFeet { get { return LumberProduct.LengthInInches * Quantity; } }
+        public double LinearFeet
+        {
+            get { return LumberProduct == null ? 0 : LumberProduct.LengthInInches*Quantity; }
+        }
 
         [NotMapped]
-        public double SquareFeet { get { return Math.Round(LinearFeet * LumberProduct.LumberType.LumberSubCategory.WidthInInches / 12, 0); } }
+        public double SquareFeet
+        {
+            get
+            {
+                return LumberProduct == null
+                    ? 0
+                    : Math.Round(LinearFeet*LumberProduct.LumberType.LumberSubCategory.WidthInInches/12, 0);
+            }
+        }
     }
 }

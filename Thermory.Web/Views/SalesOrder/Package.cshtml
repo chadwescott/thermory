@@ -1,6 +1,9 @@
 ﻿@model Thermory.Domain.Models.Order
+@{
+    var title = Model.Packages == null ? "Create" : "Edit";
+}
 
-<h3><strong>Create Packaging Slips</strong></h3>
+<h3><strong>@title Packing Slips</strong></h3>
 <div id="errorPanel" class="alert alert-danger" role="alert" style="display: none; margin-top: 14px;">
     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
     <span class="sr-only">Error:</span>

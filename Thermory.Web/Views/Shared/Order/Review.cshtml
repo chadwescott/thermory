@@ -266,9 +266,17 @@
             if (Model.Order.Packages.Any())
             {
                 <div id="packingSlips" class="tab-pane">
+                    @if (User.IsInRole(Role.InventoryMaster))
+                          {
+                              <div style="padding: 5px 5px 0 5px;">
+                                  <div type="button" class="btn btn-primary" onclick="window.location=('@Url.Action("Package", "SalesOrder")/@Model.Order.Id');">
+                                      <span class="glyphicon glyphicon-list-alt"></span> Edit packaging slip(s)
+                                  </div>
+                              </div>
+                          }
                     @foreach (var package in Model.Order.Packages)
                     {
-                        <div>
+                        <div style="padding: 5px 5px 0 5px;">
                             <a href="/PackingSlip/Index/?orderId=@Model.Order.Id&packageNumber=@package.PackageNumber" target="_blank">
                                 <span class="glyphicon glyphicon-list-alt"></span> @Model.Order.PackagingType.Name @package.PackageNumber
                             </a>

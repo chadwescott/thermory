@@ -72,13 +72,13 @@ namespace Thermory.Data.CommandBuilders
                 Commands.Add(new CreatePackage(package));
             }
 
-            foreach (var lineItem in lumberLineItems)
+            foreach (var lineItem in lumberLineItems.Where(li => li.Quantity > 0))
             {
                 lineItem.Package = packages.Single(p => p.PackageNumber == lineItem.Package.PackageNumber);
                 Commands.Add(new CreatePackageLumberLineItem(lineItem));
             }
 
-            foreach (var lineItem in miscLineItems)
+            foreach (var lineItem in miscLineItems.Where(li => li.Quantity > 0))
             {
                 lineItem.Package = packages.Single(p => p.PackageNumber == lineItem.Package.PackageNumber);
                 Commands.Add(new CreatePackageMiscellaneousLineItem(lineItem));
