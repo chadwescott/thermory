@@ -20,8 +20,14 @@ namespace Thermory.Data.Commands
                 context.Packages
                     .Include(p => p.Order.PackagingType)
                     .Include(p => p.Order.Customer)
-                    .Include(p => p.PackageLumberLineItems)
-                    .Include(p => p.PackageMiscellaneousLineItems)
+                    .Include(
+                        p =>
+                            p.PackageLumberLineItems.Select(
+                                li => li.LumberProduct.LumberType.LumberSubCategory.LumberCategory))
+                    .Include(
+                        p =>
+                            p.PackageMiscellaneousLineItems.Select(
+                                li => li.MiscellaneousProduct.MiscellaneousSubCategory))
                     .SingleOrDefault(p => p.Id == _id);
         }
     }

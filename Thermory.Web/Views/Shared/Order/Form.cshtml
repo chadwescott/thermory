@@ -31,7 +31,7 @@
             </td>
         </tr>
         <tr>
-            <td rowspan="4" style="vertical-align: top;">
+            <td rowspan="3" style="vertical-align: top;">
                 <label for="customerId">Customer</label>
             </td>
             <td>
@@ -40,7 +40,7 @@
                     @foreach (var customer in Model.Customers)
                     {
                         var selected = customer.Id == Model.Order.CustomerId ? " selected=\"selected\"" : "";
-                        <option value="@customer.Id" addressline1="@customer.AddressLine1" addressline2="@customer.AddressLine2" addressline3="@customer.AddressLine3" @selected>@customer.Name</option>
+                        <option value="@customer.Id" addressline1="@customer.AddressLine1" addressline2="@customer.AddressLine2" @selected>@customer.Name</option>
                     }
                 </select>
             </td>
@@ -62,14 +62,6 @@
             </td>
             <td>
                 <input type="text" id="addressLine2" class="form-control" value="@orderCustomer.AddressLine2" />
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="addressLine3">Address Line 3</label>
-            </td>
-            <td>
-                <input type="text" id="addressLine3" class="form-control" value="@orderCustomer.AddressLine3" />
             </td>
         </tr>
         @if (orderType == OrderTypes.SalesOrder)
@@ -232,12 +224,10 @@
         var customerName = selectedCustomer.val() == '@Guid.Empty' ? '' : selectedCustomer.text();
         var addressLine1 = selectedCustomer.attr('addressLine1');
         var addressLine2 = selectedCustomer.attr('addressLine2');
-        var addressLine3 = selectedCustomer.attr('addressLine3');
 
         $('#customerName').val(customerName);
         $('#addressLine1').val(addressLine1);
         $('#addressLine2').val(addressLine2);
-        $('#addressLine3').val(addressLine3);
     }
 
     function getCustomer() {
@@ -248,8 +238,7 @@
                 Id: $('#customerId').val(),
                 Name: name,
                 AddressLine1: $('#addressLine1').val(),
-                AddressLine2: $('#addressLine2').val(),
-                AddressLine3: $('#addressLine3').val()
+                AddressLine2: $('#addressLine2').val()
     };
     }
 

@@ -3,8 +3,6 @@
 @using Thermory.Web.Models
 @model OrderReview
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-
     var orderType = Model.Order.OrderType.Name;
     var controller = string.Format("{0}Order", orderType);
 }
@@ -270,7 +268,11 @@
                 <div id="packingSlips" class="tab-pane">
                     @foreach (var package in Model.Order.Packages)
                     {
-                        <div><a href="/PackingSlip/Index/@package.Id" target="_blank">@Model.Order.PackagingType.Name @package.PackageNumber</a></div>
+                        <div>
+                            <a href="/PackingSlip/Index/?orderId=@Model.Order.Id&packageNumber=@package.PackageNumber" target="_blank">
+                                <span class="glyphicon glyphicon-list-alt"></span> @Model.Order.PackagingType.Name @package.PackageNumber
+                            </a>
+                        </div>
                     }
                 </div>
             }

@@ -1,5 +1,66 @@
-﻿@model Thermory.Domain.Models.Package
+﻿@using Thermory.Domain.Models;
+@model Thermory.Web.Models.PackingSlip
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
+    var shipDate = DateTime.Now;
+    var customer = @Model.Package.Order.Customer ?? new Customer();
 }
-<div>@Model.Order.PackagingType.Name @Model.PackageNumber</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Thermory Inventory</title>
+    <link href="~/Images/favicon.png" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/w2ui-css")
+    @Styles.Render("~/Content/css")
+
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/w2ui")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/thermory")
+</head>
+<body style="width: 50%; margin: 0 auto;">
+    <table style="width: 8in;">
+        <tr>
+            <td class="packingSlipCell">&nbsp;</td>
+            <td class="packingSlipCell" colspan="2">
+                <img src="~/Images/logo.jpg" width="164" height=" 80" alt="Thermory" />
+            </td>
+            <td class="packingSlipCell">&nbsp;</td>
+        </tr>
+        <tr class="packingSlipBottomBorder">
+            <td class="packingSlipCell" style="text-align: right;"><strong>Ship Date:</strong></td>
+            <td class="packingSlipCell" style="text-align: right;"><strong>@shipDate.ToString("MMMM dd, yyyy")</strong></td>
+            <td class="packingSlipCell" style="text-align: right;"><strong>Customer PO#</strong></td>
+            <td class="packingSlipCell" style="text-align: center;"><strong>@Model.Package.Order.OrderNumber</strong></td>
+        </tr>
+        <tr class="packingSlipBottomBorder">
+            <td class="packingSlipCell packingSlipSection">Customer:</td>
+            <td class="packingSlipCell" colspan="3">@customer.Name</td>
+        </tr>
+        <tr>
+            <td class="packingSlipCell packingSlipSection" rowspan="2">Address:</td>
+            <td class="packingSlipCell" colspan="3">@customer.AddressLine1</td>
+        </tr>
+        <tr class="packingSlipBottomBorder">
+            <td class="packingSlipCell" colspan="3">@customer.AddressLine2</td>
+        </tr>
+        <tr class="packingSlipBottomBorder">
+            <td class="packingSlipCell packingSlipSection">@Model.Package.Order.PackagingType.Name #</td>
+            <td class="packingSlipCell packageNumber" style="text-align: right;">@Model.Package.PackageNumber</td>
+            <td class="packingSlipCell" style="text-align: center;">of</td>
+            <td class="packingSlipCell packageNumber">@Model.TotalPackages</td>
+        </tr>
+        <tr>
+            <td class="packingSlipCell" colspan="4">
+                @{
+                    @Html.Partial("Package/_LumberProductReview", Model.Package)
+                    @Html.Partial("Package/_MiscellaneousProductReview", Model.Package)
+                }
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

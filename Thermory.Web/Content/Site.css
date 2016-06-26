@@ -970,3 +970,23 @@ td.totalPieceHeading {
 .glyphicon-danger {
     color: #d9534f;
 }
+
+.packingSlipBottomBorder {
+    border-bottom: solid thin black;
+}
+
+.packingSlipSection {
+    vertical-align: top;
+    text-align: right;
+    font-weight: bold;
+    background-color: lightgray;
+    border-right: solid thin black;
+}
+
+.packingSlipCell {
+    padding: 0 5px 0 5px;
+}
+
+.packageNumber {
+    font-size: 14pt;
+}
