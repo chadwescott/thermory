@@ -67,7 +67,7 @@
         @if (orderType == OrderTypes.SalesOrder)
         {
             <tr>
-                <td>
+                <td rowspan="2" style="vertical-align: top;">
                     <label for="packagingTypeId">Packaging Type</label>
                 </td>
                 <td>
@@ -76,12 +76,20 @@
                         @foreach (var packagingType in Model.PackagingTypes)
                         {
                             var selected = packagingType.Id == Model.Order.PackagingTypeId ? " selected=\"selected\"" : "";
-                            <option value="@packagingType.Id" @selected>@packagingType.Name</option>
+                            <option value="@packagingType.Id" weight="@packagingType.Weight" @selected>@packagingType.Name</option>
                         }
                     </select>
                 </td>
                 <td>
                     <input type="text" id="packagingTypeName" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="addressLine1">Weight (lbs)</label>
+                </td>
+                <td>
+                    <input type="text" id="packagingTypeWeight" class="form-control numeric" value="@Model.Order.PackagingType.Weight" />
                 </td>
             </tr>
         }
@@ -140,6 +148,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+        $('.numeric').keydown(rejectNonNumericText);
         customerChanged();
         packagingTypeChanged();
     });
@@ -239,14 +248,16 @@
                 Name: name,
                 AddressLine1: $('#addressLine1').val(),
                 AddressLine2: $('#addressLine2').val()
-    };
+            };
     }
 
     function packagingTypeChanged() {
         var selectedPackagingType = $('#packagingTypeId option:selected');
 
         var packagingTypeName = selectedPackagingType.val() == '@Guid.Empty' ? '' : selectedPackagingType.text();
+        var weight = selectedPackagingType.attr('weight');
         $('#packagingTypeName').val(packagingTypeName);
+        $('#packagingTypeWeight').val(weight);
     }
 
     function getPackagingType() {
@@ -255,14 +266,15 @@
             ? null
             : {
                 Id: $('#packagingTypeId').val(),
-                Name: name
+                Name: name,
+                Weight: $('#packagingTypeWeight').val()
             };
     }
 
     function getOrderStatus() {
         return {
             Id: '@Model.Order.OrderStatus.Id',
-            Name: '@Model.Order.OrderStatus.Name'
+            Name: '@Model.Order.OrderStatus.Name',
         };
     }
 
