@@ -14,7 +14,7 @@ namespace Thermory.Data.CommandBuilders
             order = GetOrder(order.Id);
             if (order.OrderStatus.OrderStatusEnum == OrderStatuses.Deleted) return;
 
-            order.OrderStatus = DatabaseCommandDirectory.Instance.GetOrderStatusByEnum(OrderStatuses.Deleted);
+            order.OrderStatus = DatabaseCommandDirectory.Instance.GetOrderStatusByEnum(OrderStatuses.Deleted, order.OrderTypeId);
             order.OrderStatusId = order.OrderStatus.Id;
             Commands.Add(new SaveOrder(order));
 
