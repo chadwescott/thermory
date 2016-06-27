@@ -979,7 +979,7 @@ td.totalPieceHeading {
     vertical-align: top;
     text-align: right;
     font-weight: bold;
-    background-color: lightgray;
+    background-color: #ddd;
     border-right: solid thin black;
 }
 
