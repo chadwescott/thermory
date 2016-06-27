@@ -149,7 +149,7 @@
                 <span class="glyphicon glyphicon-log-in"></span> Received
             </div>
         }
-        if (Model.Order.OrderStatus.OrderStatusEnum == OrderStatuses.SentToWarehouse)
+        if (Model.Order.OrderStatus.OrderStatusEnum == OrderStatuses.SentToWarehouse && User.IsInRole(Role.WarehouseCrew))
         {
             <div type="button" class="btn btn-success" onclick="warehouseReceivedOrder();">
                 <span class="glyphicon glyphicon-log-in"></span> Warehouse Received
