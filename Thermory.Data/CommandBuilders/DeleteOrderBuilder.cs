@@ -14,10 +14,6 @@ namespace Thermory.Data.CommandBuilders
             order = GetOrder(order.Id);
             if (order.OrderStatus.OrderStatusEnum == OrderStatuses.Deleted) return;
 
-            order.OrderStatus = DatabaseCommandDirectory.Instance.GetOrderStatusByEnum(OrderStatuses.Deleted, order.OrderTypeId);
-            order.OrderStatusId = order.OrderStatus.Id;
-            Commands.Add(new SaveOrder(order));
-
             var orderLumberLineItems = order.OrderLumberLineItems;
             var orderMiscLineItems = order.OrderMiscellaneousLineItems;
 
@@ -26,6 +22,10 @@ namespace Thermory.Data.CommandBuilders
 
             AddLumberProductQuantityAdjustmentCommands(transaction, orderLumberLineItems, adjustmentMultiplier, order.ApplyInventoryQuantityChanges);
             AddMiscellaneousProductQuantityAdjustmentCommands(transaction, orderMiscLineItems, adjustmentMultiplier, order.ApplyInventoryQuantityChanges);
+
+            order.OrderStatus = DatabaseCommandDirectory.Instance.GetOrderStatusByEnum(OrderStatuses.Deleted, order.OrderTypeId);
+            order.OrderStatusId = order.OrderStatus.Id;
+            Commands.Add(new SaveOrder(order));
         }
 
         private void AddLumberProductQuantityAdjustmentCommands(InventoryTransaction transaction,
