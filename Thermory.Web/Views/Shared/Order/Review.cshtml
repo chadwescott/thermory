@@ -261,6 +261,22 @@
                         <td>Square Feet Loaded Per Hour</td>
                         <td>@Model.Order.SquareFeetLoadedPerHour</td>
                     </tr>
+                    <tr>
+                        <td>Total Time to Pull and Load</td>
+                        <td>@Model.Order.HoursToPullAndLoad hours @Model.Order.MinutesToPullAndLoadRemainder minutes</td>
+                    </tr>
+                    <tr>
+                        <td>Pieces Pulled and Loaded Per Hour</td>
+                        <td>@Model.Order.PiecesPulledAndLoadedPerHour</td>
+                    </tr>
+                    <tr>
+                        <td>Linear Feet Loaded Per Hour</td>
+                        <td>@Model.Order.LinearFeetPulledAndLoadedPerHour</td>
+                    </tr>
+                    <tr>
+                        <td>Square Feet Loaded Per Hour</td>
+                        <td>@Model.Order.SquareFeetPulledAndLoadedPerHour</td>
+                    </tr>
                 </table>
             </div>
             if (Model.Order.Packages.Any())

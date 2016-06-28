@@ -129,5 +129,35 @@ namespace Thermory.Domain.Models
         {
             get { return MinutesToPull == null || MinutesToPull == 0 || TotalLinearFeet == 0 ? 0 : Math.Round(TotalLinearFeet / ((double)MinutesToPull.Value / 60), 2); }
         }
+
+        [NotMapped]
+        public int MinutesToPullAndLoad
+        {
+            get { return (MinutesToLoad ?? 0) + (MinutesToPull ?? 0); }
+        }
+
+        [NotMapped]
+        public int HoursToPullAndLoad { get { return MinutesToPullAndLoad / 60; } }
+
+        [NotMapped]
+        public int MinutesToPullAndLoadRemainder { get { return MinutesToPullAndLoad % 60; } }
+
+        [NotMapped]
+        public double PiecesPulledAndLoadedPerHour
+        {
+            get { return MinutesToPullAndLoad == 0 || TotalPieces == 0 ? 0 : Math.Round(TotalPieces / ((double)MinutesToPullAndLoad / 60), 2); }
+        }
+
+        [NotMapped]
+        public double SquareFeetPulledAndLoadedPerHour
+        {
+            get { return MinutesToPullAndLoad == 0 || TotalSquareFeet == 0 ? 0 : Math.Round(TotalSquareFeet / ((double)MinutesToPullAndLoad / 60), 2); }
+        }
+
+        [NotMapped]
+        public double LinearFeetPulledAndLoadedPerHour
+        {
+            get { return MinutesToPullAndLoad == 0 || TotalLinearFeet == 0 ? 0 : Math.Round(TotalLinearFeet / ((double)MinutesToPullAndLoad / 60), 2); }
+        }
     }
 }
