@@ -76,7 +76,7 @@
                         @foreach (var packagingType in Model.PackagingTypes)
                         {
                             var selected = packagingType.Id == Model.Order.PackagingTypeId ? " selected=\"selected\"" : "";
-                            <option value="@packagingType.Id" weight="@packagingType.WeightInPounds" @selected>@packagingType.Name</option>
+                            <option value="@packagingType.Id" weight="@packagingType.Weight" @selected>@packagingType.Name</option>
                         }
                     </select>
                 </td>
@@ -89,7 +89,7 @@
                     <label for="addressLine1">Weight (lbs)</label>
                 </td>
                 <td>
-                    <input type="text" id="packagingTypeWeight" class="form-control numeric" value="@Model.Order.PackagingType.WeightInPounds" />
+                    <input type="text" id="packagingTypeWeight" class="form-control numeric" />
                 </td>
             </tr>
         }

@@ -35,7 +35,7 @@ namespace Thermory.Domain.Models
         [NotMapped]
         public string PacksHtml
         {
-            get { return HtmlHelpers.GetPacksHtml(Quantity, LumberType.LumberSubCategory.BundleSize); }
+            get { return LumberType == null ? "" : HtmlHelpers.GetPacksHtml(Quantity, LumberType.LumberSubCategory.BundleSize); }
         }
 
         [NotMapped]
