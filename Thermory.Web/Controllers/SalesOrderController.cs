@@ -51,6 +51,7 @@ namespace Thermory.Web.Controllers
         }
 
         [Authorize(Roles = Role.InventoryMaster)]
+        [Authorize(Roles = Role.WarehouseCrew)]
         public ActionResult Package(Guid? id)
         {
             if (id == null)
@@ -65,6 +66,7 @@ namespace Thermory.Web.Controllers
         }
 
         [Authorize(Roles = Role.InventoryMaster)]
+        [Authorize(Roles = Role.WarehouseCrew)]
         [HttpPost]
         public JsonResult SavePackages(Guid orderId, PackageLumberLineItem[] lumberLineItems, PackageMiscellaneousLineItem[] miscLineItems)
         {

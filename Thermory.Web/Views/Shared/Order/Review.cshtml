@@ -266,7 +266,7 @@
             if (Model.Order.Packages.Any())
             {
                 <div id="packingSlips" class="tab-pane">
-                    @if (User.IsInRole(Role.InventoryMaster))
+                    @if (User.IsInRole(Role.InventoryMaster) || User.IsInRole(Role.WarehouseCrew))
                           {
                               <div style="padding: 5px 5px 0 5px;">
                                   <div type="button" class="btn btn-primary" onclick="window.location=('@Url.Action("Package", "SalesOrder")/@Model.Order.Id');">
