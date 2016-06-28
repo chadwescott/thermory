@@ -22,7 +22,7 @@
         </tr>
         <tr class="englishHeading">
             <td colspan="2"><div class="headingWidth"><strong title="@subCategory.Name">@subCategory.Name</strong></div></td>
-            @foreach (var length in feetLengths)
+            @foreach (var length in feetLengths.OrderBy(l => l))
             {
                 <td class="subCategoryCellPadding subCategoryLength">@length</td>
             }
