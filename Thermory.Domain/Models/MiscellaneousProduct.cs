@@ -19,6 +19,8 @@ namespace Thermory.Domain.Models
 
         public string Description { get; set; }
 
+        public decimal? Weight { get; set; }
+
         public int SortOrder { get; set; }
 
         public int Quantity { get; set; }

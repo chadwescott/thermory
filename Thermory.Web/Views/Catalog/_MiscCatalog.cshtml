@@ -160,12 +160,16 @@
     function saveMiscProduct(suffix) {
         var id = $('#miscProductId' + suffix).val();
         var name = $('#name' + suffix).val();
+        var description = $('#description' + suffix).val();
+        var weight = $('#weight' + suffix).val();
         var subCategoryId = $('#miscSubCategoryId' + suffix).val();
         var sortOrder = $('#sortOrder' + suffix).val();
         var product = {
             Id: id,
             MiscellaneousSubCategoryId: subCategoryId,
             Name: name,
+            Description: description,
+            Weight: weight,
             SortOrder: sortOrder
         };
 
@@ -182,6 +186,8 @@
 
                 $('#miscProductLink' + suffix).text(product.Name);
                 $('#nameView' + suffix).text(product.Name);
+                $('#descriptionView' + suffix).text(product.Description);
+                $('#weightView' + suffix).text(product.Weight);
                 $('#sortOrder' + suffix).text(product.SortOrder);
                 initiateViewMode('miscProduct');
             },

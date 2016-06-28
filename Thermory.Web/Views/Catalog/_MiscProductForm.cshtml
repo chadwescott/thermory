@@ -12,7 +12,7 @@
     <table>
         <tr>
             <td>
-                <label id="@string.Format("nameView{0}", suffix)" class=" miscProductView">@Model.MiscProduct.Name</label>
+                <label id="@string.Format("nameView{0}", suffix)" class="miscProductView">@Model.MiscProduct.Name</label>
                 <label class="miscProductForm" for="miscProductName">Product Name</label>
             </td>
             <td>
@@ -20,6 +20,24 @@
                     <span class="glyphicon glyphicon-edit"></span> Edit
                 </div>
                 <input type="text" class="form-control miscProductForm" name="miscProductName" id="@string.Format("name{0}", suffix)" value="@Model.MiscProduct.Name" placeholder="Product Name" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="miscProductDescription">Description</label>
+            </td>
+            <td>
+                <div class="miscProductView" id="@string.Format("descriptionView{0}", suffix)">@Model.MiscProduct.Description</div>
+                <input type="text" class="form-control miscProductForm" name="miscProductDescription" id="@string.Format("description{0}", suffix)" value="@Model.MiscProduct.Description" placeholder="Description" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="miscProductWeight">Weight (pounds per linear foot)</label>
+            </td>
+            <td>
+                <div class="miscProductView" id="@string.Format("weightView{0}", suffix)">@Model.MiscProduct.Weight</div>
+                <input type="text" class="form-control miscProductForm numeric" name="miscProductWeight" id="@string.Format("weight{0}", suffix)" value="@Model.MiscProduct.Weight" placeholder="Weight (pounds per linear foot)" />
             </td>
         </tr>
     </table>
