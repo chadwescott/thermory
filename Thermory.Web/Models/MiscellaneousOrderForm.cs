@@ -8,5 +8,7 @@ namespace Thermory.Web.Models
         public List<OrderMiscellaneousLineItem> MiscellaneousLineItems { get; set; }
 
         public MiscellaneousCategory MiscellaneousCategory { get; set; }
+
+        public bool ValidateQuantityOnHand { get; set; }
     }
 }
