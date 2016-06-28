@@ -132,6 +132,7 @@
         var width = $('#width' + id).val();
         var thickness = $('#thickness' + id).val();
         var bundleSize = $('#bundle' + id).val();
+        var weight = $('#weight' + id).val();
         var subCategory = {
             LumberCategoryId: '@Model.Id',
             Id: id,
@@ -139,7 +140,8 @@
             SortOrder: sortOrder,
             WidthInMillimeters: width,
             ThicknessInMillimeters: thickness,
-            BundleSize: bundleSize
+            BundleSize: bundleSize,
+            Weight: weight
         };
 
         $.ajax({
@@ -159,6 +161,7 @@
                 $('#widthView' + id).text(subCategory.WidthInMillimeters);
                 $('#thicknessView' + id).text(subCategory.ThicknessInMillimeters);
                 $('#bundleView' + id).text(subCategory.BundleSize);
+                $('#weightView' + id).text(subCategory.Weight);
                 initiateViewMode('lumberSubCategory');
             },
             error: function (data) {

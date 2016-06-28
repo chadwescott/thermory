@@ -48,6 +48,15 @@
                 <input type="text" class="form-control lumberSubCategoryForm numeric" id="@string.Format("bundle{0}", Model.SubCategory.Id)" value="@Model.SubCategory.BundleSize" maxlength="6" pattern="[0-9]*" placeholder="Bundle size" />
             </td>
         </tr>
+        <tr>
+            <td>
+                <label>Weight (pounds per linear foot)</label>
+            </td>
+            <td>
+                <div class="lumberSubCategoryView" id="@string.Format("weightView{0}", Model.SubCategory.Id)">@Model.SubCategory.Weight</div>
+                <input type="text" class="form-control lumberSubCategoryForm numeric" id="@string.Format("weight{0}", Model.SubCategory.Id)" value="@Model.SubCategory.Weight" maxlength="10" pattern="[0-9]*" placeholder="Weight (pounds per linear foot)" />
+            </td>
+        </tr>
     </table>
     <div class="lumberSubCategoryForm" style="margin-bottom: 10px;">
         <div type="button" class="btn btn-success lumberSubCategoryForm" onclick="saveLumberSubCategory('@Model.SubCategory.Id');">
