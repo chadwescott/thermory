@@ -158,8 +158,7 @@
         $(query).each(function () {
             var packageQty = $(this).val() ? parseInt($(this).val()) : 0;
             packagedQty += packageQty;
-        }
-        );
+        });
         var orderQty = $('#qty-' + productId).val();
         var statusIcon = $('#statusIcon-' + productId);
         var status = $('#status-' + productId);
