@@ -946,6 +946,10 @@ td.totalPieceHeading {
         background-color: #d2691e;
         border-color: #a0522d;
     }
+
+.has-error .form-control {
+    background-color: yellow;
+}
     
 .glyphicon-default {
     color: #777;
