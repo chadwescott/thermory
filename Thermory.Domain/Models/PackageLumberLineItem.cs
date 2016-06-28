@@ -37,7 +37,7 @@ namespace Thermory.Domain.Models
         [NotMapped]
         public double LinearFeet
         {
-            get { return LumberProduct == null ? 0 : LumberProduct.LengthInInches*Quantity; }
+            get { return LumberProduct == null ? 0 : LumberCalculations.GetLinearFeet(Quantity, LumberProduct.LengthInInches); }
         }
 
         [NotMapped]
@@ -47,7 +47,7 @@ namespace Thermory.Domain.Models
             {
                 return LumberProduct == null
                     ? 0
-                    : Math.Round(LinearFeet*LumberProduct.LumberType.LumberSubCategory.WidthInInches/12, 0);
+                    : LumberCalculations.GetSquareFeet(LinearFeet, LumberProduct.LumberType.LumberSubCategory.WidthInInches);
             }
         }
     }
