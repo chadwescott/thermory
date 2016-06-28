@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace Thermory.Domain.Utils
 {
@@ -8,7 +9,7 @@ namespace Thermory.Domain.Utils
         {
             if (pieces == 0) return "0";
             var fullPacks = pieces / bundleSize;
-            var remainingPacks = pieces % bundleSize;
+            var remainingPacks = Math.Abs(pieces % bundleSize);
             var numbers = new[] { remainingPacks, bundleSize };
             SimplifyFraction(numbers);
             var numerator = numbers[0];
