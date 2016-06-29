@@ -21,5 +21,16 @@ namespace Thermory.Domain.Models
         public MiscellaneousProduct MiscellaneousProduct { get; set; }
 
         public int Quantity { get; set; }
+
+        [NotMapped]
+        public double Weight
+        {
+            get
+            {
+                return MiscellaneousProduct == null || MiscellaneousProduct.Weight == null
+                    ? 0
+                    : Math.Round(MiscellaneousProduct.Weight.Value * Quantity, 2);
+            }
+        }
     }
 }

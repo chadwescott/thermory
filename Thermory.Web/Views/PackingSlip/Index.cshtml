@@ -53,6 +53,10 @@
             <td class="packingSlipCell" style="text-align: center;">of</td>
             <td class="packingSlipCell packageNumber">@Model.TotalPackages</td>
         </tr>
+        <tr class="packingSlipBottomBorder">
+            <td class="packingSlipCell packingSlipSection">Weight</td>
+            <td class="packingSlipCell" colspan="3">@Model.Package.Weight lbs (approximate)</td>
+        </tr>
         <tr>
             <td class="packingSlipCell" colspan="4">
                 @{

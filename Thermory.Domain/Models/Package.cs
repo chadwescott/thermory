@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace Thermory.Domain.Models
 {
@@ -23,5 +24,15 @@ namespace Thermory.Domain.Models
 
         [ForeignKey("PackageId")]
         public List<PackageMiscellaneousLineItem> PackageMiscellaneousLineItems { get; set; }
+
+        [NotMapped]
+        public double Weight
+        {
+            get
+            {
+                return (Order.PackagingType.Weight ?? 0) + PackageLumberLineItems.Sum(li => li.Weight) +
+                       PackageMiscellaneousLineItems.Sum(li => li.Weight);
+            }
+        }
     }
 }

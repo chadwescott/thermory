@@ -33,11 +33,11 @@
         </tr>
         <tr>
             <td>
-                <label for="miscProductWeight">Weight (pounds per linear foot)</label>
+                <label for="miscProductWeight">Weight (lbs)</label>
             </td>
             <td>
                 <div class="miscProductView" id="@string.Format("weightView{0}", suffix)">@Model.MiscProduct.Weight</div>
-                <input type="text" class="form-control miscProductForm numeric" name="miscProductWeight" id="@string.Format("weight{0}", suffix)" value="@Model.MiscProduct.Weight" placeholder="Weight (pounds per linear foot)" />
+                <input type="text" class="form-control miscProductForm numeric" name="miscProductWeight" id="@string.Format("weight{0}", suffix)" value="@Model.MiscProduct.Weight" placeholder="Weight (lbs)" />
             </td>
         </tr>
     </table>

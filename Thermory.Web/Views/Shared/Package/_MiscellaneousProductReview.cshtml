@@ -13,6 +13,7 @@
                     <th>Name</th>
                     <th>Description</th>
                     <th>Quantity</th>
+                    <th>Weight</th>
                 </tr>
             </thead>
             @foreach (var subCategory in orderMiscSubCategories.OrderBy(s => s.SortOrder).Where(s => s.MiscellaneousCategoryId == category.Id))
@@ -24,6 +25,7 @@
                         <td>@lineItem.MiscellaneousProduct.Name</td>
                         <td>@lineItem.MiscellaneousProduct.Description</td>
                         <td>@lineItem.Quantity</td>
+                        <td>@lineItem.Weight</td>
                     }
                 </tr>
             }

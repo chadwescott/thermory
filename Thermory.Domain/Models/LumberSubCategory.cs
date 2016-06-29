@@ -29,7 +29,7 @@ namespace Thermory.Domain.Models
 
         public int SortOrder { get; set; }
 
-        public decimal? Weight { get; set; }
+        public double? Weight { get; set; }
 
         [ForeignKey("LumberSubCategoryId")]
         public List<LumberType> LumberTypes { get; set; }

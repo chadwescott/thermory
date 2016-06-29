@@ -10,9 +10,10 @@
         {
             foreach (var lumberType in packageLumberTypes.OrderBy(s => s.SortOrder).Where(s => s.LumberSubCategoryId == subCategory.Id))
             {
+                var totalPieces = 0;
                 var totalLinearFeet = 0.0;
                 var totalSquareFeet = 0.0;
-                var totalPieces = 0;
+                var totalWeight = 0.0;
                 <h3><strong>@category.Name:</strong> @subCategory.Name</h3>
                 <h5><em>@lumberType.Name</em></h5>
                 <table class="table table-striped table-condensed">
@@ -24,13 +25,15 @@
                             <th>Packs</th>
                             <th>Linear Feet</th>
                             <th>Square Feet</th>
+                            <th>Weight</th>
                         </tr>
                     </thead>
                     @foreach (var lineItem in Model.PackageLumberLineItems.Where(li => li.LumberProduct.LumberType.Id == lumberType.Id))
                     {
+                        totalPieces += lineItem.Quantity;
                         totalLinearFeet += lineItem.LinearFeet;
                         totalSquareFeet += lineItem.SquareFeet;
-                        totalPieces += lineItem.Quantity;
+                        totalWeight += lineItem.Weight;
                         <tr>
                             <td>@lineItem.LumberProduct.LengthInFeet FT</td>
                             <td>@lineItem.LumberProduct.LumberType.LumberSubCategory.WidthInInches"</td>
@@ -38,6 +41,7 @@
                             <td>@Html.Raw(lineItem.PacksHtml)</td>
                             <td>@lineItem.LinearFeet LF</td>
                             <td>@lineItem.SquareFeet SF</td>
+                            <td>@lineItem.Weight lbs</td>
                         </tr>
                     }
                     <tr>
@@ -47,6 +51,7 @@
                         <td>&nbsp;</td>
                         <td><strong>@totalLinearFeet LF</strong></td>
                         <td><strong>@totalSquareFeet SF</strong></td>
+                        <td><strong>@totalWeight lbs</strong></td>
                     </tr>
                 </table>
             }

@@ -50,5 +50,18 @@ namespace Thermory.Domain.Models
                     : LumberCalculations.GetSquareFeet(LinearFeet, LumberProduct.LumberType.LumberSubCategory.WidthInInches);
             }
         }
+
+        [NotMapped]
+        public double Weight
+        {
+            get
+            {
+                return LumberProduct == null || LumberProduct.LumberType == null ||
+                       LumberProduct.LumberType.LumberSubCategory == null ||
+                       LumberProduct.LumberType.LumberSubCategory.Weight == null
+                    ? 0
+                    : Math.Round(LinearFeet * LumberProduct.LumberType.LumberSubCategory.Weight.Value * Quantity, 2);
+            }
+        }
     }
 }

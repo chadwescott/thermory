@@ -12,6 +12,6 @@ namespace Thermory.Domain.Models
 
         public string Name { get; set; }
 
-        public decimal? Weight { get; set; }
+        public double? Weight { get; set; }
     }
 }
