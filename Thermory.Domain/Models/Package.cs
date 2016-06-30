@@ -30,8 +30,8 @@ namespace Thermory.Domain.Models
         {
             get
             {
-                return (Order.PackagingType.Weight ?? 0) + PackageLumberLineItems.Sum(li => li.Weight) +
-                       PackageMiscellaneousLineItems.Sum(li => li.Weight);
+                return (Order == null ? 0 : Order.PackagingType.Weight ?? 0) + (PackageLumberLineItems == null ? 0 : PackageLumberLineItems.Sum(li => li.Weight)) +
+                    (PackageMiscellaneousLineItems == null ? 0 : PackageMiscellaneousLineItems.Sum(li => li.Weight));
             }
         }
     }
