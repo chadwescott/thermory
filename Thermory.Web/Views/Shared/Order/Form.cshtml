@@ -12,6 +12,7 @@
         ? Url.Action("Index", controller)
         : Url.Action("Review", controller, new RouteValueDictionary { { "id", Model.Order.Id } });
     var orderCustomer = Model.Order.Customer ?? new Customer();
+    var shipDate = Model.Order.ShipDate == null ? null : Model.Order.ShipDate.Value.ToString("MM/dd/yyyy");
 }
 
 <h3><strong>@title</strong></h3>
@@ -28,6 +29,14 @@
             </td>
             <td colspan="2">
                 <input type="text" id="orderNumber" class="form-control" value="@Model.Order.OrderNumber" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="notes">Notes</label>
+            </td>
+            <td colspan="2">
+                <input type="text" id="notes" class="form-control" value="@Model.Order.Notes" />
             </td>
         </tr>
         <tr>
@@ -93,16 +102,24 @@
                 </td>
             </tr>
         }
-    <tr>
-        <td>
-            <label for="shipDate">Ship Date</label>
-        </td>
-        <td>
-            <input type="text" id="shipDate" class="form-control datefield" readonly="readonly" style="background-color: white; color: black;" />
-        </td>
-        <td>&nbsp;</td>
-    </tr>
-
+        <tr>
+            <td>
+                <label for="shipDate">Ship Date</label>
+            </td>
+            <td>
+                <table>
+                    <tr>
+                        <td>
+                            <input type="text" id="shipDate" class="form-control datefield" readonly="readonly" style="background-color: white; color: black;" value="@shipDate" />
+                        </td>
+                        <td>
+                            <span class="badge danger"><span class="glyphicon glyphicon-remove" onclick="clearShipDate();" style="cursor: pointer;"></span></span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td>&nbsp;</td>
+        </tr>
     </table>
     <br />
     <div type="button" class="btn btn-success" onclick="saveOrder();">
@@ -179,6 +196,7 @@
         $('#errorPanel').hide();
 
         var orderNumber = $('#orderNumber').val();
+        var notes = $('#notes').val();
         var shipDate = $('#shipDate').val();
 
         var order = {
@@ -188,6 +206,7 @@
             OrderType: getOrderType(),
             OrderStatusId: '@Model.Order.OrderStatusId',
             OrderStatus: getOrderStatus(),
+            Notes: notes,
             Customer: getCustomer(),
             PackagingType: getPackagingType(),
             ShipDate: shipDate
@@ -296,5 +315,9 @@
             Id: '@Model.Order.OrderType.Id',
             Name: '@Model.Order.OrderType.Name'
         };
+    }
+
+    function clearShipDate() {
+        $('#shipDate').val(null);
     }
 </script>

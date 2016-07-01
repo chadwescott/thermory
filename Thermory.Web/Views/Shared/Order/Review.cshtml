@@ -80,7 +80,7 @@
                     <span class="glyphicon glyphicon-log-in"></span> Warehouse Received
                 </div>
             }
-            if (Model.Order.OrderStatus.OrderStatusEnum == OrderStatuses.Pulled && User.IsInRole(Role.InventoryMaster))
+            if (Model.Order.OrderStatus.OrderStatusEnum == OrderStatuses.Pulled && (User.IsInRole(Role.InventoryMaster) || User.IsInRole(Role.WarehouseCrew)))
             {
                 if (Model.Order.PackagingType == null)
                 {
@@ -113,43 +113,58 @@
             </div>
         }
     </div>
-    @if (@Model.Order.Customer != null)
+    @if (!string.IsNullOrEmpty(Model.Order.Notes))
+    {
+        <hr style="margin-bottom: -5px;" />
+        <div class="row">
+            <div class="col-md-2"><h5><strong>Notes:</strong></h5></div>
+            <div class="col-md-10"><h5>@Model.Order.Notes</h5></div>
+        </div>
+    }
+    @if (Model.Order.Customer != null)
     {
         <hr style="margin-bottom: -5px;" />
         <div class="row">
             <div class="col-md-2"><h5><strong>Customer:</strong></h5></div>
             <div class="col-md-10"><h5>@Model.Order.Customer.Name</h5></div>
         </div>
-        <div class="row">
-            <div class="col-md-2">&nbsp;</div>
-            <div class="col-md-10"><h5>@Model.Order.Customer.AddressLine1</h5></div>
-        </div>
-        <div class="row">
-            <div class="col-md-2">&nbsp;</div>
-            <div class="col-md-10"><h5>@Model.Order.Customer.AddressLine2</h5></div>
-        </div>
+        if (!string.IsNullOrEmpty(Model.Order.Customer.AddressLine1))
+        {
+            <div class="row">
+                <div class="col-md-2">&nbsp;</div>
+                <div class="col-md-10"><h5>@Model.Order.Customer.AddressLine1</h5></div>
+            </div>
+        }
+        if (!string.IsNullOrEmpty(Model.Order.Customer.AddressLine2))
+        {
+            <div class="row">
+                <div class="col-md-2">&nbsp;</div>
+                <div class="col-md-10"><h5>@Model.Order.Customer.AddressLine2</h5></div>
+            </div>
+        }
     }
     @if (@Model.Order.PackagingType != null)
     {
         <hr style="margin-bottom: -5px;" />
         <div class="row">
             <div class="col-md-2"><h5><strong>Packaging Type:</strong></h5></div>
-            <div class="col-md-10"><h5>@Model.Order.PackagingType.Name</h5></div>
-        </div>
-        if (@Model.Order.PackagingType.Weight != null)
-        {
-            <div class="row">
-                <div class="col-md-2">&nbsp;</div>
-                <div class="col-md-10"><h5>@Model.Order.PackagingType.Weight lbs</h5></div>
+            <div class="col-md-10">
+                <h5>
+                    @Model.Order.PackagingType.Name
+                    @if (Model.Order.PackagingType.Weight != null)
+                    {
+                        <span>(@Model.Order.PackagingType.Weight lbs)</span>
+                    }
+                </h5>
             </div>
-        }
+        </div>
     }
     @if (@Model.Order.ShipDate != null)
     {
         <hr style="margin-bottom: -5px;" />
         <div class="row">
             <div class="col-md-2"><h5><strong>Ship Date:</strong></h5></div>
-            <div class="col-md-10"><h5>@Model.Order.ShipDate</h5></div>
+            <div class="col-md-10"><h5>@Model.Order.ShipDate.Value.ToString("MM/dd/yyyy")</h5></div>
         </div>
     }
     @if (Model.Order.OrderStatus.OrderStatusEnum == OrderStatuses.WarehouseReceived)

@@ -50,8 +50,7 @@ namespace Thermory.Web.Controllers
             return Json(new { status = "success" });
         }
 
-        [Authorize(Roles = Role.InventoryMaster)]
-        [Authorize(Roles = Role.WarehouseCrew)]
+        [Authorize(Role.InventoryMaster, Role.WarehouseCrew)]
         public ActionResult Package(Guid? id)
         {
             if (id == null)
@@ -65,8 +64,7 @@ namespace Thermory.Web.Controllers
             return order.PackagingType == null ? Review(id) : View(order);
         }
 
-        [Authorize(Roles = Role.InventoryMaster)]
-        [Authorize(Roles = Role.WarehouseCrew)]
+        [Authorize(Role.InventoryMaster, Role.WarehouseCrew)]
         [HttpPost]
         public JsonResult SavePackages(Guid orderId, PackageLumberLineItem[] lumberLineItems, PackageMiscellaneousLineItem[] miscLineItems)
         {

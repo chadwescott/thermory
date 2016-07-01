@@ -5,7 +5,6 @@
 }
 
 table.packagingSummary {
-    
 }
 
 .lumberCategoryView {
@@ -953,7 +952,7 @@ td.totalPieceHeading {
 .has-error .form-control {
     background-color: yellow;
 }
-    
+
 .glyphicon-default {
     color: #777;
 }
@@ -978,8 +977,17 @@ td.totalPieceHeading {
     color: #d9534f;
 }
 
+.danger {
+    background-color: #c9302c;
+    border-color: #ac2925;
+}
+
 .packingSlipBottomBorder {
     border-bottom: solid thin black;
+}
+
+.packingSlipTopBorder {
+    border-top: solid thin black;
 }
 
 .packingSlipSection {

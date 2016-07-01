@@ -30,13 +30,19 @@
             </td>
             <td class="packingSlipCell">&nbsp;</td>
         </tr>
-        <tr class="packingSlipBottomBorder">
+        <tr>
             <td class="packingSlipCell" style="text-align: right;"><strong>Ship Date:</strong></td>
             <td class="packingSlipCell" style="text-align: right;"><strong>@shipDate</strong></td>
             <td class="packingSlipCell" style="text-align: right;"><strong>Customer PO#</strong></td>
             <td class="packingSlipCell" style="text-align: center;"><strong>@Model.Package.Order.OrderNumber</strong></td>
         </tr>
-        <tr class="packingSlipBottomBorder">
+        @if (!string.IsNullOrEmpty(Model.Package.Order.Notes))
+        {
+            <tr>
+                <td colspan="4" style="text-align: right;"><em>@Model.Package.Order.Notes</em></td>
+            </tr>
+        }
+        <tr class="packingSlipBottomBorder packingSlipTopBorder">
             <td class="packingSlipCell packingSlipSection">Customer:</td>
             <td class="packingSlipCell" colspan="3">@customer.Name</td>
         </tr>
