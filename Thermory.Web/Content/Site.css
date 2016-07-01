@@ -1,6 +1,9 @@
 ﻿.numeric {
 }
 
+.datefield {
+}
+
 table.packagingSummary {
     
 }
@@ -993,4 +996,9 @@ td.totalPieceHeading {
 
 .packageNumber {
     font-size: 14pt;
+}
+
+.ui-datepicker {
+    background-color: white;
+    border: solid thin black;
 }

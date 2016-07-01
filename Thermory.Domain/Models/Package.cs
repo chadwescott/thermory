@@ -14,10 +14,16 @@ namespace Thermory.Domain.Models
 
         public Guid OrderId { get; set; }
 
+        public int PackageNumber { get; set; }
+
+        public double? Height { get; set; }
+
+        public double? Length { get; set; }
+
+        public double? Width { get; set; }
+
         [ForeignKey("OrderId")]
         public Order Order { get; set; }
-
-        public int PackageNumber { get; set; }
         
         [ForeignKey("PackageId")]
         public List<PackageLumberLineItem> PackageLumberLineItems { get; set; }

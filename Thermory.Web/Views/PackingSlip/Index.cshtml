@@ -2,8 +2,8 @@
 @model Thermory.Web.Models.PackingSlip
 @{
     Layout = null;
-    var shipDate = DateTime.Now;
-    var customer = @Model.Package.Order.Customer ?? new Customer();
+    var shipDate = Model.Package.Order.ShipDate == null ? null : Model.Package.Order.ShipDate.Value.ToString("MMMM dd, yyyy");
+    var customer = Model.Package.Order.Customer ?? new Customer();
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -32,7 +32,7 @@
         </tr>
         <tr class="packingSlipBottomBorder">
             <td class="packingSlipCell" style="text-align: right;"><strong>Ship Date:</strong></td>
-            <td class="packingSlipCell" style="text-align: right;"><strong>@shipDate.ToString("MMMM dd, yyyy")</strong></td>
+            <td class="packingSlipCell" style="text-align: right;"><strong>@shipDate</strong></td>
             <td class="packingSlipCell" style="text-align: right;"><strong>Customer PO#</strong></td>
             <td class="packingSlipCell" style="text-align: center;"><strong>@Model.Package.Order.OrderNumber</strong></td>
         </tr>

@@ -43,6 +43,8 @@ namespace Thermory.Data.CommandBuilders
             }
 
             dbOrder.OrderNumber = order.OrderNumber;
+            dbOrder.Notes = order.Notes;
+            dbOrder.ShipDate = order.ShipDate;
             Commands.Add(new SaveOrder(dbOrder));
         }
 

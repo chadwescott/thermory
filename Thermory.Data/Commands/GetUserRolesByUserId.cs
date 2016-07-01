@@ -16,7 +16,7 @@ namespace Thermory.Data.Commands
 
         protected override void OnExecute(ThermoryContext context)
         {
-            Result = context.UserRoles.Include(ur => ur.WebPageRole).Where(ur => ur.UserId == _userId).ToList();
+            Result = context.UserRoles.Include(ur => ur.WebPageRole).Where(ur => ur.UserId == _userId).OrderBy(ur => ur.WebPageRole.RoleName).ToList();
         }
     }
 }

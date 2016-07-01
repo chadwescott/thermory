@@ -46,7 +46,7 @@ namespace Thermory.Web
                         "~/Content/themes/base/tabs.css",
                         "~/Content/themes/base/datepicker.css",
                         "~/Content/themes/base/progressbar.css",
-                        "~/Content/themes/base/theme-custom.css"));
+                        "~/Content/themes/base/theme.css"));
 
             // w2ui
             bundles.Add(new StyleBundle("~/Content/w2ui-css").Include("~/Content/w2ui-{version}.css"));

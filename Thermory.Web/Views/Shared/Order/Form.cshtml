@@ -93,6 +93,16 @@
                 </td>
             </tr>
         }
+    <tr>
+        <td>
+            <label for="shipDate">Ship Date</label>
+        </td>
+        <td>
+            <input type="text" id="shipDate" class="form-control datefield" readonly="readonly" style="background-color: white; color: black;" />
+        </td>
+        <td>&nbsp;</td>
+    </tr>
+
     </table>
     <br />
     <div type="button" class="btn btn-success" onclick="saveOrder();">
@@ -148,6 +158,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+        $('.datefield').datepicker({ dateFormat: "mm/dd/yy" });
         $('.numeric').keydown(rejectNonNumericText);
         customerChanged();
         packagingTypeChanged();
@@ -168,6 +179,7 @@
         $('#errorPanel').hide();
 
         var orderNumber = $('#orderNumber').val();
+        var shipDate = $('#shipDate').val();
 
         var order = {
             Id: '@orderId',
@@ -177,7 +189,8 @@
             OrderStatusId: '@Model.Order.OrderStatusId',
             OrderStatus: getOrderStatus(),
             Customer: getCustomer(),
-            PackagingType: getPackagingType()
+            PackagingType: getPackagingType(),
+            ShipDate: shipDate
         };
 
         var orderJson = JSON.stringify(order);
