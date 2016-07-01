@@ -58,168 +58,169 @@
         </tr>
     </table>
 </nav>
-<div>
-    @if (Model.Order.OrderStatus.OrderStatusEnum != OrderStatuses.Deleted)
-    {
-        if (User.IsInRole(Role.InventoryMaster))
+<div id="worksheetPanel" style="padding-top: 10px;">
+    <div>
+        @if (Model.Order.OrderStatus.OrderStatusEnum != OrderStatuses.Deleted)
         {
-            <div type="button" class="btn btn-primary" onclick="window.location = ('@Url.Action("Edit", controller, new RouteValueDictionary {{"id", Model.Order.Id}})'); ">
-                <span class="glyphicon glyphicon-edit"></span> Edit
-            </div>
-        }
-        if (Model.Order.OrderStatus.OrderStatusEnum == OrderStatuses.InTransit && User.IsInRole(Role.InventoryMaster))
-        {
-            <div type="button" class="btn btn-success" onclick="receiveOrder();">
-                <span class="glyphicon glyphicon-log-in"></span> Received
-            </div>
-        }
-        if (Model.Order.OrderStatus.OrderStatusEnum == OrderStatuses.SentToWarehouse && User.IsInRole(Role.WarehouseCrew))
-        {
-            <div type="button" class="btn btn-success" onclick="warehouseReceivedOrder();">
-                <span class="glyphicon glyphicon-log-in"></span> Warehouse Received
-            </div>
-        }
-        if (Model.Order.OrderStatus.OrderStatusEnum == OrderStatuses.Pulled && User.IsInRole(Role.InventoryMaster))
-        {
-            if (Model.Order.PackagingType == null)
+            if (User.IsInRole(Role.InventoryMaster))
             {
-                <div type="button" class="btn btn-success disabled">
-                    <span class="glyphicon glyphicon-list-alt"></span> Create packaging slip(s)
+                <div type="button" class="btn btn-primary" onclick="window.location = ('@Url.Action("Edit", controller, new RouteValueDictionary {{"id", Model.Order.Id}})'); ">
+                    <span class="glyphicon glyphicon-edit"></span> Edit
                 </div>
             }
-            else
+            if (Model.Order.OrderStatus.OrderStatusEnum == OrderStatuses.InTransit && User.IsInRole(Role.InventoryMaster))
             {
-                <div type="button" class="btn btn-success" onclick="window.location=('@Url.Action("Package", "SalesOrder")/@Model.Order.Id');">
-                    <span class="glyphicon glyphicon-list-alt"></span> Create packaging slip(s)
+                <div type="button" class="btn btn-success" onclick="receiveOrder();">
+                    <span class="glyphicon glyphicon-log-in"></span> Received
+                </div>
+            }
+            if (Model.Order.OrderStatus.OrderStatusEnum == OrderStatuses.SentToWarehouse && User.IsInRole(Role.WarehouseCrew))
+            {
+                <div type="button" class="btn btn-success" onclick="warehouseReceivedOrder();">
+                    <span class="glyphicon glyphicon-log-in"></span> Warehouse Received
+                </div>
+            }
+            if (Model.Order.OrderStatus.OrderStatusEnum == OrderStatuses.Pulled && User.IsInRole(Role.InventoryMaster))
+            {
+                if (Model.Order.PackagingType == null)
+                {
+                    <div type="button" class="btn btn-success disabled">
+                        <span class="glyphicon glyphicon-list-alt"></span> Create packaging slip(s)
+                    </div>
+                }
+                else
+                {
+                    <div type="button" class="btn btn-success" onclick="window.location=('@Url.Action("Package", "SalesOrder")/@Model.Order.Id');">
+                        <span class="glyphicon glyphicon-list-alt"></span> Create packaging slip(s)
+                    </div>
+                }
+            }
+            if (User.IsInRole(Role.InventoryMaster))
+            {
+                <div type="button" class="btn btn-danger" id="deleteButton" data-toggle="confirmation">
+                    <span class="glyphicon glyphicon-trash"></span> Delete
                 </div>
             }
         }
-        if (User.IsInRole(Role.InventoryMaster))
-        {
-            <div type="button" class="btn btn-danger" id="deleteButton" data-toggle="confirmation">
-                <span class="glyphicon glyphicon-trash"></span> Delete
-            </div>
-        }
-    }
-    <div type="button" class="btn btn-info" onclick="window.location = ('@Url.Action("index", controller)');">
-        <span class=" glyphicon glyphicon-arrow-left"></span> Back
-    </div>
-    @if (Model.Order.OrderStatus.OrderStatusEnum == OrderStatuses.Pulled && User.IsInRole(Role.InventoryMaster) && Model.Order.PackagingType == null)
-    {
-        <div id="errorPanel" class="alert alert-danger" role="alert" style="margin-top: 14px;">
-            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-            <span>You must edit the order and choose the packaging type before creating packaging slips.</span>
+        <div type="button" class="btn btn-info" onclick="window.location = ('@Url.Action("index", controller)');">
+            <span class=" glyphicon glyphicon-arrow-left"></span> Back
         </div>
-    }
-</div>
-@if (@Model.Order.Customer != null)
-{
-    <hr style="margin-bottom: -5px;" />
-    <div class="row">
-        <div class="col-md-2"><h5><strong>Customer:</strong></h5></div>
-        <div class="col-md-10"><h5>@Model.Order.Customer.Name</h5></div>
+        @if (Model.Order.OrderStatus.OrderStatusEnum == OrderStatuses.Pulled && User.IsInRole(Role.InventoryMaster) && Model.Order.PackagingType == null)
+        {
+            <div id="errorPanel" class="alert alert-danger" role="alert" style="margin-top: 14px;">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <span>You must edit the order and choose the packaging type before creating packaging slips.</span>
+            </div>
+        }
     </div>
-    <div class="row">
-        <div class="col-md-2">&nbsp;</div>
-        <div class="col-md-10"><h5>@Model.Order.Customer.AddressLine1</h5></div>
-    </div>
-    <div class="row">
-        <div class="col-md-2">&nbsp;</div>
-        <div class="col-md-10"><h5>@Model.Order.Customer.AddressLine2</h5></div>
-    </div>
-}
-@if (@Model.Order.PackagingType != null)
-{
-    <hr style="margin-bottom: -5px;" />
-    <div class="row">
-        <div class="col-md-2"><h5><strong>Packaging Type:</strong></h5></div>
-        <div class="col-md-10"><h5>@Model.Order.PackagingType.Name</h5></div>
-    </div>
-    if (@Model.Order.PackagingType.Weight != null)
+    @if (@Model.Order.Customer != null)
     {
+        <hr style="margin-bottom: -5px;" />
+        <div class="row">
+            <div class="col-md-2"><h5><strong>Customer:</strong></h5></div>
+            <div class="col-md-10"><h5>@Model.Order.Customer.Name</h5></div>
+        </div>
         <div class="row">
             <div class="col-md-2">&nbsp;</div>
-            <div class="col-md-10"><h5>@Model.Order.PackagingType.Weight lbs</h5></div>
+            <div class="col-md-10"><h5>@Model.Order.Customer.AddressLine1</h5></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">&nbsp;</div>
+            <div class="col-md-10"><h5>@Model.Order.Customer.AddressLine2</h5></div>
         </div>
     }
-}
-@if (@Model.Order.ShipDate != null)
-{
-    <hr style="margin-bottom: -5px;" />
-    <div class="row">
-        <div class="col-md-2"><h5><strong>Ship Date:</strong></h5></div>
-        <div class="col-md-10"><h5>@Model.Order.ShipDate</h5></div>
-    </div>
-}
-@if (Model.Order.OrderStatus.OrderStatusEnum == OrderStatuses.WarehouseReceived)
-{
-    <hr style="margin-bottom: -5px;" />
-    <table>
-        <tr>
-            <td style="vertical-align: top;">
-                <h5><strong>Time to pull:</strong></h5>
-            </td>
-            <td>
-                <input type="text" id="hoursToPull" class="form-control numeric" maxlength="2" value="@Model.Order.HoursToPull" style="width: 50px;" />
-            </td>
-            <td>hours</td>
-            <td>
-                <select id="minutesToPull" class="form-control">
-                    <option value="0">0</option>
-                    <option value="15">15</option>
-                    <option value="30">30</option>
-                    <option value="45">45</option>
-                </select>
-            </td>
-            <td>minutes</td>
-            <td>
-                <div type="button" class="btn btn-success" onclick="pullOrder();">
-                    <span class="glyphicon glyphicon-share-alt"></span> Pulled
-                </div>
-            </td>
-        </tr>
-    </table>
-    <div id="pullOrderErrorPanel" class="alert alert-danger" role="alert" style="display: none; margin-top: 14px;">
-        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-        <span class="sr-only">Error:</span>
-        <span id="pullOrderErrorMessage"></span>
-    </div>
-}
-@if (Model.Order.OrderStatus.OrderStatusEnum == OrderStatuses.PackagingSlipCreated)
-{
-    <hr style="margin-bottom: -5px;" />
-    <table>
-        <tr>
-            <td style="vertical-align: top;">
-                <h5><strong>Time to load:</strong></h5>
-            </td>
-            <td>
-                <input type="text" id="hoursToLoad" class="form-control numeric" maxlength="2" value="@Model.Order.HoursToLoad" style="width: 50px;" />
-            </td>
-            <td>hours</td>
-            <td>
-                <select id="minutesToLoad" class="form-control">
-                    <option value="0">0</option>
-                    <option value="15">15</option>
-                    <option value="30">30</option>
-                    <option value="45">45</option>
-                </select>
-            </td>
-            <td>minutes</td>
-            <td>
-                <div type="button" class="btn btn-success" onclick="loadOrder();">
-                    <span class="glyphicon glyphicon-share-alt"></span> Loaded
-                </div>
-            </td>
-        </tr>
-    </table>
-    <div id="loadOrderErrorPanel" class="alert alert-danger" role="alert" style="display: none; margin-top: 14px;">
-        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-        <span class="sr-only">Error:</span>
-        <span id="loadOrderErrorMessage"></span>
-    </div>
-}
-<div id="worksheetPanel" style="padding-top: 10px;">
+    @if (@Model.Order.PackagingType != null)
+    {
+        <hr style="margin-bottom: -5px;" />
+        <div class="row">
+            <div class="col-md-2"><h5><strong>Packaging Type:</strong></h5></div>
+            <div class="col-md-10"><h5>@Model.Order.PackagingType.Name</h5></div>
+        </div>
+        if (@Model.Order.PackagingType.Weight != null)
+        {
+            <div class="row">
+                <div class="col-md-2">&nbsp;</div>
+                <div class="col-md-10"><h5>@Model.Order.PackagingType.Weight lbs</h5></div>
+            </div>
+        }
+    }
+    @if (@Model.Order.ShipDate != null)
+    {
+        <hr style="margin-bottom: -5px;" />
+        <div class="row">
+            <div class="col-md-2"><h5><strong>Ship Date:</strong></h5></div>
+            <div class="col-md-10"><h5>@Model.Order.ShipDate</h5></div>
+        </div>
+    }
+    @if (Model.Order.OrderStatus.OrderStatusEnum == OrderStatuses.WarehouseReceived)
+    {
+        <hr style="margin-bottom: -5px;" />
+        <table>
+            <tr>
+                <td style="vertical-align: top;">
+                    <h5><strong>Time to pull:</strong></h5>
+                </td>
+                <td>
+                    <input type="text" id="hoursToPull" class="form-control numeric" maxlength="2" value="@Model.Order.HoursToPull" style="width: 50px;" />
+                </td>
+                <td>hours</td>
+                <td>
+                    <select id="minutesToPull" class="form-control">
+                        <option value="0">0</option>
+                        <option value="15">15</option>
+                        <option value="30">30</option>
+                        <option value="45">45</option>
+                    </select>
+                </td>
+                <td>minutes</td>
+                <td>
+                    <div type="button" class="btn btn-success" onclick="pullOrder();">
+                        <span class="glyphicon glyphicon-share-alt"></span> Pulled
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div id="pullOrderErrorPanel" class="alert alert-danger" role="alert" style="display: none; margin-top: 14px;">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+            <span id="pullOrderErrorMessage"></span>
+        </div>
+    }
+    @if (Model.Order.OrderStatus.OrderStatusEnum == OrderStatuses.PackagingSlipCreated)
+    {
+        <hr style="margin-bottom: -5px;" />
+        <table>
+            <tr>
+                <td style="vertical-align: top;">
+                    <h5><strong>Time to load:</strong></h5>
+                </td>
+                <td>
+                    <input type="text" id="hoursToLoad" class="form-control numeric" maxlength="2" value="@Model.Order.HoursToLoad" style="width: 50px;" />
+                </td>
+                <td>hours</td>
+                <td>
+                    <select id="minutesToLoad" class="form-control">
+                        <option value="0">0</option>
+                        <option value="15">15</option>
+                        <option value="30">30</option>
+                        <option value="45">45</option>
+                    </select>
+                </td>
+                <td>minutes</td>
+                <td>
+                    <div type="button" class="btn btn-success" onclick="loadOrder();">
+                        <span class="glyphicon glyphicon-share-alt"></span> Loaded
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div id="loadOrderErrorPanel" class="alert alert-danger" role="alert" style="display: none; margin-top: 14px;">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+            <span id="loadOrderErrorMessage"></span>
+        </div>
+    }
+    <hr style="margin-top: 2px;" />
     <ul class="nav nav-tabs" data-tabs="tabs">
         <li class="active"><a href="#orderSummary" data-toggle="tab">Summary</a></li>
         @if (Model.Order.OrderType.OrderTypeEnum == OrderTypes.SalesOrder)
