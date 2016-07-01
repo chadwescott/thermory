@@ -33,7 +33,7 @@ namespace Thermory.Web.Controllers
             return View("Index", model);
         }
 
-        [HttpPut]
+        [HttpPost]
         [Authorize(Role.InventoryMaster)]
         public ActionResult SaveLumberCategory(LumberCategory model)
         {
@@ -41,7 +41,7 @@ namespace Thermory.Web.Controllers
             return Json(model);
         }
 
-        [HttpPut]
+        [HttpPost]
         [Authorize(Role.InventoryMaster)]
         public ActionResult SaveLumberProduct(LumberProduct model)
         {
@@ -49,7 +49,7 @@ namespace Thermory.Web.Controllers
             return Json(model);
         }
 
-        [HttpPut]
+        [HttpPost]
         [Authorize(Role.InventoryMaster)]
         public ActionResult SaveLumberSubCategory(LumberSubCategory model)
         {
@@ -57,7 +57,7 @@ namespace Thermory.Web.Controllers
             return Json(model);
         }
 
-        [HttpPut]
+        [HttpPost]
         [Authorize(Role.InventoryMaster)]
         public ActionResult SaveLumberType(LumberType model)
         {
@@ -65,7 +65,7 @@ namespace Thermory.Web.Controllers
             return Json(model);
         }
 
-        [HttpPut]
+        [HttpPost]
         [Authorize(Role.InventoryMaster)]
         public ActionResult SaveMiscellaneousCategory(MiscellaneousCategory model)
         {
@@ -73,7 +73,7 @@ namespace Thermory.Web.Controllers
             return Json(model);
         }
 
-        [HttpPut]
+        [HttpPost]
         [Authorize(Role.InventoryMaster)]
         public ActionResult SaveMiscellaneousProduct(MiscellaneousProduct model)
         {
@@ -81,7 +81,7 @@ namespace Thermory.Web.Controllers
             return Json(model);
         }
 
-        [HttpPut]
+        [HttpPost]
         [Authorize(Role.InventoryMaster)]
         public ActionResult SaveMiscellaneousSubCategory(MiscellaneousSubCategory model)
         {

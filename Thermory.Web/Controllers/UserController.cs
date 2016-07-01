@@ -13,7 +13,7 @@ namespace Thermory.Web.Controllers
             return View();
         }
 
-        [HttpPut]
+        [HttpPost]
         [Authorize(Roles = Role.InventoryMaster)]
         public object Save(UserProfile user)
         {

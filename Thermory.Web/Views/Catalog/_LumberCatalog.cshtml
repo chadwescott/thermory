@@ -105,7 +105,7 @@
         };
 
         $.ajax({
-            type: 'PUT',
+            type: 'POST',
             url: '@Url.Action("SaveLumberCategory", "Catalog")',
             data: category,
             dataType: 'text',
@@ -145,7 +145,7 @@
         };
 
         $.ajax({
-            type: 'PUT',
+            type: 'POST',
             url: '@Url.Action("SaveLumberSubCategory", "Catalog")',
             data: subCategory,
             dataType: 'text',
@@ -185,7 +185,7 @@
         };
 
         $.ajax({
-            type: 'PUT',
+            type: 'POST',
             url: '@Url.Action("SaveLumberType", "Catalog")',
             data: lumberType,
             dataType: 'text',
@@ -225,7 +225,7 @@
         console.log(lumberProduct);
 
         $.ajax({
-            type: 'PUT',
+            type: 'POST',
             url: '@Url.Action("SaveLumberProduct", "Catalog")',
             data: lumberProduct,
             dataType: 'text',
