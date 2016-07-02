@@ -23,8 +23,8 @@ namespace Thermory.Data.CommandBuilders
 
             AddInventoryAdjustmentCommands(userId, dbOrder, lumberLineItems, miscLineItems);
 
-            AddCreatedLumberLineItemCommands(dbOrder, lumberLineItems);
-            AddCreateMiscellaneousLineItemCommands(dbOrder, miscLineItems);
+            AddCreateOrderLumberLineItemCommands(dbOrder, lumberLineItems);
+            AddCreateOrderMiscellaneousLineItemCommands(dbOrder, miscLineItems);
 
             if (order.Customer == null || order.Customer.Name == null)
                 dbOrder.Customer = null;

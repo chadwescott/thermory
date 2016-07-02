@@ -37,6 +37,7 @@
     <div id="resetButton" type="button" class="btn btn-danger" style="display: none;" onclick="resetPackages();">
         <span class="glyphicon glyphicon-remove"></span> Reset <span>@Model.PackagingType.Name</span>
     </div>
+    <div id="packageDetailsPanel"></div>
     @{
         var lumberCategories = Model.OrderLumberLineItems.Select(i => i.LumberProduct.LumberType.LumberSubCategory.LumberCategory).Distinct();
         var lumberSubCategories = Model.OrderLumberLineItems.Select(i => i.LumberProduct.LumberType.LumberSubCategory).Distinct();
@@ -137,8 +138,8 @@
                 var productType = $(this).attr('productType');
                 $(this).append('<td class="packagingColumn"><input name="packageQty" productId="' + id + '" productType="' + productType + '" packageNumber="' + i + '" class="form-control numeric" type="text" style="width: 100px;" maxlength="6" value="0" onchange="packagingQuantityChanged(\'' + id + '\');" /></td>');
             });
-
             $('.numeric').keydown(rejectNonNumericText);
+            $('#packageDetailsPanel').append(makePackageDimensionRow(i));
         }
         $('.packagingSummary').find('thead').find('tr').append('<th class="packagingColumn">Status</th>');
 
@@ -150,6 +151,20 @@
         $('#packageCountEntry').hide();
         $('#resetButton').show();
         $('#savePackagesButton').show();
+    }
+
+    function makePackageDimensionRow(packageNumber) {
+        var row = '<table>';
+        row += '<tr>';
+        row += '<td><label>@Model.PackagingType.Name ' + packageNumber + ' Dimensions</label></td>';
+        row += '<td><input id="packageHeight' + packageNumber + '" type="text" class="form-control" size="10"/></td>';
+        row += '<td><label>x</label></td>';
+        row += '<td><input id="packageLength' + packageNumber + '" type="text" class="form-control" size="10"/></td>';
+        row += '<td><label>x</label></td>';
+        row += '<td><input id="packageWidth' + packageNumber + '" type="text" class="form-control" size="10"/></td>';
+        row += '</tr>';
+        row += '</table>';
+        return row;
     }
 
     function packagingQuantityChanged(productId) {
@@ -193,6 +208,7 @@
         $('#packageCountEntry').show();
         $('#resetButton').hide();
         $('#savePackagesButton').hide();
+        $('#packageDetailsPanel').empty();
     }
 
     function savePackagingSlips() {
@@ -231,6 +247,9 @@
         $(query).each(function () {
             var productId = $(this).attr('productId');
             var packageNumber = parseInt($(this).attr('packageNumber'));
+            var height = $('#packageHeight' + packageNumber).val();
+            var length = $('#packageLength' + packageNumber).val();
+            var width = $('#packageWidth' + packageNumber).val();
             var qty = $(this).valueOf() == '' ? 0 : parseInt($(this).val());
 
             if (qty != 0) {
@@ -238,7 +257,11 @@
                     LumberProductId: productId,
                     Quantity: qty,
                     Package: {
-                        PackageNumber: packageNumber
+                        OrderId: '@Model.Id',
+                        PackageNumber: packageNumber,
+                        Height: height,
+                        Length: length,
+                        Width: width
                     }
                 });
             }
@@ -252,6 +275,9 @@
         $(query).each(function () {
             var productId = $(this).attr('productId');
             var packageNumber = parseInt($(this).attr('packageNumber'));
+            var height = $('#packageHeight' + packageNumber).val();
+            var length = $('#packageLength' + packageNumber).val();
+            var width = $('#packageWidth' + packageNumber).val();
             var qty = $(this).valueOf() == '' ? 0 : parseInt($(this).val());
 
             if (qty != 0) {
@@ -259,7 +285,11 @@
                     MiscellaneousProductId: productId,
                     Quantity: qty,
                     Package: {
-                        PackageNumber: packageNumber
+                        OrderId: '@Model.Id',
+                        PackageNumber: packageNumber,
+                        Height: height,
+                        Length: length,
+                        Width: width
                     }
                 });
             }

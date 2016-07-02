@@ -16,8 +16,8 @@ namespace Thermory.Data.CommandBuilders
             SetOrderStatus(order);
             Commands.Add(new SaveOrder(order));
 
-            AddCreatedLumberLineItemCommands(order, lumberLineItems);
-            AddCreateMiscellaneousLineItemCommands(order, miscLineItems);
+            AddCreateOrderLumberLineItemCommands(order, lumberLineItems);
+            AddCreateOrderMiscellaneousLineItemCommands(order, miscLineItems);
 
             AddInventoryAdjustmentCommands(userId, order, lumberLineItems, miscLineItems);
         }

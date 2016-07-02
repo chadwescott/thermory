@@ -19,14 +19,14 @@ namespace Thermory.Data.CommandBuilders
             return getOrderCommand.Result;
         }
 
-        protected void AddCreatedLumberLineItemCommands(Order order,
+        protected void AddCreateOrderLumberLineItemCommands(Order order,
             IEnumerable<OrderLumberLineItem> updatedLumberLineItems)
         {
             var createOrderLumberLinesCommands = updatedLumberLineItems.MakeCreateOrderLumberLineItemCommands(order);
             Commands.AddRange(createOrderLumberLinesCommands);
         }
 
-        protected void AddCreateMiscellaneousLineItemCommands(Order order,
+        protected void AddCreateOrderMiscellaneousLineItemCommands(Order order,
             IEnumerable<OrderMiscellaneousLineItem> updatedMiscellaneousLineItems)
         {
             var createOrderMiscellaneousLinesCommands =
@@ -58,27 +58,43 @@ namespace Thermory.Data.CommandBuilders
         protected void CreatePackages(Order order, PackageLumberLineItem[] lumberLineItems,
             PackageMiscellaneousLineItem[] miscLineItems)
         {
-            var packages = new List<Package>();
+            var packages = ConsolidatePackages(lumberLineItems, miscLineItems);
+            AddCreatePackageCommands(packages);
+            AddCreatePackageLumberLineItemsCommands(packages, lumberLineItems);
+            AddCreatePackageMiscellaneousLineItemsCommands(packages, miscLineItems);
+        }
 
-            var packageNumbers = lumberLineItems.Select(li => li.Package.PackageNumber).ToList();
-            packageNumbers.AddRange(miscLineItems.Select(li => li.Package.PackageNumber));
+        private List<Package> ConsolidatePackages(IEnumerable<PackageLumberLineItem> lumberLineItems,
+            IEnumerable<PackageMiscellaneousLineItem> miscLineItems)
+        {
+            var packages = lumberLineItems.Select(li => li.Package).ToList();
+            packages.AddRange(miscLineItems.Select(li => li.Package).ToList());
 
-            foreach (
-                var package in
-                    packageNumbers.Distinct()
-                        .Select(packageNumber => new Package {OrderId = order.Id, PackageNumber = packageNumber}))
-            {
-                packages.Add(package);
+            return
+                packages.Select(p => p.PackageNumber)
+                    .Distinct()
+                    .Select(packageNumber => packages.First(p => p.PackageNumber == packageNumber))
+                    .ToList();
+        }
+
+        private void AddCreatePackageCommands(IEnumerable<Package> packages)
+        {
+            foreach (var package in packages)
                 Commands.Add(new CreatePackage(package));
-            }
+        }
 
-            foreach (var lineItem in lumberLineItems.Where(li => li.Quantity > 0))
+        private void AddCreatePackageLumberLineItemsCommands(List<Package> packages, IEnumerable<PackageLumberLineItem> lineItems)
+        {
+            foreach (var lineItem in lineItems.Where(li => li.Quantity > 0))
             {
                 lineItem.Package = packages.Single(p => p.PackageNumber == lineItem.Package.PackageNumber);
                 Commands.Add(new CreatePackageLumberLineItem(lineItem));
             }
+        }
 
-            foreach (var lineItem in miscLineItems.Where(li => li.Quantity > 0))
+        private void AddCreatePackageMiscellaneousLineItemsCommands(List<Package> packages, IEnumerable<PackageMiscellaneousLineItem> lineItems)
+        {
+            foreach (var lineItem in lineItems.Where(li => li.Quantity > 0))
             {
                 lineItem.Package = packages.Single(p => p.PackageNumber == lineItem.Package.PackageNumber);
                 Commands.Add(new CreatePackageMiscellaneousLineItem(lineItem));
