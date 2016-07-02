@@ -41,7 +41,7 @@ namespace Thermory.Domain.Models
         [NotMapped]
         public double TallyPercentage
         {
-            get { return LumberType == null ? 0 : Math.Round(LinearFeet / LumberType.TotalLinearFeet * 100, 0); }
+            get { return LumberType == null || LumberType.TotalLinearFeet == 0 ? 0 : Math.Round(LinearFeet / LumberType.TotalLinearFeet * 100, 0); }
         }
 
         [NotMapped]

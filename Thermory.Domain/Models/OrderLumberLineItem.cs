@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using Thermory.Domain.Utils;
 
 namespace Thermory.Domain.Models
@@ -34,5 +35,22 @@ namespace Thermory.Domain.Models
 
         [NotMapped]
         public double SquareFeet { get { return LumberCalculations.GetSquareFeet(LinearFeet, LumberProduct.LumberType.LumberSubCategory.WidthInInches); } }
+
+        [NotMapped]
+        public double TallyPercentage
+        {
+            get { return Math.Round(LinearFeet / TotalLinearFeetForLumberType * 100, 0); }
+        }
+
+        [NotMapped]
+        private double TotalLinearFeetForLumberType
+        {
+            get
+            {
+                return
+                    Order.OrderLumberLineItems.Where(li => li.LumberProduct.LumberTypeId == LumberProduct.LumberTypeId)
+                        .Sum(li => li.LinearFeet);
+            }
+        }
     }
 }
