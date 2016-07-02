@@ -64,7 +64,7 @@
                                 var orderQuantity = lineItem == null ? 0 : lineItem.Quantity;
                                 var lineItemId = lineItem == null ? Guid.Empty : lineItem.Id;
                                 orderLinearFeet += LumberCalculations.GetLinearFeet(orderQuantity, productForLength.LengthInInches);
-                                <input type="text" name="lumberQty" id="@lineItemId" productid="@productForLength.Id" lumbertypeid="@lumberType.Id" lengthinmillimeters="@length" lengthininches="@productForLength.LengthInInches" class="form-control" maxlength="6" pattern="[0-9]*" value="@orderQuantity" onchange="lumberProductQuantityChanged('@lumberType.Id', '@subCategory.WidthInInches', '@linearFeetId', '@squareFeetId', @subCategory.BundleSize);" />
+                                <input type="text" name="lumberQty" id="@lineItemId" productid="@productForLength.Id" lumbertypeid="@lumberType.Id" lengthinmillimeters="@length" lengthininches="@productForLength.LengthInInches" originalqty="@orderQuantity" class="form-control" maxlength="6" pattern="[0-9]*" value="@orderQuantity" onchange="lumberProductQuantityChanged('@lumberType.Id', '@subCategory.WidthInInches', '@linearFeetId', '@squareFeetId', @subCategory.BundleSize);" />
                             }
                             else
                             {
@@ -159,13 +159,15 @@
         var totalLinearFeet = 0;
         $('input[lumberTypeId="' + lumberTypeId + '"]').each(function (key, value) {
             var pieces = parseInt($(this).val());
+            if (isNaN(pieces)) { pieces = 0; }
             var lengthInMillimeters = $(this).attr('lengthInMillimeters');
             var lengthInInches = $(this).attr('lengthInInches');
+            var originalQty = parseInt($(this).attr('originalQty'));
             totalLinearFeet += calculateLinearFeet(pieces, lengthInInches);
             if ('@Model.ValidateQuantityOnHand' == 'True') {
                 var quantityOnHandId = 'quantityOnHand' + lumberTypeId + lengthInMillimeters;
                 var qtyOnHand = parseInt($('#' + quantityOnHandId).val());
-                if (qtyOnHand < pieces) {
+                if (qtyOnHand < (pieces - originalQty) && pieces > 0) {
                     $(this).parent().closest('div').addClass('has-error');
                 } else {
                     $(this).parent().closest('div').removeClass('has-error');
