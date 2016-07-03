@@ -32,6 +32,17 @@ namespace Thermory.Domain.Models
         public List<PackageMiscellaneousLineItem> PackageMiscellaneousLineItems { get; set; }
 
         [NotMapped]
+        public string Dimensions
+        {
+            get
+            {
+                return Height == null || Length == null || Width == null
+                    ? ""
+                    : string.Format("{0} x {1} x {2}", Height, Length, Width);
+            }
+        }
+
+        [NotMapped]
         public double Weight
         {
             get

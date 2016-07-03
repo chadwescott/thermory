@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
+using System.Web.UI;
 using Thermory.Business;
 using Thermory.Domain.Constants;
 using Thermory.Domain.Enums;
@@ -69,6 +70,14 @@ namespace Thermory.Web.Controllers
         public JsonResult SavePackages(Guid orderId, PackageLumberLineItem[] lumberLineItems, PackageMiscellaneousLineItem[] miscLineItems)
         {
             CommandDirectory.Instance.SavePackages(WebSecurity.CurrentUserId, orderId, lumberLineItems, miscLineItems);
+            return Json(new { status = "success" });
+        }
+
+        [Authorize(Role.InventoryMaster, Role.WarehouseCrew)]
+        [HttpPost]
+        public JsonResult UpdatePackages(Package[] packages)
+        {
+            CommandDirectory.Instance.UpdatePackages(packages);
             return Json(new { status = "success" });
         }
     }

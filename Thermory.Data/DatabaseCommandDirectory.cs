@@ -223,6 +223,12 @@ namespace Thermory.Data
             transaction.Execute();
         }
 
+        public void UpdatePackages(Package[] packages)
+        {
+            var transaction = new TransactionalCommand(packages.Select(p => new UpdatePackage(p)));
+            transaction.Execute();
+        }
+
         public void UpdateUserRoles(UserProfile user)
         {
             var builder = new UpdateUserRolesBuilder(user);

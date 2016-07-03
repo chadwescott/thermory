@@ -131,6 +131,7 @@
     <Compile Include="Commands\UpdateMiscellaneousProductInventory.cs" />
     <Compile Include="Commands\SaveOrder.cs" />
     <Compile Include="Commands\AddUserRole.cs" />
+    <Compile Include="Commands\UpdatePackage.cs" />
     <Compile Include="DatabaseCommandDirectory.cs" />
     <Compile Include="Commands\DatabaseCommand.cs" />
     <Compile Include="Commands\DatabaseGetCommand.cs" />

@@ -1,11 +1,6 @@
-﻿@using Thermory.Domain.Models;
-@model Thermory.Web.Models.PackingSlip
+﻿@model Thermory.Web.Models.PackingSlip
 @{
     Layout = null;
-    var shipDate = Model.Package.Order.ShipDate == null ? null : Model.Package.Order.ShipDate.Value.ToString("MMMM dd, yyyy");
-    var customer = Model.Package.Order.Customer ?? new Customer();
-    var dimensions = Model.Package.Height == null || Model.Package.Length == null || Model.Package.Width == null
-        ? "" : string.Format("{0} x {1} x {2}", Model.Package.Height, Model.Package.Length, Model.Package.Width);
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -34,7 +29,7 @@
         </tr>
         <tr>
             <td class="packingSlipCell" style="text-align: right;">Ship Date:</td>
-            <td class="packingSlipCell" style="text-align: right;">@shipDate</td>
+            <td class="packingSlipCell" style="text-align: right;">@Model.ShipDate</td>
             <td class="packingSlipCell">&nbsp;</td>
             <td class="packingSlipCell" style="text-align: right;">Customer PO#</td>
             <td class="packingSlipCell" style="text-align: center;">@Model.Package.Order.OrderNumber</td>
@@ -47,14 +42,14 @@
         }
         <tr class="packingSlipBottomBorder packingSlipTopBorder">
             <td class="packingSlipCell packingSlipSection">Customer:</td>
-            <td class="packingSlipCell" colspan="4">@customer.Name</td>
+            <td class="packingSlipCell" colspan="4">@Model.Customer.Name</td>
         </tr>
         <tr>
             <td class="packingSlipCell packingSlipSection" rowspan="2">Address:</td>
-            <td class="packingSlipCell" colspan="4">@customer.AddressLine1</td>
+            <td class="packingSlipCell" colspan="4">@Model.Customer.AddressLine1</td>
         </tr>
         <tr class="packingSlipBottomBorder">
-            <td class="packingSlipCell" colspan="4">@customer.AddressLine2</td>
+            <td class="packingSlipCell" colspan="4">@Model.Customer.AddressLine2</td>
         </tr>
         <tr>
             <td class="packingSlipCell packingSlipSection" rowspan="2">@Model.Package.Order.PackagingType.Name #</td>
@@ -65,7 +60,7 @@
         </tr>
         <tr class="packingSlipBottomBorder">
             <td class="packingSlipCell"><em>Dimensions:</em></td>
-            <td class="packingSlipCell">@dimensions</td>
+            <td class="packingSlipCell">@Model.Dimensions</td>
             <td class="packingSlipCell" colspan="2"></td>
         </tr>
         <tr class="packingSlipBottomBorder">
