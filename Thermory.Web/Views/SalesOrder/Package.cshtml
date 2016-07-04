@@ -117,6 +117,10 @@
 <div id="savingPanel" style="display: none;">Saving...</div>
 
 <script language="javascript">
+    $(document).ready(function () {
+        $('.numeric').keydown(rejectNonNumericText);
+    });
+
     var packageCount = 0;
     var packageType = '@Model.PackagingType.Name';
     var packagingValues = new Array();
@@ -138,7 +142,6 @@
                 var productType = $(this).attr('productType');
                 $(this).append('<td class="packagingColumn"><input name="packageQty" productId="' + id + '" productType="' + productType + '" packageNumber="' + i + '" class="form-control numeric" type="text" style="width: 100px;" maxlength="6" value="0" onchange="packagingQuantityChanged(\'' + id + '\');" /></td>');
             });
-            $('.numeric').keydown(rejectNonNumericText);
             $('#packageDetailsPanel').append(makePackageDimensionRow(i));
         }
         $('.packagingSummary').find('thead').find('tr').append('<th class="packagingColumn">Status</th>');
@@ -148,6 +151,7 @@
             $(this).append('<td class="packagingColumn"><h3 style="margin-top: 15px;"><span id="statusIcon-' + id + '" class="glyphicon glyphicon-warning-sign glyphicon-warning"></span></h3><input type="hidden" id="status-' + id + '" name="packageStatus" value="false" /></td>');
         });
 
+        $('.numeric').keydown(rejectNonNumericText);
         $('#packageCountEntry').hide();
         $('#resetButton').show();
         $('#savePackagesButton').show();
@@ -157,11 +161,11 @@
         var row = '<table>';
         row += '<tr>';
         row += '<td><label>@Model.PackagingType.Name ' + packageNumber + ' Dimensions</label></td>';
-        row += '<td><input id="packageHeight' + packageNumber + '" type="text" class="form-control" size="10"/></td>';
+        row += '<td><input id="packageHeight' + packageNumber + '" type="text" class="form-control numeric" size="10"/></td>';
         row += '<td><label>x</label></td>';
-        row += '<td><input id="packageLength' + packageNumber + '" type="text" class="form-control" size="10"/></td>';
+        row += '<td><input id="packageLength' + packageNumber + '" type="text" class="form-control numeric" size="10"/></td>';
         row += '<td><label>x</label></td>';
-        row += '<td><input id="packageWidth' + packageNumber + '" type="text" class="form-control" size="10"/></td>';
+        row += '<td><input id="packageWidth' + packageNumber + '" type="text" class="form-control numeric" size="10"/></td>';
         row += '</tr>';
         row += '</table>';
         return row;
