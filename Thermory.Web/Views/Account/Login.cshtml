@@ -9,7 +9,6 @@
 </hgroup>
 
 <section id="loginForm">
-    <h2>Use a local account to log in.</h2>
     @using (Html.BeginForm(new { ViewBag.ReturnUrl }))
     {
         @Html.AntiForgeryToken()
@@ -40,14 +39,36 @@
         <p>
             @Html.ActionLink("Register", "Register") if you don't have an account.
         </p>
+        <div class="btn btn-primary" onclick="sendPasswordResetEmail();">
+            <span class="glyphicon glyphicon-envelope"></span> Forgot Password
+        </div>
     }
-</section>
-
-<section class="social" id="socialLoginForm">
-    @*<h2>Use another service to log in.</h2>
-    @Html.Action("ExternalLoginsList", new { ViewBag.ReturnUrl })*@
 </section>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+
+<script language="javascript">
+    function sendPasswordResetEmail() {
+
+        var data = {
+            emailAddress: 'chadwescott@gmail.com'
+        };
+        var dataJson = JSON.stringify(data);
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("ForgotPassword", "Account")',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: dataJson,
+            success: function (data, status, request) {
+                window.location = '@Url.Action("ResetPassword", "Account")?token=' + data.token;
+            },
+        error: function (data, status, request) {
+            alert('Error sending email');
+        }
+    });
+    }
+</script>

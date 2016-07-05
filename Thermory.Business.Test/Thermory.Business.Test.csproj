@@ -78,6 +78,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Commands\GetAllLumberProductsTest.cs" />
+    <Compile Include="Commands\SendEmailTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

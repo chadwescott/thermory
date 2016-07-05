@@ -62,6 +62,7 @@
     <Compile Include="Commands\RefreshLumberProductQuantities.cs" />
     <Compile Include="Commands\GetAllLumberCategories.cs" />
     <Compile Include="Commands\RefreshMiscellaneousProductQuantities.cs" />
+    <Compile Include="Commands\SendEmail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +74,9 @@
       <Project>{A0CA1653-72EA-4E16-AFF9-2A0910D79657}</Project>
       <Name>Thermory.Domain</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

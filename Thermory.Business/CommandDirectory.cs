@@ -190,6 +190,12 @@ namespace Thermory.Business
             DatabaseCommandDirectory.Instance.SavePackages(userId, orderId, lumberLineItems, miscLineItems);
         }
 
+        public void SendTestEmail()
+        {
+            var command = new SendEmail();
+            command.Execute();
+        }
+
         public void UpdatePackages(Package[] packages)
         {
             DatabaseCommandDirectory.Instance.UpdatePackages(packages);

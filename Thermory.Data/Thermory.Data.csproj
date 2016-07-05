@@ -117,6 +117,7 @@
     <Compile Include="Commands\GetInventoryTransactionsByOrderId.cs" />
     <Compile Include="Commands\GetAllRoles.cs" />
     <Compile Include="Commands\GetPackageById.cs" />
+    <Compile Include="Commands\GetUserById.cs" />
     <Compile Include="Commands\GetUserRolesByUserId.cs" />
     <Compile Include="Commands\SaveLumberCategory.cs" />
     <Compile Include="Commands\SaveLumberProduct.cs" />

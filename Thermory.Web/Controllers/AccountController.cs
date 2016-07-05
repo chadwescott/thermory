@@ -4,6 +4,7 @@ using System.Transactions;
 using System.Web.Mvc;
 using System.Web.Security;
 using Microsoft.Web.WebPages.OAuth;
+using Thermory.Business;
 using Thermory.Domain.Models;
 using Thermory.Web.Models;
 using WebMatrix.WebData;
@@ -314,6 +315,45 @@ namespace Thermory.Web.Controllers
 
             ViewBag.ShowRemoveButton = externalLogins.Count > 1 || OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
             return PartialView("_RemoveExternalLoginsPartial", externalLogins);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult SendTestEmail()
+        {
+            CommandDirectory.Instance.SendTestEmail();
+            return Json(new { status = "success" });
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult ForgotPassword(string emailAddress)
+        {
+            var token = WebSecurity.GeneratePasswordResetToken(emailAddress, 10);
+
+            //CommandDirectory.Instance.SendTestEmail();
+            return Json(new { status = "success", token });
+        }
+
+        [AllowAnonymous]
+        public ActionResult ResetPassword(string token)
+        {
+            var model = new ForgotPasswordModel {Token = token};
+            return WebSecurity.ConfirmAccount(token) ? View(model) : Login(null);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult ResetPassword(ForgotPasswordModel model)
+        {
+            if (WebSecurity.ConfirmAccount(model.Token))
+            {
+                WebSecurity.ResetPassword(model.Token, model.NewPassword);
+                model.Validated = true;
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         #region Helpers
