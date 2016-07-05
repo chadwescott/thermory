@@ -20,10 +20,12 @@ namespace Thermory.Data.Commands
             _order.OrderTypeId = _order.OrderType.Id;
             
             _order.Customer = null;
+            _order.PackagingType = null;
             _order.OrderStatus = null;
             _order.OrderType = null;
             _order.OrderLumberLineItems = null;
             _order.OrderMiscellaneousLineItems = null;
+            _order.Packages = null;
         }
 
         protected override void OnExecute(ThermoryContext context)

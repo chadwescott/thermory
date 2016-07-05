@@ -4,8 +4,7 @@
 @{
     var firstCategoryId = Model.LumberOrderForms.First().LumberCategory.Id;
     var action = Model.Order.Id == Guid.Empty ? "Create" : "Edit";
-    var orderType = Model.Order.OrderType.OrderTypeEnum;
-    var title = string.Format("{0} {1} Order {2}", action, orderType, Model.Order.OrderNumber);
+    var title = string.Format("{0} {1} Order {2}", action, Model.Order.OrderType.Name, Model.Order.OrderNumber);
     var orderId = Model.Order == null ? Guid.Empty : Model.Order.Id;
     var controller = string.Format("{0}Order", Model.Order.OrderType.Name);
     var cancelUrl = Model.Order.Id == Guid.Empty
@@ -73,7 +72,7 @@
                 <input type="text" id="addressLine2" class="form-control" value="@orderCustomer.AddressLine2" />
             </td>
         </tr>
-        @if (orderType == OrderTypes.SalesOrder)
+        @if (Model.Order.OrderType.OrderTypeEnum == OrderTypes.SalesOrder)
         {
             <tr>
                 <td rowspan="2" style="vertical-align: top;">
