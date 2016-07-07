@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.SessionState;
+using log4net;
 using log4net.Config;
 using Thermory.Web.Models;
 using WebMatrix.WebData;
@@ -22,10 +23,12 @@ namespace Thermory.Web
         private static SimpleMembershipInitializer _initializer;
         private static object _initializerLock = new object();
         private static bool _isInitialized;
+        private static readonly ILog Log = LogManager.GetLogger(typeof(MvcApplication));
 
         protected void Application_Start()
         {
             XmlConfigurator.Configure();
+            Log.Debug("Application start");
             AreaRegistration.RegisterAllAreas();
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
