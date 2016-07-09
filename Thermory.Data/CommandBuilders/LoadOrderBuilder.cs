@@ -15,8 +15,9 @@ namespace Thermory.Data.CommandBuilders
         {
             var order = GetOrder(orderId);
             if (order == null || order.OrderStatus.OrderStatusEnum == OrderStatuses.Deleted) return;
-
-            CreateInventoryTransaction(userId, order);
+            
+            var transaction = MakeInventoryTransaction(userId, order);
+            AddCreateInventoryTransactionCommand(transaction);
 
             order.OrderStatusId = DatabaseCommandDirectory.Instance.GetOrderStatusByEnum(OrderStatuses.Loaded).Id;
             order.MinutesToLoad = minutesTaken;

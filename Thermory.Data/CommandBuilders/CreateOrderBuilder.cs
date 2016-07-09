@@ -35,7 +35,7 @@ namespace Thermory.Data.CommandBuilders
 
         protected void AddInventoryAdjustmentCommands(int userId, Order order, OrderLumberLineItem[] lumberLineItems, OrderMiscellaneousLineItem[] miscLineItems)
         {
-            var transaction = CreateInventoryTransaction(userId, order);
+            var transaction = MakeInventoryTransaction(userId, order);
             var adjustmentMultiplier = AdjustmentMultiplier.GetByOrderType(order.OrderType.OrderTypeEnum);
 
             var adjustLumberProductQuantityCommands =
@@ -52,7 +52,7 @@ namespace Thermory.Data.CommandBuilders
 
             if (!adjustLumberProductQuantityCommands.Any() && !adjustMiscellaneousProductQuantityCommands.Any()) return;
 
-            CreateInventoryTransactionCommand(transaction);
+            AddCreateInventoryTransactionCommand(transaction);
             Commands.AddRange(adjustLumberProductQuantityCommands);
             Commands.AddRange(adjustMiscellaneousProductQuantityCommands);
         }
