@@ -350,7 +350,7 @@
                         <span id="packageErrorMessage"></span>
                     </div>
                     <form class="form-inline">
-                        @foreach (var package in Model.Order.Packages)
+                        @foreach (var package in Model.Order.Packages.OrderBy(p => p.PackageNumber))
                         {
                             <div class=" btn btn-warning" onclick="window.open('/PackingSlip/Index/?orderId=@Model.Order.Id&packageNumber=@package.PackageNumber', '_blank'); ">
                                 <span class="glyphicon glyphicon-print"></span> View @Model.Order.PackagingType.Name @package.PackageNumber
