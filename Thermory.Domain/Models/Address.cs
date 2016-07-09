@@ -1,26 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Thermory.Domain.Models
 {
-    public class Customer
+    public class Address
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
+
+        public Guid CustomerId { get; set; }
+
+        [ForeignKey("CustomerId")]
+        public Customer Customer { get; set; }
 
         public string Name { get; set; }
 
         public string AddressLine1 { get; set; }
 
         public string AddressLine2 { get; set; }
-
-        [ForeignKey("CustomerId")]
-        public List<Address> Addresses { get; set; }
-
-        [ForeignKey("CustomerId")]
-        public List<Order> Orders { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace Thermory.Data.Test.Commands
     public class GetAllLumberCategoriesTest
     {
         [TestMethod]
-        public void ExecuteTest()
+        public void ExecuteByJoinTest()
         {
             XmlConfigurator.Configure();
             var command = new GetAllLumberCategories();

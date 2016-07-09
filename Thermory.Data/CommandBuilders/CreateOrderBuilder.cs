@@ -18,24 +18,7 @@ namespace Thermory.Data.CommandBuilders
 
             AddCreateOrderLumberLineItemCommands(order, lumberLineItems);
             AddCreateOrderMiscellaneousLineItemCommands(order, miscLineItems);
-
             AddInventoryAdjustmentCommands(userId, order, lumberLineItems, miscLineItems);
-        }
-
-        private void AddCustomerSaveCommand(Order order)
-        {
-            if (order.Customer == null || order.Customer.Name == null)
-                order.Customer = null;
-            else
-                Commands.Add(new SaveCustomer(order.Customer));
-        }
-
-        private void AddPackagingTypeSaveCommand(Order order)
-        {
-            if (order.PackagingType == null || order.PackagingType.Name == null)
-                order.PackagingType = null;
-            else
-                Commands.Add(new SavePackagingType(order.PackagingType));
         }
 
         private static void SetOrderStatus(Order order)
@@ -45,30 +28,33 @@ namespace Thermory.Data.CommandBuilders
                 : OrderStatusCache.GetByOrderStatusEnum(OrderStatuses.SentToWarehouse).Id;
         }
 
-        private void AddInventoryAdjustmentCommands(int userId, Order order, OrderLumberLineItem[] lumberLineItems, OrderMiscellaneousLineItem[] miscLineItems)
+        protected override TransactionTypes TransactionType
+        {
+            get { return TransactionTypes.OrderCreate; }
+        }
+
+        protected void AddInventoryAdjustmentCommands(int userId, Order order, OrderLumberLineItem[] lumberLineItems, OrderMiscellaneousLineItem[] miscLineItems)
         {
             var transaction = CreateInventoryTransaction(userId, order);
-
             var adjustmentMultiplier = AdjustmentMultiplier.GetByOrderType(order.OrderType.OrderTypeEnum);
 
             var adjustLumberProductQuantityCommands =
                 lumberLineItems.Select(
                     i =>
-                        new AdjustLumberProductQuantity(transaction, i.LumberProductId, i.Quantity*adjustmentMultiplier,
-                            order.ApplyInventoryQuantityChanges));
-            Commands.AddRange(adjustLumberProductQuantityCommands);
+                        new AdjustLumberProductQuantity(transaction, i.LumberProductId, i.Quantity * adjustmentMultiplier,
+                            order.ApplyInventoryQuantityChanges)).ToList();
 
             var adjustMiscellaneousProductQuantityCommands =
                 miscLineItems.Select(
                     i =>
                         new AdjustMiscellaneousProductQuantity(transaction, i.MiscellaneousProductId,
-                            i.Quantity*adjustmentMultiplier, order.ApplyInventoryQuantityChanges));
-            Commands.AddRange(adjustMiscellaneousProductQuantityCommands);
-        }
+                            i.Quantity * adjustmentMultiplier, order.ApplyInventoryQuantityChanges)).ToList();
 
-        protected override TransactionTypes TransactionType
-        {
-            get { return TransactionTypes.OrderCreate; }
+            if (!adjustLumberProductQuantityCommands.Any() && !adjustMiscellaneousProductQuantityCommands.Any()) return;
+
+            CreateInventoryTransactionCommand(transaction);
+            Commands.AddRange(adjustLumberProductQuantityCommands);
+            Commands.AddRange(adjustMiscellaneousProductQuantityCommands);
         }
     }
 }
