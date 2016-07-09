@@ -16,6 +16,11 @@ namespace Thermory.Web.Models
             }
         }
 
+        public Address ShipToAddress
+        {
+            get { return Package.Order.ShipToAddress ?? new Address(); }
+        }
+
         private Customer _customer;
         public Customer Customer
         {
