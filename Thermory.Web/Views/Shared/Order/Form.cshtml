@@ -1,5 +1,4 @@
 ﻿@using Thermory.Domain.Enums
-@using Thermory.Domain.Models
 @model Thermory.Web.Models.OrderForm
 @{
     var firstCategoryId = Model.LumberOrderForms.First().LumberCategory.Id;
@@ -62,8 +61,8 @@
             <td>
                 @foreach (var customer in Model.Customers)
                 {
-                    var displayCss = customer.Id == Model.Order.CustomerId ? "" : "style=\"display: none;\"";
-                    <div id="@string.Format("{0}AddressSelector", customer.Id)" class="addressSelector" @displayCss>
+                    var showAddressCss = customer.Id == Model.Order.CustomerId ? "" : "display: none;";
+                    <div id="@string.Format("{0}AddressSelector", customer.Id)" class="addressSelector" style="@showAddressCss">
                         <select id="@string.Format("{0}AddressId", customer.Id)" class="form-control" onchange="addressChanged('@customer.Id');">
                             <option value="@Guid.Empty" selected="selected">Add New</option>
                             @foreach (var address in customer.Addresses)
