@@ -13,10 +13,6 @@ namespace Thermory.Domain.Models
 
         public string Name { get; set; }
 
-        public string AddressLine1 { get; set; }
-
-        public string AddressLine2 { get; set; }
-
         [ForeignKey("CustomerId")]
         public List<Address> Addresses { get; set; }
 

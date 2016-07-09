@@ -128,19 +128,22 @@
             <div class="col-md-2"><h5><strong>Customer:</strong></h5></div>
             <div class="col-md-10"><h5>@Model.Order.Customer.Name</h5></div>
         </div>
-        if (!string.IsNullOrEmpty(Model.Order.Customer.AddressLine1))
+        if (Model.Order.ShipToAddress != null)
         {
-            <div class="row">
-                <div class="col-md-2">&nbsp;</div>
-                <div class="col-md-10"><h5>@Model.Order.Customer.AddressLine1</h5></div>
-            </div>
-        }
-        if (!string.IsNullOrEmpty(Model.Order.Customer.AddressLine2))
-        {
-            <div class="row">
-                <div class="col-md-2">&nbsp;</div>
-                <div class="col-md-10"><h5>@Model.Order.Customer.AddressLine2</h5></div>
-            </div>
+            if (!string.IsNullOrEmpty(Model.Order.ShipToAddress.AddressLine1))
+            {
+                <div class="row">
+                    <div class="col-md-2">&nbsp;</div>
+                    <div class="col-md-10"><h5>@Model.Order.ShipToAddress.AddressLine1</h5></div>
+                </div>
+            }
+            if (!string.IsNullOrEmpty(Model.Order.ShipToAddress.AddressLine2))
+            {
+                <div class="row">
+                    <div class="col-md-2">&nbsp;</div>
+                    <div class="col-md-10"><h5>@Model.Order.ShipToAddress.AddressLine2</h5></div>
+                </div>
+            }
         }
     }
     @if (@Model.Order.PackagingType != null)

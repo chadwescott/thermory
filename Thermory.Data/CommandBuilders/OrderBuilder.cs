@@ -39,13 +39,20 @@ namespace Thermory.Data.CommandBuilders
             if (order.Customer == null || order.Customer.Name == null)
             {
                 order.Customer = null;
+                order.ShipToAddress = null;
                 return;
             }
 
             Commands.Add(new SaveCustomer(order.Customer));
-            if (order.Customer.Addresses == null) return;
+            if (order.Customer.Addresses == null)
+            {
+                order.ShipToAddress = null;
+                return;
+            }
+
             foreach (var address in order.Customer.Addresses)
                 Commands.Add(new SaveCustomerAddress(address));
+            order.ShipToAddress = order.Customer.Addresses.Count == 1 ? order.Customer.Addresses.Single() : null;
         }
 
         protected void AddPackagingTypeSaveCommand(Order order)

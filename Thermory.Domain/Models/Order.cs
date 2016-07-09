@@ -27,6 +27,8 @@ namespace Thermory.Domain.Models
 
         public int? MinutesToPull { get; set; }
 
+        public Guid? ShipToAddressId { get; set; }
+
         public DateTime? ShipDate { get; set; }
 
         public string Notes { get; set; }
@@ -42,6 +44,9 @@ namespace Thermory.Domain.Models
 
         [ForeignKey("PackagingTypeId")]
         public PackagingType PackagingType { get; set; }
+
+        [ForeignKey("ShipToAddressId")]
+        public Address ShipToAddress { get; set; }
 
         [ForeignKey("OrderId")]
         public List<OrderLumberLineItem> OrderLumberLineItems { get; set; }

@@ -342,6 +342,7 @@
     <Content Include="Scripts\knockout-3.4.0.debug.js" />
     <Content Include="Scripts\knockout-3.4.0.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\orderForm.js" />
     <Content Include="Scripts\thermory.js" />
     <Content Include="Scripts\w2ui-1.4.3.js" />
     <Content Include="Scripts\w2ui-1.4.3.min.js" />
@@ -397,7 +398,6 @@
     <Content Include="Views\Shared\Order\_MiscellaneousTransactionDetails.cshtml" />
     <Content Include="Views\Shared\Exception.cshtml" />
     <Content Include="Views\PurchaseOrder\Index.cshtml" />
-    <Content Include="Views\Shared\Order\_CustomerSelector.cshtml" />
     <Content Include="Views\Shared\Order\_PackagingTypeSelector.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\Catalog\Index.cshtml" />
