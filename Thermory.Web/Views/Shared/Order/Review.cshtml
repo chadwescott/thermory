@@ -471,7 +471,7 @@
         var minutesTaken = parseInt($('#minutesToPull').val());
         var totalMinutes = hoursTaken * 60 + minutesTaken;
 
-        if (totalMinutes == 0) {
+        if (isNaN(totalMinutes) || totalMinutes == 0) {
             $('#pullOrderErrorMessage').text('You must enter the time taken to pull the order.');
             $('#pullOrderErrorPanel').show();
             return;
@@ -488,7 +488,7 @@
         var minutesTaken = parseInt($('#minutesToLoad').val());
         var totalMinutes = hoursTaken * 60 + minutesTaken;
 
-        if (totalMinutes == 0) {
+        if (isNaN(totalMinutes) || totalMinutes == 0) {
             $('#loadOrderErrorMessage').text('You must enter the time taken to load the order.');
             $('#loadOrderErrorPanel').show();
             return;
@@ -497,6 +497,15 @@
         var order = getOrder();
         order.MinutesToLoad = totalMinutes;
         transitionOrder('@Url.Action("Loaded", controller)', order);
+    }
+
+    function validate(action, totalMintes) {
+        if (isNaN(totalMinutes) || totalMinutes == 0) {
+            $('#' + action + 'OrderErrorMessage').text('You must enter the time taken to ' + action + ' the order.');
+            $('#' + action + 'OrderErrorPanel').show();
+            return false;
+        }
+        return true;
     }
 
     function getOrder() {
