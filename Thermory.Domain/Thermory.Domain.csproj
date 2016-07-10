@@ -73,6 +73,7 @@
     <Compile Include="Constants\OrderStatusNames.cs" />
     <Compile Include="Constants\Role.cs" />
     <Compile Include="Enums\OrderStatuses.cs" />
+    <Compile Include="Models\Address.cs" />
     <Compile Include="Models\IViewModel.cs" />
     <Compile Include="Models\Package.cs" />
     <Compile Include="Models\PackageLumberLineItem.cs" />

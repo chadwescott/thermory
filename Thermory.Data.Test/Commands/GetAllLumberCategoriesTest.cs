@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using log4net.Config;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Thermory.Data.Commands;
 
 namespace Thermory.Data.Test.Commands
@@ -7,12 +9,13 @@ namespace Thermory.Data.Test.Commands
     public class GetAllLumberCategoriesTest
     {
         [TestMethod]
-        public void ExecuteTest()
+        public void ExecuteByJoinTest()
         {
+            XmlConfigurator.Configure();
             var command = new GetAllLumberCategories();
             command.Execute();
             var actual = command.Result;
-            Assert.AreEqual(8, actual.Count);
+            Assert.IsNotNull(actual);
         }
     }
 }

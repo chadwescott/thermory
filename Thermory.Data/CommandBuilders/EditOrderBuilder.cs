@@ -18,33 +18,21 @@ namespace Thermory.Data.CommandBuilders
         {
             var dbOrder = GetOrder(order.Id);
             if (dbOrder == null || dbOrder.OrderStatus.OrderStatusEnum == OrderStatuses.Deleted) return;
-            
-            ClearOrderLineItems(dbOrder);
-
-            AddInventoryAdjustmentCommands(userId, dbOrder, lumberLineItems, miscLineItems);
-
-            AddCreateOrderLumberLineItemCommands(dbOrder, lumberLineItems);
-            AddCreateOrderMiscellaneousLineItemCommands(dbOrder, miscLineItems);
-
-            if (order.Customer == null || order.Customer.Name == null)
-                dbOrder.Customer = null;
-            else
-            {
-                dbOrder.Customer = order.Customer;
-                Commands.Add(new SaveCustomer(order.Customer));
-            }
-
-            if (order.PackagingType == null || order.PackagingType.Name == null)
-                dbOrder.PackagingType = null;
-            else
-            {
-                dbOrder.PackagingType = order.PackagingType;
-                Commands.Add(new SavePackagingType(dbOrder.PackagingType));
-            }
 
             dbOrder.OrderNumber = order.OrderNumber;
             dbOrder.Notes = order.Notes;
             dbOrder.ShipDate = order.ShipDate;
+            dbOrder.Customer = order.Customer;
+            dbOrder.PackagingType = order.PackagingType;
+            
+            ClearOrderLineItems(dbOrder);
+
+            AddInventoryAdjustmentCommands(userId, dbOrder, lumberLineItems, miscLineItems);
+            AddCreateOrderLumberLineItemCommands(dbOrder, lumberLineItems);
+            AddCreateOrderMiscellaneousLineItemCommands(dbOrder, miscLineItems);
+            AddCustomerSaveCommand(dbOrder);
+            AddPackagingTypeSaveCommand(dbOrder);
+
             Commands.Add(new SaveOrder(dbOrder));
         }
 
@@ -68,110 +56,122 @@ namespace Thermory.Data.CommandBuilders
 
         private void AddInventoryAdjustmentCommands(int userId, Order order, OrderLumberLineItem[] lumberLineItems, OrderMiscellaneousLineItem[] miscLineItems)
         {
-            var transaction = CreateInventoryTransaction(userId, order);
+            var transaction = MakeInventoryTransaction(userId, order);
             var adjustmentMultiplier = AdjustmentMultiplier.GetByOrderType(order.OrderType.OrderTypeEnum);
 
-            AddLumberProductQuantityAdjustmentCommands(transaction, order.OrderLumberLineItems, lumberLineItems.ToList(),
-                adjustmentMultiplier, order.ApplyInventoryQuantityChanges);
-            AddMiscellaneousProductQuantityAdjustmentCommands(transaction, order.OrderMiscellaneousLineItems,
+            var lumberQuantityUpdateCommands = GetLumberProductQuantityAdjustmentCommands(transaction,
+                order.OrderLumberLineItems, lumberLineItems.ToList(), adjustmentMultiplier,
+                order.ApplyInventoryQuantityChanges);
+
+            var miscQuantityUpdateCommands = GetMiscellaneousProductQuantityAdjustmentCommands(transaction, order.OrderMiscellaneousLineItems,
                 miscLineItems.ToList(), adjustmentMultiplier, order.ApplyInventoryQuantityChanges);
+
+            if (!lumberQuantityUpdateCommands.Any() && !miscQuantityUpdateCommands.Any()) return;
+
+            AddCreateInventoryTransactionCommand(transaction);
+            Commands.AddRange(lumberQuantityUpdateCommands);
+            Commands.AddRange(miscQuantityUpdateCommands);
         }
 
-        private void AddLumberProductQuantityAdjustmentCommands(InventoryTransaction transaction,
+        private List<DatabaseCommand> GetLumberProductQuantityAdjustmentCommands(InventoryTransaction transaction,
             List<OrderLumberLineItem> previousLineItems, List<OrderLumberLineItem> currentLineItems,
             int adjustmentMultiplier, bool applyInventoryQuantityChanges)
         {
-            AddAddedLumberProductAddjustmentCommands(transaction, previousLineItems, currentLineItems,
-                adjustmentMultiplier, applyInventoryQuantityChanges);
-            AddEditedLumberProductAddjustmentCommands(transaction, previousLineItems, currentLineItems,
-                adjustmentMultiplier, applyInventoryQuantityChanges);
-            AddRemovedLumberProductAddjustmentCommands(transaction, previousLineItems, currentLineItems,
-                adjustmentMultiplier, applyInventoryQuantityChanges);
+            var commands = GetAddedLumberProductAddjustmentCommands(transaction,
+                previousLineItems, currentLineItems, adjustmentMultiplier, applyInventoryQuantityChanges).ToList();
+
+            commands.AddRange(GetEditedLumberProductAddjustmentCommands(transaction, previousLineItems, currentLineItems,
+                adjustmentMultiplier, applyInventoryQuantityChanges));
+            
+            commands.AddRange(GetRemovedLumberProductAddjustmentCommands(transaction, previousLineItems, currentLineItems,
+                adjustmentMultiplier, applyInventoryQuantityChanges));
+
+            return commands;
         }
 
-        private void AddAddedLumberProductAddjustmentCommands(InventoryTransaction transaction,
+        private IEnumerable<DatabaseCommand> GetAddedLumberProductAddjustmentCommands(InventoryTransaction transaction,
             IEnumerable<OrderLumberLineItem> previousLineItems, IEnumerable<OrderLumberLineItem> currentLineItems,
             int adjustmentMultiplier, bool applyInventoryQuantityChanges)
         {
-            var adjustLumberProductQuantityCommands =
+            return
                 currentLineItems.Where(
                     i => !previousLineItems.Any(p => p.LumberProductId == i.LumberProductId && p.OrderId == i.OrderId))
                     .Select(
                         i =>
                             new AdjustLumberProductQuantity(transaction, i.LumberProductId,
                                 i.Quantity*adjustmentMultiplier, applyInventoryQuantityChanges));
-            Commands.AddRange(adjustLumberProductQuantityCommands);
         }
 
-        private void AddEditedLumberProductAddjustmentCommands(InventoryTransaction transaction,
+        private IEnumerable<DatabaseCommand> GetEditedLumberProductAddjustmentCommands(InventoryTransaction transaction,
             IEnumerable<OrderLumberLineItem> previousLineItems, IEnumerable<OrderLumberLineItem> currentLineItems,
             int adjustmentMultiplier, bool applyInventoryQuantityChanges)
         {
-            if (currentLineItems == null) return;
+            if (currentLineItems == null) return null;
 
-            foreach (var command in from currentLineItem in currentLineItems.Where(
+            return from currentLineItem in currentLineItems.Where(
                 c =>
                     previousLineItems.Any(
                         p =>
                             p.LumberProductId == c.LumberProductId &&
-                            p.OrderId == c.OrderId && p.Quantity != c.Quantity)) let previousLineItem = previousLineItems.Single(
-                                p =>
-                                    p.LumberProductId == currentLineItem.LumberProductId &&
-                                    p.OrderId == currentLineItem.OrderId && p.Quantity != currentLineItem.Quantity)
-                                    let delta = (currentLineItem.Quantity - previousLineItem.Quantity) * adjustmentMultiplier
-                                    select new AdjustLumberProductQuantity(transaction, currentLineItem.LumberProductId, delta, applyInventoryQuantityChanges))
-            {
-                Commands.Add(command);
-            }
+                            p.OrderId == c.OrderId && p.Quantity != c.Quantity))
+                let previousLineItem = previousLineItems.Single(
+                    p =>
+                        p.LumberProductId == currentLineItem.LumberProductId &&
+                        p.OrderId == currentLineItem.OrderId && p.Quantity != currentLineItem.Quantity)
+                let delta = (currentLineItem.Quantity - previousLineItem.Quantity)*adjustmentMultiplier
+                select
+                    new AdjustLumberProductQuantity(transaction, currentLineItem.LumberProductId, delta,
+                        applyInventoryQuantityChanges);
         }
 
-        private void AddRemovedLumberProductAddjustmentCommands(InventoryTransaction transaction,
+        private IEnumerable<DatabaseCommand> GetRemovedLumberProductAddjustmentCommands(InventoryTransaction transaction,
             IEnumerable<OrderLumberLineItem> previousLineItems, IEnumerable<OrderLumberLineItem> currentLineItems,
             int adjustmentMultiplier, bool applyInventoryQuantityChanges)
         {
-            var adjustLumberProductQuantityCommands =
+            return
                 previousLineItems.Where(
                     i => !currentLineItems.Any(p => p.LumberProductId == i.LumberProductId && p.OrderId == i.OrderId))
                     .Select(
                         i =>
                             new AdjustLumberProductQuantity(transaction, i.LumberProductId,
-                                -i.Quantity * adjustmentMultiplier, applyInventoryQuantityChanges));
-            Commands.AddRange(adjustLumberProductQuantityCommands);
+                                -i.Quantity*adjustmentMultiplier, applyInventoryQuantityChanges));
         }
 
-        private void AddMiscellaneousProductQuantityAdjustmentCommands(InventoryTransaction transaction,
+        private List<DatabaseCommand> GetMiscellaneousProductQuantityAdjustmentCommands(InventoryTransaction transaction,
             List<OrderMiscellaneousLineItem> previousLineItems, List<OrderMiscellaneousLineItem> currentLineItems,
             int adjustmentMultiplier, bool applyInventoryQuantityChanges)
         {
-            AddAddedMiscellaneousProductAddjustmentCommands(transaction, previousLineItems, currentLineItems,
-                adjustmentMultiplier, applyInventoryQuantityChanges);
-            AddEditedMiscellaneousProductAddjustmentCommands(transaction, previousLineItems, currentLineItems,
-                adjustmentMultiplier, applyInventoryQuantityChanges);
-            AddRemovedMiscellaneousProductAddjustmentCommands(transaction, previousLineItems, currentLineItems,
-                adjustmentMultiplier, applyInventoryQuantityChanges);
+            var commands = GetAddedMiscellaneousProductAddjustmentCommands(transaction, previousLineItems, currentLineItems,
+                adjustmentMultiplier, applyInventoryQuantityChanges).ToList();
+
+            commands.AddRange(GetEditedMiscellaneousProductAddjustmentCommands(transaction, previousLineItems, currentLineItems,
+                adjustmentMultiplier, applyInventoryQuantityChanges));
+
+            commands.AddRange(GetRemovedMiscellaneousProductAddjustmentCommands(transaction, previousLineItems, currentLineItems,
+                adjustmentMultiplier, applyInventoryQuantityChanges));
+
+            return commands;
         }
 
-        private void AddAddedMiscellaneousProductAddjustmentCommands(InventoryTransaction transaction,
+        private IEnumerable<DatabaseCommand> GetAddedMiscellaneousProductAddjustmentCommands(InventoryTransaction transaction,
             IEnumerable<OrderMiscellaneousLineItem> previousLineItems, IEnumerable<OrderMiscellaneousLineItem> currentLineItems,
             int adjustmentMultiplier, bool applyInventoryQuantityChanges)
         {
-            var adjustMiscellaneousProductQuantityCommands =
-                currentLineItems.Where(
+            return currentLineItems.Where(
                     i => !previousLineItems.Any(p => p.MiscellaneousProductId == i.MiscellaneousProductId && p.OrderId == i.OrderId))
                     .Select(
                         i =>
                             new AdjustMiscellaneousProductQuantity(transaction, i.MiscellaneousProductId,
                                 i.Quantity * adjustmentMultiplier, applyInventoryQuantityChanges));
-            Commands.AddRange(adjustMiscellaneousProductQuantityCommands);
         }
 
-        private void AddEditedMiscellaneousProductAddjustmentCommands(InventoryTransaction transaction,
+        private IEnumerable<DatabaseCommand> GetEditedMiscellaneousProductAddjustmentCommands(InventoryTransaction transaction,
             IEnumerable<OrderMiscellaneousLineItem> previousLineItems, List<OrderMiscellaneousLineItem> currentLineItems,
             int adjustmentMultiplier, bool applyInventoryQuantityChanges)
         {
-            if (currentLineItems == null) return;
+            if (currentLineItems == null) return null;
 
-            foreach (var command in from currentLineItem in currentLineItems.Where(
+            return from currentLineItem in currentLineItems.Where(
                 c =>
                     previousLineItems.Any(
                         p =>
@@ -184,24 +184,19 @@ namespace Thermory.Data.CommandBuilders
                 let delta = (currentLineItem.Quantity - previousLineItem.Quantity)*adjustmentMultiplier
                 select
                     new AdjustMiscellaneousProductQuantity(transaction, currentLineItem.MiscellaneousProductId, delta,
-                        applyInventoryQuantityChanges))
-            {
-                Commands.Add(command);
-            }
+                        applyInventoryQuantityChanges);
         }
 
-        private void AddRemovedMiscellaneousProductAddjustmentCommands(InventoryTransaction transaction,
+        private IEnumerable<DatabaseCommand> GetRemovedMiscellaneousProductAddjustmentCommands(InventoryTransaction transaction,
             IEnumerable<OrderMiscellaneousLineItem> previousLineItems, IEnumerable<OrderMiscellaneousLineItem> currentLineItems,
             int adjustmentMultiplier, bool applyInventoryQuantityChanges)
         {
-            var adjustMiscellaneousProductQuantityCommands =
-                previousLineItems.Where(
+            return previousLineItems.Where(
                     i => !currentLineItems.Any(p => p.MiscellaneousProductId == i.MiscellaneousProductId && p.OrderId == i.OrderId))
                     .Select(
                         i =>
                             new AdjustMiscellaneousProductQuantity(transaction, i.MiscellaneousProductId,
                                 -i.Quantity * adjustmentMultiplier, applyInventoryQuantityChanges));
-            Commands.AddRange(adjustMiscellaneousProductQuantityCommands);
         }
     }
 }

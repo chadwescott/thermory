@@ -119,6 +119,7 @@
     <Compile Include="Commands\GetPackageById.cs" />
     <Compile Include="Commands\GetUserById.cs" />
     <Compile Include="Commands\GetUserRolesByUserId.cs" />
+    <Compile Include="Commands\SaveCustomerAddress.cs" />
     <Compile Include="Commands\SaveLumberCategory.cs" />
     <Compile Include="Commands\SaveLumberProduct.cs" />
     <Compile Include="Commands\SaveLumberSubCategory.cs" />

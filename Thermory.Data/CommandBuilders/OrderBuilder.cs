@@ -19,6 +19,12 @@ namespace Thermory.Data.CommandBuilders
             return getOrderCommand.Result;
         }
 
+        protected void AddCreateInventoryTransactionCommand(InventoryTransaction transaction)
+        {
+            var createInventoryTransactionCommand = new CreateInventoryTransaction(transaction);
+            Commands.Add(createInventoryTransactionCommand);
+        }
+
         protected void AddCreateOrderLumberLineItemCommands(Order order,
             IEnumerable<OrderLumberLineItem> updatedLumberLineItems)
         {
@@ -34,7 +40,36 @@ namespace Thermory.Data.CommandBuilders
             Commands.AddRange(createOrderMiscellaneousLinesCommands);
         }
 
-        protected InventoryTransaction CreateInventoryTransaction(int userId, Order order)
+        protected void AddCustomerSaveCommand(Order order)
+        {
+            if (order.Customer == null || order.Customer.Name == null)
+            {
+                order.Customer = null;
+                order.ShipToAddress = null;
+                return;
+            }
+
+            Commands.Add(new SaveCustomer(order.Customer));
+            if (order.Customer.Addresses == null)
+            {
+                order.ShipToAddress = null;
+                return;
+            }
+
+            foreach (var address in order.Customer.Addresses)
+                Commands.Add(new SaveCustomerAddress(address));
+            order.ShipToAddress = order.Customer.Addresses.Count == 1 ? order.Customer.Addresses.Single() : null;
+        }
+
+        protected void AddPackagingTypeSaveCommand(Order order)
+        {
+            if (order.PackagingType == null || order.PackagingType.Name == null)
+                order.PackagingType = null;
+            else
+                Commands.Add(new SavePackagingType(order.PackagingType));
+        }
+
+        protected InventoryTransaction MakeInventoryTransaction(int userId, Order order)
         {
             var transactionTypeId =
                 DatabaseCommandDirectory.Instance.GetTransactionTypeIdByEnum(TransactionType);
@@ -45,14 +80,7 @@ namespace Thermory.Data.CommandBuilders
                 OrderId = order.Id,
                 TransactionTypeId = transactionTypeId
             };
-            CreateInventoryTransaction(transaction);
             return transaction;
-        }
-
-        private void CreateInventoryTransaction(InventoryTransaction transaction)
-        {
-            var createInventoryTransactionCommand = new CreateInventoryTransaction(transaction);
-            Commands.Add(createInventoryTransactionCommand);
         }
 
         protected void CreatePackages(Order order, PackageLumberLineItem[] lumberLineItems,

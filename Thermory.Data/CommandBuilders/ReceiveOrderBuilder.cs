@@ -18,7 +18,8 @@ namespace Thermory.Data.CommandBuilders
             order = GetOrder(order.Id);
             if (order == null || order.OrderStatus.OrderStatusEnum == OrderStatuses.Deleted) return;
 
-            CreateInventoryTransaction(userId, order);
+            var transaction = MakeInventoryTransaction(userId, order);
+            AddCreateInventoryTransactionCommand(transaction);
             AddLumberProductsToInventory(order.OrderLumberLineItems);
             AddMiscellaneousProductsToInventory(order.OrderMiscellaneousLineItems);
 

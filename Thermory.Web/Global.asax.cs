@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.SessionState;
+using log4net;
 using log4net.Config;
 using Thermory.Web.Models;
 using WebMatrix.WebData;
@@ -17,15 +18,17 @@ namespace Thermory.Web
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
 
-    public class MvcApplication : System.Web.HttpApplication
+    public class MvcApplication : HttpApplication
     {
         private static SimpleMembershipInitializer _initializer;
         private static object _initializerLock = new object();
         private static bool _isInitialized;
+        private static readonly ILog Log = LogManager.GetLogger(typeof(MvcApplication));
 
         protected void Application_Start()
         {
             XmlConfigurator.Configure();
+            Log.Debug("Application start");
             AreaRegistration.RegisterAllAreas();
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
@@ -34,6 +37,11 @@ namespace Thermory.Web
             AuthConfig.RegisterAuth();
 
             LazyInitializer.EnsureInitialized(ref _initializer, ref _isInitialized, ref _initializerLock);
+        }
+
+        protected void Application_End()
+        {
+            Log.Debug("Application end");
         }
 
         public class SimpleMembershipInitializer

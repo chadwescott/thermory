@@ -8,7 +8,8 @@ namespace Thermory.Data.CommandBuilders
     {
         public CreatePackagesBuilder(int userId, Order order, PackageLumberLineItem[] lumberLineItems, PackageMiscellaneousLineItem[] miscLineItems)
         {
-            CreateInventoryTransaction(userId, order);
+            var transaction = MakeInventoryTransaction(userId, order);
+            AddCreateInventoryTransactionCommand(transaction);
             CreatePackages(order, lumberLineItems, miscLineItems);
             order.OrderStatusId = DatabaseCommandDirectory.Instance.GetOrderStatusByEnum(OrderStatuses.PackagingSlipCreated).Id;
             Commands.Add(new SaveOrder(order));

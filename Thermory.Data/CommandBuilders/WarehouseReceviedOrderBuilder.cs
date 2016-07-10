@@ -16,7 +16,8 @@ namespace Thermory.Data.CommandBuilders
             order = GetOrder(order.Id);
             if (order == null || order.OrderStatus.OrderStatusEnum == OrderStatuses.Deleted) return;
 
-            CreateInventoryTransaction(userId, order);
+            var transaction = MakeInventoryTransaction(userId, order);
+            AddCreateInventoryTransactionCommand(transaction);
 
             order.OrderStatusId = DatabaseCommandDirectory.Instance.GetOrderStatusByEnum(OrderStatuses.WarehouseReceived).Id;
             Commands.Add(new SaveOrder(order));

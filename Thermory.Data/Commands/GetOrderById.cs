@@ -19,6 +19,7 @@ namespace Thermory.Data.Commands
             Result =
                 context.Orders
                     .Include(o => o.Customer)
+                    .Include(o => o.ShipToAddress)
                     .Include(o => o.OrderType)
                     .Include(o => o.OrderStatus)
                     .Include(o => o.PackagingType)

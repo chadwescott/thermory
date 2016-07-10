@@ -19,6 +19,8 @@ namespace Thermory.Data
 
         public DbSet<Customer> Customers { get; set; }
 
+        public DbSet<Address> CustomerAddresses { get; set; }
+
         public DbSet<InventoryTransaction> InventoryTransactions { get; set; }
 
         public DbSet<LumberProduct> LumberProducts { get; set; }

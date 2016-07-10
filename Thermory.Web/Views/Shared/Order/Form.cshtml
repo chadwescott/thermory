@@ -1,17 +1,14 @@
 ﻿@using Thermory.Domain.Enums
-@using Thermory.Domain.Models
 @model Thermory.Web.Models.OrderForm
 @{
     var firstCategoryId = Model.LumberOrderForms.First().LumberCategory.Id;
     var action = Model.Order.Id == Guid.Empty ? "Create" : "Edit";
-    var orderType = Model.Order.OrderType.OrderTypeEnum;
-    var title = string.Format("{0} {1} Order {2}", action, orderType, Model.Order.OrderNumber);
+    var title = string.Format("{0} {1} Order {2}", action, Model.Order.OrderType.Name, Model.Order.OrderNumber);
     var orderId = Model.Order == null ? Guid.Empty : Model.Order.Id;
     var controller = string.Format("{0}Order", Model.Order.OrderType.Name);
     var cancelUrl = Model.Order.Id == Guid.Empty
         ? Url.Action("Index", controller)
         : Url.Action("Review", controller, new RouteValueDictionary { { "id", Model.Order.Id } });
-    var orderCustomer = Model.Order.Customer ?? new Customer();
     var shipDate = Model.Order.ShipDate == null ? null : Model.Order.ShipDate.Value.ToString("MM/dd/yyyy");
 }
 
@@ -40,7 +37,7 @@
             </td>
         </tr>
         <tr>
-            <td rowspan="3" style="vertical-align: top;">
+            <td style="vertical-align: top;">
                 <label for="customerId">Customer</label>
             </td>
             <td>
@@ -49,7 +46,7 @@
                     @foreach (var customer in Model.Customers)
                     {
                         var selected = customer.Id == Model.Order.CustomerId ? " selected=\"selected\"" : "";
-                        <option value="@customer.Id" addressline1="@customer.AddressLine1" addressline2="@customer.AddressLine2" @selected>@customer.Name</option>
+                        <option value="@customer.Id" @selected>@customer.Name</option>
                     }
                 </select>
             </td>
@@ -58,11 +55,35 @@
             </td>
         </tr>
         <tr>
+            <td rowspan="3" style="vertical-align: top;">
+                <label>Address</label>
+            </td>
+            <td>
+                @foreach (var customer in Model.Customers)
+                {
+                    var showAddressCss = customer.Id == Model.Order.CustomerId ? "" : "display: none;";
+                    <div id="@string.Format("{0}AddressSelector", customer.Id)" class="addressSelector" style="@showAddressCss">
+                        <select id="@string.Format("{0}AddressId", customer.Id)" class="form-control" onchange="addressChanged('@customer.Id');">
+                            <option value="@Guid.Empty" selected="selected">Add New</option>
+                            @foreach (var address in customer.Addresses)
+                            {
+                                var selected = address.Id == Model.Order.ShipToAddressId ? " selected=\"selected\"" : "";
+                                <option value="@address.Id" addressline1="@address.AddressLine1" addressline2="@address.AddressLine2" @selected>@address.Name</option>
+                            }
+                        </select>
+                    </div>
+                }
+            </td>
+            <td>
+                <input type="text" id="addressName" class="form-control" />
+            </td>
+        </tr>
+        <tr>
             <td>
                 <label for="addressLine1">Address Line 1</label>
             </td>
             <td>
-                <input type="text" id="addressLine1" class="form-control" value="@orderCustomer.AddressLine1" />
+                <input type="text" id="addressLine1" class="form-control" />
             </td>
         </tr>
         <tr>
@@ -70,10 +91,10 @@
                 <label for="addressLine2">Address Line 2</label>
             </td>
             <td>
-                <input type="text" id="addressLine2" class="form-control" value="@orderCustomer.AddressLine2" />
+                <input type="text" id="addressLine2" class="form-control" />
             </td>
         </tr>
-        @if (orderType == OrderTypes.SalesOrder)
+        @if (Model.Order.OrderType.OrderTypeEnum == OrderTypes.SalesOrder)
         {
             <tr>
                 <td rowspan="2" style="vertical-align: top;">
@@ -181,6 +202,24 @@
         packagingTypeChanged();
     });
 
+    function getOrderStatus() {
+        return {
+            Id: '@Model.Order.OrderStatus.Id',
+            Name: '@Model.Order.OrderStatus.Name',
+        };
+    }
+
+    function getOrderType() {
+        return {
+            Id: '@Model.Order.OrderType.Id',
+            Name: '@Model.Order.OrderType.Name'
+        };
+    }
+
+    function clearShipDate() {
+        $('#shipDate').val(null);
+    }
+
     function saveOrder() {
         var lumberProducts = getInventory('lumber');
         var miscProducts = getInventory('misc');
@@ -234,90 +273,5 @@
                 $('#savingPanel').hide();
             }
         });
-    }
-
-    function getInventory(prefix) {
-        var products = new Array();
-        var query = 'input[name=\'' + prefix + 'Qty\']';
-        $(query).each(function () {
-            var id = $(this).attr('id');
-            var productId = $(this).attr('productId');
-            var qty = $(this).val();
-
-            if (qty > 0) {
-                products.push(createProductLineItem(id, productId, qty));
-            }
-        });
-        return products;
-    }
-
-    function createProductLineItem(id, productId, qty) {
-        return {
-            Id: id,
-            ProductId: productId,
-            Quantity: qty
-        };
-    }
-
-    function customerChanged() {
-        var selectedCustomer = $('#customerId option:selected');
-
-        var customerName = selectedCustomer.val() == '@Guid.Empty' ? '' : selectedCustomer.text();
-        var addressLine1 = selectedCustomer.attr('addressLine1');
-        var addressLine2 = selectedCustomer.attr('addressLine2');
-
-        $('#customerName').val(customerName);
-        $('#addressLine1').val(addressLine1);
-        $('#addressLine2').val(addressLine2);
-    }
-
-    function getCustomer() {
-        var name = $('#customerName').val();
-        return name == ''
-            ? null
-            : {
-                Id: $('#customerId').val(),
-                Name: name,
-                AddressLine1: $('#addressLine1').val(),
-                AddressLine2: $('#addressLine2').val()
-            };
-    }
-
-    function packagingTypeChanged() {
-        var selectedPackagingType = $('#packagingTypeId option:selected');
-
-        var packagingTypeName = selectedPackagingType.val() == '@Guid.Empty' ? '' : selectedPackagingType.text();
-        var weight = selectedPackagingType.attr('weight');
-        $('#packagingTypeName').val(packagingTypeName);
-        $('#packagingTypeWeight').val(weight);
-    }
-
-    function getPackagingType() {
-        var name = $('#packagingTypeName').val();
-        return name == ''
-            ? null
-            : {
-                Id: $('#packagingTypeId').val(),
-                Name: name,
-                Weight: $('#packagingTypeWeight').val()
-            };
-    }
-
-    function getOrderStatus() {
-        return {
-            Id: '@Model.Order.OrderStatus.Id',
-            Name: '@Model.Order.OrderStatus.Name',
-        };
-    }
-
-    function getOrderType() {
-        return {
-            Id: '@Model.Order.OrderType.Id',
-            Name: '@Model.Order.OrderType.Name'
-        };
-    }
-
-    function clearShipDate() {
-        $('#shipDate').val(null);
     }
 </script>

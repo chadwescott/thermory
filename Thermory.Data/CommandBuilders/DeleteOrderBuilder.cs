@@ -17,7 +17,8 @@ namespace Thermory.Data.CommandBuilders
             var orderLumberLineItems = order.OrderLumberLineItems;
             var orderMiscLineItems = order.OrderMiscellaneousLineItems;
 
-            var transaction = CreateInventoryTransaction(userId, order);
+            var transaction = MakeInventoryTransaction(userId, order);
+            AddCreateInventoryTransactionCommand(transaction);
             var adjustmentMultiplier = AdjustmentMultiplier.GetByOrderType(order.OrderType.OrderTypeEnum);
 
             AddLumberProductQuantityAdjustmentCommands(transaction, orderLumberLineItems, adjustmentMultiplier, order.ApplyInventoryQuantityChanges);

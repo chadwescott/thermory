@@ -60,7 +60,7 @@ namespace Thermory.Domain.Models
                        LumberProduct.LumberType.LumberSubCategory == null ||
                        LumberProduct.LumberType.LumberSubCategory.Weight == null
                     ? 0
-                    : Math.Round(LinearFeet * LumberProduct.LumberType.LumberSubCategory.Weight.Value * Quantity, 2);
+                    : Math.Round(LinearFeet * LumberProduct.LumberType.LumberSubCategory.Weight.Value, 2);
             }
         }
     }

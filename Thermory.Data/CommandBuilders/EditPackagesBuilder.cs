@@ -8,7 +8,8 @@ namespace Thermory.Data.CommandBuilders
     {
         public EditPackagesBuilder(int userId, Order order, PackageLumberLineItem[] lumberLineItems, PackageMiscellaneousLineItem[] miscLineItems)
         {
-            CreateInventoryTransaction(userId, order);
+            var transaction = MakeInventoryTransaction(userId, order);
+            AddCreateInventoryTransactionCommand(transaction);
             DeletePackages(order);
             CreatePackages(order, lumberLineItems, miscLineItems);
         }
