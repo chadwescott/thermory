@@ -154,19 +154,19 @@ namespace Thermory.Domain.Models
         [NotMapped]
         public double PiecesPulledAndLoadedPerHour
         {
-            get { return MinutesToPullAndLoad == 0 || TotalPieces == 0 ? 0 : Math.Round(TotalPieces / ((double)MinutesToPullAndLoad / 60), 2); }
+            get { return MinutesToPullAndLoad == 0 || TotalPieces == 0 ? 0 : Math.Round(TotalPieces / ((double)MinutesToPullAndLoad / 60), 0); }
         }
 
         [NotMapped]
         public double SquareFeetPulledAndLoadedPerHour
         {
-            get { return MinutesToPullAndLoad == 0 || TotalSquareFeet == 0 ? 0 : Math.Round(TotalSquareFeet / ((double)MinutesToPullAndLoad / 60), 2); }
+            get { return MinutesToPullAndLoad == 0 || TotalSquareFeet == 0 ? 0 : Math.Round(TotalSquareFeet / ((double)MinutesToPullAndLoad / 60), 0); }
         }
 
         [NotMapped]
         public double LinearFeetPulledAndLoadedPerHour
         {
-            get { return MinutesToPullAndLoad == 0 || TotalLinearFeet == 0 ? 0 : Math.Round(TotalLinearFeet / ((double)MinutesToPullAndLoad / 60), 2); }
+            get { return MinutesToPullAndLoad == 0 || TotalLinearFeet == 0 ? 0 : Math.Round(TotalLinearFeet / ((double)MinutesToPullAndLoad / 60), 0); }
         }
     }
 }
