@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Thermory.Business.Commands;
 
 namespace Thermory.Business.Test.Commands
@@ -10,7 +11,14 @@ namespace Thermory.Business.Test.Commands
         public void SendTest()
         {
             var command = new SendEmail();
-            command.Execute();
+            try
+            {
+                command.Execute();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }

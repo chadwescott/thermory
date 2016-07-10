@@ -7,10 +7,12 @@ namespace Thermory.Business.Commands
     {
         public void Execute()
         {
-            var message = new MailMessage("no-reply@thermoryinventory.com", "chadwescott@gmail.com", "test",
+            var message = new MailMessage("thermoryinventory@thermoryinventory.com", "chadwescott@gmail.com", "test",
                 "This is a test email");
-            var client = new SmtpClient();
-            client.Send(message);
+            using (var client = new SmtpClient())
+            {
+                client.Send(message);
+            }
         }
     }
 }
