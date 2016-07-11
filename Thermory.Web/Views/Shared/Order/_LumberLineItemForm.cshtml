@@ -17,7 +17,7 @@
             <td class="subCategoryDimensions">@subCategory.ThicknessInMillimeters x @subCategory.WidthInMillimeters</td>
             @foreach (var length in millimeterLengths.OrderBy(l => l))
             {
-                <td class="subCategoryCellPadding subCategoryLength">@length</td>
+                <td class="subCategoryCellPadding subCategoryLength">@length.ToString("n0")</td>
             }
             <td colspan="2"></td>
         </tr>
@@ -45,11 +45,11 @@
                     var onHandId = string.Format("quantityOnHand{0}{1}", lumberType.Id, length);
                     <td class="productType subCategoryCellPadding subCategoryLength">
                         <input type="hidden" id="@onHandId" value="@quantity" />
-                        @quantity
+                        @quantity.ToString("n0")
                     </td>
                 }
-                <td class="totalLinearFeet">@lumberType.TotalLinearFeet</td>
-                <td class="totalSquareFeet">@lumberType.TotalSquareFeet</td>
+                <td class="totalLinearFeet">@lumberType.TotalLinearFeet.ToString("n0")</td>
+                <td class="totalSquareFeet">@lumberType.TotalSquareFeet.ToString("n0")</td>
             </tr>
             <tr>
                 <td colspan="2" class="productType productTypeStatistic" style="vertical-align: middle;"><div class="headingWidth" title="Order Quantity">Order Quantity</div></td>
@@ -134,10 +134,10 @@
                 {
                     var lumberForLength = lumberType.LumberProducts.SingleOrDefault(p => p.LengthInMillimeters == length);
                     var linearFeet = lumberForLength == null ? 0 : lumberForLength.LinearFeet;
-                    <td class="subCategoryCellPadding subCategoryLength">@linearFeet</td>
+                    <td class="subCategoryCellPadding subCategoryLength">@linearFeet.ToString("n0")</td>
                 }
                 <td class="totalPieceHeading">Total PCS</td>
-                <td>@lumberType.TotalPieces</td>
+                <td>@lumberType.TotalPieces.ToString("n0")</td>
             </tr>
             <tr>
                 <td colspan="2" class="productType productTypeStatistic">SF / Length</td>
@@ -145,7 +145,7 @@
                 {
                     var lumberForLength = lumberType.LumberProducts.SingleOrDefault(p => p.LengthInMillimeters == length);
                     var squareFeet = lumberForLength == null ? 0 : lumberForLength.SquareFeet;
-                    <td class="productType subCategoryCellPadding subCategoryLength">@squareFeet</td>
+                    <td class="productType subCategoryCellPadding subCategoryLength">@squareFeet.ToString("n0")</td>
                 }
                 <td colspan="2">&nbsp;</td>
             </tr>
