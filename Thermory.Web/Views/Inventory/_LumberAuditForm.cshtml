@@ -16,7 +16,7 @@
             <td class="subCategoryDimensions">@subCategory.ThicknessInMillimeters x @subCategory.WidthInMillimeters</td>
             @foreach (var length in millimeterLengths)
             {
-                <td class="subCategoryCellPadding subCategoryLength">@length</td>
+                <td class="subCategoryCellPadding subCategoryLength">@length.ToString("n0")</td>
             }
             <td colspan="2"></td>
         </tr>
@@ -52,8 +52,8 @@
                         }
                     </td>
                 }
-                <td rowspan="3" class="totalLinearFeet">@lumberType.TotalLinearFeet</td>
-                <td rowspan="3" class="totalSquareFeet">@lumberType.TotalSquareFeet</td>
+                <td rowspan="3" class="totalLinearFeet">@lumberType.TotalLinearFeet.ToString("n0")</td>
+                <td rowspan="3" class="totalSquareFeet">@lumberType.TotalSquareFeet.ToString("n0")</td>
             </tr>
             <tr>
                 <td colspan="2" class="productType productTypeStatistic">Packs</td>
@@ -80,10 +80,10 @@
                 {
                     var lumberForLength = lumberType.LumberProducts.SingleOrDefault(p => p.LengthInMillimeters == length);
                     var linearFeet = lumberForLength == null ? 0 : lumberForLength.LinearFeet;
-                    <td class="subCategoryCellPadding subCategoryLength">@linearFeet</td>
+                    <td class="subCategoryCellPadding subCategoryLength">@linearFeet.ToString("n0")</td>
                 }
                 <td class="totalPieceHeading">Total PCS</td>
-                <td>@lumberType.TotalPieces</td>
+                <td>@lumberType.TotalPieces.ToString("n0")</td>
             </tr>
             <tr>
                 <td colspan="2" class="productType productTypeStatistic">SF / LengthInMillimeters</td>
@@ -91,7 +91,7 @@
                 {
                     var lumberForLength = lumberType.LumberProducts.SingleOrDefault(p => p.LengthInMillimeters == length);
                     var squareFeet = lumberForLength == null ? 0 : lumberForLength.SquareFeet;
-                    <td class="productType subCategoryCellPadding subCategoryLength">@squareFeet</td>
+                    <td class="productType subCategoryCellPadding subCategoryLength">@squareFeet.ToString("n0")</td>
                 }
                 <td colspan="2">&nbsp;</td>
             </tr>

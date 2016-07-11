@@ -35,19 +35,19 @@
                         <tr>
                             <td>@lineItem.LumberProduct.LengthInFeet FT</td>
                             <td>@lineItem.LumberProduct.LumberType.LumberSubCategory.WidthInInches"</td>
-                            <td>@lineItem.Quantity</td>
+                            <td>@lineItem.Quantity.ToString("n0")</td>
                             <td>@Html.Raw(lineItem.PacksHtml)</td>
-                            <td>@lineItem.LinearFeet LF</td>
-                            <td>@lineItem.SquareFeet SF</td>
+                            <td>@lineItem.LinearFeet.ToString("n0") LF</td>
+                            <td>@lineItem.SquareFeet.ToString("n0") SF</td>
                         </tr>
                     }
                     <tr>
                         <td><strong>Total</strong></td>
                         <td>&nbsp;</td>
-                        <td><strong>@totalPieces</strong></td>
+                        <td><strong>@totalPieces.ToString("n0")</strong></td>
                         <td>&nbsp;</td>
-                        <td><strong>@totalLinearFeet LF</strong></td>
-                        <td><strong>@totalSquareFeet SF</strong></td>
+                        <td><strong>@totalLinearFeet.ToString("n0") LF</strong></td>
+                        <td><strong>@totalSquareFeet.ToString("n0") SF</strong></td>
                     </tr>
                 </table>
             }
