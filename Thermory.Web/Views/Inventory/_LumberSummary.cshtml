@@ -68,7 +68,8 @@
                 {
                     var lumberForLength = lumberType.LumberProducts.SingleOrDefault(p => p.LengthInMillimeters == length);
                     var linearFeet = lumberForLength == null ? 0 : lumberForLength.LinearFeet;
-                    <td class="subCategoryCellPadding subCategoryLength">@linearFeet.ToString("n0")</td>
+                    var calculationCss = lumberForLength == null || lumberForLength.IncludeInCalculations ? string.Empty : "text-decoration: line-through;";
+                    <td class="subCategoryCellPadding subCategoryLength" style="@calculationCss">@linearFeet.ToString("n0")</td>
                 }
                 <td class="totalPieceHeading">Total PCS</td>
                 <td>@lumberType.TotalPieces.ToString("n0")</td>
@@ -79,7 +80,8 @@
                 {
                     var lumberForLength = lumberType.LumberProducts.SingleOrDefault(p => p.LengthInMillimeters == length);
                     var squareFeet = lumberForLength == null ? 0 : lumberForLength.SquareFeet;
-                    <td class="productType subCategoryCellPadding subCategoryLength">@squareFeet.ToString("n0")</td>
+                    var calculationCss = lumberForLength == null || lumberForLength.IncludeInCalculations ? string.Empty : "text-decoration: line-through;";
+                    <td class="productType subCategoryCellPadding subCategoryLength" style="@calculationCss">@squareFeet.ToString("n0")</td>
                 }
                 <td colspan="2">&nbsp;</td>
             </tr>

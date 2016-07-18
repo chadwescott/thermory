@@ -26,13 +26,13 @@ namespace Thermory.Domain.Models
         public List<LumberProduct> LumberProducts { get; set; }
 
         [NotMapped]
-        public int TotalPieces { get { return LumberProducts == null ? 0 : LumberProducts.Sum(lp => lp.Quantity); } }
+        public int TotalPieces { get { return LumberProducts == null ? 0 : LumberProducts.Where(lp => lp.IncludeInCalculations).Sum(lp => lp.Quantity); } }
 
         [NotMapped]
-        public double TotalLinearFeet { get { return LumberProducts == null ? 0 : LumberProducts.Sum(lp => lp.LinearFeet); } }
+        public double TotalLinearFeet { get { return LumberProducts == null ? 0 : LumberProducts.Where(lp => lp.IncludeInCalculations).Sum(lp => lp.LinearFeet); } }
 
         [NotMapped]
-        public double TotalSquareFeet { get { return LumberProducts == null ? 0 : LumberProducts.Sum(lp => lp.SquareFeet); } }
+        public double TotalSquareFeet { get { return LumberProducts == null ? 0 : LumberProducts.Where(lp => lp.IncludeInCalculations).Sum(lp => lp.SquareFeet); } }
 
         [NotMapped]
         public int[] LengthsMillimeters { get { return LumberProducts == null ? new int[0] : LumberProducts.Select(lp => lp.LengthInMillimeters).OrderBy(l => l).ToArray(); } }
