@@ -69,8 +69,8 @@
                 @foreach (var length in millimeterLengths)
                 {
                     var lumberForLength = lumberType.LumberProducts.SingleOrDefault(p => p.LengthInMillimeters == length);
-                    var tally = @lumberForLength == null ? 0 : lumberForLength.TallyPercentage;
-                    <td class="productType subCategoryCellPadding subCategoryLength productTypeTally">@tally%</td>
+                    var tally = @lumberForLength == null || !lumberForLength.IncludeInCalculations ? "N/A" : string.Format("{0}%", lumberForLength.TallyPercentage);
+                    <td class="productType subCategoryCellPadding subCategoryLength productTypeTally">@tally</td>
                 }
             </tr>
             @Html.Raw(blankRow)
