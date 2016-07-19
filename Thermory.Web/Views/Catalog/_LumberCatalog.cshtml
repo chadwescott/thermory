@@ -212,6 +212,7 @@
         var id = $('#lumberProductId' + suffix).val();
         var lumberTypeId = $('#lumberTypeId' + suffix).val();
         var length = $('#length' + suffix).val();
+        var calculate = $('#calculate' + suffix).prop('checked');
         var sortOrder = $('#sortOrder' + suffix).val();
         var quantity = $('#quantity' + suffix).val();
         var lumberProduct = {
@@ -219,10 +220,9 @@
             LumberTypeId: lumberTypeId,
             LengthInMillimeters: length,
             Quantity: quantity,
-            SortOrder: sortOrder
+            SortOrder: sortOrder,
+            IncludeInCalculations: calculate
         };
-
-        console.log(lumberProduct);
 
         $.ajax({
             type: 'POST',
@@ -238,6 +238,7 @@
                 $('#lumberProductLink' + suffix).text(lumberProduct.LengthInMillimeters);
                 $('#lengthView' + suffix).text(lumberProduct.LengthInMillimeters);
                 $('#quantity' + suffix).text(lumberProduct.Quantity);
+                $('#lumberProductCalculate' + suffix).text(lumberProduct.IncludeInCalculations ? 'Yes' : 'No');
                 $('#sortOrder' + suffix).text(lumberProduct.SortOrder);
                 initiateViewMode('lumberProduct');
             },
