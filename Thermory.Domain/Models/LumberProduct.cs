@@ -20,6 +20,8 @@ namespace Thermory.Domain.Models
 
         public int Quantity { get; set; }
 
+        public bool IncludeInCalculations { get; set; }
+
         [NotMapped]
         public double LengthInInches
         {

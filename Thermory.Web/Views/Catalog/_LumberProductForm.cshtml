@@ -2,6 +2,8 @@
 @{
     var active = Model.Active ? "active" : "";
     var suffix = string.Format("{0}{1}", Model.LumberProduct.LumberTypeId, Model.LumberProduct.Id);
+    var includeText = Model.LumberProduct.IncludeInCalculations ? "Yes" : "No";
+    var includeCalcChecked = Model.LumberProduct.IncludeInCalculations ? "checked=\"checked\"" : string.Empty;
 }
 
 <input type="hidden" id="@string.Format("lumberProductId{0}", suffix)" value="@Model.LumberProduct.Id" />
@@ -20,6 +22,15 @@
                     <span class="glyphicon glyphicon-edit"></span> Edit
                 </div>
                 <input type="text" class="form-control lumberProductForm numeric" name="lumberProductName" id="@string.Format("length{0}", suffix)" value="@Model.LumberProduct.LengthInMillimeters" placeholder="Length in millimeters" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>Include in calculations</label>
+            </td>
+            <td>
+                <div class="lumberProductView" id="@string.Format("lumberProductCalculate{0}", suffix)">@includeText</div>
+                <input type="checkbox" class="form-control checkbox lumberProductForm numeric" id="@string.Format("calculate{0}", suffix)" @includeCalcChecked />
             </td>
         </tr>
     </table>
