@@ -16,7 +16,17 @@
     @Scripts.Render("~/bundles/w2ui")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/thermory")
-    @RenderSection("scripts", required: false)
+    
+    @RenderSection("scripts", required: false)@if (Request.IsAuthenticated)
+    {
+    <script type="text/javascript">
+        function keepSessionAlive() {
+            $.post('@Url.Action("KeepAlive", "Account")');
+        }
+
+        $(function() { window.setInterval("keepSessionAlive()", 60000); });
+    </script>
+    }
 </head>
 <body>
     <header>

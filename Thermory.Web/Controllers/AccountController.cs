@@ -53,6 +53,14 @@ namespace Thermory.Web.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult KeepAlive()
+        {
+            return Json(new { status = "success" });
+        }
+
         //
         // GET: /Account/Register
 
