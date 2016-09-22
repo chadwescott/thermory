@@ -7,7 +7,7 @@ namespace Thermory.Domain.Utils
     {
         public static string GetPacksHtml(int pieces, int bundleSize)
         {
-            if (pieces == 0) return "0";
+            if (pieces == 0 || bundleSize == 0) return "0";
             var fullPacks = pieces / bundleSize;
             var remainingPacks = Math.Abs(pieces % bundleSize);
             var numbers = new[] { remainingPacks, bundleSize };
