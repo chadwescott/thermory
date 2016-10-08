@@ -20,32 +20,32 @@ namespace Thermory.Data.CommandBuilders
 
             var transaction = MakeInventoryTransaction(userId, order);
             AddCreateInventoryTransactionCommand(transaction);
-            AddLumberProductsToInventory(order.OrderLumberLineItems);
-            AddMiscellaneousProductsToInventory(order.OrderMiscellaneousLineItems);
+            AddLumberProductsToInventory(transaction, order.OrderLumberLineItems);
+            AddMiscellaneousProductsToInventory(transaction, order.OrderMiscellaneousLineItems);
 
             order.OrderStatusId = DatabaseCommandDirectory.Instance.GetOrderStatusByEnum(OrderStatuses.Received).Id;
             Commands.Add(new SaveOrder(order));
         }
 
-        private void AddLumberProductsToInventory(IEnumerable<OrderLumberLineItem> lineItems)
+        private void AddLumberProductsToInventory(InventoryTransaction transaction, IEnumerable<OrderLumberLineItem> lineItems)
         {
             foreach (
                 var command in
                     lineItems.Select(
-                        currentLineItem => new AdjustLumberProductQuantity(null, currentLineItem.LumberProductId,
+                        currentLineItem => new AdjustLumberProductQuantity(transaction, currentLineItem.LumberProductId,
                             currentLineItem.Quantity, true)))
             {
                 Commands.Add(command);
             }
         }
 
-        private void AddMiscellaneousProductsToInventory(IEnumerable<OrderMiscellaneousLineItem> lineItems)
+        private void AddMiscellaneousProductsToInventory(InventoryTransaction transaction, IEnumerable<OrderMiscellaneousLineItem> lineItems)
         {
             foreach (
                 var command in
                     lineItems.Select(
                         currentLineItem =>
-                            new AdjustMiscellaneousProductQuantity(null, currentLineItem.MiscellaneousProductId,
+                            new AdjustMiscellaneousProductQuantity(transaction, currentLineItem.MiscellaneousProductId,
                                 currentLineItem.Quantity, true)))
             {
                 Commands.Add(command);
