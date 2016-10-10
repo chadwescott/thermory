@@ -164,12 +164,14 @@
         var weight = $('#weight' + suffix).val();
         var subCategoryId = $('#miscSubCategoryId' + suffix).val();
         var sortOrder = $('#sortOrder' + suffix).val();
+        var quantity = $('#quantity' + suffix).val();
         var product = {
             Id: id,
             MiscellaneousSubCategoryId: subCategoryId,
             Name: name,
             Description: description,
             Weight: weight,
+            Quantity: quantity,
             SortOrder: sortOrder
         };
 

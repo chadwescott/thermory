@@ -19,7 +19,7 @@ namespace Thermory.Data.Commands
 
         protected override void OnExecute(ThermoryContext context)
         {
-            var miscProduct = context.MiscellaneousProducts.Single(lp => lp.Id == _miscProductId);
+            var miscProduct = context.MiscellaneousProducts.Single(p => p.Id == _miscProductId);
             if (_newQuantity == miscProduct.Quantity)
                 return;
 

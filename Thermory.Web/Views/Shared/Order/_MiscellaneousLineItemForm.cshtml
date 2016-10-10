@@ -26,7 +26,7 @@
                     @miscProduct.Quantity.ToString("n0")
                 </td>
                 <td class="productType">
-                    <div style="width: 100px;"><input type="text" name="miscQty" id="@lineItemId" productid="@miscProduct.Id" class="form-control" maxlength="6" pattern="[0-9]*" value="@orderQuantity" onchange="miscProductQuantityChanged('@miscProduct.Id');" /></div>
+                    <div style="width: 100px;"><input type="text" name="miscQty" id="@lineItemId" productid="@miscProduct.Id" class="form-control numeric" maxlength="6" pattern="[0-9]*" value="@orderQuantity" onchange="miscProductQuantityChanged('@miscProduct.Id');" /></div>
                 </td>
             </tr>
         }

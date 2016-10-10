@@ -166,7 +166,7 @@ namespace Thermory.Data.CommandBuilders
         }
 
         private IEnumerable<DatabaseCommand> GetEditedMiscellaneousProductAddjustmentCommands(InventoryTransaction transaction,
-            IEnumerable<OrderMiscellaneousLineItem> previousLineItems, List<OrderMiscellaneousLineItem> currentLineItems,
+            IEnumerable<OrderMiscellaneousLineItem> previousLineItems, IEnumerable<OrderMiscellaneousLineItem> currentLineItems,
             int adjustmentMultiplier, bool applyInventoryQuantityChanges)
         {
             if (currentLineItems == null) return null;
