@@ -11,6 +11,9 @@
 }
 <h3><strong>Sales Orders</strong></h3>
 <div id="orderDiv" style="height: 450px"></div>
+<div>
+    @Html.Partial("Order/_OutstandingSalesOrders")
+</div>
 
 <script>
     $(document).ready(function () {
@@ -54,7 +57,8 @@
                     sortable: false,
                     resizable: true,
                     render: function (record) {
-                        return '<div class="' + record.OrderStatus.StatusLabel.CssClass + '" style="margin-left: 3px;' + record.OrderStatus.StatusLabel.Style + '">' + record.Status + '</div>';
+                        var icon = getGlyphicon(record.Status);
+                        return '<div class="' + record.OrderStatus.StatusLabel.CssClass + '" style="margin-left: 3px;' + record.OrderStatus.StatusLabel.Style + '"><span class="glyphicon glyphicon-' + icon + '"></span> ' + record.Status + '</div>';
                     }
                 }
             ],

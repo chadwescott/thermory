@@ -121,6 +121,13 @@ namespace Thermory.Data
                 : statuses.Single(s => s.OrderStatusEnum == status && s.OrderTypeId == orderTypeId);
         }
 
+        public IList<OrderSummary> GetOrderStatusSummary(OrderTypes type)
+        {
+            var command = new GetOrderStatusSummary(type);
+            command.Execute();
+            return command.Result;
+        } 
+
         public Package GetPackageById(Guid id)
         {
             var command = new GetPackageById(id);
