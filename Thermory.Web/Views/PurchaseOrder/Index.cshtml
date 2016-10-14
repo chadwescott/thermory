@@ -3,13 +3,14 @@
     ViewBag.Title = "Index";
 }
 
-@if (User.IsInRole(Role.InventoryMaster))
+<h3><strong>Incoming Orders</strong></h3>@if (User.IsInRole(Role.InventoryMaster))
 {
-    <div type="button" class="btn btn-primary" onclick="window.location=('@Url.Action("Create", "PurchaseOrder")');">
-        <span class="glyphicon glyphicon-plus"></span> Create Purchase Order
+    <div style="margin: 5px 0 5px 0;">
+        <div type="button" class="btn btn-primary" onclick="window.location=('@Url.Action("Create", "PurchaseOrder")');">
+            <span class="glyphicon glyphicon-plus"></span> Create Purchase Order
+        </div>
     </div>
 }
-<h3><strong>Incoming Orders</strong></h3>
 <div id="orderDiv" style="height: 450px"></div>
 <div>
     @Html.Partial("Order/_OutstandingPurchaseOrders")
@@ -35,7 +36,7 @@
                 { field: 'CustomerName', caption: 'Customer', type: 'text' },
                 { field: 'CreatedOn', caption: 'Created On', type: 'date' },
                 { field: 'CreatedBy', caption: 'Created By', type: 'text' },
-                { field: 'Status', caption: 'Status', type: 'list', options: { items: ['In transit', 'Received', 'Deleted']} }
+                { field: 'Status', caption: 'Status', type: 'list', options: { items: ['In transit', 'Received', 'Deleted'] } }
             ],
             columns: [
                 {

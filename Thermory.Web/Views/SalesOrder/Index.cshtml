@@ -2,14 +2,14 @@
 @{
     ViewBag.Title = "Index";
 }
-
-@if (User.IsInRole(Role.InventoryMaster))
+<h3><strong>Sales Orders</strong></h3>@if (User.IsInRole(Role.InventoryMaster))
 {
-    <div type="button" class="btn btn-primary" onclick="window.location=('@Url.Action("Create", "SalesOrder")');">
-        <span class="glyphicon glyphicon-plus"></span> Create Sales Order
+    <div style="margin: 5px 0 5px 0;">
+        <div type="button" class="btn btn-primary" onclick="window.location=('@Url.Action("Create", "SalesOrder")');">
+            <span class="glyphicon glyphicon-plus"></span> Create Sales Order
+        </div>
     </div>
 }
-<h3><strong>Sales Orders</strong></h3>
 <div id="orderDiv" style="height: 450px"></div>
 <div>
     @Html.Partial("Order/_OutstandingSalesOrders")

@@ -14,7 +14,7 @@
         <span class="label label-danger"><span class="glyphicon @Model.Order.OrderStatus.GlyphiconClass"></span> @Model.Order.OrderStatus.Name</span>
     }
 </h3>
-<nav class="navbar navbar-default" style="padding: 0 10px 10px 10px; margin-top: 10px;">
+<nav class="navbar navbar-default" style="padding: 0 10px 5px 10px; margin: 10px 0 10px 0;">
     <table>
         <tr>
             @foreach (var status in Model.OrderStatuses.Where(s => s.SortOrder > 0))
@@ -58,8 +58,8 @@
         </tr>
     </table>
 </nav>
-<div id="worksheetPanel" style="padding-top: 10px;">
-    <div>
+<div id="worksheetPanel">
+    <div style="margin-bottom: 10px;">
         @if (Model.Order.OrderStatus.OrderStatusEnum != OrderStatuses.Deleted)
         {
             if (User.IsInRole(Role.InventoryMaster))
@@ -113,134 +113,9 @@
             </div>
         }
     </div>
-    @if (!string.IsNullOrEmpty(Model.Order.Notes))
-    {
-        <hr style="margin-bottom: -5px;" />
-        <div class="row">
-            <div class="col-md-2"><h5><strong>Notes:</strong></h5></div>
-            <div class="col-md-10"><h5>@Model.Order.Notes</h5></div>
-        </div>
-    }
-    @if (Model.Order.Customer != null)
-    {
-        <hr style="margin-bottom: -5px;" />
-        <div class="row">
-            <div class="col-md-2"><h5><strong>Customer:</strong></h5></div>
-            <div class="col-md-10"><h5>@Model.Order.Customer.Name</h5></div>
-        </div>
-        if (Model.Order.ShipToAddress != null)
-        {
-            if (!string.IsNullOrEmpty(Model.Order.ShipToAddress.AddressLine1))
-            {
-                <div class="row">
-                    <div class="col-md-2">&nbsp;</div>
-                    <div class="col-md-10"><h5>@Model.Order.ShipToAddress.AddressLine1</h5></div>
-                </div>
-            }
-            if (!string.IsNullOrEmpty(Model.Order.ShipToAddress.AddressLine2))
-            {
-                <div class="row">
-                    <div class="col-md-2">&nbsp;</div>
-                    <div class="col-md-10"><h5>@Model.Order.ShipToAddress.AddressLine2</h5></div>
-                </div>
-            }
-        }
-    }
-    @if (@Model.Order.PackagingType != null)
-    {
-        <hr style="margin-bottom: -5px;" />
-        <div class="row">
-            <div class="col-md-2"><h5><strong>Packaging Type:</strong></h5></div>
-            <div class="col-md-10">
-                <h5>
-                    @Model.Order.PackagingType.Name
-                    @if (Model.Order.PackagingType.Weight != null)
-                    {
-                        <span>(@Model.Order.PackagingType.Weight lbs)</span>
-                    }
-                </h5>
-            </div>
-        </div>
-    }
-    @if (@Model.Order.ShipDate != null)
-    {
-        <hr style="margin-bottom: -5px;" />
-        <div class="row">
-            <div class="col-md-2"><h5><strong>Ship Date:</strong></h5></div>
-            <div class="col-md-10"><h5>@Model.Order.ShipDate.Value.ToString("MM/dd/yyyy")</h5></div>
-        </div>
-    }
-    @if (Model.Order.OrderStatus.OrderStatusEnum == OrderStatuses.WarehouseReceived)
-    {
-        <hr style="margin-bottom: -5px;" />
-        <table>
-            <tr>
-                <td style="vertical-align: top;">
-                    <h5><strong>Time to pull:</strong></h5>
-                </td>
-                <td>
-                    <input type="text" id="hoursToPull" class="form-control numeric" maxlength="2" value="@Model.Order.HoursToPull" style="width: 50px;" />
-                </td>
-                <td>hours</td>
-                <td>
-                    <select id="minutesToPull" class="form-control">
-                        <option value="0">0</option>
-                        <option value="15">15</option>
-                        <option value="30">30</option>
-                        <option value="45">45</option>
-                    </select>
-                </td>
-                <td>minutes</td>
-                <td>
-                    <div type="button" class="btn btn-success" onclick="pullOrder();">
-                        <span class="glyphicon glyphicon-share-alt"></span> Pulled
-                    </div>
-                </td>
-            </tr>
-        </table>
-        <div id="pullOrderErrorPanel" class="alert alert-danger" role="alert" style="display: none; margin-top: 14px;">
-            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-            <span class="sr-only">Error:</span>
-            <span id="pullOrderErrorMessage"></span>
-        </div>
-    }
-    @if (Model.Order.OrderStatus.OrderStatusEnum == OrderStatuses.PackagingSlipCreated)
-    {
-        <hr style="margin-bottom: -5px;" />
-        <table>
-            <tr>
-                <td style="vertical-align: top;">
-                    <h5><strong>Time to load:</strong></h5>
-                </td>
-                <td>
-                    <input type="text" id="hoursToLoad" class="form-control numeric" maxlength="2" value="@Model.Order.HoursToLoad" style="width: 50px;" />
-                </td>
-                <td>hours</td>
-                <td>
-                    <select id="minutesToLoad" class="form-control">
-                        <option value="0">0</option>
-                        <option value="15">15</option>
-                        <option value="30">30</option>
-                        <option value="45">45</option>
-                    </select>
-                </td>
-                <td>minutes</td>
-                <td>
-                    <div type="button" class="btn btn-success" onclick="loadOrder();">
-                        <span class="glyphicon glyphicon-share-alt"></span> Loaded
-                    </div>
-                </td>
-            </tr>
-        </table>
-        <div id="loadOrderErrorPanel" class="alert alert-danger" role="alert" style="display: none; margin-top: 14px;">
-            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-            <span class="sr-only">Error:</span>
-            <span id="loadOrderErrorMessage"></span>
-        </div>
-    }
-    <hr style="margin-top: 2px;" />
     <ul class="nav nav-tabs" data-tabs="tabs">
-        <li class="active"><a href="#orderSummary" data-toggle="tab">Summary</a></li>
+        <li class="active"><a href="#orderDetails" data-toggle="tab">Details</a></li>
+        <li><a href="#orderSummary" data-toggle="tab">Summary</a></li>
         @if (Model.Order.OrderType.OrderTypeEnum == OrderTypes.SalesOrder)
         {
             <li><a href="#orderRatings" data-toggle="tab">Ratings</a></li>
@@ -252,7 +127,134 @@
         <li><a href="#orderTransactions" data-toggle="tab">Transactions</a></li>
     </ul>
     <div class="tab-content">
-        <div id="orderSummary" class="tab-pane active">
+        <div id="orderDetails" class="tab-pane active" style="padding-bottom: 10px;">
+            @if (!string.IsNullOrEmpty(Model.Order.Notes))
+            {
+                <div class="row">
+                    <div class="col-md-2"><h5><strong>Notes:</strong></h5></div>
+                    <div class="col-md-10"><h5>@Model.Order.Notes</h5></div>
+                </div>
+                <hr style="margin: 5px 0 -2px 0;" />
+            }
+            @if (Model.Order.Customer != null)
+            {
+                <div class="row">
+                    <div class="col-md-2"><h5><strong>Customer:</strong></h5></div>
+                    <div class="col-md-10"><h5>@Model.Order.Customer.Name</h5></div>
+                </div>
+                if (Model.Order.ShipToAddress != null)
+                {
+                    if (!string.IsNullOrEmpty(Model.Order.ShipToAddress.AddressLine1))
+                    {
+                        <div class="row">
+                            <div class="col-md-2">&nbsp;</div>
+                            <div class="col-md-10"><h5>@Model.Order.ShipToAddress.AddressLine1</h5></div>
+                        </div>
+                    }
+                    if (!string.IsNullOrEmpty(Model.Order.ShipToAddress.AddressLine2))
+                    {
+                        <div class="row">
+                            <div class="col-md-2">&nbsp;</div>
+                            <div class="col-md-10"><h5>@Model.Order.ShipToAddress.AddressLine2</h5></div>
+                        </div>
+                    }
+                    <hr style="margin: 5px 0 -2px 0;" />
+                }
+            }
+            @if (@Model.Order.PackagingType != null)
+            {
+                <div class="row">
+                    <div class="col-md-2"><h5><strong>Packaging Type:</strong></h5></div>
+                    <div class="col-md-10">
+                        <h5>
+                            @Model.Order.PackagingType.Name
+                            @if (Model.Order.PackagingType.Weight != null)
+                            {
+                                <span>(@Model.Order.PackagingType.Weight lbs)</span>
+                            }
+                        </h5>
+                    </div>
+                </div>
+                <hr style="margin: 5px 0 -2px 0;" />
+            }
+            @if (@Model.Order.ShipDate != null)
+            {
+                <div class="row">
+                    <div class="col-md-2"><h5><strong>Ship Date:</strong></h5></div>
+                    <div class="col-md-10"><h5>@Model.Order.ShipDate.Value.ToString("MM/dd/yyyy")</h5></div>
+                </div>
+                <hr style="margin: 5px 0 -2px 0;" />
+            }
+            @if (Model.Order.OrderStatus.OrderStatusEnum == OrderStatuses.WarehouseReceived)
+            {
+                <table>
+                    <tr>
+                        <td style="vertical-align: top;">
+                            <h5><strong>Time to pull:</strong></h5>
+                        </td>
+                        <td>
+                            <input type="text" id="hoursToPull" class="form-control numeric" maxlength="2" value="@Model.Order.HoursToPull" style="width: 50px;" />
+                        </td>
+                        <td>hours</td>
+                        <td>
+                            <select id="minutesToPull" class="form-control">
+                                <option value="0">0</option>
+                                <option value="15">15</option>
+                                <option value="30">30</option>
+                                <option value="45">45</option>
+                            </select>
+                        </td>
+                        <td>minutes</td>
+                        <td>
+                            <div type="button" class="btn btn-success" onclick="pullOrder();">
+                                <span class="glyphicon glyphicon-share-alt"></span> Pulled
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <div id="pullOrderErrorPanel" class="alert alert-danger" role="alert" style="display: none; margin-top: 14px;">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                    <span id="pullOrderErrorMessage"></span>
+                </div>
+                <hr style="margin: 5px 0 -2px 0;" />
+            }
+            @if (Model.Order.OrderStatus.OrderStatusEnum == OrderStatuses.PackagingSlipCreated)
+            {
+                <table>
+                    <tr>
+                        <td style="vertical-align: top;">
+                            <h5><strong>Time to load:</strong></h5>
+                        </td>
+                        <td>
+                            <input type="text" id="hoursToLoad" class="form-control numeric" maxlength="2" value="@Model.Order.HoursToLoad" style="width: 50px;" />
+                        </td>
+                        <td>hours</td>
+                        <td>
+                            <select id="minutesToLoad" class="form-control">
+                                <option value="0">0</option>
+                                <option value="15">15</option>
+                                <option value="30">30</option>
+                                <option value="45">45</option>
+                            </select>
+                        </td>
+                        <td>minutes</td>
+                        <td>
+                            <div type="button" class="btn btn-success" onclick="loadOrder();">
+                                <span class="glyphicon glyphicon-share-alt"></span> Loaded
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <div id="loadOrderErrorPanel" class="alert alert-danger" role="alert" style="display: none; margin-top: 14px;">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                    <span id="loadOrderErrorMessage"></span>
+                </div>
+                <hr style="margin: 5px 0 -2px 0;" />
+            }
+        </div>
+        <div id="orderSummary" class="tab-pane">
             @{
                 @Html.Partial("Order/_LumberProductReview", Model.Order)
                 @Html.Partial("Order/_MiscellaneousProductReview", Model.Order)

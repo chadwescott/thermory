@@ -1297,7 +1297,7 @@ td.totalPieceHeading {
 }
 
 .nav-tabs > li > a {
-    border-color: #eee #eee #ddd;
+    border-color: #aaa #aaa #ddd;
 }
 
 .w2ui-grid-toolbar {
@@ -1308,4 +1308,11 @@ td.totalPieceHeading {
     background-image: -o-linear-gradient(#f9f9f9, #e4e4e4);
     background-image: linear-gradient(#f9f9f9, #e4e4e4);
     filter: progid:dximagetransform.microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#e4e4e4', GradientType=0);
+}
+
+.tab-content {
+    border: thin solid;
+    border-color: transparent #aaa #aaa #aaa;
+    padding-left: 5px;
+    padding-right: 5px;
 }
