@@ -16,7 +16,7 @@
         }
 }
 </ul>
-<div class="tab-content">
+<div class="tab-content" style="padding: 0">
     @{
         foreach (var category in Model.LumberCategories)
         {
@@ -31,5 +31,5 @@
                 @Html.Partial("_MiscSummary", category)
             </div>
         }
-}
+    }
 </div>
