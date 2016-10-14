@@ -13,9 +13,10 @@
         </tr>
         foreach (var miscellaneousProduct in subCategory.MiscellaneousProducts.OrderBy(p => p.SortOrder))
         {
+            var cellStyle = miscellaneousProduct.Quantity < 0 ? "style=color:red;" : "";
             <tr>
                 <td class="productType">@miscellaneousProduct.Name (@miscellaneousProduct.Description)</td>
-                <td class="productType">@miscellaneousProduct.Quantity.ToString("n0")</td>
+                <td class="productType" @cellStyle  >@miscellaneousProduct.Quantity.ToString("n0")</td>
             </tr>
         }
     }
