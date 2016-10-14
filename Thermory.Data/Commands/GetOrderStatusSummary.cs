@@ -16,13 +16,11 @@ namespace Thermory.Data.Commands
 
         protected override void OnExecute(ThermoryContext context)
         {
-            Result =
-                context.Orders
-                    .Where(o => o.OrderType.Id == _type.Id)
-                    .GroupBy(o => o.OrderStatus)
-                    .Select(o => new OrderSummary {Status = o.Key, Count = o.Count()})
-                    .OrderBy(o => o.Status.SortOrder)
-                    .ToList();
+            Result = (from status in context.OrderStatus
+                let order = context.Orders.Where(o => o.OrderStatusId == status.Id)
+                where status.OrderTypeId == _type.Id
+                orderby status.SortOrder
+                select (new OrderSummary {Status = status, Count = order.Count()})).ToList();
         }
     }
 }

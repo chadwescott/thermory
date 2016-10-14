@@ -90,7 +90,7 @@ namespace Thermory.Domain.Models
                     case OrderStatusNames.Loaded:
                         return "success";
                     case OrderStatusNames.PackagingSlipCreated:
-                        return "info";
+                        return "warning";
                     case OrderStatusNames.Pulled:
                         return "warning";
                     case OrderStatusNames.Received:
@@ -98,7 +98,7 @@ namespace Thermory.Domain.Models
                     case OrderStatusNames.SentToWarehouse:
                         return "info";
                     case OrderStatusNames.WarehouseReceived:
-                        return "info";
+                        return "warning";
                     default:
                         return "default";
                 }
