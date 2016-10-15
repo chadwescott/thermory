@@ -69,7 +69,7 @@ function renderOrderSummaryResults(id, results) {
 }
 
 function getOrderSummaryHtml(name, icon, level, count) {
-    return '<span class="label label-as-badge label-' + level + '">' + count + '</span> <span class="glyphicon ' + icon + ' glyphicon-' + level + '"></span> ' + name;
+    return '<span style="font-size: 1.0em;" class="label label-as-badge label-' + level + '">' + count + '</span> <span style="font-size: 16px; vertical-align: bottom;" class="glyphicon ' + icon + ' glyphicon-' + level + '"></span> <span style="font-size: 1.2em; vertical-align: bottom;">' + name + '</span>';
 }
 
 function getGlyphicon(status) {

@@ -415,7 +415,9 @@ aside {
         }
 
 .label {
-    font-weight: 700;
+    font-size: 14px;
+    font-weight: 500;
+    border: thin solid #aaa;
 }
 
 /* login page */
@@ -1276,6 +1278,20 @@ td.totalPieceHeading {
 }
 
 .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+    border-color: #aaa #aaa #fff;
+    background-color: #fff;
+    background-image: none;
+    filter: none;
+}
+
+.nav-tabs > li > a:hover {
+    border-color: #aaa #aaa #fff;
+    background-color: #fff;
+    background-image: none;
+    filter: none;
+}
+
+.nav-tabs > li > a {
     border-color: #aaa #aaa #ddd;
     background-color: #e4e4e4;
     background-image: -webkit-linear-gradient(#f9f9f9, #e4e4e4);
@@ -1284,20 +1300,6 @@ td.totalPieceHeading {
     background-image: -o-linear-gradient(#f9f9f9, #e4e4e4);
     background-image: linear-gradient(#f9f9f9, #e4e4e4);
     filter: progid:dximagetransform.microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#e4e4e4', GradientType=0);
-}
-
-.nav-tabs > li > a:hover {
-    border-color: #aaa #aaa #ddd;
-    background-image: -webkit-linear-gradient(#f9f9f9, #e4e4e4);
-    background-image: -moz-linear-gradient(#f9f9f9, #e4e4e4);
-    background-image: -ms-linear-gradient(#f9f9f9, #e4e4e4);
-    background-image: -o-linear-gradient(#f9f9f9, #e4e4e4);
-    background-image: linear-gradient(#f9f9f9, #e4e4e4);
-    filter: progid:dximagetransform.microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#e4e4e4', GradientType=0);
-}
-
-.nav-tabs > li > a {
-    border-color: #aaa #aaa #ddd;
 }
 
 .w2ui-grid-toolbar {

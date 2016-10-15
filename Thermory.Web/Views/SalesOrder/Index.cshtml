@@ -58,7 +58,7 @@
                     resizable: true,
                     render: function (record) {
                         var icon = getGlyphicon(record.Status);
-                        return '<div class="' + record.OrderStatus.StatusLabel.CssClass + '" style="margin-left: 3px;' + record.OrderStatus.StatusLabel.Style + '"><span class="glyphicon glyphicon-' + icon + '"></span> ' + record.Status + '</div>';
+                        return '<div class="' + record.OrderStatus.StatusLabel.CssClass + '" style="margin-left: 3px; border: none; font-size: 10px;' + record.OrderStatus.StatusLabel.Style + '"><span class="glyphicon glyphicon-' + icon + '"></span> ' + record.Status + '</div>';
                     }
                 }
             ],
