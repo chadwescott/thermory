@@ -1278,6 +1278,7 @@ td.totalPieceHeading {
 }
 
 .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+    font-weight: bold;
     border-color: #aaa #aaa #fff;
     background-color: #fff;
     background-image: none;
