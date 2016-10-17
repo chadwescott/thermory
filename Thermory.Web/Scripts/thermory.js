@@ -64,7 +64,7 @@ function renderOrderSummaryResults(id, results) {
         var html = getOrderSummaryHtml(results[i].Status.Name, results[i].Status.GlyphiconClass, results[i].Status.Level, results[i].Count);
         $('#' + id).append(html);
         if (i + 1 < results.length)
-            $('#' + id).append(' | ');
+            $('#' + id).append('<span style="font-size: 1.2em; vertical-align: bottom;"> | </span>');
     }
 }
 
