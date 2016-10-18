@@ -33,7 +33,7 @@
                     @Html.LabelFor(m => m.RememberMe, new { @class = "checkbox" })
                 </li>
             </ol>
-            <div type="button" class="btn btn-primary" onclick="$('form').submit();">
+            <div type="button" class="btn btn-primary" id="loginButton" onclick="$('form').submit();">
                 <span class="glyphicon glyphicon-ok"></span> Log in
             </div>
         </fieldset>
@@ -51,3 +51,13 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+
+<script>
+    $('#loginForm').keypress(function (e) {
+        if (e.which == 13) {
+            e.preventDefault(); //stops default action: submitting form
+            $(this).blur();
+            $('#loginButton').focus().click(); //give your submit an ID
+        }
+    });
+</script>
