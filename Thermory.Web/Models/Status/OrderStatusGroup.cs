@@ -14,11 +14,11 @@ namespace Thermory.Web.Models.Status
             {OrderStatusNames.Deleted, new DangerLabel()},
             {OrderStatusNames.InTransit, new WarningLabel()},
             {OrderStatusNames.Loaded, new SuccessLabel()},
-            {OrderStatusNames.PackagingSlipCreated, new InfoLabel()},
+            {OrderStatusNames.PackagingSlipCreated, new WarningLabel()},
             {OrderStatusNames.Pulled, new WarningLabel()},
             {OrderStatusNames.Received, new SuccessLabel()},
             {OrderStatusNames.SentToWarehouse, new InfoLabel()},
-            {OrderStatusNames.WarehouseReceived, new InfoLabel()}
+            {OrderStatusNames.WarehouseReceived, new WarningLabel()}
         };
 
         protected override Dictionary<string, StatusLabel> StatusLookup

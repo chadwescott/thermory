@@ -20,7 +20,7 @@ namespace Thermory.Data.CommandBuilders
 
             var transaction = MakeInventoryTransaction(userId, order);
             AddCreateInventoryTransactionCommand(transaction);
-            AddLumberProductsToInventory(order.OrderLumberLineItems);
+            AddLumberProductsToInventory( order.OrderLumberLineItems);
             AddMiscellaneousProductsToInventory(order.OrderMiscellaneousLineItems);
 
             order.OrderStatusId = DatabaseCommandDirectory.Instance.GetOrderStatusByEnum(OrderStatuses.Received).Id;

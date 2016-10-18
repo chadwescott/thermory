@@ -1,0 +1,23 @@
+﻿@{
+    var id = Guid.NewGuid();
+}
+<div id="@id" class="orderSummary" style="padding-bottom: .8em;">
+    Loading order summary...
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetOrderSummary", "PurchaseOrder")',
+            contentType: 'application/json',
+            dataType: 'json',
+            success: function (data, status, request) {
+                renderOrderSummaryResults('@id', data.records);
+            },
+            error: function (data, status, request) {
+                $('#@id').empty();
+                $('#@id').append('Error loading order summary');
+            }
+        });
+    });
+</script>

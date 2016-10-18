@@ -7,6 +7,7 @@
 
 <input type="hidden" id="@string.Format("miscProductId{0}", suffix)" value="@Model.MiscProduct.Id" />
 <input type="hidden" id="@string.Format("miscSubCategoryId{0}", suffix)" value="@Model.MiscProduct.MiscellaneousSubCategoryId" />
+<input type="hidden" id="@string.Format("quantity{0}", suffix)" value="@Model.MiscProduct.Quantity" />
 <input type="hidden" id="@string.Format("sortOrder{0}", suffix)" value="@Model.MiscProduct.SortOrder" />
 <div id="@string.Format("miscProductTab{0}", suffix)" class="tab-pane @active">
     <table>

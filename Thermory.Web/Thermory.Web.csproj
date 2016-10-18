@@ -412,6 +412,8 @@
     <Content Include="Views\PackingSlip\Index.cshtml" />
     <Content Include="Views\Shared\Package\_LumberProductReview.cshtml" />
     <Content Include="Views\Shared\Package\_MiscellaneousProductReview.cshtml" />
+    <Content Include="Views\Shared\Order\_OutstandingPurchaseOrders.cshtml" />
+    <Content Include="Views\Shared\Order\_OutstandingSalesOrders.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <None Include="Web.Azure.config">
       <DependentUpon>Web.config</DependentUpon>

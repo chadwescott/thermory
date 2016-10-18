@@ -57,3 +57,37 @@ function reduceFraction(numerator, denominator) {
 function greatestCommonDivisor(a, b) {
     return b ? greatestCommonDivisor(b, a % b) : a;
 };
+
+function renderOrderSummaryResults(id, results) {
+    $('#' + id).empty();
+    for (var i = 0; i < results.length; i++) {
+        var html = getOrderSummaryHtml(results[i].Status.Name, results[i].Status.GlyphiconClass, results[i].Status.Level, results[i].Count);
+        $('#' + id).append(html);
+        if (i + 1 < results.length)
+            $('#' + id).append('<span style="font-size: 1.2em; vertical-align: bottom;"> | </span>');
+    }
+}
+
+function getOrderSummaryHtml(name, icon, level, count) {
+    return '<span style="font-size: 1.0em;" class="label label-as-badge label-' + level + '">' + count + '</span> <span style="font-size: 16px; vertical-align: bottom;" class="glyphicon ' + icon + ' glyphicon-' + level + '"></span> <span style="font-size: 1.2em; vertical-align: bottom;">' + name + '</span>';
+}
+
+function getGlyphicon(status) {
+    if (status == "Deleted")
+        return "trash";
+    if (status == "Sent to warehouse")
+        return "send";
+    if (status == "Warehouse received")
+        return "log-in";
+    if (status == "Pulled")
+        return "share-alt";
+    if (status == "Packaging slip created")
+        return "list-alt";
+    if (status == "Loaded")
+        return "gift";
+    if (status == "In transit")
+        return "plane";
+    if (status == "Received")
+        return "log-in";
+    return "";
+}

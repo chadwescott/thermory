@@ -79,5 +79,12 @@ namespace Thermory.Web.Controllers
             CommandDirectory.Instance.UpdatePackages(packages);
             return Json(new { status = "success" });
         }
+
+        [HttpPost]
+        [Authorize(Role.InventoryMaster, Role.WarehouseCrew)]
+        public ActionResult GetOrderSummary()
+        {
+            return GetOrderSummary(OrderTypes.SalesOrder);
+        }
     }
 }

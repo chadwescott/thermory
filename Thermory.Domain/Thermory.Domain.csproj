@@ -80,6 +80,7 @@
     <Compile Include="Models\OrderStatus.cs" />
     <Compile Include="Models\PackageMiscellaneousLineItem.cs" />
     <Compile Include="Models\PackagingType.cs" />
+    <Compile Include="Models\OrderSummary.cs" />
     <Compile Include="Models\UserRoleXref.cs" />
     <Compile Include="Models\WebPageRole.cs" />
     <Compile Include="Utils\AdjustmentMultiplier.cs" />

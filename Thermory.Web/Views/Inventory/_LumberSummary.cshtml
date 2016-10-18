@@ -37,8 +37,9 @@
                 @foreach (var length in millimeterLengths)
                 {
                     var lumberForLength = lumberType.LumberProducts.SingleOrDefault(p => p.LengthInMillimeters == length);
-                    var quantity = @lumberForLength == null ? 0 : lumberForLength.Quantity;
-                    <td class="productType subCategoryCellPadding subCategoryLength">@quantity.ToString("n0")</td>
+                    var quantity = lumberForLength == null ? 0 : lumberForLength.Quantity;
+                    var cellStyle =  quantity < 0 ? "style=color:red;" : "";
+                    <td class="productType subCategoryCellPadding subCategoryLength" @cellStyle>@quantity.ToString("n0")</td>
                 }
                 <td rowspan="3" class="totalLinearFeet">@lumberType.TotalLinearFeet.ToString("n0")</td>
                 <td rowspan="3" class="totalSquareFeet">@lumberType.TotalSquareFeet.ToString("n0")</td>
@@ -48,8 +49,9 @@
                 @foreach (var length in millimeterLengths)
                 {
                     var lumberForLength = lumberType.LumberProducts.SingleOrDefault(p => p.LengthInMillimeters == length);
-                    var packs = @lumberForLength == null ? "N/A" : lumberForLength.PacksHtml;
-                    <td class="subCategoryCellPadding subCategoryLength">@Html.Raw(packs)</td>
+                    var packs = lumberForLength == null ? "N/A" : lumberForLength.PacksHtml;
+                    var cellStyle = lumberForLength == null || lumberForLength.Quantity >= 0 ? "" : "style=color:red;";
+                    <td class="subCategoryCellPadding subCategoryLength" @cellStyle>@Html.Raw(packs)</td>
                 }
             </tr>
             <tr>
@@ -57,8 +59,9 @@
                 @foreach (var length in millimeterLengths)
                 {
                     var lumberForLength = lumberType.LumberProducts.SingleOrDefault(p => p.LengthInMillimeters == length);
-                    var tally = @lumberForLength == null || !lumberForLength.IncludeInCalculations ? "N/A" : string.Format("{0}%", lumberForLength.TallyPercentage);
-                    <td class="productType subCategoryCellPadding subCategoryLength productTypeTally">@tally</td>
+                    var tally = lumberForLength == null || !lumberForLength.IncludeInCalculations ? "N/A" : string.Format("{0}%", lumberForLength.TallyPercentage);
+                    var cellStyle = lumberForLength == null || lumberForLength.Quantity >= 0 ? "" : "style=color:red;";
+                    <td class="productType subCategoryCellPadding subCategoryLength productTypeTally" @cellStyle>@tally</td>
                 }
             </tr>
             @Html.Raw(blankRow)
@@ -69,7 +72,8 @@
                     var lumberForLength = lumberType.LumberProducts.SingleOrDefault(p => p.LengthInMillimeters == length);
                     var linearFeet = lumberForLength == null ? 0 : lumberForLength.LinearFeet;
                     var calculationCss = lumberForLength == null || lumberForLength.IncludeInCalculations ? string.Empty : "text-decoration: line-through;";
-                    <td class="subCategoryCellPadding subCategoryLength" style="@calculationCss">@linearFeet.ToString("n0")</td>
+                    var cellStyle = linearFeet < 0 ? "color: red;" : "";
+                    <td class="subCategoryCellPadding subCategoryLength" style="@calculationCss @cellStyle">@linearFeet.ToString("n0")</td>
                 }
                 <td class="totalPieceHeading">Total PCS</td>
                 <td>@lumberType.TotalPieces.ToString("n0")</td>
@@ -81,7 +85,8 @@
                     var lumberForLength = lumberType.LumberProducts.SingleOrDefault(p => p.LengthInMillimeters == length);
                     var squareFeet = lumberForLength == null ? 0 : lumberForLength.SquareFeet;
                     var calculationCss = lumberForLength == null || lumberForLength.IncludeInCalculations ? string.Empty : "text-decoration: line-through;";
-                    <td class="productType subCategoryCellPadding subCategoryLength" style="@calculationCss">@squareFeet.ToString("n0")</td>
+                    var cellStyle = squareFeet < 0 ? "color: red;" : "";
+                    <td class="productType subCategoryCellPadding subCategoryLength" style="@calculationCss @cellStyle">@squareFeet.ToString("n0")</td>
                 }
                 <td colspan="2">&nbsp;</td>
             </tr>

@@ -32,5 +32,12 @@ namespace Thermory.Web.Controllers
             CommandDirectory.Instance.ReceiveOrder(WebSecurity.CurrentUserId, order);
             return Json(new { status = "success" });
         }
+
+        [HttpPost]
+        [Authorize(Role.InventoryMaster)]
+        public ActionResult GetOrderSummary()
+        {
+            return GetOrderSummary(OrderTypes.PurchaseOrder);
+        }
     }
 }

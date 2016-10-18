@@ -148,5 +148,11 @@ namespace Thermory.Web.Controllers
                 .Select(c => new MiscellaneousOrderForm { MiscellaneousCategory = c, ValidateQuantityOnHand = orderType == OrderTypes.SalesOrder })
                 .ToList();
         }
+        
+        protected ActionResult GetOrderSummary(OrderTypes type)
+        {
+            var summary = CommandDirectory.Instance.GetOrderSummary(type);
+            return Json(new { status = "success", records = summary });
+        }
     }
 }

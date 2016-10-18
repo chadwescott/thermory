@@ -19,7 +19,7 @@ namespace Thermory.Data.Commands
 
         protected override void OnExecute(ThermoryContext context)
         {
-            var lumberProduct = context.LumberProducts.Single(lp => lp.Id == _lumberProductId);
+            var lumberProduct = context.LumberProducts.Single(p => p.Id == _lumberProductId);
             if (_newQuantity == lumberProduct.Quantity)
                 return;
 

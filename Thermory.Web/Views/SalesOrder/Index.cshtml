@@ -2,15 +2,18 @@
 @{
     ViewBag.Title = "Index";
 }
-
-@if (User.IsInRole(Role.InventoryMaster))
+<h3><strong>Sales Orders</strong></h3>@if (User.IsInRole(Role.InventoryMaster))
 {
-    <div type="button" class="btn btn-primary" onclick="window.location=('@Url.Action("Create", "SalesOrder")');">
-        <span class="glyphicon glyphicon-plus"></span> Create Sales Order
+    <div style="margin: 10px 0 10px 0;">
+        <div type="button" class="btn btn-primary" onclick="window.location=('@Url.Action("Create", "SalesOrder")');">
+            <span class="glyphicon glyphicon-plus"></span> Create Sales Order
+        </div>
     </div>
 }
-<h3><strong>Sales Orders</strong></h3>
 <div id="orderDiv" style="height: 450px"></div>
+<div>
+    @Html.Partial("Order/_OutstandingSalesOrders")
+</div>
 
 <script>
     $(document).ready(function () {
@@ -54,7 +57,8 @@
                     sortable: false,
                     resizable: true,
                     render: function (record) {
-                        return '<div class="' + record.OrderStatus.StatusLabel.CssClass + '" style="margin-left: 3px;' + record.OrderStatus.StatusLabel.Style + '">' + record.Status + '</div>';
+                        var icon = getGlyphicon(record.Status);
+                        return '<div class="' + record.OrderStatus.StatusLabel.CssClass + '" style="margin-left: 3px; border: none; font-size: 10px;' + record.OrderStatus.StatusLabel.Style + '"><span class="glyphicon glyphicon-' + icon + '"></span> ' + record.Status + '</div>';
                     }
                 }
             ],

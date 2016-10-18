@@ -75,5 +75,34 @@ namespace Thermory.Domain.Models
                 }
             }
         }
+
+        [NotMapped]
+        public string Level
+        {
+            get
+            {
+                switch (Name)
+                {
+                    case OrderStatusNames.Deleted:
+                        return "danger";
+                    case OrderStatusNames.InTransit:
+                        return "warning";
+                    case OrderStatusNames.Loaded:
+                        return "success";
+                    case OrderStatusNames.PackagingSlipCreated:
+                        return "warning";
+                    case OrderStatusNames.Pulled:
+                        return "warning";
+                    case OrderStatusNames.Received:
+                        return "success";
+                    case OrderStatusNames.SentToWarehouse:
+                        return "info";
+                    case OrderStatusNames.WarehouseReceived:
+                        return "warning";
+                    default:
+                        return "default";
+                }
+            }
+        }
     }
 }
