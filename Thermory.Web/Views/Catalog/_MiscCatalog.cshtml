@@ -53,7 +53,7 @@
     <br />
     <div class="panel panel-default">
         <div class="panel-heading">Sub Categories</div>
-        <div class="panel-body">
+        <div class="panel-body" style="height: 500px; overflow-y: scroll;">
             @if (Model.Id != Guid.Empty)
             {
                 var firstSubCategoryId = Model.MiscellaneousSubCategories.Any() ? Model.MiscellaneousSubCategories.OrderBy(s => s.SortOrder).First().Id : Guid.Empty;

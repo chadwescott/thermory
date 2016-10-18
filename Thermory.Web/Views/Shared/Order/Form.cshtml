@@ -142,15 +142,14 @@
             <td>&nbsp;</td>
         </tr>
     </table>
-    <br />
-    <div type="button" class="btn btn-success" onclick="saveOrder();">
-        <span class="glyphicon glyphicon-ok"></span> Save
+    <div style="margin-bottom: 10px;">
+        <div type="button" class="btn btn-success" onclick="saveOrder();">
+            <span class="glyphicon glyphicon-ok"></span> Save
+        </div>
+        <div type="button" class="btn btn-danger" onclick="window.location = '@cancelUrl';">
+            <span class=" glyphicon glyphicon-remove"></span> Cancel
+        </div>
     </div>
-    <div type="button" class="btn btn-danger" onclick="window.location = '@cancelUrl';">
-        <span class=" glyphicon glyphicon-remove"></span> Cancel
-    </div>
-    <br />
-    <br />
     <ul class="nav nav-tabs" data-tabs="tabs">
         @{
             foreach (var orderForm in Model.LumberOrderForms)
@@ -184,11 +183,14 @@
             }
         }
     </div>
-    <div type="button" class="btn btn-success" onclick="saveOrder();">
-        <span class="glyphicon glyphicon-ok"></span> Save
-    </div>
-    <div type="button" class="btn btn-danger" onclick="window.location = '@cancelUrl';">
-        <span class=" glyphicon glyphicon-remove"></span> Cancel
+
+    <div style="margin-top: 10px;">
+        <div type="button" class="btn btn-success" onclick="saveOrder();">
+            <span class="glyphicon glyphicon-ok"></span> Save
+        </div>
+        <div type="button" class="btn btn-danger" onclick="window.location = '@cancelUrl';">
+            <span class=" glyphicon glyphicon-remove"></span> Cancel
+        </div>
     </div>
 </div>
 
