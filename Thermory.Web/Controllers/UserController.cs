@@ -7,14 +7,14 @@ namespace Thermory.Web.Controllers
 {
     public class UserController : Controller
     {
-        [Authorize(Roles = Role.InventoryMaster)]
+        [Attributes.Authorize(Roles = Role.InventoryMaster)]
         public ActionResult Index()
         {
             return View();
         }
 
         [HttpPost]
-        [Authorize(Roles = Role.InventoryMaster)]
+        [Attributes.Authorize(Roles = Role.InventoryMaster)]
         public object Save(UserProfile user)
         {
             CommandDirectory.Instance.UpdateUserRoles(user);

@@ -8,7 +8,7 @@ namespace Thermory.Web.Controllers
 {
     public class PackingSlipController : Controller
     {
-        [Authorize]
+        [Attributes.Authorize]
         public ActionResult Index(Guid? orderId, int? packageNumber)
         {
             if (orderId == null || packageNumber == null)

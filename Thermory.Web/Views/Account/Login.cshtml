@@ -8,8 +8,8 @@
     <h1>@ViewBag.Title.</h1>
 </hgroup>
 
-<section id="loginForm">
-    @using (Html.BeginForm(new { ViewBag.ReturnUrl }))
+<section>
+    @using (Html.BeginForm(new {ViewBag.ReturnUrl}))
     {
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true)
@@ -29,19 +29,19 @@
                 </li>
                 <li>
                     @Html.CheckBoxFor(m => m.RememberMe)
-                    @Html.LabelFor(m => m.RememberMe, new { @class = "checkbox" })
+                    @Html.LabelFor(m => m.RememberMe, new {@class = "checkbox"})
                 </li>
             </ol>
-            <div type="button" class="btn btn-primary" id="loginButton" onclick="$('form').submit();">
+            <div type="button" class="btn btn-primary" id="loginButton" onclick=" $('form').submit(); ">
                 <span class="glyphicon glyphicon-ok"></span> Log in
             </div>
         </fieldset>
         <p>
             @Html.ActionLink("Register", "Register") if you don't have an account.
         </p>
-        <div class="btn btn-primary" onclick="sendPasswordResetEmail();">
-            <span class="glyphicon glyphicon-envelope"></span> Forgot Password
-        </div>
+        <p>
+            @Html.ActionLink("ForgotPassword", "ForgotPassword")
+        </p>
     }
 </section>
 
@@ -57,26 +57,4 @@
             $('#loginButton').focus().click(); //give your submit an ID
         }
     });
-
-    function sendPasswordResetEmail() {
-
-        var data = {
-            emailAddress: 'chadwescott@gmail.com'
-        };
-        var dataJson = JSON.stringify(data);
-
-        $.ajax({
-            type: 'POST',
-            url: '@Url.Action("ForgotPassword", "Account")',
-            contentType: 'application/json',
-            dataType: 'json',
-            data: dataJson,
-            success: function (data, status, request) {
-                window.location = '@Url.Action("ResetPassword", "Account")?token=' + data.token;
-            },
-        error: function (data, status, request) {
-            alert('Error sending email');
-        }
-    });
-    }
 </script>

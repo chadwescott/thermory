@@ -16,19 +16,31 @@
     @Scripts.Render("~/bundles/w2ui")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/thermory")
-    
+
     @RenderSection("scripts", required: false)@if (Request.IsAuthenticated)
     {
-    <script type="text/javascript">
-        function keepSessionAlive() {
-            $.post('@Url.Action("KeepAlive", "Account")');
-        }
+        <script type="text/javascript">
+            function keepSessionAlive() {
+                $.post('@Url.Action("KeepAlive", "Account")');
+            }
 
-        $(function() { window.setInterval("keepSessionAlive()", 60000); });
-    </script>
+            $(function () { window.setInterval("keepSessionAlive()", 60000); });
+        </script>
     }
 </head>
 <body>
+    <script>
+        @functions{
+                      public string GetAntiForgeryToken()
+                      {
+                          string cookieToken, formToken;
+                          AntiForgery.GetTokens(null, out cookieToken, out formToken);
+                          return cookieToken + "," + formToken;
+                      }
+                  }
+
+    </script>
+    <input type="hidden" id="forgeryToken" value="@GetAntiForgeryToken()" />
     <header>
         <div class="content-wrapper">
             <div class="float-left">

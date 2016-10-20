@@ -1,7 +1,7 @@
 ﻿using System.Net.Mime;
 using System.Web.Mvc;
 
-namespace Thermory.Web
+namespace Thermory.Web.Attributes
 {
     public class CustomHandleErrorAttribute : HandleErrorAttribute
     {

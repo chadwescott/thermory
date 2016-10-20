@@ -9,7 +9,7 @@ namespace Thermory.Web.Controllers
 {
     public class CatalogController : Controller
     {
-        [Authorize(Role.InventoryMaster)]
+        [Attributes.Authorize(Role.InventoryMaster)]
         public ActionResult Index(Guid? id)
         {
             var model = new CatalogModel
@@ -21,7 +21,7 @@ namespace Thermory.Web.Controllers
             return View(model);
         }
 
-        [Authorize(Role.InventoryMaster)]
+        [Attributes.Authorize(Role.InventoryMaster)]
         public ActionResult Add()
         {
             var model = new CatalogModel
@@ -34,7 +34,7 @@ namespace Thermory.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize(Role.InventoryMaster)]
+        [Attributes.Authorize(Role.InventoryMaster)]
         public ActionResult SaveLumberCategory(LumberCategory model)
         {
             CommandDirectory.Instance.SaveLumberCategory(model);
@@ -42,7 +42,7 @@ namespace Thermory.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize(Role.InventoryMaster)]
+        [Attributes.Authorize(Role.InventoryMaster)]
         public ActionResult SaveLumberProduct(LumberProduct model)
         {
             CommandDirectory.Instance.SaveLumberProduct(model);
@@ -50,7 +50,7 @@ namespace Thermory.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize(Role.InventoryMaster)]
+        [Attributes.Authorize(Role.InventoryMaster)]
         public ActionResult SaveLumberSubCategory(LumberSubCategory model)
         {
             CommandDirectory.Instance.SaveLumberSubCategory(model);
@@ -58,7 +58,7 @@ namespace Thermory.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize(Role.InventoryMaster)]
+        [Attributes.Authorize(Role.InventoryMaster)]
         public ActionResult SaveLumberType(LumberType model)
         {
             CommandDirectory.Instance.SaveLumberType(model);
@@ -66,7 +66,7 @@ namespace Thermory.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize(Role.InventoryMaster)]
+        [Attributes.Authorize(Role.InventoryMaster)]
         public ActionResult SaveMiscellaneousCategory(MiscellaneousCategory model)
         {
             CommandDirectory.Instance.SaveMiscellaneousCategory(model);
@@ -74,7 +74,7 @@ namespace Thermory.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize(Role.InventoryMaster)]
+        [Attributes.Authorize(Role.InventoryMaster)]
         public ActionResult SaveMiscellaneousProduct(MiscellaneousProduct model)
         {
             CommandDirectory.Instance.SaveMiscellaneousProduct(model);
@@ -82,7 +82,7 @@ namespace Thermory.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize(Role.InventoryMaster)]
+        [Attributes.Authorize(Role.InventoryMaster)]
         public ActionResult SaveMiscellaneousSubCategory(MiscellaneousSubCategory model)
         {
             CommandDirectory.Instance.SaveMiscellaneousSubCategory(model);

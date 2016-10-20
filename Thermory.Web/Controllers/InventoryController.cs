@@ -10,7 +10,7 @@ namespace Thermory.Web.Controllers
 {
     public class InventoryController : Controller
     {
-        [Authorize(Role.InventoryMaster, Role.InventoryViewer, Role.WarehouseCrew)]
+        [Attributes.Authorize(Role.InventoryMaster, Role.InventoryViewer, Role.WarehouseCrew)]
         public ActionResult Index()
         {
             var model = new InventoryModel
@@ -21,7 +21,7 @@ namespace Thermory.Web.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = Role.InventoryMaster)]
+        [Attributes.Authorize(Roles = Role.InventoryMaster)]
         public ActionResult Audit()
         {
             var model = new InventoryModel
@@ -33,7 +33,7 @@ namespace Thermory.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = Role.InventoryMaster)]
+        [Attributes.Authorize(Roles = Role.InventoryMaster)]
         public JsonResult Audit(LumberProduct[] lumberProducts, MiscellaneousProduct[] miscProducts)
         {
             var lumberInventory = lumberProducts ?? new LumberProduct[0];

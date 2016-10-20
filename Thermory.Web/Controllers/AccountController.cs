@@ -5,13 +5,15 @@ using System.Web.Mvc;
 using System.Web.Security;
 using Microsoft.Web.WebPages.OAuth;
 using Thermory.Business;
+using Thermory.Domain;
 using Thermory.Domain.Models;
+using Thermory.Web.Attributes;
 using Thermory.Web.Models;
 using WebMatrix.WebData;
 
 namespace Thermory.Web.Controllers
 {
-    [Authorize]
+    [Attributes.Authorize]
     public class AccountController : Controller
     {
         //
@@ -325,43 +327,56 @@ namespace Thermory.Web.Controllers
             return PartialView("_RemoveExternalLoginsPartial", externalLogins);
         }
 
-        [HttpPost]
         [AllowAnonymous]
-        public ActionResult SendTestEmail()
+        public ActionResult ForgotPassword()
         {
-            CommandDirectory.Instance.SendTestEmail();
-            return Json(new { status = "success" });
+            return View();
         }
 
         [HttpPost]
         [AllowAnonymous]
+        [AjaxValidateAntiForgeryToken]
         public ActionResult ForgotPassword(string emailAddress)
         {
+            if (!WebSecurity.UserExists(emailAddress))
+            {
+                return Json(new
+                {
+                    status = "error",
+                    message = "E-mail address entered is not registered. Please register this email address or use an email address that is already registered."
+                });
+            }
+            
             var token = WebSecurity.GeneratePasswordResetToken(emailAddress, 10);
-
-            //CommandDirectory.Instance.SendTestEmail();
-            return Json(new { status = "success", token });
+            var message = string.Format(
+                "Click <a href=\"{0}/Account/ResetPassword?token={1}\">here</a> to reset your password.", Request.DomainUrl(),
+                token);
+            CommandDirectory.Instance.SendEmail(emailAddress, ApplicationSettings.Instance.FromEmailAddress, "Reset your password", message);
+            return Json(new { status = "success" });
         }
 
         [AllowAnonymous]
         public ActionResult ResetPassword(string token)
         {
             var model = new ForgotPasswordModel {Token = token};
-            return WebSecurity.ConfirmAccount(token) ? View(model) : Login(null);
+            return View(model);
         }
 
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        [AjaxValidateAntiForgeryToken]
         public ActionResult ResetPassword(ForgotPasswordModel model)
         {
-            if (WebSecurity.ConfirmAccount(model.Token))
+            if (model.NewPassword != model.ConfirmPassword)
             {
-                WebSecurity.ResetPassword(model.Token, model.NewPassword);
-                model.Validated = true;
+                return Json(new
+                {
+                    status = "error",
+                    message = "The passwords provided do not match. The new password and confirmed password must match to change your password."
+                });
             }
-
-            return RedirectToAction("Index", "Home");
+            WebSecurity.ResetPassword(model.Token, model.NewPassword);
+            return Json(new { status = "success" });
         }
 
         #region Helpers

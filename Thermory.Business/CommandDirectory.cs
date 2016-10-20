@@ -195,9 +195,9 @@ namespace Thermory.Business
             DatabaseCommandDirectory.Instance.SavePackages(userId, orderId, lumberLineItems, miscLineItems);
         }
 
-        public void SendTestEmail()
+        public void SendEmail(string toAddress, string fromAddress, string subject, string message)
         {
-            var command = new SendEmail();
+            var command = new SendEmail(toAddress, fromAddress, subject, message);
             command.Execute();
         }
 

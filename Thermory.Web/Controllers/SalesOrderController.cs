@@ -20,13 +20,13 @@ namespace Thermory.Web.Controllers
             get { return OrderStatuses.SentToWarehouse; }
         }
 
-        [Authorize]
+        [Attributes.Authorize]
         public ActionResult Index()
         {
             return View();
         }
 
-        [Authorize(Roles = Role.WarehouseCrew)]
+        [Attributes.Authorize(Roles = Role.WarehouseCrew)]
         [HttpPost]
         public ActionResult WarehouseReceived(Order order)
         {
@@ -34,7 +34,7 @@ namespace Thermory.Web.Controllers
             return Json(new { status = "success" });
         }
 
-        [Authorize(Roles = Role.WarehouseCrew)]
+        [Attributes.Authorize(Roles = Role.WarehouseCrew)]
         [HttpPost]
         public ActionResult Pulled(Order order)
         {
@@ -42,7 +42,7 @@ namespace Thermory.Web.Controllers
             return Json(new { status = "success" });
         }
 
-        [Authorize(Roles = Role.WarehouseCrew)]
+        [Attributes.Authorize(Roles = Role.WarehouseCrew)]
         [HttpPost]
         public ActionResult Loaded(Order order)
         {
@@ -50,7 +50,7 @@ namespace Thermory.Web.Controllers
             return Json(new { status = "success" });
         }
 
-        [Authorize(Role.InventoryMaster, Role.WarehouseCrew)]
+        [Attributes.Authorize(Role.InventoryMaster, Role.WarehouseCrew)]
         public ActionResult Package(Guid? id)
         {
             if (id == null)
@@ -64,7 +64,7 @@ namespace Thermory.Web.Controllers
             return order.PackagingType == null ? Review(id) : View(order);
         }
 
-        [Authorize(Role.InventoryMaster, Role.WarehouseCrew)]
+        [Attributes.Authorize(Role.InventoryMaster, Role.WarehouseCrew)]
         [HttpPost]
         public JsonResult SavePackages(Guid orderId, PackageLumberLineItem[] lumberLineItems, PackageMiscellaneousLineItem[] miscLineItems)
         {
@@ -72,7 +72,7 @@ namespace Thermory.Web.Controllers
             return Json(new { status = "success" });
         }
 
-        [Authorize(Role.InventoryMaster, Role.WarehouseCrew)]
+        [Attributes.Authorize(Role.InventoryMaster, Role.WarehouseCrew)]
         [HttpPost]
         public JsonResult UpdatePackages(Package[] packages)
         {
@@ -81,7 +81,7 @@ namespace Thermory.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize(Role.InventoryMaster, Role.WarehouseCrew)]
+        [Attributes.Authorize(Role.InventoryMaster, Role.WarehouseCrew)]
         public ActionResult GetOrderSummary()
         {
             return GetOrderSummary(OrderTypes.SalesOrder);

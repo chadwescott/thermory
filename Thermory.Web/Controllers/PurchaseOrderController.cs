@@ -19,13 +19,13 @@ namespace Thermory.Web.Controllers
             get { return OrderStatuses.InTransit; }
         }
 
-        [Authorize]
+        [Attributes.Authorize]
         public ActionResult Index()
         {
             return View();
         }
 
-        [Authorize(Roles = Role.InventoryMaster)]
+        [Attributes.Authorize(Roles = Role.InventoryMaster)]
         [HttpPost]
         public ActionResult Receive(Order order)
         {
@@ -34,7 +34,7 @@ namespace Thermory.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize(Role.InventoryMaster)]
+        [Attributes.Authorize(Role.InventoryMaster)]
         public ActionResult GetOrderSummary()
         {
             return GetOrderSummary(OrderTypes.PurchaseOrder);

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web;
 
-namespace Thermory.Web
+namespace Thermory.Web.Attributes
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = true)]
     public class AuthorizeAttribute : System.Web.Mvc.AuthorizeAttribute
