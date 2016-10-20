@@ -70,39 +70,35 @@
         <div class="panel-heading"><span class="glyphicon glyphicon-alert"></span> Error</div>
         <div id="@string.Format("lumberSubCategoryError{0}", @Model.SubCategory.Id)" class="panel-body"></div>
     </div>
+    <hr style="margin: 0 0 10px 0; border-color: #ccc;" />
     @{
         var firstLumberTypeId = Model.SubCategory.LumberTypes.Any() ? Model.SubCategory.LumberTypes.OrderBy(s => s.SortOrder).First().Id : Guid.Empty;
         if (Model.SubCategory.Id != Guid.Empty)
         {
-            <div class="panel panel-default">
-                <div class="panel-heading">Types</div>
-                <div class="panel-body">
-                    <ul class="nav nav-tabs" data-tabs="tabs">
-                        @foreach (var lumberType in Model.SubCategory.LumberTypes.OrderBy(s => s.SortOrder))
-                        {
-                            active = lumberType.Id == firstLumberTypeId ? "active" : "";
-                            <li class="lumberTypeTab @active"><a id="@string.Format("lumberTypeLink{0}{1}", Model.SubCategory.Id, lumberType.Id)" href="#@string.Format("lumberTypeTab{0}{1}", Model.SubCategory.Id, lumberType.Id)" data-toggle="tab">@lumberType.Name</a></li>
-                        }
-                        @if (Model.SubCategory.LumberTypes != null)
-                        {
-                            active = firstLumberTypeId == Guid.Empty ? "class=active" : "";
-                            <li class="lumberTypeTab @active"><a id="@string.Format("lumberTypeLink{0}{1}", Model.SubCategory.Id, Guid.Empty)" href="#@string.Format("lumberTypeTab{0}{1}", Model.SubCategory.Id, Guid.Empty)" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span> Add</a></li>
-                        }
-                    </ul>
-                    <div class="tab-content">
-                        @{ LumberTypeViewModel lumberTypeViewModel; }
-                        @foreach (var subCategory in Model.SubCategory.LumberTypes.OrderBy(s => s.SortOrder))
-                        {
-                            lumberTypeViewModel = new LumberTypeViewModel {Active = subCategory.Id == firstLumberTypeId, LumberType = subCategory};
-                            @Html.Partial("_LumberTypeForm", lumberTypeViewModel)
-                        }
-                        @if (Model.SubCategory.LumberTypes != null)
-                        {
-                            lumberTypeViewModel = new LumberTypeViewModel {Active = !Model.SubCategory.LumberTypes.Any(), LumberType = new LumberType {LumberSubCategoryId = Model.SubCategory.Id, LumberProducts = new List<LumberProduct>()}};
-                            @Html.Partial("_LumberTypeForm", lumberTypeViewModel)
-                        }
-                    </div>
-                </div>
+            <ul class="nav nav-tabs" data-tabs="tabs">
+                @foreach (var lumberType in Model.SubCategory.LumberTypes.OrderBy(s => s.SortOrder))
+                {
+                    active = lumberType.Id == firstLumberTypeId ? "active" : "";
+                    <li class="lumberTypeTab @active"><a id="@string.Format("lumberTypeLink{0}{1}", Model.SubCategory.Id, lumberType.Id)" href="#@string.Format("lumberTypeTab{0}{1}", Model.SubCategory.Id, lumberType.Id)" data-toggle="tab">@lumberType.Name</a></li>
+                }
+                @if (Model.SubCategory.LumberTypes != null)
+                {
+                    active = firstLumberTypeId == Guid.Empty ? "class=active" : "";
+                    <li class="lumberTypeTab @active"><a id="@string.Format("lumberTypeLink{0}{1}", Model.SubCategory.Id, Guid.Empty)" href="#@string.Format("lumberTypeTab{0}{1}", Model.SubCategory.Id, Guid.Empty)" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span> Add</a></li>
+                }
+            </ul>
+            <div class="tab-content">
+                @{ LumberTypeViewModel lumberTypeViewModel; }
+                @foreach (var subCategory in Model.SubCategory.LumberTypes.OrderBy(s => s.SortOrder))
+                {
+                    lumberTypeViewModel = new LumberTypeViewModel { Active = subCategory.Id == firstLumberTypeId, LumberType = subCategory };
+                    @Html.Partial("_LumberTypeForm", lumberTypeViewModel)
+                }
+                @if (Model.SubCategory.LumberTypes != null)
+                {
+                    lumberTypeViewModel = new LumberTypeViewModel { Active = !Model.SubCategory.LumberTypes.Any(), LumberType = new LumberType { LumberSubCategoryId = Model.SubCategory.Id, LumberProducts = new List<LumberProduct>() } };
+                    @Html.Partial("_LumberTypeForm", lumberTypeViewModel)
+                }
             </div>
         }
     }

@@ -5,7 +5,7 @@
 <form id="miscForm" style="display: none;">
     <input type="hidden" id="miscCategoryId" value="@Model.Id" />
     <input type="hidden" id="miscCategorySortOrder" value="@Model.SortOrder" />
-    <div style="margin-top: -20px;">
+    <div style="margin: -20px 0 10px 0;">
         <div class="miscCategoryView" style="margin-bottom: -2px;">
             <table>
                 <tr>
@@ -50,38 +50,32 @@
             </div>
         </div>
     </div>
-    <br />
-    <div class="panel panel-default">
-        <div class="panel-heading">Sub Categories</div>
-        <div class="panel-body" style="height: 500px; overflow-y: scroll;">
-            @if (Model.Id != Guid.Empty)
+    @if (Model.Id != Guid.Empty)
+    {
+        var firstSubCategoryId = Model.MiscellaneousSubCategories.Any() ? Model.MiscellaneousSubCategories.OrderBy(s => s.SortOrder).First().Id : Guid.Empty;
+        <ul class="nav nav-tabs" data-tabs="tabs">
+            @{ string active;}
+            @foreach (var subCategory in Model.MiscellaneousSubCategories.OrderBy(s => s.SortOrder))
             {
-                var firstSubCategoryId = Model.MiscellaneousSubCategories.Any() ? Model.MiscellaneousSubCategories.OrderBy(s => s.SortOrder).First().Id : Guid.Empty;
-                <ul class="nav nav-tabs" data-tabs="tabs">
-                    @{ string active;}
-                    @foreach (var subCategory in Model.MiscellaneousSubCategories.OrderBy(s => s.SortOrder))
-                    {
-                        active = subCategory.Id == firstSubCategoryId ? "active" : "";
-                        <li class="miscSubCategoryTab @active"><a id="@string.Format("miscSubCategoryLink{0}", subCategory.Id)" href="#@string.Format("miscSubCategoryTab{0}", subCategory.Id)" data-toggle="tab">@subCategory.Name</a></li>
-                    }
-                    @{ active = firstSubCategoryId == Guid.Empty ? "class=active" : "";}
-                    <li class="miscSubCategoryTab @active"><a id="@string.Format("miscSubCategoryLink{0}", Guid.Empty)" href="#@string.Format("miscSubCategoryTab{0}", Guid.Empty)" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span> Add</a></li>
-                </ul>
-                <div class="tab-content">
-                    @{ MiscellaneousSubCategoryViewModel subCategoryViewModel;}
-                    @foreach (var subCategory in Model.MiscellaneousSubCategories.OrderBy(s => s.SortOrder))
-                    {
-                        subCategoryViewModel = new MiscellaneousSubCategoryViewModel { Active = subCategory.Id == firstSubCategoryId, SubCategory = subCategory };
-                        @Html.Partial("_MiscSubCategoryForm", subCategoryViewModel)
-                    }
-                    @{
-                subCategoryViewModel = new MiscellaneousSubCategoryViewModel { Active = !Model.MiscellaneousSubCategories.Any(), SubCategory = new MiscellaneousSubCategory { MiscellaneousProducts = new List<MiscellaneousProduct>() } };
+                active = subCategory.Id == firstSubCategoryId ? "active" : "";
+                <li class="miscSubCategoryTab @active"><a id="@string.Format("miscSubCategoryLink{0}", subCategory.Id)" href="#@string.Format("miscSubCategoryTab{0}", subCategory.Id)" data-toggle="tab">@subCategory.Name</a></li>
+            }
+            @{ active = firstSubCategoryId == Guid.Empty ? "class=active" : "";}
+            <li class="miscSubCategoryTab @active"><a id="@string.Format("miscSubCategoryLink{0}", Guid.Empty)" href="#@string.Format("miscSubCategoryTab{0}", Guid.Empty)" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span> Add</a></li>
+        </ul>
+        <div class="tab-content" style="height: 500px; overflow-y: auto;">
+            @{ MiscellaneousSubCategoryViewModel subCategoryViewModel;}
+            @foreach (var subCategory in Model.MiscellaneousSubCategories.OrderBy(s => s.SortOrder))
+            {
+                subCategoryViewModel = new MiscellaneousSubCategoryViewModel { Active = subCategory.Id == firstSubCategoryId, SubCategory = subCategory };
                 @Html.Partial("_MiscSubCategoryForm", subCategoryViewModel)
-                    }
-                </div>
+            }
+            @{
+        subCategoryViewModel = new MiscellaneousSubCategoryViewModel { Active = !Model.MiscellaneousSubCategories.Any(), SubCategory = new MiscellaneousSubCategory { MiscellaneousProducts = new List<MiscellaneousProduct>() } };
+        @Html.Partial("_MiscSubCategoryForm", subCategoryViewModel)
             }
         </div>
-    </div>
+    }
 </form>
 <script type="text/javascript">
     $(document).ready(function () {

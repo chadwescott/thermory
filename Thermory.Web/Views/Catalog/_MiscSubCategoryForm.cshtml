@@ -7,7 +7,7 @@
 
 <input type="hidden" id="@string.Format("sortOrder{0}", Model.SubCategory.Id)" value="@Model.SubCategory.SortOrder" />
 <div id="@string.Format("miscSubCategoryTab{0}", Model.SubCategory.Id)" class="tab-pane @active">
-    <table>
+    <table style="margin-bottom: 10px;">
         <tr>
             <td>
                 <label class="miscSubCategoryView" id="@string.Format("nameView{0}", Model.SubCategory.Id)">@Model.SubCategory.Name</label>
@@ -29,44 +29,39 @@
             <span class="glyphicon glyphicon-remove"></span> Cancel
         </div>
     </div>
-    <br />
     <div class="panel panel-danger miscSubCategoryErrorPanel" style="display: none;">
         <div class="panel-heading"><span class="glyphicon glyphicon-alert"></span> Error</div>
         <div id="@string.Format("miscSubCategoryError{0}", @Model.SubCategory.Id)" class="panel-body"></div>
     </div>
+    <hr style="margin: 0 0 10px 0; border-color: #ccc;" />
     @{
         var firstMiscellaneousProductsId = Model.SubCategory.MiscellaneousProducts.Any() ? Model.SubCategory.MiscellaneousProducts.OrderBy(s => s.SortOrder).First().Id : Guid.Empty;
         if (Model.SubCategory.Id != Guid.Empty)
         {
-            <div class="panel panel-default">
-                <div class="panel-heading">Products</div>
-                <div class="panel-body">
-                    <ul class="nav nav-tabs" data-tabs="tabs">
-                        @foreach (var miscProduct in Model.SubCategory.MiscellaneousProducts.OrderBy(s => s.SortOrder))
-                        {
-                            active = miscProduct.Id == firstMiscellaneousProductsId ? "active" : "";
-                            <li class="miscProductTab @active"><a id="@string.Format("miscProductLink{0}{1}", Model.SubCategory.Id, miscProduct.Id)" href="#@string.Format("miscProductTab{0}{1}", Model.SubCategory.Id, miscProduct.Id)" data-toggle="tab">@miscProduct.Name</a></li>
-                        }
-                        @if (Model.SubCategory.MiscellaneousProducts != null)
-                        {
-                            active = firstMiscellaneousProductsId == Guid.Empty ? "class=active" : "";
-                            <li class="miscProductTab @active"><a id="@string.Format("miscProductLink{0}{1}", Model.SubCategory.Id, Guid.Empty)" href="#@string.Format("miscProductTab{0}{1}", Model.SubCategory.Id, Guid.Empty)" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span> Add</a></li>
-                        }
-                    </ul>
-                    <div class="tab-content">
-                        @{ MiscellaneousProductViewModel miscProductViewModel;}
-                        @foreach (var miscProduct in Model.SubCategory.MiscellaneousProducts.OrderBy(s => s.SortOrder))
-                        {
-                            miscProductViewModel = new MiscellaneousProductViewModel { Active = miscProduct.Id == firstMiscellaneousProductsId, MiscProduct = miscProduct };
-                            @Html.Partial("_MiscProductForm", miscProductViewModel)
-                        }
-                        @if (Model.SubCategory.MiscellaneousProducts != null)
-                        {
-                            miscProductViewModel = new MiscellaneousProductViewModel { Active = !Model.SubCategory.MiscellaneousProducts.Any(), MiscProduct = new MiscellaneousProduct { MiscellaneousSubCategoryId = Model.SubCategory.Id } };
-                            @Html.Partial("_MiscProductForm", miscProductViewModel)
-                        }
-                    </div>
-                </div>
+            <ul class="nav nav-tabs" data-tabs="tabs">
+                @foreach (var miscProduct in Model.SubCategory.MiscellaneousProducts.OrderBy(s => s.SortOrder))
+                {
+                    active = miscProduct.Id == firstMiscellaneousProductsId ? "active" : "";
+                    <li class="miscProductTab @active"><a id="@string.Format("miscProductLink{0}{1}", Model.SubCategory.Id, miscProduct.Id)" href="#@string.Format("miscProductTab{0}{1}", Model.SubCategory.Id, miscProduct.Id)" data-toggle="tab">@miscProduct.Name</a></li>
+                }
+                @if (Model.SubCategory.MiscellaneousProducts != null)
+                {
+                    active = firstMiscellaneousProductsId == Guid.Empty ? "class=active" : "";
+                    <li class="miscProductTab @active"><a id="@string.Format("miscProductLink{0}{1}", Model.SubCategory.Id, Guid.Empty)" href="#@string.Format("miscProductTab{0}{1}", Model.SubCategory.Id, Guid.Empty)" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span> Add</a></li>
+                }
+            </ul>
+            <div class="tab-content">
+                @{ MiscellaneousProductViewModel miscProductViewModel;}
+                @foreach (var miscProduct in Model.SubCategory.MiscellaneousProducts.OrderBy(s => s.SortOrder))
+                {
+                    miscProductViewModel = new MiscellaneousProductViewModel { Active = miscProduct.Id == firstMiscellaneousProductsId, MiscProduct = miscProduct };
+                    @Html.Partial("_MiscProductForm", miscProductViewModel)
+                }
+                @if (Model.SubCategory.MiscellaneousProducts != null)
+                {
+                    miscProductViewModel = new MiscellaneousProductViewModel { Active = !Model.SubCategory.MiscellaneousProducts.Any(), MiscProduct = new MiscellaneousProduct { MiscellaneousSubCategoryId = Model.SubCategory.Id } };
+                    @Html.Partial("_MiscProductForm", miscProductViewModel)
+                }
             </div>
         }
     }

@@ -5,7 +5,7 @@
 <form id="lumberForm" style="display: none;">
     <input type="hidden" id="lumberCategoryId" value="@Model.Id" />
     <input type="hidden" id="lumberCategorySortOrder" value="@Model.SortOrder" />
-    <div style="margin-top: -20px;">
+    <div style="margin: -20px 0 10px 0;">
         <div class="lumberCategoryView" style="margin-bottom: -2px;">
             <table>
                 <tr>
@@ -50,36 +50,30 @@
             </div>
         </div>
     </div>
-    <br />
     @if (Model.Id != Guid.Empty)
     {
         var firstSubCategoryId = Model.LumberSubCategories.Any() ? Model.LumberSubCategories.OrderBy(s => s.SortOrder).First().Id : Guid.Empty;
-        <div class="panel panel-default">
-            <div class="panel-heading">Sub Categories</div>
-            <div class="panel-body" style="height: 500px; overflow-y: scroll;">
-                <ul class="nav nav-tabs" data-tabs="tabs">
-                    @{ string active;}
-                    @foreach (var subCategory in Model.LumberSubCategories.OrderBy(s => s.SortOrder))
-                    {
-                        active = subCategory.Id == firstSubCategoryId ? "active" : "";
-                        <li class="lumberSubCategoryTab @active"><a id="@string.Format("lumberSubCategoryLink{0}", subCategory.Id)" href="#@string.Format("lumberSubCategoryTab{0}", subCategory.Id)" data-toggle="tab">@subCategory.Name</a></li>
-                    }
-                    @{ active = firstSubCategoryId == Guid.Empty ? "class=active" : "";}
-                    <li class="lumberSubCategoryTab @active"><a id="@string.Format("lumberSubCategoryLink{0}", Guid.Empty)" href="#@string.Format("lumberSubCategoryTab{0}", Guid.Empty)" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span> Add</a></li>
-                </ul>
-                <div class="tab-content">
-                    @{ LumberSubCategoryViewModel subCategoryViewModel;}
-                    @foreach (var subCategory in Model.LumberSubCategories.OrderBy(s => s.SortOrder))
-                    {
-                        subCategoryViewModel = new LumberSubCategoryViewModel { Active = subCategory.Id == firstSubCategoryId, SubCategory = subCategory };
-                        @Html.Partial("_LumberSubCategoryForm", subCategoryViewModel)
-                    }
-                    @{
+        <ul class="nav nav-tabs" data-tabs="tabs">
+            @{ string active;}
+            @foreach (var subCategory in Model.LumberSubCategories.OrderBy(s => s.SortOrder))
+            {
+                active = subCategory.Id == firstSubCategoryId ? "active" : "";
+                <li class="lumberSubCategoryTab @active"><a id="@string.Format("lumberSubCategoryLink{0}", subCategory.Id)" href="#@string.Format("lumberSubCategoryTab{0}", subCategory.Id)" data-toggle="tab">@subCategory.Name</a></li>
+            }
+            @{ active = firstSubCategoryId == Guid.Empty ? "class=active" : "";}
+            <li class="lumberSubCategoryTab @active"><a id="@string.Format("lumberSubCategoryLink{0}", Guid.Empty)" href="#@string.Format("lumberSubCategoryTab{0}", Guid.Empty)" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span> Add</a></li>
+        </ul>
+        <div class="tab-content" style="height: 450px; overflow-y: auto;">
+            @{ LumberSubCategoryViewModel subCategoryViewModel;}
+            @foreach (var subCategory in Model.LumberSubCategories.OrderBy(s => s.SortOrder))
+            {
+                subCategoryViewModel = new LumberSubCategoryViewModel { Active = subCategory.Id == firstSubCategoryId, SubCategory = subCategory };
+                @Html.Partial("_LumberSubCategoryForm", subCategoryViewModel)
+            }
+            @{
         subCategoryViewModel = new LumberSubCategoryViewModel { Active = !Model.LumberSubCategories.Any(), SubCategory = new LumberSubCategory { LumberTypes = new List<LumberType>() } };
         @Html.Partial("_LumberSubCategoryForm", subCategoryViewModel)
-                    }
-                </div>
-            </div>
+            }
         </div>
     }
 </form>

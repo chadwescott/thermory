@@ -10,7 +10,7 @@
 <input type="hidden" id="@string.Format("subCategoryId{0}", suffix)" value="@Model.LumberType.LumberSubCategoryId" />
 <input type="hidden" id="@string.Format("sortOrder{0}", suffix)" value="@Model.LumberType.SortOrder" />
 <div id="@string.Format("lumberTypeTab{0}", suffix)" class="tab-pane @active">
-    <table>
+    <table style="margin-bottom: 10px;">
         <tr>
             <td>
                 <label class="lumberTypeView" id="@string.Format("nameView{0}", suffix)">@Model.LumberType.Name</label>
@@ -36,39 +36,35 @@
         <div class="panel-heading"><span class="glyphicon glyphicon-alert"></span> Error</div>
         <div id="@string.Format("lumberTypeError{0}{1}", Model.LumberType.LumberSubCategoryId, @Model.LumberType.Id)" class="panel-body"></div>
     </div>
+    <hr style="margin: 0 0 10px 0; border-color: #ccc;" />
     @{
         var firstLumberTypeId = Model.LumberType.LumberProducts.Any() ? Model.LumberType.LumberProducts.OrderBy(p => p.LengthInMillimeters).First().Id : Guid.Empty;
         if (Model.LumberType.Id != Guid.Empty)
         {
-            <div class="panel panel-default">
-                <div class="panel-heading">Products</div>
-                <div class="panel-body">
-                    <ul class="nav nav-tabs" data-tabs="tabs">
-                        @foreach (var lumberProduct in Model.LumberType.LumberProducts.OrderBy(p => p.LengthInMillimeters))
-                        {
-                            active = lumberProduct.Id == firstLumberTypeId ? "active" : "";
-                            <li class="lumberProductTab @active"><a id="@string.Format("lumberProductLink{0}{1}", Model.LumberType.Id, lumberProduct.Id)" href="#@string.Format("lumberProductTab{0}{1}", Model.LumberType.Id, lumberProduct.Id)" data-toggle="tab">@lumberProduct.LengthInMillimeters</a></li>
-                        }
-                        @if (Model.LumberType.Id != Guid.Empty)
-                        {
-                            active = firstLumberTypeId == Guid.Empty ? "class=active" : "";
-                            <li class="lumberProductTab @active"><a id="@string.Format("lumberProductLink{0}{1}", Model.LumberType.Id, Guid.Empty)" href="#@string.Format("lumberProductTab{0}{1}", Model.LumberType.Id, Guid.Empty)" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span> Add</a></li>
-                        }
-                    </ul>
-                    <div class="tab-content">
-                        @{ LumberProductViewModel lumberProductViewModel;}
-                        @foreach (var lumberProduct in Model.LumberType.LumberProducts.OrderBy(p => p.LengthInMillimeters))
-                        {
-                            lumberProductViewModel = new LumberProductViewModel { Active = lumberProduct.Id == firstLumberTypeId, LumberProduct = lumberProduct };
-                            @Html.Partial("_LumberProductForm", lumberProductViewModel)
-                        }
-                        @if (Model.LumberType.Id != Guid.Empty)
-                        {
-                            lumberProductViewModel = new LumberProductViewModel { Active = !Model.LumberType.LumberProducts.Any(), LumberProduct = new LumberProduct { LumberTypeId = Model.LumberType.Id } };
-                            @Html.Partial("_LumberProductForm", lumberProductViewModel)
-                        }
-                    </div>
-                </div>
+            <ul class="nav nav-tabs" data-tabs="tabs">
+                @foreach (var lumberProduct in Model.LumberType.LumberProducts.OrderBy(p => p.LengthInMillimeters))
+                {
+                    active = lumberProduct.Id == firstLumberTypeId ? "active" : "";
+                    <li class="lumberProductTab @active"><a id="@string.Format("lumberProductLink{0}{1}", Model.LumberType.Id, lumberProduct.Id)" href="#@string.Format("lumberProductTab{0}{1}", Model.LumberType.Id, lumberProduct.Id)" data-toggle="tab">@lumberProduct.LengthInMillimeters</a></li>
+                }
+                @if (Model.LumberType.Id != Guid.Empty)
+                {
+                    active = firstLumberTypeId == Guid.Empty ? "class=active" : "";
+                    <li class="lumberProductTab @active"><a id="@string.Format("lumberProductLink{0}{1}", Model.LumberType.Id, Guid.Empty)" href="#@string.Format("lumberProductTab{0}{1}", Model.LumberType.Id, Guid.Empty)" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span> Add</a></li>
+                }
+            </ul>
+            <div class="tab-content">
+                @{ LumberProductViewModel lumberProductViewModel;}
+                @foreach (var lumberProduct in Model.LumberType.LumberProducts.OrderBy(p => p.LengthInMillimeters))
+                {
+                    lumberProductViewModel = new LumberProductViewModel { Active = lumberProduct.Id == firstLumberTypeId, LumberProduct = lumberProduct };
+                    @Html.Partial("_LumberProductForm", lumberProductViewModel)
+                }
+                @if (Model.LumberType.Id != Guid.Empty)
+                {
+                    lumberProductViewModel = new LumberProductViewModel { Active = !Model.LumberType.LumberProducts.Any(), LumberProduct = new LumberProduct { LumberTypeId = Model.LumberType.Id } };
+                    @Html.Partial("_LumberProductForm", lumberProductViewModel)
+                }
             </div>
         }
     }
