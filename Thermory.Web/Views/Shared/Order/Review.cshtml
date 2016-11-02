@@ -82,10 +82,10 @@
         }
         <li><a href="#orderTransactions" data-toggle="tab">Transactions</a></li>
     </ul>
-    <div class="tab-content" style="height: 500px; overflow-y: auto;">
+    <div class="tab-content" style="height: 500px; overflow-y: auto; overflow-x: hidden;">
         <div id="orderDetails" class="tab-pane active" style="padding: 10px 0 10px 0;">
             <nav class="navbar navbar-default" style="padding: 0 10px 5px 10px; margin: 10px 0 10px 0;">
-                <table>
+                <table style="margin-top: 2px;">
                     <tr>
                         @foreach (var status in Model.OrderStatuses.Where(s => s.SortOrder > 0))
                         {
