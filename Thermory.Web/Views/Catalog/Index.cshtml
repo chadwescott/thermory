@@ -1,4 +1,5 @@
 ﻿@using Thermory.Domain.Models
+@using Thermory.Web.Models
 @model Thermory.Web.Models.CatalogModel
 
 <div class="dropdown">
@@ -26,7 +27,8 @@
     if (Model.LumberCategories.Any(c => c.Id == Model.SelectedCategoryId))
     {
         var category = Model.LumberCategories.SingleOrDefault(c => c.Id == Model.SelectedCategoryId);
-        @Html.Partial("_LumberCatalog", category)
+        var viewModel = new LumberCategoryViewModel {Category = category, Categories = Model.LumberCategories};
+        @Html.Partial("_LumberCatalog", viewModel)
     }
     else if (Model.MiscellaneousCategories.Any(c => c.Id == Model.SelectedCategoryId))
     {
@@ -36,6 +38,7 @@
     else if (Model.SelectedCategoryId == Guid.Empty)
     {
         var category = new LumberCategory();
-        @Html.Partial("_LumberCatalog", category)
+        var viewModel = new LumberCategoryViewModel { Category = category, Categories = Model.LumberCategories };
+        @Html.Partial("_LumberCatalog", viewModel)
     }
 }

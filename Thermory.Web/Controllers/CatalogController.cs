@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using Thermory.Business;
 using Thermory.Domain.Constants;
 using Thermory.Domain.Models;
+using Thermory.Web.Attributes;
 using Thermory.Web.Models;
 
 namespace Thermory.Web.Controllers
@@ -34,6 +35,7 @@ namespace Thermory.Web.Controllers
         }
 
         [HttpPost]
+        [AjaxValidateAntiForgeryToken]
         [Attributes.Authorize(Role.InventoryMaster)]
         public ActionResult SaveLumberCategory(LumberCategory model)
         {
@@ -42,6 +44,7 @@ namespace Thermory.Web.Controllers
         }
 
         [HttpPost]
+        [AjaxValidateAntiForgeryToken]
         [Attributes.Authorize(Role.InventoryMaster)]
         public ActionResult SaveLumberProduct(LumberProduct model)
         {
@@ -50,6 +53,7 @@ namespace Thermory.Web.Controllers
         }
 
         [HttpPost]
+        [AjaxValidateAntiForgeryToken]
         [Attributes.Authorize(Role.InventoryMaster)]
         public ActionResult SaveLumberSubCategory(LumberSubCategory model)
         {
@@ -58,6 +62,7 @@ namespace Thermory.Web.Controllers
         }
 
         [HttpPost]
+        [AjaxValidateAntiForgeryToken]
         [Attributes.Authorize(Role.InventoryMaster)]
         public ActionResult SaveLumberType(LumberType model)
         {
@@ -66,6 +71,7 @@ namespace Thermory.Web.Controllers
         }
 
         [HttpPost]
+        [AjaxValidateAntiForgeryToken]
         [Attributes.Authorize(Role.InventoryMaster)]
         public ActionResult SaveMiscellaneousCategory(MiscellaneousCategory model)
         {
@@ -74,6 +80,7 @@ namespace Thermory.Web.Controllers
         }
 
         [HttpPost]
+        [AjaxValidateAntiForgeryToken]
         [Attributes.Authorize(Role.InventoryMaster)]
         public ActionResult SaveMiscellaneousProduct(MiscellaneousProduct model)
         {
@@ -82,6 +89,7 @@ namespace Thermory.Web.Controllers
         }
 
         [HttpPost]
+        [AjaxValidateAntiForgeryToken]
         [Attributes.Authorize(Role.InventoryMaster)]
         public ActionResult SaveMiscellaneousSubCategory(MiscellaneousSubCategory model)
         {
