@@ -7,7 +7,7 @@ namespace Thermory.QueryEngine.SqlServer
     {
         public IDataParameter MakeDbParameter(string name, int index, object value)
         {
-            return new SqlParameter(string.Format("@{0}", name), value);
+            return new SqlParameter(string.Format("@{0}{1}", name, index), value);
         }
     }
 }
