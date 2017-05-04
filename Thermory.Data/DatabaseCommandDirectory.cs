@@ -23,94 +23,72 @@ namespace Thermory.Data
 
         public void CreateOrder(int userId, Order order, OrderLumberLineItem[] lumberLineItems, OrderMiscellaneousLineItem[] miscLineItems)
         {
-            var builder = new CreateOrderBuilder(userId, order,
-                lumberLineItems, miscLineItems);
-            var transaction = new TransactionalCommand(builder.Commands);
-            transaction.Execute();
+            ExecuteBuilderCommand(new CreateOrderBuilder(userId, order, lumberLineItems, miscLineItems));
         }
 
         public void DeleteOrder(int userId, Order order)
         {
-            var builder = new DeleteOrderBuilder(userId, order);
-            var transaction = new TransactionalCommand(builder.Commands);
-            transaction.Execute();
+            ExecuteBuilderCommand(new DeleteOrderBuilder(userId, order));
         }
 
         public void EditOrder(int userId, Order order, OrderLumberLineItem[] lumberLineItems, OrderMiscellaneousLineItem[] miscLineItems)
         {
-            var builder = new EditOrderBuilder(userId, order, lumberLineItems, miscLineItems);
-            var transaction = new TransactionalCommand(builder.Commands);
-            transaction.Execute();
+            ExecuteBuilderCommand(new EditOrderBuilder(userId, order, lumberLineItems, miscLineItems));
         }
 
         public IList<Customer> GetAllCustomers()
         {
-            var command = new GetAllCustomers();
-            command.Execute();
-            return command.Result;
+            return ExecuteCommand(new GetAllCustomers());
         }
 
         public IList<LumberCategory> GetAllLumberCategories()
         {
-            var command = new GetAllLumberCategories();
-            command.Execute();
-            return command.Result;
+            return ExecuteCommand(new GetAllLumberCategories());
         }
 
         public IList<LumberProduct> GetAllLumberProducts()
         {
-            var command = new GetAllLumberProducts();
-            command.Execute();
-            return command.Result;
+            return ExecuteCommand(new GetAllLumberProducts());
         }
 
         public IList<MiscellaneousCategory> GetAllMiscellaneousCategories()
         {
-            var command = new GetAllMiscellaneousCategories();
-            command.Execute();
-            return command.Result;
+            return ExecuteCommand(new GetAllMiscellaneousCategories());
         }
 
         public IList<MiscellaneousProduct> GetAllMiscellaneousProducts()
         {
-            var command = new GetAllMiscellaneousProducts();
-            command.Execute();
-            return command.Result;
+            return ExecuteCommand(new GetAllMiscellaneousProducts());
         }
 
         public IList<OrderStatus> GetAllOrderStatuses()
         {
-            var command = new GetAllOrderStatuses();
-            command.Execute();
-            return command.Result;
+            return ExecuteCommand(new GetAllOrderStatuses());
         }
 
         public IList<OrderType> GetAllOrderTypes()
         {
-            var command = new GetAllOrderTypes();
-            command.Execute();
-            return command.Result;
+            return ExecuteCommand(new GetAllOrderTypes());
         }
 
         public IList<PackagingType> GetAllPackagingTypes()
         {
-            var command = new GetAllPackagingTypes();
-            command.Execute();
-            return command.Result;
+            return ExecuteCommand(new GetAllPackagingTypes());
         }
 
         public IList<InventoryTransaction> GetInventoryTransactionsByOrderId(Guid orderId)
         {
-            var command = new GetInventoryTransactionsByOrderId(orderId);
-            command.Execute();
-            return command.Result;
+            return ExecuteCommand(new GetInventoryTransactionsByOrderId(orderId));
         }
+
+        public IList<InventoryTransaction> GetLumberTypeHistory(Guid lumberTypeId)
+        {
+            return ExecuteCommand(new GetLumberTypeHistory(lumberTypeId));
+        } 
 
         public Order GetOrderById(Guid id)
         {
-            var command = new GetOrderById(id);
-            command.Execute();
-            return command.Result;
+            return ExecuteCommand(new GetOrderById(id));
         }
 
         public OrderStatus GetOrderStatusByEnum(OrderStatuses status, Guid? orderTypeId = null)
@@ -123,16 +101,12 @@ namespace Thermory.Data
 
         public IList<OrderSummary> GetOrderStatusSummary(OrderTypes type)
         {
-            var command = new GetOrderStatusSummary(type);
-            command.Execute();
-            return command.Result;
+            return ExecuteCommand(new GetOrderStatusSummary(type));
         } 
 
         public Package GetPackageById(Guid id)
         {
-            var command = new GetPackageById(id);
-            command.Execute();
-            return command.Result;
+            return ExecuteCommand(new GetPackageById(id));
         }
 
         private IList<TransactionType> _transactionTypes;
@@ -146,39 +120,29 @@ namespace Thermory.Data
 
         public IList<UserRoleXref> GetUserRolesByUserId(int userId)
         {
-            var command = new GetUserRolesByUserId(userId);
-            command.Execute();
-            return command.Result;
+            return ExecuteCommand(new GetUserRolesByUserId(userId));
         }
 
         public void InventoryAudit(int userId, TransactionTypes transactionType,
             LumberProduct[] lumberProducts, MiscellaneousProduct[] miscProducts)
         {
             var transactionTypeId = GetTransactionTypeIdByEnum(transactionType);
-            var builder = new InventoryAuditBuilder(userId, transactionTypeId, lumberProducts, miscProducts);
-            var transaction = new TransactionalCommand(builder.Commands);
-            transaction.Execute();
+            ExecuteBuilderCommand(new InventoryAuditBuilder(userId, transactionTypeId, lumberProducts, miscProducts));
         }
 
         public void LoadOrder(int userId, Guid orderId, int minutesTaken)
         {
-            var builder = new LoadOrderBuilder(userId, orderId, minutesTaken);
-            var transaction = new TransactionalCommand(builder.Commands);
-            transaction.Execute();
+            ExecuteBuilderCommand(new LoadOrderBuilder(userId, orderId, minutesTaken));
         }
 
         public void PullOrder(int userId, Guid orderId, int minutesTaken)
         {
-            var builder = new PullOrderBuilder(userId, orderId, minutesTaken);
-            var transaction = new TransactionalCommand(builder.Commands);
-            transaction.Execute();
+            ExecuteBuilderCommand(new PullOrderBuilder(userId, orderId, minutesTaken));
         }
 
         public void ReceiveOrder(int userId, Order order)
         {
-            var builder = new ReceiveOrderBuilder(userId, order);
-            var transaction = new TransactionalCommand(builder.Commands);
-            transaction.Execute();
+            ExecuteBuilderCommand(new ReceiveOrderBuilder(userId, order));
         }
 
         public void SaveLumberCategory(LumberCategory model)
@@ -225,9 +189,7 @@ namespace Thermory.Data
 
         public void SavePackages(int userId, Guid orderId, PackageLumberLineItem[] lumberLineItems, PackageMiscellaneousLineItem[] miscLineItems)
         {
-            var builder = new SavePackagesBuilder(userId, orderId, lumberLineItems, miscLineItems);
-            var transaction = new TransactionalCommand(builder.Commands);
-            transaction.Execute();
+            ExecuteBuilderCommand(new SavePackagesBuilder(userId, orderId, lumberLineItems, miscLineItems));
         }
 
         public void UpdatePackages(Package[] packages)
@@ -238,9 +200,7 @@ namespace Thermory.Data
 
         public void UpdateUserRoles(UserProfile user)
         {
-            var builder = new UpdateUserRolesBuilder(user);
-            var transaction = new TransactionalCommand(builder.Commands);
-            transaction.Execute();
+            ExecuteBuilderCommand(new UpdateUserRolesBuilder(user));
         }
 
         public void WarehouseReceivedOrder(int userId, Order order)
@@ -254,6 +214,12 @@ namespace Thermory.Data
         {
             command.Execute();
             return command.Result;
+        }
+
+        private static void ExecuteBuilderCommand(CommandBuilder builder)
+        {
+            var transaction = new TransactionalCommand(builder.Commands);
+            transaction.Execute();
         }
     }
 }
