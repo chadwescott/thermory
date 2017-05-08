@@ -18,16 +18,16 @@
             </thead>
             @foreach (var subCategory in orderMiscSubCategories.OrderBy(s => s.SortOrder).Where(s => s.MiscellaneousCategoryId == category.Id))
             {
-                <tr>
-                    @foreach (var lineItem in Model.PackageMiscellaneousLineItems.Where(li => li.MiscellaneousProduct.MiscellaneousSubCategory.Id == subCategory.Id))
-                    {
+                foreach (var lineItem in Model.PackageMiscellaneousLineItems.Where(li => li.MiscellaneousProduct.MiscellaneousSubCategory.Id == subCategory.Id))
+                {
+                    <tr>
                         <td>@subCategory.Name</td>
                         <td>@lineItem.MiscellaneousProduct.Name</td>
                         <td>@lineItem.MiscellaneousProduct.Description</td>
                         <td>@lineItem.Quantity</td>
                         <td>@lineItem.Weight.ToString("n2")</td>
-                    }
-                </tr>
+                    </tr>
+                }
             }
         </table>
     }
