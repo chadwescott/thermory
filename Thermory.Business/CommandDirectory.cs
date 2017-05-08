@@ -112,6 +112,11 @@ namespace Thermory.Business
             return DatabaseCommandDirectory.Instance.GetAllOrderTypes().SingleOrDefault(t => t.OrderTypeEnum == orderType);
         }
 
+        public IList<LumberTransactionDetail> GetLumberTypeHistory(Guid lumberTypeId)
+        {
+            return DatabaseCommandDirectory.Instance.GetLumberTypeHistory(lumberTypeId);
+        } 
+
         public Package GetPackageById(Guid id)
         {
             return DatabaseCommandDirectory.Instance.GetPackageById(id);

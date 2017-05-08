@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Linq;
+using System.Web.Mvc;
 using Thermory.Business;
 using Thermory.Domain.Constants;
 using Thermory.Domain.Enums;
@@ -43,5 +45,30 @@ namespace Thermory.Web.Controllers
             return Json(new { status = "success" });
         }
 
+        [HttpPost]
+        [Attributes.Authorize(Roles = Role.InventoryMaster)]
+        public JsonResult GetLumberTypeHistory(Guid lumberTypeId)
+        {
+            var summary = CommandDirectory.Instance.GetLumberTypeHistory(lumberTypeId);
+            var x = summary.Select(h =>
+                new
+                {
+                    h.Delta,
+                    h.PreviousQuantity,
+                    h.NewQuantity,
+                    h.InventoryTransaction.CreatedOn,
+                    h.InventoryTransaction.CreatedBy.FullName,
+                    h.InventoryTransaction.TransactionType.Name,
+                    Order = h.InventoryTransaction.Order == null ? null : new Order
+                    {
+                        Id = h.InventoryTransaction.Order.Id,
+                        OrderNumber = h.InventoryTransaction.Order.OrderNumber,
+                        OrderType = h.InventoryTransaction.Order.OrderType
+                    },
+                    h.LumberProduct
+                }).ToList();
+            var result = Json(new { status = "success", records = x });
+            return result;
+        }
     }
 }

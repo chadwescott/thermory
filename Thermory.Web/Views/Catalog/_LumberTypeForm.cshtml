@@ -69,3 +69,11 @@
         }
     }
 </div>
+@if (Model.LumberType.Id != Guid.Empty)
+{
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var x = new LumberTypeHistory('@Model.LumberType.Id');
+        });
+    </script>
+}

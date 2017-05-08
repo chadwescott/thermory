@@ -81,7 +81,7 @@ namespace Thermory.Data
             return ExecuteCommand(new GetInventoryTransactionsByOrderId(orderId));
         }
 
-        public IList<InventoryTransaction> GetLumberTypeHistory(Guid lumberTypeId)
+        public IList<LumberTransactionDetail> GetLumberTypeHistory(Guid lumberTypeId)
         {
             return ExecuteCommand(new GetLumberTypeHistory(lumberTypeId));
         } 

@@ -71,6 +71,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -89,6 +90,7 @@
     <Compile Include="Commands\GetAllLumberProductsTest.cs" />
     <Compile Include="Commands\GetAllMiscellaneousCategoriesTest.cs" />
     <Compile Include="Commands\GetAllMiscellaneousProductsTest.cs" />
+    <Compile Include="Commands\GetLumberTypeHistoryTest.cs" />
     <Compile Include="DatabaseCommandDirectoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\OrderHelperTest.cs" />

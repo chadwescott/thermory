@@ -12,6 +12,9 @@ namespace Thermory.Domain.Models
 
         public Guid InventoryTransactionId { get; set; }
 
+        [ForeignKey("InventoryTransactionId")]
+        public InventoryTransaction InventoryTransaction { get; set; }
+
         public Guid LumberProductId { get; set; }
 
         [ForeignKey("LumberProductId")]

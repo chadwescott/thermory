@@ -13,6 +13,7 @@ namespace Thermory.Domain.Models
 
         public Guid LumberTypeId { get; set; }
 
+        [ForeignKey("LumberTypeId")]
         public LumberType LumberType { get; set; }
 
         [Column("Length")]

@@ -341,6 +341,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\knockout-3.4.0.debug.js" />
     <Content Include="Scripts\knockout-3.4.0.js" />
+    <Content Include="Scripts\lumberTypeHistory.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\orderForm.js" />
     <Content Include="Scripts\thermory.js" />
@@ -419,6 +420,7 @@
     <Content Include="Views\Shared\Order\_OutstandingSalesOrders.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Shared\Inventory\_LumberTypeHistory.cshtml" />
     <None Include="Web.Azure.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
