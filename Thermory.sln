@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thermory.Data", "Thermory.Data\Thermory.Data.csproj", "{3371B31B-A203-4EF8-90DD-4273C188CD6D}"
 EndProject
@@ -18,6 +18,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thermory.QueryEngine", "Thermory.QueryEngine\Thermory.QueryEngine.csproj", "{142172C0-3D9F-4AA5-8252-55987CE1703C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thermory.QueryEngine.SqlServer", "Thermory.QueryEngine.SqlServer\Thermory.QueryEngine.SqlServer.csproj", "{7BE5DBCF-5F2F-4925-8C54-597565A127E7}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Thermory.Database", "Thermory.Database\Thermory.Database.sqlproj", "{E34CDDD5-7BD8-459F-87F3-7E6E505823CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -70,8 +72,19 @@ Global
 		{7BE5DBCF-5F2F-4925-8C54-597565A127E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BE5DBCF-5F2F-4925-8C54-597565A127E7}.Release|Any CPU.ActiveCfg = Production|Any CPU
 		{7BE5DBCF-5F2F-4925-8C54-597565A127E7}.Release|Any CPU.Build.0 = Production|Any CPU
+		{E34CDDD5-7BD8-459F-87F3-7E6E505823CE}.Azure|Any CPU.ActiveCfg = Debug|Any CPU
+		{E34CDDD5-7BD8-459F-87F3-7E6E505823CE}.Azure|Any CPU.Build.0 = Debug|Any CPU
+		{E34CDDD5-7BD8-459F-87F3-7E6E505823CE}.Azure|Any CPU.Deploy.0 = Debug|Any CPU
+		{E34CDDD5-7BD8-459F-87F3-7E6E505823CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E34CDDD5-7BD8-459F-87F3-7E6E505823CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E34CDDD5-7BD8-459F-87F3-7E6E505823CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E34CDDD5-7BD8-459F-87F3-7E6E505823CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E34CDDD5-7BD8-459F-87F3-7E6E505823CE}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {114348C0-35C3-4900-A188-02CF9A8ACAC3}
 	EndGlobalSection
 EndGlobal
