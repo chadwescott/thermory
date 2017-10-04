@@ -1,0 +1,9 @@
+﻿CREATE TABLE [dbo].[UserProfile] (
+    [UserId]    INT            IDENTITY (1, 1) NOT NULL,
+    [UserName]  NVARCHAR (100) NOT NULL,
+    [FirstName] NVARCHAR (50)  NULL,
+    [LastName]  NVARCHAR (50)  NULL,
+    CONSTRAINT [PK__UserProf__1788CC4CB4D862DB] PRIMARY KEY CLUSTERED ([UserId] ASC),
+    CONSTRAINT [UQ__UserProf__C9F284568C97F399] UNIQUE NONCLUSTERED ([UserName] ASC)
+);
+
