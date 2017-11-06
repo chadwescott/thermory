@@ -1,4 +1,5 @@
-﻿using System.Net.Mail;
+﻿using System;
+using System.Net.Mail;
 using Thermory.Domain.Commands;
 
 namespace Thermory.Business.Commands
@@ -20,10 +21,17 @@ namespace Thermory.Business.Commands
 
         public void Execute()
         {
-            var message = new MailMessage(_fromAddress, _toAddress, _subject, _message) {IsBodyHtml = true};
-            using (var client = new SmtpClient())
+            try
             {
-                client.Send(message);
+                var message = new MailMessage(_fromAddress, _toAddress, _subject, _message) { IsBodyHtml = true };
+                using (var client = new SmtpClient())
+                {
+                    client.Send(message);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
             }
         }
     }

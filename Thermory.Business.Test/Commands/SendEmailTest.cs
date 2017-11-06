@@ -10,7 +10,7 @@ namespace Thermory.Business.Test.Commands
         [TestMethod]
         public void SendTest()
         {
-            var command = new SendEmail();
+            var command = new SendEmail("no-reply@thermoryinventory.com", "chadwescott@gmail.com", "test", "This is a test email");
             try
             {
                 command.Execute();
