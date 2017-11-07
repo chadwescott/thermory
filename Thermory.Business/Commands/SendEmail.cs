@@ -21,17 +21,10 @@ namespace Thermory.Business.Commands
 
         public void Execute()
         {
-            try
+            var message = new MailMessage(_fromAddress, _toAddress, _subject, _message) { IsBodyHtml = true };
+            using (var client = new SmtpClient())
             {
-                var message = new MailMessage(_fromAddress, _toAddress, _subject, _message) { IsBodyHtml = true };
-                using (var client = new SmtpClient())
-                {
-                    client.Send(message);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
+                client.Send(message);
             }
         }
     }
