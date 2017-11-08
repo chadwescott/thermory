@@ -1,2 +1,2 @@
 # Thermory
-## Lumber Inventory Tracking System
+[[Home|Home]]
