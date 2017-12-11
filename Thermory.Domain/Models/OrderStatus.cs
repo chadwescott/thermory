@@ -31,8 +31,8 @@ namespace Thermory.Domain.Models
                         return OrderStatuses.InTransit;
                     case OrderStatusNames.Loaded:
                         return OrderStatuses.Loaded;
-                    case OrderStatusNames.PackagingSlipCreated:
-                        return OrderStatuses.PackagingSlipCreated;
+                    case OrderStatusNames.PackingSlipCreated:
+                        return OrderStatuses.PackingSlipCreated;
                     case OrderStatusNames.Pulled:
                         return OrderStatuses.Pulled;
                     case OrderStatusNames.Received:
@@ -60,7 +60,7 @@ namespace Thermory.Domain.Models
                         return "glyphicon-plane";
                     case OrderStatusNames.Loaded:
                         return "glyphicon-gift";
-                    case OrderStatusNames.PackagingSlipCreated:
+                    case OrderStatusNames.PackingSlipCreated:
                         return "glyphicon-list-alt";
                     case OrderStatusNames.Pulled:
                         return "glyphicon-share-alt";
@@ -89,7 +89,7 @@ namespace Thermory.Domain.Models
                         return "warning";
                     case OrderStatusNames.Loaded:
                         return "success";
-                    case OrderStatusNames.PackagingSlipCreated:
+                    case OrderStatusNames.PackingSlipCreated:
                         return "warning";
                     case OrderStatusNames.Pulled:
                         return "warning";

@@ -40,13 +40,13 @@
             if (Model.Order.PackagingType == null)
             {
                 <div type="button" class="btn btn-success disabled">
-                    <span class="glyphicon glyphicon-list-alt"></span> Create packaging slip(s)
+                    <span class="glyphicon glyphicon-list-alt"></span> Create packing slip(s)
                 </div>
             }
             else
             {
                 <div type="button" class="btn btn-success" onclick="window.location=('@Url.Action("Package", "SalesOrder")/@Model.Order.Id');">
-                    <span class="glyphicon glyphicon-list-alt"></span> Create packaging slip(s)
+                    <span class="glyphicon glyphicon-list-alt"></span> Create packing slip(s)
                 </div>
             }
         }
@@ -64,7 +64,7 @@
     {
         <div id="errorPanel" class="alert alert-danger" role="alert" style="margin-top: 14px;">
             <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-            <span>You must edit the order and choose the packaging type before creating packaging slips.</span>
+            <span>You must edit the order and choose the packaging type before creating packing slips.</span>
         </div>
     }
 </div>
@@ -219,7 +219,7 @@
                 </div>
                 <hr style="margin: 5px 0 -2px 0;" />
             }
-            @if (Model.Order.OrderStatus.OrderStatusEnum == OrderStatuses.PackagingSlipCreated)
+            @if (Model.Order.OrderStatus.OrderStatusEnum == OrderStatuses.PackingSlipCreated)
             {
                 <table>
                     <tr>
@@ -337,12 +337,12 @@
                     {
                         <div style="margin-top: 10px;">
                             <div type="button" class="btn btn-primary" onclick="window.location=('@Url.Action("Package", "SalesOrder")/@Model.Order.Id');">
-                                <span class="glyphicon glyphicon-repeat"></span> Recreate Packaging Slip(s)
+                                <span class="glyphicon glyphicon-repeat"></span> Recreate Packing Slip(s)
                             </div>
                         </div>
                         <div style="margin-top: 10px;">
                             <div class="btn btn-primary packingSlipView" onclick="editPackingSlipDimensions();">
-                                <span class="glyphicon glyphicon-edit"></span> Edit Packaging Slip Dimensions
+                                <span class="glyphicon glyphicon-edit"></span> Edit Packing Slip Dimensions
                             </div>
                         </div>
                     }

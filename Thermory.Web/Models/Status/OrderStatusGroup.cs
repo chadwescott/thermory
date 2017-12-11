@@ -14,7 +14,7 @@ namespace Thermory.Web.Models.Status
             {OrderStatusNames.Deleted, new DangerLabel()},
             {OrderStatusNames.InTransit, new WarningLabel()},
             {OrderStatusNames.Loaded, new SuccessLabel()},
-            {OrderStatusNames.PackagingSlipCreated, new WarningLabel()},
+            {OrderStatusNames.PackingSlipCreated, new WarningLabel()},
             {OrderStatusNames.Pulled, new WarningLabel()},
             {OrderStatusNames.Received, new SuccessLabel()},
             {OrderStatusNames.SentToWarehouse, new InfoLabel()},

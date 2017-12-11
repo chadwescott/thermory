@@ -18,8 +18,8 @@
 
         public const string OrderWarehouseReceived = "OrderWarehouseReceived";
 
-        public const string PackagingSlipsCreated = "PackagingSlipsCreated";
+        public const string PackingSlipsCreated = "PackagingSlipsCreated";
 
-        public const string PackagingSlipsEdited = "PackagingSlipsEdited";
+        public const string PackingSlipsEdited = "PackagingSlipsEdited";
     }
 }

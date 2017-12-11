@@ -10,7 +10,7 @@
         OrderPulled,
         OrderReceived,
         OrderWarehouseReceived,
-        PackagingSlipsCreated,
-        PackagingSlipsEdited
+        PackingSlipsCreated,
+        PackingSlipsEdited
     }
 }
