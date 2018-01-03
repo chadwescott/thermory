@@ -5,9 +5,9 @@ namespace Thermory.Data.CommandBuilders
 {
     internal abstract class CommandBuilder
     {
-        private List<DatabaseCommand> _commands = new List<DatabaseCommand>();
+        private List<DatabaseContextCommand> _commands = new List<DatabaseContextCommand>();
 
-        public List<DatabaseCommand> Commands
+        public List<DatabaseContextCommand> Commands
         {
             get { return _commands; }
             protected set { _commands = value; }

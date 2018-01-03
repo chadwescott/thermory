@@ -83,7 +83,6 @@
     <Compile Include="CommandBuilders\OrderBuilder.cs" />
     <Compile Include="CommandBuilders\PullOrderBuilder.cs" />
     <Compile Include="CommandBuilders\ReceiveOrderBuilder.cs" />
-    <Compile Include="CommandBuilders\SaveLumberCategoryBuilder.cs" />
     <Compile Include="CommandBuilders\UpdateUserRolesBuilder.cs" />
     <Compile Include="CommandBuilders\WarehouseReceviedOrderBuilder.cs" />
     <Compile Include="Commands\AdjustLumberProductQuantity.cs" />
@@ -96,6 +95,7 @@
     <Compile Include="Commands\CreatePackage.cs" />
     <Compile Include="Commands\CreatePackageLumberLineItem.cs" />
     <Compile Include="Commands\CreatePackageMiscellaneousLineItem.cs" />
+    <Compile Include="Commands\DatabaseConnectionCommand.cs" />
     <Compile Include="Commands\DeleteOrderLumberLineItem.cs" />
     <Compile Include="Commands\DeleteOrderMiscellaneousLineItem.cs" />
     <Compile Include="Commands\DeletePackage.cs" />
@@ -136,7 +136,7 @@
     <Compile Include="Commands\AddUserRole.cs" />
     <Compile Include="Commands\UpdatePackage.cs" />
     <Compile Include="DatabaseCommandDirectory.cs" />
-    <Compile Include="Commands\DatabaseCommand.cs" />
+    <Compile Include="Commands\DatabaseContextCommand.cs" />
     <Compile Include="Commands\DatabaseGetCommand.cs" />
     <Compile Include="Extensions\OrderLumberLineItemsExt.cs" />
     <Compile Include="Extensions\OrderMiscellaneousLineItemExt.cs" />

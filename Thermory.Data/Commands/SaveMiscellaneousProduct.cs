@@ -5,7 +5,7 @@ using Thermory.Domain.Models;
 
 namespace Thermory.Data.Commands
 {
-    internal class SaveMiscellaneousProduct : DatabaseCommand
+    internal class SaveMiscellaneousProduct : DatabaseContextCommand
     {
         private readonly MiscellaneousProduct _model;
 

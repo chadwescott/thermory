@@ -5,7 +5,7 @@ using Thermory.Domain.Commands;
 
 namespace Thermory.Data.Commands
 {
-    internal abstract class DatabaseCommand : ICommand
+    internal abstract class DatabaseContextCommand : ICommand
     {
         protected readonly log4net.ILog Logger =
                log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);

@@ -73,7 +73,7 @@ namespace Thermory.Data.CommandBuilders
             Commands.AddRange(miscQuantityUpdateCommands);
         }
 
-        private List<DatabaseCommand> GetLumberProductQuantityAdjustmentCommands(InventoryTransaction transaction,
+        private List<DatabaseContextCommand> GetLumberProductQuantityAdjustmentCommands(InventoryTransaction transaction,
             List<OrderLumberLineItem> previousLineItems, List<OrderLumberLineItem> currentLineItems,
             int adjustmentMultiplier, bool applyInventoryQuantityChanges)
         {
@@ -89,7 +89,7 @@ namespace Thermory.Data.CommandBuilders
             return commands;
         }
 
-        private IEnumerable<DatabaseCommand> GetAddedLumberProductAddjustmentCommands(InventoryTransaction transaction,
+        private IEnumerable<DatabaseContextCommand> GetAddedLumberProductAddjustmentCommands(InventoryTransaction transaction,
             IEnumerable<OrderLumberLineItem> previousLineItems, IEnumerable<OrderLumberLineItem> currentLineItems,
             int adjustmentMultiplier, bool applyInventoryQuantityChanges)
         {
@@ -102,7 +102,7 @@ namespace Thermory.Data.CommandBuilders
                                 i.Quantity*adjustmentMultiplier, applyInventoryQuantityChanges));
         }
 
-        private IEnumerable<DatabaseCommand> GetEditedLumberProductAddjustmentCommands(InventoryTransaction transaction,
+        private IEnumerable<DatabaseContextCommand> GetEditedLumberProductAddjustmentCommands(InventoryTransaction transaction,
             IEnumerable<OrderLumberLineItem> previousLineItems, IEnumerable<OrderLumberLineItem> currentLineItems,
             int adjustmentMultiplier, bool applyInventoryQuantityChanges)
         {
@@ -124,7 +124,7 @@ namespace Thermory.Data.CommandBuilders
                         applyInventoryQuantityChanges);
         }
 
-        private IEnumerable<DatabaseCommand> GetRemovedLumberProductAddjustmentCommands(InventoryTransaction transaction,
+        private IEnumerable<DatabaseContextCommand> GetRemovedLumberProductAddjustmentCommands(InventoryTransaction transaction,
             IEnumerable<OrderLumberLineItem> previousLineItems, IEnumerable<OrderLumberLineItem> currentLineItems,
             int adjustmentMultiplier, bool applyInventoryQuantityChanges)
         {
@@ -137,7 +137,7 @@ namespace Thermory.Data.CommandBuilders
                                 -i.Quantity*adjustmentMultiplier, applyInventoryQuantityChanges));
         }
 
-        private List<DatabaseCommand> GetMiscellaneousProductQuantityAdjustmentCommands(InventoryTransaction transaction,
+        private List<DatabaseContextCommand> GetMiscellaneousProductQuantityAdjustmentCommands(InventoryTransaction transaction,
             List<OrderMiscellaneousLineItem> previousLineItems, List<OrderMiscellaneousLineItem> currentLineItems,
             int adjustmentMultiplier, bool applyInventoryQuantityChanges)
         {
@@ -153,7 +153,7 @@ namespace Thermory.Data.CommandBuilders
             return commands;
         }
 
-        private IEnumerable<DatabaseCommand> GetAddedMiscellaneousProductAddjustmentCommands(InventoryTransaction transaction,
+        private IEnumerable<DatabaseContextCommand> GetAddedMiscellaneousProductAddjustmentCommands(InventoryTransaction transaction,
             IEnumerable<OrderMiscellaneousLineItem> previousLineItems, IEnumerable<OrderMiscellaneousLineItem> currentLineItems,
             int adjustmentMultiplier, bool applyInventoryQuantityChanges)
         {
@@ -165,7 +165,7 @@ namespace Thermory.Data.CommandBuilders
                                 i.Quantity * adjustmentMultiplier, applyInventoryQuantityChanges));
         }
 
-        private IEnumerable<DatabaseCommand> GetEditedMiscellaneousProductAddjustmentCommands(InventoryTransaction transaction,
+        private IEnumerable<DatabaseContextCommand> GetEditedMiscellaneousProductAddjustmentCommands(InventoryTransaction transaction,
             IEnumerable<OrderMiscellaneousLineItem> previousLineItems, IEnumerable<OrderMiscellaneousLineItem> currentLineItems,
             int adjustmentMultiplier, bool applyInventoryQuantityChanges)
         {
@@ -187,7 +187,7 @@ namespace Thermory.Data.CommandBuilders
                         applyInventoryQuantityChanges);
         }
 
-        private IEnumerable<DatabaseCommand> GetRemovedMiscellaneousProductAddjustmentCommands(InventoryTransaction transaction,
+        private IEnumerable<DatabaseContextCommand> GetRemovedMiscellaneousProductAddjustmentCommands(InventoryTransaction transaction,
             IEnumerable<OrderMiscellaneousLineItem> previousLineItems, IEnumerable<OrderMiscellaneousLineItem> currentLineItems,
             int adjustmentMultiplier, bool applyInventoryQuantityChanges)
         {

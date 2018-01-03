@@ -2,7 +2,7 @@
 
 namespace Thermory.Data.Commands
 {
-    internal class DeleteOrderMiscellaneousLineItem : DatabaseCommand
+    internal class DeleteOrderMiscellaneousLineItem : DatabaseContextCommand
     {
         private readonly OrderMiscellaneousLineItem _lineItem;
 

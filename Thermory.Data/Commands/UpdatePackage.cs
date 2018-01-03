@@ -3,7 +3,7 @@ using Thermory.Domain.Models;
 
 namespace Thermory.Data.Commands
 {
-    internal class UpdatePackage : DatabaseCommand
+    internal class UpdatePackage : DatabaseContextCommand
     {
         private readonly Package _package;
 

@@ -3,7 +3,7 @@ using Thermory.Domain.Models;
 
 namespace Thermory.Data.Commands
 {
-    internal class UpdateMiscellaneousProductInventory : DatabaseCommand
+    internal class UpdateMiscellaneousProductInventory : DatabaseContextCommand
     {
         private readonly MiscellaneousProduct _miscProduct;
 

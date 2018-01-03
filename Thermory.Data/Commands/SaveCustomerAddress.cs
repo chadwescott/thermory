@@ -4,7 +4,7 @@ using Thermory.Domain.Models;
 
 namespace Thermory.Data.Commands
 {
-    internal class SaveCustomerAddress : DatabaseCommand
+    internal class SaveCustomerAddress : DatabaseContextCommand
     {
         private readonly Address _address;
 

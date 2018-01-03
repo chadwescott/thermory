@@ -4,7 +4,7 @@ using Thermory.Domain.Models;
 
 namespace Thermory.Data.Commands
 {
-    internal class SaveOrder : DatabaseCommand
+    internal class SaveOrder : DatabaseContextCommand
     {
         private readonly Order _order;
 

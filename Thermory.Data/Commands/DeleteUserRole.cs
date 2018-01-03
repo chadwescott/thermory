@@ -2,7 +2,7 @@
 
 namespace Thermory.Data.Commands
 {
-    internal class DeleteUserRole : DatabaseCommand
+    internal class DeleteUserRole : DatabaseContextCommand
     {
         private readonly UserRoleXref _userRole;
 

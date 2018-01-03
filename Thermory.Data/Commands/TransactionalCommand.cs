@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace Thermory.Data.Commands
 {
-    internal class TransactionalCommand : DatabaseCommand
+    internal class TransactionalCommand : DatabaseContextCommand
     {
-        private readonly IEnumerable<DatabaseCommand> _commands;
+        private readonly IEnumerable<DatabaseContextCommand> _commands;
 
-        public TransactionalCommand(IEnumerable<DatabaseCommand> commands)
+        public TransactionalCommand(IEnumerable<DatabaseContextCommand> commands)
         {
             _commands = commands;
         }

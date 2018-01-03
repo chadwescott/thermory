@@ -2,7 +2,7 @@
 
 namespace Thermory.Data.Commands
 {
-    internal class AddUserRole : DatabaseCommand
+    internal class AddUserRole : DatabaseContextCommand
     {
         private readonly UserRoleXref _userRole;
 

@@ -3,7 +3,7 @@ using Thermory.Domain.Models;
 
 namespace Thermory.Data.Commands
 {
-    internal class CreateOrderMiscellaneousLineItem : DatabaseCommand
+    internal class CreateOrderMiscellaneousLineItem : DatabaseContextCommand
     {
         private readonly Order _order;
         private readonly Guid _miscellaneousProductId;

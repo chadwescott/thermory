@@ -2,7 +2,7 @@
 
 namespace Thermory.Data.Commands
 {
-    internal abstract class DatabaseGetCommand<T> : DatabaseCommand, IGetCommand<T>
+    internal abstract class DatabaseGetCommand<T> : DatabaseContextCommand, IGetCommand<T>
     {
         public T Result { get; protected set; }
     }

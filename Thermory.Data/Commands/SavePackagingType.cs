@@ -4,7 +4,7 @@ using Thermory.Domain.Models;
 
 namespace Thermory.Data.Commands
 {
-    internal class SavePackagingType : DatabaseCommand
+    internal class SavePackagingType : DatabaseContextCommand
     {
         private readonly PackagingType _packagingType;
 

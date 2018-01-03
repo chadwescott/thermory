@@ -4,7 +4,7 @@ using Thermory.Domain.Models;
 
 namespace Thermory.Data.Commands
 {
-    internal class CreateLumberTransactionDetails : DatabaseCommand
+    internal class CreateLumberTransactionDetails : DatabaseContextCommand
     {
         private readonly InventoryTransaction _transaction;
         private readonly Guid _lumberProductId;

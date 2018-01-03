@@ -5,7 +5,7 @@ using Thermory.Domain.Models;
 
 namespace Thermory.Data.Commands
 {
-    internal class SaveLumberSubCategory : DatabaseCommand
+    internal class SaveLumberSubCategory : DatabaseContextCommand
     {
         private readonly LumberSubCategory _model;
 

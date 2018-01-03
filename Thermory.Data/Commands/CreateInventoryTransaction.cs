@@ -2,7 +2,7 @@
 
 namespace Thermory.Data.Commands
 {
-    internal class CreateInventoryTransaction : DatabaseCommand
+    internal class CreateInventoryTransaction : DatabaseContextCommand
     {
         private readonly InventoryTransaction _transaction;
 

@@ -4,7 +4,7 @@ using Thermory.Domain.Models;
 
 namespace Thermory.Data.Commands
 {
-    internal class AdjustMiscellaneousProductQuantity : DatabaseCommand
+    internal class AdjustMiscellaneousProductQuantity : DatabaseContextCommand
     {
         private readonly InventoryTransaction _transaction;
         private readonly Guid _miscellaneousProductId;

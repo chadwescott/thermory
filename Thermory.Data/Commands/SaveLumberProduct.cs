@@ -4,7 +4,7 @@ using Thermory.Domain.Models;
 
 namespace Thermory.Data.Commands
 {
-    internal class SaveLumberProduct : DatabaseCommand
+    internal class SaveLumberProduct : DatabaseContextCommand
     {
         private readonly LumberProduct _model;
 

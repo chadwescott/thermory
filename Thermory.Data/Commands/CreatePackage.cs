@@ -2,7 +2,7 @@
 
 namespace Thermory.Data.Commands
 {
-    internal class CreatePackage : DatabaseCommand
+    internal class CreatePackage : DatabaseContextCommand
     {
         private readonly Package _package;
 

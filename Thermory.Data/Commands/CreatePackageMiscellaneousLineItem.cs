@@ -2,7 +2,7 @@
 
 namespace Thermory.Data.Commands
 {
-    internal class CreatePackageMiscellaneousLineItem : DatabaseCommand
+    internal class CreatePackageMiscellaneousLineItem : DatabaseContextCommand
     {
         private readonly PackageMiscellaneousLineItem _lineItem;
 
