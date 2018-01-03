@@ -16,7 +16,7 @@ namespace Thermory.Data.CommandBuilders
 
         protected override TransactionTypes TransactionType
         {
-            get { return TransactionTypes.PackagingSlipsEdited; }
+            get { return TransactionTypes.PackingSlipsEdited; }
         }
 
         private void DeletePackages(Order order)

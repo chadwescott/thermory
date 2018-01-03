@@ -110,7 +110,7 @@
             </table>
         }
     }
-    <div id="savePackagesButton" type="button" class="btn btn-success disabled" style="display: none;" onclick="savePackagingSlips(this);">
+    <div id="savePackagesButton" type="button" class="btn btn-success disabled" style="display: none;" onclick="savePackingSlips(this);">
         <span class="glyphicon glyphicon-ok"></span> Save
     </div>
 </div>
@@ -215,7 +215,7 @@
         $('#packageDetailsPanel').empty();
     }
 
-    function savePackagingSlips(event) {
+    function savePackingSlips(event) {
         if ($(event).hasClass('disabled')) {
             return;
         }

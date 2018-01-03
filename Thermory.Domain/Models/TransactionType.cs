@@ -20,8 +20,8 @@ namespace Thermory.Domain.Models
             {TransactionTypeNames.OrderPulled, TransactionTypes.OrderPulled},
             {TransactionTypeNames.OrderReceived, TransactionTypes.OrderReceived},
             {TransactionTypeNames.OrderWarehouseReceived, TransactionTypes.OrderWarehouseReceived},
-            {TransactionTypeNames.PackagingSlipsCreated, TransactionTypes.PackagingSlipsCreated},
-            {TransactionTypeNames.PackagingSlipsEdited, TransactionTypes.PackagingSlipsEdited}
+            {TransactionTypeNames.PackingSlipsCreated, TransactionTypes.PackingSlipsCreated},
+            {TransactionTypeNames.PackingSlipsEdited, TransactionTypes.PackingSlipsEdited}
         };
 
         [Key]

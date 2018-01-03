@@ -7,7 +7,7 @@ namespace Thermory.Domain.Constants
         public const string Deleted = "Deleted";
         public const string InTransit = "In transit";
         public const string Loaded = "Loaded";
-        public const string PackagingSlipCreated = "Packaging slip created";
+        public const string PackingSlipCreated = "Packing slip created";
         public const string Pulled = "Pulled";
         public const string Received = "Received";
         public const string SentToWarehouse = "Sent to warehouse";
@@ -23,8 +23,8 @@ namespace Thermory.Domain.Constants
                     return InTransit;
                 case OrderStatuses.Loaded:
                     return Loaded;
-                case OrderStatuses.PackagingSlipCreated:
-                    return PackagingSlipCreated;
+                case OrderStatuses.PackingSlipCreated:
+                    return PackingSlipCreated;
                 case OrderStatuses.Pulled:
                     return Pulled;
                 case OrderStatuses.Received:

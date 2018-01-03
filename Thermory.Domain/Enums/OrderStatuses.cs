@@ -5,7 +5,7 @@
         Deleted,
         InTransit,
         Loaded,
-        PackagingSlipCreated,
+        PackingSlipCreated,
         Pulled,
         Received,
         SentToWarehouse,
