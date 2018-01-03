@@ -1,17 +1,16 @@
 ﻿@using Thermory.Domain.Models
 @using Thermory.Web.Models
-@model LumberCategory
+@model LumberCategoryViewModel
 
 <form id="lumberForm" style="display: none;">
-    <input type="hidden" id="lumberCategoryId" value="@Model.Id" />
-    <input type="hidden" id="lumberCategorySortOrder" value="@Model.SortOrder" />
+    <input type="hidden" id="lumberCategoryId" value="@Model.Category.Id" />
     <div style="margin: -20px 0 10px 0;">
         <div class="lumberCategoryView" style="margin-bottom: -2px;">
             <table>
                 <tr>
                     <td>
                         <h2>
-                            <span id="lumberCategoryNameView">@Model.Name</span>
+                            <span id="lumberCategoryNameView">@Model.Category.Name</span>
                         </h2>
                     </td>
                     <td>
@@ -27,7 +26,17 @@
                 <tr>
                     <td>
                         <input type="text" id="lumberCategoryName" name="lumberCategoryName" class="form-control"
-                               value="@Model.Name" placeholder="Category Name" />
+                               value="@Model.Category.Name" placeholder="Category Name" />
+                    </td>
+                    <td>
+                        <span>Sort Order:</span>
+                        <select id="lumberCategorySortOrder" name="lumberCategorySortOrder">
+                            @for (var i = 1; i <= Model.MaxSortOrder; i++)
+                            {
+                                var selected = i == Model.Category.SortOrder ? " selected" : "";
+                            <option @selected value="@i">@i</option>
+                            }
+                        </select>
                     </td>
                     <td>
                         <div type="button" class="lumberCategoryForm btn btn-success" onclick="saveLumberCategory();">
@@ -35,7 +44,7 @@
                         </div>
                     </td>
                     <td>
-                        @if (Model.Id != Guid.Empty)
+                        @if (Model.Category.Id != Guid.Empty)
                         {
                             <div type="button" class="lumberCategoryForm btn btn-danger" onclick="showCategoryView('lumber');">
                                 <span class="glyphicon glyphicon-remove"></span> Cancel
@@ -50,12 +59,12 @@
             </div>
         </div>
     </div>
-    @if (Model.Id != Guid.Empty)
+    @if (Model.Category.Id != Guid.Empty)
     {
-        var firstSubCategoryId = Model.LumberSubCategories.Any() ? Model.LumberSubCategories.OrderBy(s => s.SortOrder).First().Id : Guid.Empty;
+        var firstSubCategoryId = Model.Category.LumberSubCategories.Any() ? Model.Category.LumberSubCategories.OrderBy(s => s.SortOrder).First().Id : Guid.Empty;
         <ul class="nav nav-tabs" data-tabs="tabs">
             @{ string active;}
-            @foreach (var subCategory in Model.LumberSubCategories.OrderBy(s => s.SortOrder))
+            @foreach (var subCategory in Model.Category.LumberSubCategories.OrderBy(s => s.SortOrder))
             {
                 active = subCategory.Id == firstSubCategoryId ? "active" : "";
                 <li class="lumberSubCategoryTab @active"><a id="@string.Format("lumberSubCategoryLink{0}", subCategory.Id)" href="#@string.Format("lumberSubCategoryTab{0}", subCategory.Id)" data-toggle="tab">@subCategory.Name</a></li>
@@ -65,13 +74,13 @@
         </ul>
         <div class="tab-content" style="height: 450px; overflow-y: auto;">
             @{ LumberSubCategoryViewModel subCategoryViewModel;}
-            @foreach (var subCategory in Model.LumberSubCategories.OrderBy(s => s.SortOrder))
+            @foreach (var subCategory in Model.Category.LumberSubCategories.OrderBy(s => s.SortOrder))
             {
                 subCategoryViewModel = new LumberSubCategoryViewModel { Active = subCategory.Id == firstSubCategoryId, SubCategory = subCategory };
                 @Html.Partial("_LumberSubCategoryForm", subCategoryViewModel)
             }
             @{
-        subCategoryViewModel = new LumberSubCategoryViewModel { Active = !Model.LumberSubCategories.Any(), SubCategory = new LumberSubCategory { LumberTypes = new List<LumberType>() } };
+        subCategoryViewModel = new LumberSubCategoryViewModel { Active = !Model.Category.LumberSubCategories.Any(), SubCategory = new LumberSubCategory { LumberTypes = new List<LumberType>() } };
         @Html.Partial("_LumberSubCategoryForm", subCategoryViewModel)
             }
         </div>
@@ -79,7 +88,7 @@
 </form>
 <script type="text/javascript">
     $(document).ready(function () {
-        @{ var command = Model.Id == Guid.Empty ? "showCategoryForm('lumber');" : "showCategoryView('lumber');";}
+        @{ var command = Model.Category.Id == Guid.Empty ? "showCategoryForm('lumber');" : "showCategoryView('lumber');";}
         @Html.Raw(command)
         $('.numeric').keydown(rejectNonNumericText);
         initiateViewMode('lumberSubCategory');
@@ -128,7 +137,7 @@
         var bundleSize = $('#bundle' + id).val();
         var weight = $('#weight' + id).val();
         var subCategory = {
-            LumberCategoryId: '@Model.Id',
+            LumberCategoryId: '@Model.Category.Id',
             Id: id,
             Name: name,
             SortOrder: sortOrder,

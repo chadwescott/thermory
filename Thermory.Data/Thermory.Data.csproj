@@ -83,6 +83,7 @@
     <Compile Include="CommandBuilders\OrderBuilder.cs" />
     <Compile Include="CommandBuilders\PullOrderBuilder.cs" />
     <Compile Include="CommandBuilders\ReceiveOrderBuilder.cs" />
+    <Compile Include="CommandBuilders\SaveLumberCategoryBuilder.cs" />
     <Compile Include="CommandBuilders\UpdateUserRolesBuilder.cs" />
     <Compile Include="CommandBuilders\WarehouseReceviedOrderBuilder.cs" />
     <Compile Include="Commands\AdjustLumberProductQuantity.cs" />

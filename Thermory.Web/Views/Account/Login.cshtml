@@ -1,15 +1,11 @@
 ﻿@model Thermory.Web.Models.LoginModel
 
-@{
-    ViewBag.Title = "Log in";
-}
-
 <hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
+    <h1>Log In</h1>
 </hgroup>
 
 <section>
-    @using (Html.BeginForm(new {ViewBag.ReturnUrl}))
+    @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true)

@@ -226,6 +226,7 @@
     <Compile Include="Models\CatalogModel.cs" />
     <Compile Include="Models\ErrorInfo.cs" />
     <Compile Include="Models\CatalogFormViewModel.cs" />
+    <Compile Include="Models\LumberCategoryViewModel.cs" />
     <Compile Include="Models\LumberOrderForm.cs" />
     <Compile Include="Models\LumberProductViewModel.cs" />
     <Compile Include="Models\LumberSubCategoryViewModel.cs" />

@@ -17,5 +17,10 @@ namespace Thermory.Domain.Models
 
         [ForeignKey("LumberCategoryId")]
         public List<LumberSubCategory> LumberSubCategories { get; set; }
+
+        public LumberCategory Clone()
+        {
+            return (LumberCategory)this.MemberwiseClone();
+        }
     }
 }

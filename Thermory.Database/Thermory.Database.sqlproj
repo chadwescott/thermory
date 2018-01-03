@@ -168,5 +168,9 @@
     <Build Include="dbo\User Defined Types\tSessionItemLong.sql" />
     <Build Include="dbo\User Defined Types\tSessionId.sql" />
     <Build Include="dbo\User Defined Types\tAppName.sql" />
+    <Build Include="dbo\Stored Procedures\UpdateLumberCategories.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SqlSchemaCompare.scmp" />
   </ItemGroup>
 </Project>
