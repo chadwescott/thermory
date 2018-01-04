@@ -1,7 +1,5 @@
-﻿using System;
-using System.Data;
+﻿using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using Thermory.Domain.Models;
 
 namespace Thermory.Data.Commands
@@ -15,16 +13,9 @@ namespace Thermory.Data.Commands
             _model = model;
         }
 
-        protected override void OnBeforeExecute(ThermoryContext context)
-        {
-            base.OnBeforeExecute(context);
-            if (_model.Id != Guid.Empty) return;
-            _model.SortOrder = context.LumberCategories.Select(c => c.SortOrder).Max() + 1;
-        }
-
         protected override void OnExecute(SqlConnection connection)
         {
-            var command = new SqlCommand("UpdateLumberCategories", connection)
+            var command = new SqlCommand("SaveLumberCategories", connection)
             {
                 CommandType = CommandType.StoredProcedure
             };

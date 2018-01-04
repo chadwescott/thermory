@@ -1,6 +1,9 @@
 ﻿@using Thermory.Domain.Models
 @using Thermory.Web.Models
 @model LumberCategoryViewModel
+@{
+    var maxSortOrder = Model.Category.Id == Guid.Empty ? Model.MaxSortOrder + 1 : Model.MaxSortOrder;
+}
 
 <form id="lumberForm" style="display: none;">
     <input type="hidden" id="lumberCategoryId" value="@Model.Category.Id" />
@@ -31,7 +34,7 @@
                     <td>
                         <span>Sort Order:</span>
                         <select id="lumberCategorySortOrder" name="lumberCategorySortOrder">
-                            @for (var i = 1; i <= Model.MaxSortOrder; i++)
+                            @for (var i = 1; i <= maxSortOrder; i++)
                             {
                                 var selected = i == Model.Category.SortOrder ? " selected" : "";
                             <option @selected value="@i">@i</option>

@@ -24,19 +24,14 @@
     </ul>
 </div>
 @{
-    if (Model.LumberCategories.Any(c => c.Id == Model.SelectedCategoryId))
+    if (Model.SelectedCategoryId != null)
     {
-        var category = Model.LumberCategories.SingleOrDefault(c => c.Id == Model.SelectedCategoryId);
+        var category = Model.LumberCategories.SingleOrDefault(c => c.Id == Model.SelectedCategoryId) ?? new LumberCategory();
         @Html.Partial("_LumberCatalog", new LumberCategoryViewModel { Category = category, MaxSortOrder = Model.LumberCategories.Count })
     }
     else if (Model.MiscellaneousCategories.Any(c => c.Id == Model.SelectedCategoryId))
     {
         var category = Model.MiscellaneousCategories.SingleOrDefault(c => c.Id == Model.SelectedCategoryId);
         @Html.Partial("_MiscCatalog", category)
-    }
-    else if (Model.SelectedCategoryId == Guid.Empty)
-    {
-        var category = new LumberCategory();
-        @Html.Partial("_LumberCatalog", category)
     }
 }

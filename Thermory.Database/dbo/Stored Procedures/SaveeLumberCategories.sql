@@ -3,13 +3,13 @@
 -- Create date: 1/3/2018
 -- Description:	Update Lumber Categories and reorder when sort order changes
 -- =============================================
-CREATE PROCEDURE [UpdateLumberCategories]
+CREATE PROCEDURE [SaveLumberCategories]
 	@id UNIQUEIDENTIFIER,
 	@name NVARCHAR(50),
 	@sortOrder int
 AS
 BEGIN
-	IF @id IS NULL
+	IF @id = '00000000-0000-0000-0000-000000000000'
 	BEGIN
 		UPDATE [LumberCategories] SET [SortOrder] = [SortOrder] + 1 WHERE [SortOrder] >= @sortOrder
 		INSERT [LumberCategories] ([Name], [SortOrder]) VALUES (@name, @sortOrder)

@@ -105,6 +105,12 @@ namespace Thermory.Data
             command.Execute();
             return command.Result;
         }
+        public LumberCategory GetLumberCategoryByName(string Name)
+        {
+            var command = new GetLumberCategoryByName(Name);
+            command.Execute();
+            return command.Result;
+        }
 
         public Order GetOrderById(Guid id)
         {

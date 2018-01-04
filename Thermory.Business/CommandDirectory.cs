@@ -92,6 +92,11 @@ namespace Thermory.Business
             return DatabaseCommandDirectory.Instance.GetOrderById(id);
         }
 
+        public LumberCategory GetLumberCategoryByName(string Name)
+        {
+            return DatabaseCommandDirectory.Instance.GetLumberCategoryByName(Name);
+        }
+
         public OrderStatus GetOrderStatusByOrderStatusEnum(OrderStatuses orderStatus)
         {
             return DatabaseCommandDirectory.Instance.GetAllOrderStatuses().SingleOrDefault(s => s.OrderStatusEnum == orderStatus);

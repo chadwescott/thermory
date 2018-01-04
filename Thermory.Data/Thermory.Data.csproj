@@ -113,6 +113,7 @@
     <Compile Include="Commands\GetAllOrderTypes.cs" />
     <Compile Include="Commands\GetAllPackagingTypes.cs" />
     <Compile Include="Commands\GetAllTransactionTypes.cs" />
+    <Compile Include="Commands\GetLumberCategoryByName.cs" />
     <Compile Include="Commands\GetOrderById.cs" />
     <Compile Include="Commands\GetInventoryTransactionsByOrderId.cs" />
     <Compile Include="Commands\GetAllRoles.cs" />

@@ -38,6 +38,7 @@ namespace Thermory.Web.Controllers
         public ActionResult SaveLumberCategory(LumberCategory model)
         {
             CommandDirectory.Instance.SaveLumberCategory(model);
+            model = CommandDirectory.Instance.GetLumberCategoryByName(model.Name);
             return Json(model);
         }
 
