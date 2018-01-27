@@ -57,6 +57,22 @@
                 <input type="text" class="form-control lumberSubCategoryForm numeric" id="@string.Format("weight{0}", Model.SubCategory.Id)" value="@Model.SubCategory.Weight" maxlength="10" pattern="[0-9]*" placeholder="Weight (lbs/LF)" />
             </td>
         </tr>
+        <tr>
+            <td>
+                <label>Sort Order</label>
+            </td>
+            <td>
+                <div class="lumberSubCategoryView" id="@string.Format("sortOrderView{0}", Model.SubCategory.Id)">@Model.SubCategory.SortOrder</div>
+                <select id="lumberCategorySortOrder" name="lumberCategorySortOrder">
+                    @for (var i = 1; i <= maxSortOrder; i++)
+                    {
+                        var selected = i == Model.Category.SortOrder ? " selected" : "";
+                    <option @selected value="@i">@i</option>
+                    }
+                </select>
+                <input type="text" class="form-control lumberSubCategoryForm numeric" id="@string.Format("sortOrder{0}", Model.SubCategory.Id)" value="@Model.SubCategory.Weight" maxlength="10" pattern="[0-9]*" placeholder="Sort Order"/>
+            </td>
+        </tr>
     </table>
     <div class="lumberSubCategoryForm" style="margin-bottom: 10px;">
         <div type="button" class="btn btn-success lumberSubCategoryForm" onclick="saveLumberSubCategory('@Model.SubCategory.Id');">

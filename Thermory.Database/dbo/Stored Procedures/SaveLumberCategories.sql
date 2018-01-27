@@ -8,7 +8,7 @@ CREATE PROCEDURE [SaveLumberCategories]
 	@name NVARCHAR(50),
 	@sortOrder int
 AS
-BEGIN
+BEGIN TRAN
 	IF @id = '00000000-0000-0000-0000-000000000000'
 	BEGIN
 		UPDATE [LumberCategories] SET [SortOrder] = [SortOrder] + 1 WHERE [SortOrder] >= @sortOrder
@@ -36,4 +36,4 @@ BEGIN
 			UPDATE [LumberCategories] SET [Name] = @name, [SortOrder] = @sortOrder WHERE [Id] = @id
 		END
 	END
-END
+COMMIT TRAN

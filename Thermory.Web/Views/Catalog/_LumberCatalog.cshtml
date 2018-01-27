@@ -65,6 +65,7 @@
     @if (Model.Category.Id != Guid.Empty)
     {
         var firstSubCategoryId = Model.Category.LumberSubCategories.Any() ? Model.Category.LumberSubCategories.OrderBy(s => s.SortOrder).First().Id : Guid.Empty;
+        var maxSubCategorySortOrder = Model.Category.LumberSubCategories.Count;
         <ul class="nav nav-tabs" data-tabs="tabs">
             @{ string active;}
             @foreach (var subCategory in Model.Category.LumberSubCategories.OrderBy(s => s.SortOrder))
@@ -79,11 +80,11 @@
             @{ LumberSubCategoryViewModel subCategoryViewModel;}
             @foreach (var subCategory in Model.Category.LumberSubCategories.OrderBy(s => s.SortOrder))
             {
-                subCategoryViewModel = new LumberSubCategoryViewModel { Active = subCategory.Id == firstSubCategoryId, SubCategory = subCategory };
+                subCategoryViewModel = new LumberSubCategoryViewModel { Active = subCategory.Id == firstSubCategoryId, SubCategory = subCategory, MaxSortOrder = maxSubCategorySortOrder };
                 @Html.Partial("_LumberSubCategoryForm", subCategoryViewModel)
             }
             @{
-        subCategoryViewModel = new LumberSubCategoryViewModel { Active = !Model.Category.LumberSubCategories.Any(), SubCategory = new LumberSubCategory { LumberTypes = new List<LumberType>() } };
+        subCategoryViewModel = new LumberSubCategoryViewModel { Active = !Model.Category.LumberSubCategories.Any(), SubCategory = new LumberSubCategory { LumberTypes = new List<LumberType>() }, MaxSortOrder = maxSubCategorySortOrder + 1 };
         @Html.Partial("_LumberSubCategoryForm", subCategoryViewModel)
             }
         </div>
