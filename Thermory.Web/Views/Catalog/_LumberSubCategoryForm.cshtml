@@ -6,7 +6,6 @@
     var active = Model.Active ? "active" : "";
 }
 
-<input type="hidden" id="@string.Format("sortOrder{0}", Model.SubCategory.Id)" value="@Model.SubCategory.SortOrder" />
 <div id="@string.Format("lumberSubCategoryTab{0}", Model.SubCategory.Id)" class="tab-pane @active">
     <table>
         <tr>
@@ -63,14 +62,13 @@
             </td>
             <td>
                 <div class="lumberSubCategoryView" id="@string.Format("sortOrderView{0}", Model.SubCategory.Id)">@Model.SubCategory.SortOrder</div>
-                <select id="lumberCategorySortOrder" name="lumberCategorySortOrder">
-                    @for (var i = 1; i <= maxSortOrder; i++)
+                <select class="form-control lumberSubCategoryForm" id="@string.Format("sortOrder{0}", Model.SubCategory.Id)">
+                    @for (var i = 1; i <= Model.MaxSortOrder; i++)
                     {
-                        var selected = i == Model.Category.SortOrder ? " selected" : "";
+                        var selected = i == Model.SubCategory.SortOrder ? " selected" : "";
                     <option @selected value="@i">@i</option>
                     }
                 </select>
-                <input type="text" class="form-control lumberSubCategoryForm numeric" id="@string.Format("sortOrder{0}", Model.SubCategory.Id)" value="@Model.SubCategory.Weight" maxlength="10" pattern="[0-9]*" placeholder="Sort Order"/>
             </td>
         </tr>
     </table>

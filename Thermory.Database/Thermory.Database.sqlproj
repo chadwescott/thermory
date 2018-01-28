@@ -169,7 +169,7 @@
     <Build Include="dbo\User Defined Types\tSessionId.sql" />
     <Build Include="dbo\User Defined Types\tAppName.sql" />
     <Build Include="dbo\Stored Procedures\SaveLumberCategories.sql" />
-    <Build Include="dbo\SaveLumberSubCategories.sql" />
+    <Build Include="dbo\Stored Procedures\SaveLumberSubCategories.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SqlSchemaCompare.scmp" />

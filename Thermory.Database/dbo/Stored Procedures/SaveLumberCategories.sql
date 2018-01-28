@@ -8,11 +8,13 @@ CREATE PROCEDURE [SaveLumberCategories]
 	@name NVARCHAR(50),
 	@sortOrder int
 AS
-BEGIN TRAN
+BEGIN
 	IF @id = '00000000-0000-0000-0000-000000000000'
 	BEGIN
-		UPDATE [LumberCategories] SET [SortOrder] = [SortOrder] + 1 WHERE [SortOrder] >= @sortOrder
-		INSERT [LumberCategories] ([Name], [SortOrder]) VALUES (@name, @sortOrder)
+		BEGIN TRAN
+			UPDATE [LumberCategories] SET [SortOrder] = [SortOrder] + 1 WHERE [SortOrder] >= @sortOrder
+			INSERT [LumberCategories] ([Name], [SortOrder]) VALUES (@name, @sortOrder)
+		COMMIT TRAN
 	END
 	ELSE
 	BEGIN
@@ -26,14 +28,16 @@ BEGIN TRAN
 			UPDATE [LumberCategories] SET [Name] = @name WHERE [Id] = @id
 		ELSE
 		BEGIN
-			UPDATE [LumberCategories] SET [SortOrder] = -1 WHERE [Id] = @id
+			BEGIN TRAN
+				UPDATE [LumberCategories] SET [SortOrder] = -1 WHERE [Id] = @id
 
-			IF @currentSortOrder < @sortOrder
-				UPDATE [LumberCategories] SET [SortOrder] = [SortOrder] - 1 WHERE [SortOrder] > @currentSortOrder AND [SortOrder] <= @sortOrder
-			ELSE IF @currentSortOrder > @sortOrder
-				UPDATE [LumberCategories] SET [SortOrder] = [SortOrder] + 1 WHERE [SortOrder] >= @sortOrder AND [SortOrder] < @currentSortOrder
+				IF @currentSortOrder < @sortOrder
+					UPDATE [LumberCategories] SET [SortOrder] = [SortOrder] - 1 WHERE [SortOrder] > @currentSortOrder AND [SortOrder] <= @sortOrder
+				ELSE IF @currentSortOrder > @sortOrder
+					UPDATE [LumberCategories] SET [SortOrder] = [SortOrder] + 1 WHERE [SortOrder] >= @sortOrder AND [SortOrder] < @currentSortOrder
 
-			UPDATE [LumberCategories] SET [Name] = @name, [SortOrder] = @sortOrder WHERE [Id] = @id
+				UPDATE [LumberCategories] SET [Name] = @name, [SortOrder] = @sortOrder WHERE [Id] = @id
+			COMMIT TRAN
 		END
 	END
-COMMIT TRAN
+END

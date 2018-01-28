@@ -23,6 +23,7 @@ namespace Thermory.Data.Commands
                 CommandType = CommandType.StoredProcedure
             };
             command.Parameters.Add(new SqlParameter("@id", _model.Id));
+            command.Parameters.Add(new SqlParameter("@categoryId", _model.LumberCategoryId));
             command.Parameters.Add(new SqlParameter("@name", _model.Name));
             command.Parameters.Add(new SqlParameter("@width", _model.WidthInMillimeters));
             command.Parameters.Add(new SqlParameter("@thickness", _model.ThicknessInMillimeters));
