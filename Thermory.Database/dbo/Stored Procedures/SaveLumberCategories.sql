@@ -1,7 +1,7 @@
 ﻿-- =============================================
 -- Author:		Chad Wescott
 -- Create date: 1/3/2018
--- Description:	Update Lumber Categories and reorder when sort order changes
+-- Description:	Save Lumber Categories and reorder when sort order changes
 -- =============================================
 CREATE PROCEDURE [SaveLumberCategories]
 	@id UNIQUEIDENTIFIER,

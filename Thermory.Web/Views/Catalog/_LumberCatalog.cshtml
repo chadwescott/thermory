@@ -158,18 +158,7 @@
             dataType: 'text',
             success: function (data) {
                 subCategory = JSON.parse(data);
-                if (id == '@Guid.Empty') {
-                    location.reload();
-                }
-
-                $('#lumberSubCategoryLink' + id).text(subCategory.Name);
-                $('#nameView' + id).text(subCategory.Name);
-                $('#sortOrder' + id).text(subCategory.SortOrder);
-                $('#widthView' + id).text(subCategory.WidthInMillimeters);
-                $('#thicknessView' + id).text(subCategory.ThicknessInMillimeters);
-                $('#bundleView' + id).text(subCategory.BundleSize);
-                $('#weightView' + id).text(subCategory.Weight);
-                initiateViewMode('lumberSubCategory');
+                location.reload();
             },
             error: function (data) {
                 console.log(data);

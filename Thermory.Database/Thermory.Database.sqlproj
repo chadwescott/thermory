@@ -170,6 +170,7 @@
     <Build Include="dbo\User Defined Types\tAppName.sql" />
     <Build Include="dbo\Stored Procedures\SaveLumberCategories.sql" />
     <Build Include="dbo\Stored Procedures\SaveLumberSubCategories.sql" />
+    <Build Include="dbo\Stored Procedures\SaveLumberTypes.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SqlSchemaCompare.scmp" />

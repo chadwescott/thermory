@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
 using Thermory.Data.Commands;
 
 namespace Thermory.Data.Test.Commands
@@ -12,7 +13,8 @@ namespace Thermory.Data.Test.Commands
             var command = new GetAllLumberProducts();
             command.Execute();
             var actual = command.Result;
-            Assert.AreEqual(435, actual.Count);
+            Assert.IsNotNull(actual);
+            Assert.IsTrue(actual.Any());
         }
     }
 }
