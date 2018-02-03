@@ -19,9 +19,29 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.css"
+        "./css/bootstrap.min.css",
+        "./css/bootstrap-theme.min.css",
+        "styles.css",
+        "./css/themes/base/core.css",
+        "./css/themes/base/resizable.css",
+        "./css/themes/base/selectable.css",
+        "./css/themes/base/accordion.css",
+        "./css/themes/base/autocomplete.css",
+        "./css/themes/base/button.css",
+        "./css/themes/base/dialog.css",
+        "./css/themes/base/slider.css",
+        "./css/themes/base/tabs.css",
+        "./css/themes/base/datepicker.css",
+        "./css/themes/base/progressbar.css",
+        "./css/themes/base/theme.css"
       ],
-      "scripts": [],
+      "scripts": [
+        "./scripts/modernizr-2.8.3.js",
+        "./scripts/jquery-3.2.1.min.js",
+        "./scripts/w2ui-1.4.3.min.js",
+        "./scripts/bootstrap.min.js",
+        "./scripts/bootstrap-confirmation.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
