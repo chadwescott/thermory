@@ -1,4 +1,4 @@
-export class LumberSubCategory {
+export interface LumberSubCategory {
     id: string;
     lumberCategoryId: string;
     name: string;

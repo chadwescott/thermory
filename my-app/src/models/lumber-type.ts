@@ -1,4 +1,4 @@
-export class LumberType {
+export interface LumberType {
     id: string;
     lumberSubCategoryId: string;
     name: string;
