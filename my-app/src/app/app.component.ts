@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { LumberCategoryComponent } from '../components/lumber-category.component';
-import { LumberCategory } from '../models/lumber-category';
+import { LumberCategoryComponent } from './lumber-category/lumber-category.component';
+import { LumberCategory } from './interfaces/lumber-category';
 
 @Component({
   selector: 'app-root',
