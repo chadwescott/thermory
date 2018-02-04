@@ -19,6 +19,7 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
+        "./css/w2ui-1.5.rc1.css",
         "./css/bootstrap.min.css",
         "./css/bootstrap-theme.min.css",
         "styles.css",
@@ -35,13 +36,7 @@
         "./css/themes/base/progressbar.css",
         "./css/themes/base/theme.css"
       ],
-      "scripts": [
-        "./scripts/modernizr-2.8.3.js",
-        "./scripts/jquery-3.2.1.min.js",
-        "./scripts/w2ui-1.4.3.min.js",
-        "./scripts/bootstrap.min.js",
-        "./scripts/bootstrap-confirmation.js"
-      ],
+      "scripts": [],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
