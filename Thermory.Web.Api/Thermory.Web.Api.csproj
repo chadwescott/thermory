@@ -192,6 +192,7 @@
     <Compile Include="Attributes\ApiExceptionAttribute.cs" />
     <Compile Include="Attributes\ValidateModelAttribute.cs" />
     <Compile Include="Constants\Responses.cs" />
+    <Compile Include="Constants\Versions.cs" />
     <Compile Include="Controllers\BaseApicontroller.cs" />
     <Compile Include="Controllers\V1\LumberCategoryV1Controller.cs" />
     <Compile Include="Exceptions\CustomHttpException.cs" />

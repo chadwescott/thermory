@@ -7,11 +7,11 @@ namespace Thermory.Web.Api
     {
         public static void Register(HttpConfiguration config)
         {
-            // Web API configuration and services
-
-            // Web API routes
             config.MapHttpAttributeRoutes();
+        }
 
+        public static void RegisterApiRouting(HttpConfiguration config)
+        {
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",

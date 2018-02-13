@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Web.Http;
 using Thermory.Domain.Models;
+using Thermory.Web.Api.Constants;
 using Thermory.Web.Api.Models.Responses;
 
 namespace Thermory.Web.Api.Controllers.V1
 {
+    [RoutePrefix(Routes.Api + "/" + Versions.Names.V1 + "/" + Routes.LumberCategories)]
     public class LumberCategoryV1Controller : ApiController
     {
         [HttpGet]
