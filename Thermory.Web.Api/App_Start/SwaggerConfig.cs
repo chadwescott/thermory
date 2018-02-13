@@ -2,6 +2,7 @@ using System.Web.Http;
 using WebActivatorEx;
 using Thermory.Web.Api;
 using Swashbuckle.Application;
+using Thermory.Web.Api.Swagger.OperationFilters;
 
 [assembly: PreApplicationStartMethod(typeof(SwaggerConfig), "Register")]
 
@@ -157,6 +158,9 @@ namespace Thermory.Web.Api
                         // to execute the operation
                         //
                         //c.OperationFilter<AssignOAuth2SecurityRequirements>();
+                        c.OperationFilter<AddImplementationNotes>();
+                        c.OperationFilter<AddPagingParameters>();
+                        c.OperationFilter<AddSortingParameters>();
 
                         // Post-modify the entire Swagger document by wiring up one or more Document filters.
                         // This gives full control to modify the final SwaggerDocument. You should have a good understanding of

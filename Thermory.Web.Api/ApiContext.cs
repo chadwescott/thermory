@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Web.Helpers;
 using System.Web.Http.ModelBinding;
 using System.Web.Http.ValueProviders;
 
@@ -13,14 +14,10 @@ namespace Thermory.Web.Api
             _modelState = modelState;
         }
 
-        private const string ApiKeyKey = "Context-ApiKey";
-        private const string CustomerIdKey = "Context-CustomerId";
-        private const string IsAdminKey = "Context-IsAdmin";
-        private const string ProjectIdKey = "Context-ProjectId";
-        private const string ProjectPaymentTypeKey = "Context-ProjectPaymentType";
-        private const string ProjectTypeKey = "Context-ProjectType";
         private const string PageSizeKey = "Context-PageSize";
         private const string PageNumberKey = "Context-PageNumber";
+        private const string SortDirectionKey = "Context-SortDirection";
+        private const string SortFieldKey = "Context-SortField";
 
         public int PageSize
         {
@@ -32,6 +29,18 @@ namespace Thermory.Web.Api
         {
             get { return (int)(GetModelStateValue(PageNumberKey)); }
             set { AddOrUpdateModelState(PageNumberKey, value); }
+        }
+
+        public SortDirection SortDirection
+        {
+            get { return (SortDirection)GetModelStateValue(SortDirectionKey); }
+            set { AddOrUpdateModelState(SortDirectionKey, value); }
+        }
+
+        public string SortField
+        {
+            get { return GetModelStateValue(SortFieldKey).ToString(); }
+            set { AddOrUpdateModelState(SortFieldKey, value); }
         }
 
         protected void AddOrUpdateModelState(string key, object value)

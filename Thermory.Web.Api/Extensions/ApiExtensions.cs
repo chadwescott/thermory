@@ -4,7 +4,7 @@ using System.Net;
 using System.Net.Http;
 using Thermory.Web.Api.Models.Responses;
 
-namespace Thermory.Web.Api.ExtensionMethods
+namespace Thermory.Web.Api.Extensions
 {
     public static class ApiExtensions
     {
